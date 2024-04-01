@@ -2,6 +2,7 @@ import sys
 sys.path.append('/Users/justin/Desktop/Year 4/FYP/Code')
 from iterative_approximation.Algorithm2 import *
 from iterative_approximation.Algorithm1 import *
+from iterative_approximation.Algorithm2Step import *
 import itertools
 from utils.generate_groupings import *
 import matplotlib.cm as cm
@@ -343,7 +344,7 @@ def evaluation7(weight_array):
 # evaluation5(weight_array,1)
 
 # Hybrid vs Normal
-evaluation6(weight_array,'log')
+# evaluation6(weight_array,'log')
     
 # evaluation7(weight_array)
 

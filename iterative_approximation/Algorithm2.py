@@ -148,15 +148,16 @@ class WeightArray:
         
         return reconstructed_weight_array
     
-    def iterative_approximation_step_incremental(self, previous_weight_array, previous_reconstructed_weight_array, Nsteps, threshold):
+    def iterative_approximation_step_incremental(self, previous_weight_array, reconstructed_weight_array, Nsteps, threshold):
         weight_array = previous_weight_array
 
         R = weight_array[0].shape[0]
         C = weight_array[0].shape[1]
 
-        reconstructed_weight_array = previous_reconstructed_weight_array
+        reconstructed_weight_array = reconstructed_weight_array
 
         for j in range(1, Nsteps+1):
+
             summation_matrix = sum(W @ W.T for W in weight_array)
 
             # Perform SVD on the summation matrix
@@ -208,7 +209,7 @@ class WeightArray:
         
         return weight_array, reconstructed_weight_array
     
-    def hybrid_iterative_approximation_step(self, Nsteps, threshold):
+    def hybrid_iterative_approximation_step(self):
         self.reset_memory_footprint_compressed()
 
         matrix_idx_list = [0,1,2,3]
@@ -221,18 +222,12 @@ class WeightArray:
         weight_array_step = original_weight_array 
         reconstructed_weight_array_step = [np.zeros_like(W) for W in original_weight_array]
 
-        # print(len(weight_array_step))
-        # print(len(reconstructed_weight_array_step))
         for j in range(1, Nsteps+1):
             groupings = generate_groupings(matrix_idx_list)
             for idx, group in enumerate(groupings):
-                # print('group')
-                # print(group)
                 weight_array_group = [np.zeros_like(W) for W in original_weight_array]
                 reconstructed_weight_array_group = [np.zeros_like(W) for W in original_weight_array]
                 for subset in group:
-                    # print('subset')
-                    # print(subset)
                     weight_array_subset = [weight_array_step[i] for i in subset]
                     reconstructed_weight_array_subset = [reconstructed_weight_array_step[i] for i in subset]
                     W1 = WeightArray(weight_array_subset)
@@ -277,7 +272,7 @@ class WeightArray:
     
     def set_memory_footprint_compressed(self,memory_footprint):
         self.memory_footprint_compressed = memory_footprint
-    
+
 
 
     
