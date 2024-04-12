@@ -93,103 +93,10 @@ class WeightArrayStep:
         
         return reconstructed_weight_array
     
-    # def hybrid_iterative_approximation_step(self, strategy):
-    #     threshold = self.threshold
-
-    #     matrix_idx_list = [0,1,2,3]
-
-    #     original_weight_array = self.original_weight_array
-
-    #     residual_weight_array = self.current_residual_weight_array
-    #     reconstructed_weight_array = self.current_reconstructed_weight_array
-
-    #     groupings = generate_groupings(matrix_idx_list)
-
-    #     max_ratio_MSE_mem = 0
-
-    #     for idx, group in enumerate(groupings):
-    #         weight_array_group = [np.zeros_like(W) for W in original_weight_array]
-    #         reconstructed_weight_array_group = [np.zeros_like(W) for W in original_weight_array]
-            
-    #         for subset in group:
-    #             weight_array_subset = [residual_weight_array[i] for i in subset]
-    #             reconstructed_weight_array_subset = [reconstructed_weight_array[i] for i in subset]
-    #             W1 = WeightArray(weight_array_subset)
-    #             weight_array_subset1,reconstructed_weight_array_subset1 = W1.iterative_approximation_step_incremental(weight_array_subset,reconstructed_weight_array_subset,1,threshold)
-
-    #             for i in range(len(subset)):
-    #                 weight_array_group[subset[i]] = weight_array_subset1[i]
-    #                 reconstructed_weight_array_group[subset[i]] = reconstructed_weight_array_subset1[i]
-
-    #         # Method 1
-    #         match strategy:
-    #             case 1:
-    #                 # Average MSE per mem access optimisation strategy
-    #                 previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
-    #                 current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
-    #                 current_ratio_MSE_mem = (previous_MSE-current_MSE) / (4 + len(group) * (self.R + self.C))
-    #             case 2:
-    #                 # Large average MSE optimisation strategy
-    #                 previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
-    #                 current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
-    #                 current_ratio_MSE_mem = (previous_MSE-current_MSE)
-    #             case 3:
-    #                 # Prioritise largest matrix MSE per mem access optimisation strategy
-    #                 previous_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array)
-    #                 current_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array_group)
-    #                 squared_MSE_diff = [(prev - curr)**2 for prev, curr in zip(previous_MSE, current_MSE)]
-    #                 current_ratio_MSE_mem = sum(squared_MSE_diff) / (4 + len(group) * (self.R + self.C))
-    #             case 4:
-    #                 # Prioritise largest matrix MSE optimisation strategy
-    #                 previous_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array)
-    #                 current_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array_group)
-    #                 squared_MSE_diff = [(prev - curr)**2 for prev, curr in zip(previous_MSE, current_MSE)]
-    #                 current_ratio_MSE_mem = sum(squared_MSE_diff)
-    #             case 5:
-    #                 # Fine-grained average MSE per mem access optimisation strategy
-    #                 incremental_MSE_decrement = 0
-    #                 for subset in group:
-    #                     subset_reconstructed = [reconstructed_weight_array_group[i] for i in subset]
-    #                     subset_original = [self.original_weight_array[i] for i in subset]
-    #                     incremental_MSE_decrement += mean_square_error_array1(subset_original,subset_reconstructed)/(len(subset)+(self.R + self.C))
-    #                 current_ratio_MSE_mem =  incremental_MSE_decrement 
-    #             case 6:
-    #                 # MSE reduction per cumulative memory access
-    #                 # previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
-    #                 current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
-    #                 current_ratio_MSE_mem = (0.05 - current_MSE) /((4 + len(group) * (self.R + self.C))) # self.memory_footprint_compressed + 
-
-    #             case _:
-    #                 print("Unknown Optimization Strategy")
-
-    #         if idx == 0:
-    #             reconstructed_weight_array = reconstructed_weight_array_group
-    #             residual_weight_array = weight_array_group
-    #             max_ratio_MSE_mem = current_ratio_MSE_mem
-    #             num_group_step = len(group)
-    #             opt_group = group
-    #         else:
-    #             if(current_ratio_MSE_mem > max_ratio_MSE_mem):
-    #                 max_ratio_MSE_mem = current_ratio_MSE_mem
-    #                 reconstructed_weight_array = reconstructed_weight_array_group
-    #                 residual_weight_array = weight_array_group
-    #                 num_group_step = len(group)
-    #                 opt_group = group
-
-    #     self.num_group.append(num_group_step)
-    #     self.steps += 1
-
-    #     self.cal_memory_footprint_compressed()
-
-    #     self.current_residual_weight_array = residual_weight_array
-    #     self.current_reconstructed_weight_array = reconstructed_weight_array
-
-    #     return reconstructed_weight_array
-    
     def hybrid_iterative_approximation_step(self,strategy):
         threshold = self.threshold
-
-        matrix_idx_list = [0,1,2,3]
+    
+        matrix_idx_list = list(range(len(self.original_weight_array)))
 
         original_weight_array = self.original_weight_array
 
@@ -197,6 +104,7 @@ class WeightArrayStep:
         reconstructed_weight_array = self.current_reconstructed_weight_array
 
         groupings = generate_groupings(matrix_idx_list)
+
         for idx, group in enumerate(groupings):
             weight_array_group = [np.zeros_like(W) for W in original_weight_array]
             reconstructed_weight_array_group = [np.zeros_like(W) for W in original_weight_array]
@@ -208,17 +116,13 @@ class WeightArrayStep:
                 for i in range(len(subset)):
                     weight_array_group[subset[i]] = weight_array_subset1[i]
                     reconstructed_weight_array_group[subset[i]] = reconstructed_weight_array_subset1[i]
-            # previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
-            # current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
 
-            # current_ratio_MSE_mem = (previous_MSE-current_MSE)/(4+len(group)*(self.R + self.C))
-            # Method 1
             match strategy:
                 case 1:
                     # Average MSE per mem access optimisation strategy
                     previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
                     current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
-                    current_ratio_MSE_mem = (previous_MSE-current_MSE) / (4 + len(group) * (self.R + self.C))
+                    current_ratio_MSE_mem = (previous_MSE-current_MSE) / (len(self.original_weight_array) + len(group) * (self.R + self.C))
                 case 2:
                     # Large average MSE optimisation strategy
                     previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
@@ -229,7 +133,7 @@ class WeightArrayStep:
                     previous_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array)
                     current_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array_group)
                     squared_MSE_diff = [(prev - curr)**2 for prev, curr in zip(previous_MSE, current_MSE)]
-                    current_ratio_MSE_mem = sum(squared_MSE_diff) / (4 + len(group) * (self.R + self.C))
+                    current_ratio_MSE_mem = sum(squared_MSE_diff) / (len(self.original_weight_array) + len(group) * (self.R + self.C))
                 case 4:
                     # Prioritise largest matrix MSE optimisation strategy
                     previous_MSE = mean_square_error_array(original_weight_array,reconstructed_weight_array)
@@ -245,10 +149,8 @@ class WeightArrayStep:
                         incremental_MSE_decrement += mean_square_error_array1(subset_original,subset_reconstructed)/(len(subset)+(self.R + self.C))
                     current_ratio_MSE_mem =  incremental_MSE_decrement 
                 case 6:
-                    # MSE reduction per cumulative memory access
-                    # previous_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array)
                     current_MSE = mean_square_error_array1(original_weight_array,reconstructed_weight_array_group)
-                    current_ratio_MSE_mem = (0.05 - current_MSE) /((4 + len(group) * (self.R + self.C)) + self.memory_footprint_compressed)
+                    current_ratio_MSE_mem = (0.01 - current_MSE) /((len(self.original_weight_array) + len(group) * (self.R + self.C)) + self.memory_footprint_compressed)
 
                 case _:
                     print("Unknown Optimization Strategy")
@@ -273,7 +175,7 @@ class WeightArrayStep:
         self.current_residual_weight_array = residual_weight_array_step
         self.current_reconstructed_weight_array = reconstructed_weight_array_step
 
-        return reconstructed_weight_array
+        return reconstructed_weight_array_step
 
     def cal_memory_footprint_baseline(self):     
         self.memory_footprint_baseline = len(self.original_weight_array) * self.R * self.C * self.precision
@@ -290,3 +192,5 @@ class WeightArrayStep:
     
     def individual_mse(self):  
         return mean_square_error_array(self.original_weight_array,self.current_reconstructed_weight_array) 
+
+

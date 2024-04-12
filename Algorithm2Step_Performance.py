@@ -3,6 +3,7 @@ sys.path.append('/Users/justin/Desktop/Year 4/FYP/Code')
 from iterative_approximation.Algorithm2 import *
 from iterative_approximation.Algorithm1 import *
 from iterative_approximation.Algorithm2Step import *
+from iterative_approximation.Algorithm2StepPruning import *
 import itertools
 from utils.generate_groupings import *
 import matplotlib.cm as cm
@@ -27,7 +28,6 @@ H1_c = load_matrix(file_path)
 
 weight_array = [np.hstack([W1_i.T,H1_i.T]), np.hstack([W1_f.T,H1_f.T]), np.hstack([W1_o.T,H1_f.T]), np.hstack([W1_c.T,H1_c.T])]
 
-print(weight_array[0].shape)
 
 def evaluation1(weight_array):
     W = WeightArrayStep(weight_array, 0.001)
@@ -126,5 +126,56 @@ def evaluation3(weight_array):
     plt.title('Number of Groups vs Nstep')
     plt.show()
 
-evaluation1(weight_array)
-# evaluation3(weight_array)
+
+def evaluation1(weight_array):
+    W = WeightArrayStepPruning(weight_array,0.0001,7,9,5,5)
+    W1 = WeightArrayStepPruning(weight_array,0.0001,7,9,5,5)
+
+    colors = plt.cm.viridis(np.linspace(0, 1, 7))  
+
+    Nsteps = range(0, 120)
+    Nsteps1 = range(0, 30)
+
+    plt.figure(figsize=(10, 6))  # Set the figure size for better visibility
+
+    # Initialize lists to store data points for plotting
+    W_memory_footprints = []
+    W_mses = []
+    W1_memory_footprints = []
+    W1_mses = []
+
+    for step in Nsteps1:
+        W.iterative_approximation_step1()
+        # Accumulate data points
+        W_memory_footprints.append(W.memory_footprint_compressed)
+        W_mses.append(W.average_mse())
+
+    for step in Nsteps:
+
+        W1.iterative_approximation_step2()
+        W1_memory_footprints.append(W1.memory_footprint_compressed)
+        W1_mses.append(W1.average_mse())
+
+    # Plotting
+    plt.plot(W_memory_footprints, W_mses, color=colors[0], label='Group of 4')
+    plt.plot(W1_memory_footprints, W1_mses, color=colors[6], label='Group of 1')
+    # Adding labels, title, and legend
+    plt.xlabel('Memory Footprint (Compressed)')
+    plt.ylabel('Average MSE')
+    plt.title('Evaluation of Approximation Strategies')
+    plt.legend()
+
+    # Display the plot
+    plt.show()
+
+# evaluation1(weight_array)
+
+
+weight_array = [np.hstack([W1_i.T,H1_i.T]), np.hstack([W1_f.T,H1_f.T]), np.hstack([W1_o.T,H1_f.T]), np.hstack([W1_c.T,H1_c.T])]
+
+W = WeightArrayStepPruning(weight_array,'array',0.001,8,10,4,4)
+WW = W.iterative_approximation_step2()
+# WW = W.iterative_approximation_step2()
+
+print(mean_square_error_array1(weight_array,WW))
+
