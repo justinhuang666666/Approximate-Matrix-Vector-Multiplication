@@ -171,11 +171,14 @@ def evaluation1(weight_array):
 # evaluation1(weight_array)
 
 
+
 weight_array = [np.hstack([W1_i.T,H1_i.T]), np.hstack([W1_f.T,H1_f.T]), np.hstack([W1_o.T,H1_f.T]), np.hstack([W1_c.T,H1_c.T])]
 
-W = WeightArrayStepPruning(weight_array,'array',0.001,8,10,4,4)
-WW = W.iterative_approximation_step2()
-# WW = W.iterative_approximation_step2()
+W = WeightArrayStepPruning(weight_array,'weight',0.001,1,41,16,1)
 
-print(mean_square_error_array1(weight_array,WW))
+W.iterative_approximation_step3()
+# W.iterative_approximation_step3()
+# W.iterative_approximation_step3()
+# W.iterative_approximation_step3()
+print(W.average_mse_weight())
 
