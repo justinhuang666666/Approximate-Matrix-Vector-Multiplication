@@ -177,8 +177,6 @@ weight_array = [np.hstack([W1_i.T,H1_i.T]), np.hstack([W1_f.T,H1_f.T]), np.hstac
 W = WeightArrayStepPruning(weight_array,'weight',0.001,1,41,16,1)
 
 W.iterative_approximation_step3()
-# W.iterative_approximation_step3()
-# W.iterative_approximation_step3()
-# W.iterative_approximation_step3()
+
 print(W.average_mse_weight())
 
