@@ -7,22 +7,22 @@ import itertools
 from utils.generate_groupings import *
 import matplotlib.cm as cm
 
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/W1_i.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/W1_i.txt'
 W1_i = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/W1_f.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/W1_f.txt'
 W1_f = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/W1_o.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/W1_o.txt'
 W1_o = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/W1_c.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/W1_c.txt'
 W1_c = load_matrix(file_path)
 
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/H1_i.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/H1_i.txt'
 H1_i = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/H1_f.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/H1_f.txt'
 H1_f = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/H1_o.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/H1_o.txt'
 H1_o = load_matrix(file_path)
-file_path = '../LSTM-Human-Activity-Recognition-master/weights/H1_c.txt'
+file_path = '../../LSTM-Human-Activity-Recognition-master/weights/H1_c.txt'
 H1_c = load_matrix(file_path)
 
 weight_array = [np.hstack([W1_i.T,H1_i.T]), np.hstack([W1_f.T,H1_f.T]), np.hstack([W1_o.T,H1_f.T]), np.hstack([W1_c.T,H1_c.T])]
