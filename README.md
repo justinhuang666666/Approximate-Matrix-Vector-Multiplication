@@ -18,6 +18,7 @@ Matrix-vector multiplications are fundamental to a wide range of computational t
 ## Iterative Approximation
 
 ## Hardware Architecture
-
+![Diagram](img/Architecture.png)
+![Diagram](img/svd_kernel1.png)
 ## Framework
 ![Diagram](img/flowchart.png)
