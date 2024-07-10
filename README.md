@@ -20,4 +20,4 @@ Matrix-vector multiplications are fundamental to a wide range of computational t
 ## Hardware Architecture
 
 ## Framework
-![Diagram](img/framework.png)
+![Diagram](img/flowchart.png)
