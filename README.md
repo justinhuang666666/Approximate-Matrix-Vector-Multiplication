@@ -6,9 +6,13 @@ Matrix-vector multiplications are fundamental to a wide range of computational t
 
 ## Directory Structure
 Simualtion/ contains simulation files and results for this project
+
 des_result/ contains design space exploration .csv files
+
 iterative_approximation/ contains source code for a library of iterative approximation methods used in the project
+
 utils/ contains utility scripts for matrix approximation
+
 hardware/ contains hardware source code and related files (under development)
 
 ## Iterative Approximation
