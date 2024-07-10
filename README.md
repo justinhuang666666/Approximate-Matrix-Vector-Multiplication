@@ -1,1 +1,1 @@
-# LSTM_Acceleration_FPGA
+# Reconfigurable Computing for Approximate Matrix-Vector Multiplication
