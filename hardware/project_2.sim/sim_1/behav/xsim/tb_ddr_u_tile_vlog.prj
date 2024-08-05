@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../project_2.srcs/sources_1/ip/ram_u_tile/sim/ram_u_tile.v" \
+"../../../../project_2.srcs/sources_1/new/ddr_u_tile.v" \
+"../../../../project_2.srcs/sim_1/new/tb_ddr_u_tile.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

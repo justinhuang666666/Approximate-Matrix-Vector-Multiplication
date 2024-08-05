@@ -1,0 +1,33 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../project_2.srcs/sources_1/ip/blk_mem_2/sim/blk_mem_2.v" \
+"../../../../project_2.srcs/sources_1/ip/fifo1/sim/fifo1.v" \
+"../../../../project_2.srcs/sources_1/ip/blk_mem_true_dual_1/sim/blk_mem_true_dual_1.v" \
+"../../../../project_2.srcs/sources_1/ip/blk_mem_u/sim/blk_mem_u.v" \
+"../../../../project_2.srcs/sources_1/new/v_kernel.v" \
+"../../../../project_2.srcs/sources_1/new/s_kernel.v" \
+"../../../../project_2.srcs/sources_1/new/u_kernel.v" \
+"../../../../project_2.srcs/sources_1/new/svd_kernel.v" \
+"../../../../project_2.srcs/sources_1/new/svd_kernel_fsm.v" \
+"../../../../project_2.srcs/sources_1/new/ram_adder.v" \
+"../../../../project_2.srcs/sources_1/ip/blk_mem_3/sim/blk_mem_3.v" \
+"../../../../project_2.srcs/sources_1/ip/blk_mem_1/sim/blk_mem_1.v" \
+"../../../../project_2.srcs/sim_1/new/fix_add_16_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fix_acc_16_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fix_mult_16_tb.v" \
+"../../../../project_2.srcs/sim_1/new/v_kernel_tb.v" \
+"../../../../project_2.srcs/sim_1/new/u_kernel_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fix_acc_16_sset_tb.v" \
+"../../../../project_2.srcs/sim_1/new/svd_kernel_tb.v" \
+"../../../../project_2.srcs/sim_1/new/svd_kernel_fsm_tb.v" \
+"../../../../project_2.srcs/sim_1/new/block_ram_1_tb.v" \
+"../../../../project_2.srcs/sim_1/new/ram_adder_tb.v" \
+"../../../../project_2.srcs/sim_1/new/blk_mem_2_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fifo_test.v" \
+"../../../../project_2.srcs/sim_1/new/fifo_test_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

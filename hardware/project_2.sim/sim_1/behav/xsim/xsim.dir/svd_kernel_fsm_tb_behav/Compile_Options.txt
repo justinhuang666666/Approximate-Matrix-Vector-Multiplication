@@ -1,0 +1,1 @@
+-wto "925dc239e69b437cab3feeec41d439ed" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "svd_kernel_fsm_tb_behav" "xil_defaultlib.svd_kernel_fsm_tb" "xil_defaultlib.glbl" -log "elaborate.log" 

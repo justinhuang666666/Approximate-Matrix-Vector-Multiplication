@@ -1,0 +1,124 @@
+Vivado Simulator 2019.1
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto 925dc239e69b437cab3feeec41d439ed --incr --debug typical --relax --mt 2 -L blk_mem_gen_v8_4_3 -L xil_defaultlib -L xbip_utils_v3_0_10 -L c_reg_fd_v12_0_6 -L xbip_dsp48_wrapper_v3_0_4 -L xbip_pipe_v3_0_6 -L xbip_dsp48_addsub_v3_0_6 -L xbip_addsub_v3_0_6 -L c_addsub_v12_0_13 -L xbip_bram18k_v3_0_6 -L mult_gen_v12_0_15 -L xbip_dsp48_acc_v3_0_6 -L xbip_accum_v3_0_6 -L c_accum_v12_0_13 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot tb_MVM1_top_behav xil_defaultlib.tb_MVM1_top xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package mult_gen_v12_0_15.mult_gen_v12_0_15_viv_comp
+Compiling package xbip_utils_v3_0_10.xbip_utils_v3_0_10_pkg
+Compiling package mult_gen_v12_0_15.mult_gen_v12_0_15_pkg
+Compiling package ieee.std_logic_arith
+Compiling package ieee.std_logic_signed
+Compiling package unisim.vcomponents
+Compiling package mult_gen_v12_0_15.dsp_pkg
+Compiling package ieee.vital_timing
+Compiling package ieee.vital_primitives
+Compiling package unisim.vpkg
+Compiling package c_addsub_v12_0_13.c_addsub_v12_0_13_viv_comp
+Compiling package xbip_pipe_v3_0_6.xbip_pipe_v3_0_6_viv_comp
+Compiling package xbip_addsub_v3_0_6.xbip_addsub_v3_0_6_viv_comp
+Compiling package c_addsub_v12_0_13.c_addsub_v12_0_13_pkg
+Compiling package c_addsub_v12_0_13.c_addsub_v12_0_13_pkg_legacy
+Compiling package xbip_dsp48_addsub_v3_0_6.xbip_dsp48_addsub_v3_0_6_viv_com...
+Compiling package xbip_dsp48_addsub_v3_0_6.xbip_dsp48_addsub_v3_0_6_pkg
+Compiling package xbip_dsp48_wrapper_v3_0_4.xbip_dsp48_wrapper_v3_0_4_pkg
+Compiling package c_accum_v12_0_13.c_accum_v12_0_13_viv_comp
+Compiling package xbip_accum_v3_0_6.xbip_accum_v3_0_6_viv_comp
+Compiling package ieee.std_logic_unsigned
+Compiling package xbip_accum_v3_0_6.xbip_accum_v3_0_6_pkg
+Compiling package c_accum_v12_0_13.c_accum_v12_0_13_pkg
+Compiling package xbip_dsp48_acc_v3_0_6.xbip_dsp48_acc_v3_0_6_viv_comp
+Compiling package xbip_dsp48_acc_v3_0_6.xbip_dsp48_acc_v3_0_6_pkg
+Compiling module xil_defaultlib.mask_reverse
+Compiling module xil_defaultlib.mask2addr_v2(ADDR_WIDTH=7)
+Compiling module xil_defaultlib.mask_reverse(WIDTH=32)
+Compiling module xil_defaultlib.mask2addr_v2(WIDTH=32,ADDR_WIDTH...
+Compiling module xil_defaultlib.MVM_ctrl1(MASK_V_ADDR_WIDTH=7,MA...
+Compiling module xil_defaultlib.svd_kernel_fsm(MASK_V_ADDR_WIDTH...
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture dsp48e2_v of entity unisim.DSP48E2 [\DSP48E2(alumodereg=0,carryinreg...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture dsp48e2_v of entity unisim.DSP48E2 [\DSP48E2(acascreg=0,areg=0,a_inp...]
+Compiling architecture dsp48e2_v of entity unisim.DSP48E2 [\DSP48E2(acascreg=2,alumodereg=0...]
+Compiling architecture dsp48e2_v of entity unisim.DSP48E2 [\DSP48E2(acascreg=0,alumodereg=0...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.delay_line [\delay_line(c_xdevicefamily="zyn...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.op_resize [\op_resize(ai_width=32,bi_width=...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.dsp [\dsp(c_xdevicefamily="zynquplus"...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.mult_gen_v12_0_15_viv [\mult_gen_v12_0_15_viv(c_verbosi...]
+Compiling architecture xilinx of entity mult_gen_v12_0_15.mult_gen_v12_0_15 [\mult_gen_v12_0_15(c_xdevicefami...]
+Compiling architecture fix_mult_32_arch of entity xil_defaultlib.fix_mult_32 [fix_mult_32_default]
+Compiling architecture dsp48e1_v of entity unisim.DSP48E1 [\DSP48E1(acascreg=0,adreg=0,alum...]
+Compiling architecture synth of entity xbip_dsp48_wrapper_v3_0_4.xbip_dsp48e1_wrapper_v3_0 [\xbip_dsp48e1_wrapper_v3_0(preg=...]
+Compiling architecture synth of entity xbip_dsp48_addsub_v3_0_6.xbip_dsp48_addsub_synth [\xbip_dsp48_addsub_synth(c_xdevi...]
+Compiling architecture synth of entity xbip_dsp48_addsub_v3_0_6.xbip_dsp48_addsub_v3_0_6_viv [\xbip_dsp48_addsub_v3_0_6_viv(c_...]
+Compiling architecture synth of entity xbip_addsub_v3_0_6.xbip_addsub_v3_0_6_viv [\xbip_addsub_v3_0_6_viv(c_xdevic...]
+Compiling architecture synth of entity xbip_pipe_v3_0_6.xbip_pipe_v3_0_6_viv [\xbip_pipe_v3_0_6_viv(c_latency=...]
+Compiling architecture synth of entity c_addsub_v12_0_13.c_addsub_v12_0_13_viv [\c_addsub_v12_0_13_viv(c_xdevice...]
+Compiling architecture xilinx of entity c_addsub_v12_0_13.c_addsub_v12_0_13 [\c_addsub_v12_0_13(c_xdevicefami...]
+Compiling architecture fix_add_32_arch of entity xil_defaultlib.fix_add_32 [fix_add_32_default]
+Compiling architecture dsp48e_v of entity unisim.DSP48E [\DSP48E(acascreg=0,alumodereg=0,...]
+Compiling architecture synth of entity xbip_dsp48_wrapper_v3_0_4.xbip_dsp48e_wrapper_v3_0 [\xbip_dsp48e_wrapper_v3_0(preg=1...]
+Compiling architecture synth of entity xbip_dsp48_acc_v3_0_6.xbip_dsp48_acc_synth [\xbip_dsp48_acc_synth(c_xdevicef...]
+Compiling architecture synth of entity xbip_dsp48_acc_v3_0_6.xbip_dsp48_acc_v3_0_6_viv [\xbip_dsp48_acc_v3_0_6_viv(c_xde...]
+Compiling architecture synth of entity xbip_accum_v3_0_6.xbip_accum_v3_0_6_viv [\xbip_accum_v3_0_6_viv(c_xdevice...]
+Compiling architecture synth of entity c_accum_v12_0_13.c_accum_v12_0_13_viv [\c_accum_v12_0_13_viv(c_xdevicef...]
+Compiling architecture xilinx of entity c_accum_v12_0_13.c_accum_v12_0_13 [\c_accum_v12_0_13(c_xdevicefamil...]
+Compiling architecture fix_acc_32_arch of entity xil_defaultlib.fix_acc_32 [fix_acc_32_default]
+Compiling module xil_defaultlib.v_kernel_32
+Compiling module xil_defaultlib.s_kernel_32
+Compiling module xil_defaultlib.u_kernel_32
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.blk_mem_1
+Compiling module xil_defaultlib.ram_adder_32
+Compiling module xil_defaultlib.svd_kernel_32(MASK_V_ADDR_WIDTH=...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_u_tile
+Compiling module xil_defaultlib.ddr_u_tile
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_v_tile
+Compiling module xil_defaultlib.ddr_v_tile
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_s_tile
+Compiling module xil_defaultlib.ddr_s_tile
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_mask_v
+Compiling module xil_defaultlib.ddr_mask_v
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_mask_u
+Compiling module xil_defaultlib.ddr_mask_u
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_output_stage(...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_softecc_outpu...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3_mem_module(C_...
+Compiling module blk_mem_gen_v8_4_3.blk_mem_gen_v8_4_3(C_FAMILY="zyn...
+Compiling module xil_defaultlib.ram_input_vector
+Compiling module xil_defaultlib.input_vector_buffer
+Compiling module xil_defaultlib.MVM1_top(MASK_V_ADDR_WIDTH=7,MAS...
+Compiling module xil_defaultlib.tb_MVM1_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_MVM1_top_behav

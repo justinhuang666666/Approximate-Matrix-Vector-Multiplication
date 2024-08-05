@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../project_2.srcs/sources_1/ip/mask_u_2/sim/mask_u_2.v" \
+"../../../../project_2.srcs/sources_1/ip/mask_u_1/sim/mask_u_1.v" \
+"../../../../project_2.srcs/sources_1/new/db_mask_u.v" \
+"../../../../project_2.srcs/sim_1/new/tb_db_mask_u.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

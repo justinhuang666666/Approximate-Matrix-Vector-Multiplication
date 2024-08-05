@@ -1,0 +1,23 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Fri May 17 11:40:05 2024
+# Process ID: 16720
+# Current directory: D:/project_2
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent4328 D:\project_2\project_2.xpr
+# Log file: D:/project_2/vivado.log
+# Journal file: D:/project_2\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/project_2/project_2.xpr
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+close [ open D:/project_2/project_2.srcs/sim_1/new/blk_mem_u_tb.v w ]
+add_files -fileset sim_1 D:/project_2/project_2.srcs/sim_1/new/blk_mem_u_tb.v
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top blk_mem_u_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode DisplayOnly [current_project]
+launch_simulation

@@ -1,0 +1,14 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../project_2.srcs/sources_1/new/v_kernel.v" \
+"../../../../project_2.srcs/sim_1/new/fp_add_32_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fp_acc_32_tb1.v" \
+"../../../../project_2.srcs/sim_1/new/fp_mult_32_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fix_add_16_tb.v" \
+"../../../../project_2.srcs/sim_1/new/fix_acc_16_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

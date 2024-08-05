@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun May 19 19:15:36 2024
+# Process ID: 11480
+# Current directory: D:/project_2/project_2.runs/v_tile_ram_synth_1
+# Command line: vivado.exe -log v_tile_ram.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source v_tile_ram.tcl
+# Log file: D:/project_2/project_2.runs/v_tile_ram_synth_1/v_tile_ram.vds
+# Journal file: D:/project_2/project_2.runs/v_tile_ram_synth_1\vivado.jou
+#-----------------------------------------------------------
+source v_tile_ram.tcl -notrace

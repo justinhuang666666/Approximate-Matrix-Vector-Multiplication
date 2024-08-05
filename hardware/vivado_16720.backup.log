@@ -1,0 +1,28 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Fri May 17 11:40:05 2024
+# Process ID: 16720
+# Current directory: D:/project_2
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent4328 D:\project_2\project_2.xpr
+# Log file: D:/project_2/vivado.log
+# Journal file: D:/project_2\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/project_2/project_2.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2019.1/data/ip'.
+open_project: Time (s): cpu = 00:00:13 ; elapsed = 00:00:07 . Memory (MB): peak = 826.148 ; gain = 209.820
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+close [ open D:/project_2/project_2.srcs/sim_1/new/blk_mem_u_tb.v w ]
+add_files -fileset sim_1 D:/project_2/project_2.srcs/sim_1/new/blk_mem_u_tb.v
+set_property top blk_mem_u_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+launch_simulation
+boost::filesystem::remove: 另一个程序正在使用此文件，进程无法访问。: "D:/project_2/project_2.sim/sim_1/behav/xsim/simulate.log"
+exit
+INFO: [Common 17-206] Exiting Vivado at Fri May 17 20:31:59 2024...
