@@ -1,14 +1,20 @@
 # Implementation of paper "Synthesis and Optimization of 2D Filter Designs for Heterogeneous FPGAs"
 import sys
-sys.path.append('/Users/justin/Desktop/Year 4/FYP/Code')
+sys.path.append('/Users/justin/Desktop/Imperial/Year 4/FYP/Code/main')
 
 import numpy as np
 from utils.mse import *
 from utils.mask_gen import *
 from utils.load_matrix import *
 from utils.generate_groupings import *
-from iterative_approximation.Algorithm2 import *
+
+
+sys.path.append('/Users/justin/Desktop/Imperial/Year 4/FYP/Code/main/iterative_approximation')
+from quantizer import *
+
 import math
+
+from scipy.linalg import svd
 
 class WeightArrayStepPruning:
     def __init__(self,weight,method,threshold,NZr,NZc,Tr,Tc):
@@ -58,7 +64,8 @@ class WeightArrayStepPruning:
 
         for idx, (Wi, RWi) in enumerate(zip(residual_weight_array, reconstructed_weight_array)):
             # Update SVD on the error matrix
-            U_n, S_n, Vt_n = np.linalg.svd(Wi, full_matrices=False)
+            # U_n, S_n, Vt_n = svd(Wi, full_matrices=False,lapack_driver='gesdd')
+            U_n, S_n, Vt_n = svd(Wi, full_matrices=False,lapack_driver='gesdd')
             sigma1_n = S_n[0]
             u1_n = U_n[:, 0]
             v1_n = Vt_n[0, :]
@@ -78,11 +85,63 @@ class WeightArrayStepPruning:
         self.current_residual_weight_array = residual_weight_array_step
         self.steps += 1
 
-        self.num_group.append(4)
+        self.num_group.append(3)
 
         self.cal_memory_footprint_compressed_array()
         
         return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array_step]
+
+    def quantize_iterative_approximation_step1(self):
+            residual_weight_array = self.current_residual_weight_array
+            reconstructed_weight_array = self.current_reconstructed_weight_array
+
+            residual_weight_array_step = [np.zeros_like(W) for W in residual_weight_array]
+            reconstructed_weight_array_step = [np.zeros_like(W) for W in reconstructed_weight_array]
+
+            for idx, (Wi, RWi) in enumerate(zip(residual_weight_array, reconstructed_weight_array)):
+                # Perform SVD on the dequantized residual matrix
+                U_n, S_n, Vt_n = svd(Wi, full_matrices=False, lapack_driver='gesdd')
+                sigma1_n = S_n[0]
+                u1_n = U_n[:, 0]
+                v1_n = Vt_n[0, :]
+                print(idx)
+                print('original')
+                print(u1_n*sigma1_n)
+                print(v1_n)
+                # print(sigma1_n)
+
+                u1_n_quantized = integer_quantize(sigma1_n*u1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
+                v1_n_quantized = integer_quantize(v1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
+                # sigma1_n_quantized = integer_quantize(sigma1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
+
+                print('quantized')
+                print(u1_n_quantized)
+                print(v1_n_quantized)
+                # print(sigma1_n_quantized)
+
+                # Update the binary mask matrix Fi
+                Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n_quantized, self.NZc, self.Tc)
+                Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n_quantized, self.NZr, self.Tr)
+
+                refinement = np.outer(Fi_u_n * u1_n_quantized, Fi_v_n * v1_n_quantized)
+
+                # Update the weight matrix approximation (quantized)
+                reconstructed_quantized = RWi + integer_quantize(refinement, width=self.precision, frac_width=self.precision-4, is_signed=True)
+                residual_quantized = Wi - integer_quantize(refinement, width=self.precision, frac_width=self.precision-4, is_signed=True)
+
+                # Dequantize the results to update the arrays
+                reconstructed_weight_array_step[idx] = reconstructed_quantized
+                residual_weight_array_step[idx] = residual_quantized
+
+            self.current_reconstructed_weight_array = reconstructed_weight_array_step
+            self.current_residual_weight_array = residual_weight_array_step
+            self.steps += 1
+
+            self.num_group.append(3)
+
+            self.cal_memory_footprint_compressed_array()
+
+            return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array_step]
 
     # 2D filter paper method: group of 4 matrices each approximation step
     def iterative_approximation_step2(self):
@@ -93,11 +152,11 @@ class WeightArrayStepPruning:
         summation_matrix = sum(W @ W.T for W in residual_weight_array)
 
         # Perform SVD on the summation matrix
-        U, S, Vt = np.linalg.svd(summation_matrix, full_matrices=False)
+        U, S, Vt = svd(summation_matrix, full_matrices=False,lapack_driver='gesdd')
         u = U[:, 0]
 
         W_hat = np.column_stack([W.T @ u for W in residual_weight_array])
-        U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+        U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
         v = Vt[0,:]
 
         u_previous = np.zeros_like(u)
@@ -113,11 +172,11 @@ class WeightArrayStepPruning:
         while u_diff > threshold or v_diff > threshold:
             W_hat = np.column_stack([W @ v for W in residual_weight_array])
 
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             u = U[:, 0]
 
             W_hat = np.column_stack([W.T @ u for W in residual_weight_array])
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             v = Vt[0,:]
 
             u_diff = mean_square_error_vector(u, u_previous)
@@ -170,11 +229,11 @@ class WeightArrayStepPruning:
         summation_matrix = sum(W @ W.T for W in normalised_residual_weight_array)
 
         # Perform SVD on the summation matrix
-        U, S, Vt = np.linalg.svd(summation_matrix, full_matrices=False)
+        U, S, Vt = svd(summation_matrix, full_matrices=False,lapack_driver='gesdd')
         u = U[:, 0]
 
         W_hat = np.column_stack([W.T @ u for W in normalised_residual_weight_array])
-        U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+        U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
         v = Vt[0, :]
 
         u_previous = np.zeros_like(u)
@@ -187,11 +246,11 @@ class WeightArrayStepPruning:
         count = 0
         while u_diff > threshold or v_diff > threshold:
             W_hat = np.column_stack([W @ v for W in normalised_residual_weight_array])
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             u = U[:, 0]
 
             W_hat = np.column_stack([W.T @ u for W in normalised_residual_weight_array])
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             v = Vt[0, :]
 
             u_diff = mean_square_error_vector(u, u_previous)
@@ -229,14 +288,15 @@ class WeightArrayStepPruning:
         reconstructed_weight = self.current_reconstructed_weight
 
         # Update SVD on the error matrix
-        U_n, S_n, Vt_n = np.linalg.svd(residual_weight, full_matrices=False)
+        U_n, S_n, Vt_n = svd(residual_weight, full_matrices=False,lapack_driver='gesdd')
         sigma1_n = S_n[0]
         u1_n = U_n[:, 0]
         v1_n = Vt_n[0, :]
 
         # Update the binary mask matrix Fi
         Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
-        Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, 4*self.NZr, self.Tr)
+        Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, 3*self.NZr, self.Tr)
+
 
         # Update the weight matrix approximation
         reconstructed = reconstructed_weight + sigma1_n * np.outer(Fi_u_n * u1_n, Fi_v_n * v1_n)
@@ -246,17 +306,17 @@ class WeightArrayStepPruning:
         self.current_residual_weight = residual
         self.steps += 1
 
-        self.num_group.append(4)
+        self.num_group.append(3)
 
         self.cal_memory_footprint_compressed_weight()
         
-        return [reconstructed[0:self.R,0:self.C],reconstructed[self.R:2*self.R,0:self.C],reconstructed[2*self.R:3*self.R,0:self.C],reconstructed[3*self.R:,0:self.C]]
+        return [reconstructed[0:self.R,0:self.C],reconstructed[self.R:2*self.R,0:self.C],reconstructed[2*self.R:3*self.R,0:self.C]]
     
     def iterative_approximation_step3_norm(self, norm='fro'):
         residual_weight = self.current_residual_weight
         reconstructed_weight = self.current_reconstructed_weight
 
-        residual_weight_array = [self.current_residual_weight[i*self.R:(i+1)*self.R,0:self.C] for i in range(4)]
+        residual_weight_array = [self.current_residual_weight[i*self.R:(i+1)*self.R,0:self.C] for i in range(3)]
 
         normalised_residual_weight_array = [np.zeros_like(W) for W in residual_weight_array]
         normalised_residual_weight = np.zeros_like(residual_weight)
@@ -273,19 +333,19 @@ class WeightArrayStepPruning:
             norms.append(current_norm)
             normalised_residual_weight_array[i] = residual_weight_array[i] / current_norm if current_norm != 0 else residual_weight_array[i]
         
-        normalised_residual_weight[0:4*self.R,0:self.C] = np.vstack([normalised_residual_weight_array[i] for i in range(4)])
+        normalised_residual_weight[0:3*self.R,0:self.C] = np.vstack([normalised_residual_weight_array[i] for i in range(3)])
 
         # Update SVD on the error matrix
-        U_n, S_n, Vt_n = np.linalg.svd(normalised_residual_weight, full_matrices=False)
+        U_n, S_n, Vt_n = svd(normalised_residual_weight, full_matrices=False,lapack_driver='gesdd')
         sigma1_n = S_n[0]
         u1_n = U_n[:, 0]
         v1_n = Vt_n[0, :]
 
         # Update the binary mask matrix Fi
         Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
-        Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, 4*self.NZr, self.Tr)
+        Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, 3*self.NZr, self.Tr)
 
-        for i in range(4):
+        for i in range(3):
             u1_n[i*self.R:(i+1)*self.R] = norms[i] * u1_n[i*self.R:(i+1)*self.R]
 
         # Update the weight matrix approximation        
@@ -293,11 +353,11 @@ class WeightArrayStepPruning:
         self.current_residual_weight = residual_weight - sigma1_n * np.outer(Fi_u_n * u1_n, Fi_v_n * v1_n)
         self.steps += 1
 
-        self.num_group.append(4)
+        self.num_group.append(3)
 
         self.cal_memory_footprint_compressed_weight()
         
-        return [self.current_reconstructed_weight[0:self.R,0:self.C],self.current_reconstructed_weight[self.R:2*self.R,0:self.C],self.current_reconstructed_weight[2*self.R:3*self.R,0:self.C],self.current_reconstructed_weight[3*self.R:,0:self.C]]
+        return [self.current_reconstructed_weight[0:self.R,0:self.C],self.current_reconstructed_weight[self.R:2*self.R,0:self.C],self.current_reconstructed_weight[2*self.R:3*self.R,0:self.C]]
    
     def iterative_approximation_incremental(self, previous_weight_array,reconstructed_weight_array):
         threshold = self.threshold
@@ -307,11 +367,11 @@ class WeightArrayStepPruning:
         summation_matrix = sum(W @ W.T for W in weight_array)
 
         # Perform SVD on the summation matrix
-        U, S, Vt = np.linalg.svd(summation_matrix, full_matrices=False)
+        U, S, Vt = svd(summation_matrix, full_matrices=False,lapack_driver='gesdd')
         u = U[:, 0]
 
         W_hat = np.column_stack([W.T @ u for W in weight_array])
-        U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+        U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
         v = Vt[0,:]
 
         u_previous = np.zeros_like(u)
@@ -326,11 +386,11 @@ class WeightArrayStepPruning:
         while u_diff > threshold or v_diff > threshold:
             W_hat = np.column_stack([W @ v for W in weight_array])
 
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             u = U[:, 0]
 
             W_hat = np.column_stack([W.T @ u for W in weight_array])
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             v = Vt[0,:]
 
             u_diff = mean_square_error_vector(u, u_previous)
@@ -458,11 +518,11 @@ class WeightArrayStepPruning:
         summation_matrix = sum(W @ W.T for W in normalised_residual_weight_array)
 
         # Perform SVD on the summation matrix
-        U, S, Vt = np.linalg.svd(summation_matrix, full_matrices=False)
+        U, S, Vt = svd(summation_matrix, full_matrices=False,lapack_driver='gesdd')
         u = U[:, 0]
 
         W_hat = np.column_stack([W.T @ u for W in normalised_residual_weight_array])
-        U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+        U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
         v = Vt[0,:]
 
         u_previous = np.zeros_like(u)
@@ -477,11 +537,11 @@ class WeightArrayStepPruning:
         while u_diff > threshold or v_diff > threshold:
             W_hat = np.column_stack([W @ v for W in normalised_residual_weight_array])
 
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             u = U[:, 0]
 
             W_hat = np.column_stack([W.T @ u for W in normalised_residual_weight_array])
-            U, S, Vt = np.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            U, S, Vt = svd(W_hat @ W_hat.T, full_matrices=False,lapack_driver='gesdd')
             v = Vt[0,:]
 
             u_diff = mean_square_error_vector(u, u_previous)
@@ -601,14 +661,14 @@ class WeightArrayStepPruning:
         return self.memory_footprint_baseline
     
     def cal_memory_footprint_baseline_weight(self):     
-        self.memory_footprint_baseline = 4 * self.R * self.C * self.precision 
+        self.memory_footprint_baseline = 3 * self.R * self.C * self.precision 
         return self.memory_footprint_baseline
     
     def cal_memory_footprint_compressed_array(self):
         self.memory_footprint_compressed += (self.num_group[-1] * (self.NZr * self.Tr + self.NZc * self.Tc) + len(self.original_weight_array)) * self.precision + (self.num_group[-1] * (math.ceil(self.C/self.Tc) + math.ceil(self.R/self.Tr)))
     
     def cal_memory_footprint_compressed_weight(self):
-        self.memory_footprint_compressed += ((4 * self.NZr * self.Tr + self.NZc * self.Tc) + 1) * self.precision + ((math.ceil(self.C/self.Tc) + math.ceil(4*self.R/self.Tr)))
+        self.memory_footprint_compressed += ((3 * self.NZr * self.Tr + self.NZc * self.Tc) + 1) * self.precision + ((math.ceil(self.C/self.Tc) + math.ceil(3*self.R/self.Tr)))
 
     def compression_ratio(self):
         return self.memory_footprint_baseline / self.memory_footprint_compressed
@@ -652,3 +712,23 @@ class WeightArrayStepPruning:
             self.current_reconstructed_weight= np.hstack((self.current_reconstructed_weight, np.zeros((self.current_reconstructed_weight.shape[0], Tc - pad_cols))))
             self.current_residual_weight= np.hstack((self.current_residual_weight, np.zeros((self.current_residual_weight.shape[0], Tc - pad_cols))))
 
+# random_matrix1 = np.random.rand(512, 512)
+# random_matrix2 = np.random.rand(512, 512)
+# random_matrix3 = np.random.rand(512, 512)
+
+# W = [random_matrix1,random_matrix2,random_matrix3]
+
+# W8 = WeightArrayStepPruning(W,'array',0.001,1,1,512,512)
+# W8.init_precision(8)
+# W16 = WeightArrayStepPruning(W,'array',0.001,1,1,512,512)
+# W16.init_precision(16)
+# W32 = WeightArrayStepPruning(W,'array',0.001,1,1,512,512)
+# W32.init_precision(32)
+
+# for i in range(1):
+#     WW_32 = W32.quantize_iterative_approximation_step1()
+#     WW_16 = W16.quantize_iterative_approximation_step1()
+#     # WW_8 = W8.quantize_iterative_approximation_step1()  
+#     print(i)
+#     print(WW_32.average_mse_array()) 
+#     print(WW_16.average_mse_array()) 
