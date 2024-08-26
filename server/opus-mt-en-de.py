@@ -4,7 +4,7 @@ import json
 import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
-from utils import *
+# from utils import *
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
