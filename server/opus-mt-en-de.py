@@ -4,7 +4,6 @@ import json
 import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
-from test_utils import *
 from utils import *
 
 # Load the tokenizer and model
