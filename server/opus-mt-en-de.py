@@ -28,6 +28,10 @@ baseline_bleu = compute_bleu_score(model, tokenizer, source_texts, target_texts)
 
 print(baseline_bleu) 
 
+baseline_fscore = compute_character_fscore(model, tokenizer, source_texts, target_texts)
+
+print(baseline_fscore) 
+
 # from tqdm import tqdm
 
 # with tqdm(total=100, desc='Processing', unit='iteration') as pbar:

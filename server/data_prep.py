@@ -1,4 +1,3 @@
-
 from datasets import load_dataset
 import json
 
@@ -8,7 +7,7 @@ dataset = load_dataset('wmt19', 'de-en', split='validation')
 import random
 
 # Sample a subset of the dataset for quicker evaluation
-sample_size = 100  # Adjust as needed
+sample_size = 500  # Adjust as needed
 sampled_dataset = dataset.shuffle(seed=42).select(range(sample_size))
 
 # Prepare the references and generate translations
