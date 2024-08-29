@@ -13,6 +13,7 @@ model.eval()
 
 # Check if GPU is available and move model to GPU if possible
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 model.to(device)
 
 # Load the JSON file
