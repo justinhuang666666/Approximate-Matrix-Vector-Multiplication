@@ -3,7 +3,8 @@ from transformers import MarianMTModel, MarianTokenizer
 import json
 from utils import *
 
-# from utils import *
+import nltk
+nltk.download('punkt')
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
@@ -15,6 +16,8 @@ model.eval()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 model.to(device)
+
+
 
 # Load the JSON file
 with open('translations.json', 'r', encoding='utf-8') as f:
