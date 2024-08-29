@@ -28,7 +28,7 @@ def compute_bleu_score(device, model, tokenizer, source_texts, target_texts):
     bleu_score = nltk.translate.bleu_score.corpus_bleu(
         [[t.split()] for t in target_texts], [t.split() for t in translations]
     )
-    return bleu_score
+    return bleu_score*100
 
 def compute_character_fscore(device, model, tokenizer, source_texts, target_texts):
     """
