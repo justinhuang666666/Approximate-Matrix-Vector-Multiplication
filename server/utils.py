@@ -5,7 +5,8 @@ import json
 
 import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
-nltk.download('punkt', download_dir='.')
+nltk.download('punkt_tab')
+
 
 def compute_bleu_score(model,tokenizer,source_texts,target_texts):
     # Tokenize and generate translations

@@ -4,7 +4,7 @@ import json
 from utils import *
 
 import nltk
-nltk.download('punkt', download_dir='.')
+nltk.download('punkt_tab')
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
