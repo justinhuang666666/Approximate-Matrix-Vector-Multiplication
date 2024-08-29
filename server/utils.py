@@ -7,84 +7,90 @@ import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 nltk.download('punkt_tab')
 
-
-def compute_bleu_score(model,tokenizer,source_texts,target_texts):
-    # Tokenize and generate translations
-    generated_texts = []
-    for source in source_texts:
-        inputs = tokenizer.encode(source, return_tensors='pt', max_length=512, truncation=True)
-        with torch.no_grad():
-            translated_tokens = model.generate(inputs, max_length=512, num_beams=5, early_stopping=True)
-        generated_text = tokenizer.decode(translated_tokens[0], skip_special_tokens=True)
-        generated_texts.append(generated_text)
-
-    # Tokenize the reference and generated texts
-    tokenized_references = [[nltk.word_tokenize(text)] for text in target_texts]
-    tokenized_generated_texts = [nltk.word_tokenize(text) for text in generated_texts]
-
-    # Calculate BLEU score
-    smoothie = SmoothingFunction().method4
-    bleu_score = corpus_bleu(tokenized_references, tokenized_generated_texts, smoothing_function=smoothie)
-
-    return bleu_score*100
+def to_device(tensor, device):
+    return tensor.to(device) if tensor.device != device else tensor
 
 
-def compute_character_fscore(model, tokenizer, source_texts, target_texts):
-    """
-    Compute the character-level F1 score of a language model given source and target texts.
-    
-    Parameters:
-    - model: The pre-trained language model (e.g., from Hugging Face transformers).
-    - source_texts: A list of input texts to provide context for the model.
-    - target_texts: A list of texts that the model is expected to predict.
-    - tokenizer: The tokenizer corresponding to the model.
-    
-    Returns:
-    - f1_score: The character-level F1 score of the model on the given texts.
-    """
-    
-    # Ensure the model is in evaluation mode
-    model.eval()
-    
-    total_precision = 0.0
-    total_recall = 0.0
-    total_f1 = 0.0
-    num_samples = len(source_texts)
-    
-    # Iterate over the source and target texts
-    for source_text, target_text in zip(source_texts, target_texts):
-        
-        # Encode the input text
-        inputs = tokenizer(source_text, return_tensors='pt')
-
-        # Generate model outputs
+# Compute BLEU score
+def compute_bleu_score(model, tokenizer, source_texts, target_texts, device):
+    translations = []
+    for text in source_texts:
+        # Tokenize and encode, and move to device
+        inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
+        # Generate translation
         with torch.no_grad():
             outputs = model.generate(**inputs)
-        
-        # Decode the generated text
-        predicted_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-        # Calculate true positives, false positives, and false negatives
-        target_chars = list(target_text)
-        predicted_chars = list(predicted_text)
-        
-        true_positives = sum(1 for c1, c2 in zip(target_chars, predicted_chars) if c1 == c2)
-        false_positives = len(predicted_chars) - true_positives
-        false_negatives = len(target_chars) - true_positives
-
-        # Calculate precision, recall, and F1 score for the current sample
-        precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0
-        recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
-        f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-        
-        total_precision += precision
-        total_recall += recall
-        total_f1 += f1
-
-    # Average F1 score across all samples
-    avg_f1_score = total_f1 / num_samples
+        # Decode generated ids to text
+        translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        translations.append(translation)
     
-    return avg_f1_score
+    # Compute BLEU score
+    bleu_score = nltk.translate.bleu_score.corpus_bleu(
+        [[t.split()] for t in target_texts], [t.split() for t in translations]
+    )
+    return bleu_score
+
+def compute_character_fscore(model, tokenizer, source_texts, target_texts, device):
+    """
+    Computes the character-level F-score between model translations and target texts.
+
+    Args:
+        model: The translation model.
+        tokenizer: The tokenizer for the model.
+        source_texts: List of source texts.
+        target_texts: List of reference target texts.
+        device: The device (CPU or GPU) to perform computations on.
+
+    Returns:
+        Character-level F-score.
+    """
+    # List to store generated translations
+    translations = []
+
+    for text in source_texts:
+        # Tokenize and encode the text, then move to the specified device
+        inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
+
+        # Generate the translation and move the output to the device
+        with torch.no_grad():
+            outputs = model.generate(**inputs)
+
+        # Decode the generated output ids to text
+        translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        translations.append(translation)
+
+    # Compute character-level precision, recall, and F-score
+    precision_sum, recall_sum, f_score_sum = 0, 0, 0
+
+    for translation, target in zip(translations, target_texts):
+        # Ensure both strings are on the CPU for comparison
+        translation_chars = list(translation)
+        target_chars = list(target)
+
+        # Compute character-level precision
+        common_chars = set(translation_chars) & set(target_chars)
+        precision = len(common_chars) / len(translation_chars) if len(translation_chars) > 0 else 0
+
+        # Compute character-level recall
+        recall = len(common_chars) / len(target_chars) if len(target_chars) > 0 else 0
+
+        # Compute character-level F-score
+        if precision + recall > 0:
+            f_score = 2 * (precision * recall) / (precision + recall)
+        else:
+            f_score = 0
+
+        # Accumulate scores
+        precision_sum += precision
+        recall_sum += recall
+        f_score_sum += f_score
+
+    # Average the scores over all examples
+    avg_precision = precision_sum / len(translations)
+    avg_recall = recall_sum / len(translations)
+    avg_fscore = f_score_sum / len(translations)
+
+    return avg_fscore
 
 def extract_weight_array(layer):
     atten_block = layer.self_attn
