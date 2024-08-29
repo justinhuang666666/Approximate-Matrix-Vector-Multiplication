@@ -16,7 +16,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 # Load the JSON file
-with open('../transformer/translations.json', 'r', encoding='utf-8') as f:
+with open('translations.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
@@ -25,7 +25,6 @@ target_texts = data['target_texts']
 
 # Compute BLEU score
 baseline_bleu = compute_bleu_score(model, tokenizer, source_texts, target_texts)
-
 print(baseline_bleu) 
 
 baseline_fscore = compute_character_fscore(model, tokenizer, source_texts, target_texts)
