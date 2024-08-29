@@ -12,7 +12,7 @@ def to_device(tensor, device):
 
 
 # Compute BLEU score
-def compute_bleu_score(model, tokenizer, source_texts, target_texts, device):
+def compute_bleu_score(device, model, tokenizer, source_texts, target_texts):
     translations = []
     for text in source_texts:
         # Tokenize and encode, and move to device
@@ -30,7 +30,7 @@ def compute_bleu_score(model, tokenizer, source_texts, target_texts, device):
     )
     return bleu_score
 
-def compute_character_fscore(model, tokenizer, source_texts, target_texts, device):
+def compute_character_fscore(device, model, tokenizer, source_texts, target_texts):
     """
     Computes the character-level F-score between model translations and target texts.
 
