@@ -66,6 +66,8 @@ for i in range(10):  #150
         atten_block_weight_array_4 = W4.iterative_approximation(1)
         atten_block_weight_array_5 = W5.iterative_approximation(1)
 
+print(atten_block_weight_array_0)
+
 for i in range(2): #18
     for i in range(5):  #5
         atten_block_weight_array_0 = W0.iterative_approximation(1)
