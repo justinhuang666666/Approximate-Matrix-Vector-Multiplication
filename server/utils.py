@@ -401,7 +401,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
             # Collect MSE and update memory footprint
             mse_array.append(tiled_layers[i][j].average_mse())
             memory_footprint += tiled_layers[i][j].memory_footprint_compressed
-            compression_ratio_array.append(tiled_layers[i][j].memory_footprint_compressed / tiled_layers[i][j].memory_footprint_baseline)
+            
 
         # Set the approximated matrices as weights for the model layer
         set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
@@ -410,7 +410,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     num_step = tiled_layers[-1][-1].steps
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
     memory_footprint /= 8  # Convert bits to bytes
-    compression_ratio = sum(compression_ratio_array) / len(compression_ratio_array) if compression_ratio_array else 0
+    compression_ratio = tiled_layers[i][j].compression_ratio()
 
     # Compute BLEU and F-score
     bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
