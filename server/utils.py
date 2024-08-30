@@ -108,3 +108,196 @@ def set_layer_weight(layer,atten_block_weight_array,quantizer=False,precision=32
 
     return layer
 
+def divide_matrix(matrix, tile_size):
+    """
+    Divide a square matrix into smaller square matrices of given tile size.
+
+    Args:
+        matrix (numpy.ndarray): The input square matrix.
+        tile_size (int): The size of the smaller square matrices.
+
+    Returns:
+        List of numpy.ndarray: A list of smaller square matrices.
+
+    Raises:
+        ValueError: If the matrix size is not divisible by the tile size.
+    """
+    # Check if the matrix is square
+    if matrix.shape[0] != matrix.shape[1]:
+        raise ValueError("The input matrix must be square.")
+
+    # Check if the matrix size is divisible by tile_size
+    n = matrix.shape[0]
+    if n % tile_size != 0:
+        raise ValueError(f"The matrix size ({n}) is not divisible by the tile size ({tile_size}).")
+
+    # Number of tiles along each dimension
+    num_tiles = n // tile_size
+
+    # Create a list to store the smaller matrices
+    smaller_matrices = []
+
+    # Divide the matrix into smaller matrices
+    for i in range(num_tiles):
+        for j in range(num_tiles):
+            # Extract the sub-matrix of size tile_size x tile_size
+            sub_matrix = matrix[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size]
+            smaller_matrices.append(sub_matrix)
+
+    return smaller_matrices
+
+import torch
+
+def mean_square_error_vector(vector1, vector2):
+    """
+    Calculates the Mean Squared Error (MSE) between two vectors using GPU.
+
+    Parameters:
+    - vector1: First input vector.
+    - vector2: Second input vector, must be the same length as vector1.
+
+    Returns:
+    - MSE: The mean squared error between the two input vectors.
+    """
+    # Check if the input vectors have the same length
+    if vector1.shape != vector2.shape:
+        raise ValueError("The input vectors must have the same length.")
+    
+    # Move tensors to GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    vector1 = torch.tensor(vector1, device=device, dtype=torch.float32)
+    vector2 = torch.tensor(vector2, device=device, dtype=torch.float32)
+    
+    # Calculate the element-wise difference, square it, and then compute the mean
+    diff_squared = (vector1 - vector2) ** 2
+    MSE = diff_squared.mean()
+    
+    return MSE.item()  # Return as a Python float
+
+def mean_square_error_matrix(matrix1, matrix2):
+    """
+    Calculates the Mean Squared Error (MSE) between two matrices using GPU.
+
+    Parameters:
+    - matrix1: First input matrix.
+    - matrix2: Second input matrix, must be the same size as matrix1.
+
+    Returns:
+    - MSE: The mean squared error between the two input matrices.
+    """
+    # Check if the input matrices have the same size
+    if matrix1.shape != matrix2.shape:
+        raise ValueError("The input matrices must have the same size.")
+    
+    # Move tensors to GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    matrix1 = torch.tensor(matrix1, device=device, dtype=torch.float32)
+    matrix2 = torch.tensor(matrix2, device=device, dtype=torch.float32)
+    
+    # Calculate the element-wise difference, square it, and then compute the mean
+    diff_squared = (matrix1 - matrix2) ** 2
+    MSE = diff_squared.mean()
+    
+    return MSE.item()
+
+def mean_square_error_array(array1, array2):
+    """
+    Calculates the Mean Squared Error (MSE) between two arrays of matrices using GPU.
+
+    Parameters:
+    - array1: First input array of matrices.
+    - array2: Second input array of matrices, must be the same size as array1.
+
+    Returns:
+    - MSE: The mean squared error between the two input arrays.
+    """
+    # Check if the input arrays have the same size
+    if len(array1) != len(array2):
+        raise ValueError("The arrays must have the same size.")
+    
+    # Check if the input matrices within the arrays have the same size
+    if any(a1.shape != a2.shape for a1, a2 in zip(array1, array2)):
+        raise ValueError("All matrices within the arrays must have the same size.")
+    
+    # Move tensors to GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    array1 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array1]
+    array2 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array2]
+    
+    # Calculate MSE for each corresponding matrix pair and return the list of errors
+    MSE = [(a1 - a2).pow(2).mean().item() for a1, a2 in zip(array1, array2)]
+    
+    return MSE
+
+def mean_square_error_array1(array1, array2):
+    """
+    Calculates the Mean Squared Error (MSE) between two arrays of matrices using GPU.
+
+    Parameters:
+    - array1: First input array of matrices.
+    - array2: Second input array of matrices, must be the same size as array1.
+
+    Returns:
+    - MSE: The mean squared error between the two input arrays.
+    """
+    # Check if the input arrays have the same size
+    if len(array1) != len(array2):
+        raise ValueError("The arrays must have the same size.")
+    
+    # Check if the input matrices within the arrays have the same size
+    if any(a1.shape != a2.shape for a1, a2 in zip(array1, array2)):
+        raise ValueError("All matrices within the arrays must have the same size.")
+    
+    # Move tensors to GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    array1 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array1]
+    array2 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array2]
+    
+    # Calculate MSE for each corresponding matrix pair and take the mean of these errors
+    MSE = [(a1 - a2).pow(2).mean() for a1, a2 in zip(array1, array2)]
+    
+    return torch.mean(torch.tensor(MSE, device=device)).item()  # Return as a Python float
+
+def create_mask_vector(v1, NZ, Tc):
+    """
+    Creates a mask vector based on the input vector v1, the number of non-zero elements NZ,
+    and the group size Tc.
+    
+    Parameters:
+    - v1: The input vector from the SVD (v1 vector of the rank-1 approximation).
+    - NZ: The number of non-zero elements to keep in the mask.
+    - Tc: The size of each group in the vector to consider for masking.
+
+    Returns:
+    - fi: The final mask vector with repeated elements based on the compressed mask.
+    - compressed_fi: The compressed mask vector before repetition.
+    """
+    
+    # Validate inputs
+    if NZ > len(v1) / Tc:
+        raise ValueError('NZ cannot be larger than the number of elements in v1 divided by Tc')
+    
+    # Initialize the compressed mask vector
+    compressed_fi = np.zeros(len(v1) // Tc)
+    
+    # Group v1 into parts with length Tc
+    v1_grouped = np.reshape(v1, (-1, Tc))
+    
+    # Compute the mean of each group
+    group_means = np.mean(np.abs(v1_grouped), axis=1)
+    
+    # Find the indices of the NZ largest group means
+    selected_indices = np.argsort(group_means)[-NZ:]
+    
+    # Set the corresponding elements in the compressed mask to 1
+    compressed_fi[selected_indices] = 1
+    
+    # Repeat each element in compressed_fi Tc times to create fi
+    fi = np.repeat(compressed_fi, Tc)
+    
+    # Type cast fi and compressed_fi to int arrays
+    fi = fi.astype(int)
+    compressed_fi = compressed_fi.astype(int)
+    
+    return fi, compressed_fi
+
