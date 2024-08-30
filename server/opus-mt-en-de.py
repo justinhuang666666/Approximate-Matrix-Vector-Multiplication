@@ -59,21 +59,21 @@ bleu_scores = []
 compression_ratio = []
 
 for i in range(150):
-        atten_block_weight_array_0 = W0.iterative_approximation_step1()
-        atten_block_weight_array_1 = W1.iterative_approximation_step1()
-        atten_block_weight_array_2 = W2.iterative_approximation_step1()
-        atten_block_weight_array_3 = W3.iterative_approximation_step1()
-        atten_block_weight_array_4 = W4.iterative_approximation_step1()
-        atten_block_weight_array_5 = W5.iterative_approximation_step1()
+        atten_block_weight_array_0 = W0.iterative_approximation(1)
+        atten_block_weight_array_1 = W1.iterative_approximation(1)
+        atten_block_weight_array_2 = W2.iterative_approximation(1)
+        atten_block_weight_array_3 = W3.iterative_approximation(1)
+        atten_block_weight_array_4 = W4.iterative_approximation(1)
+        atten_block_weight_array_5 = W5.iterative_approximation(1)
 
 for i in range(18):
     for i in range(5):
-        atten_block_weight_array_0 = W0.iterative_approximation_step1()
-        atten_block_weight_array_1 = W1.iterative_approximation_step1()
-        atten_block_weight_array_2 = W2.iterative_approximation_step1()
-        atten_block_weight_array_3 = W3.iterative_approximation_step1()
-        atten_block_weight_array_4 = W4.iterative_approximation_step1()
-        atten_block_weight_array_5 = W5.iterative_approximation_step1()
+        atten_block_weight_array_0 = W0.iterative_approximation(1)
+        atten_block_weight_array_1 = W1.iterative_approximation(1)
+        atten_block_weight_array_2 = W2.iterative_approximation(1)
+        atten_block_weight_array_3 = W3.iterative_approximation(1)
+        atten_block_weight_array_4 = W4.iterative_approximation(1)
+        atten_block_weight_array_5 = W5.iterative_approximation(1)
 
     W0_MSE = (W0.average_mse_array()+W1.average_mse_array()+W2.average_mse_array()+W3.average_mse_array()+W4.average_mse_array()+W5.average_mse_array())/6
     mse.append(W0_MSE)
