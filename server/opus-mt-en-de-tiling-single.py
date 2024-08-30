@@ -78,7 +78,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
             approximated_matrix_array.append(approximated_matrix)
 
             # Collect MSE and update memory footprint
-            mse_array.append(tiled_layers[i][j].average_mse_array())
+            mse_array.append(tiled_layers[i][j].average_mse())
             memory_footprint += tiled_layers[i][j].memory_footprint_compressed
             compression_ratio_array.append(tiled_layers[i][j].memory_footprint_compressed / tiled_layers[i][j].memory_footprint_baseline)
 
