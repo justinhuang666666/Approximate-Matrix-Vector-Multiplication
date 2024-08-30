@@ -50,8 +50,8 @@ tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 from tqdm import tqdm
 
 # Debugging using tqdm for progress visualization
-with tqdm(total=10, desc='Processing', unit='iteration') as pbar:
-    for step in range(10):
+with tqdm(total=200, desc='Processing', unit='iteration') as pbar:
+    for step in range(200):
         for i in range(len(tiled_layers)):
             for j in range(len(tiled_layers[i])):  # Ensure the correct length is used
                 # Assuming iterative_approximation is defined within the WeightArray class
