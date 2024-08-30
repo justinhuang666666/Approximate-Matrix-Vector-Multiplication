@@ -45,13 +45,9 @@ original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.e
 original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
 
-tile_sizes = [32,64.128,256,512] #0.586
+tile_sizes = [32,64.128,256,512]
 steps = [19,38,76,152,304]
 skips = [1,2,4,8,16]
-
-tile_size = 32
-step = 2
-skip = 1
 
 def init_tiled_layers(encoder_layers, tile_size):
     """
@@ -92,18 +88,22 @@ from tqdm import tqdm
 
 results = []
 
-with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-    for i in range(step):
-        for j in range(len(tiled_layers)):
-            for k in range(len(tiled_layers[i])):  # Ensure the correct length is used
-                # Assuming iterative_approximation is defined within the WeightArray class
-                tiled_layers[j][k].iterative_approximation(1)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
+    for tile_size, step, skip in zip(tile_sizes, steps, skips):
+        with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+            for i in range(step):
+                for j in range(len(tiled_layers)):
+                    for k in range(len(tiled_layers[i])):  # Ensure the correct length is used
+                        # Assuming iterative_approximation is defined within the WeightArray class
+                        tiled_layers[j][k].iterative_approximation(1)
 
-        if(i%skip==0):
-            result = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
-            results.append(result)
+                if(i%skip==0):
+                    result = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
+                    results.append(result)
 
-        pbar2.update(1)
+                pbar2.update(1)
+            pbar1.update(1)
+    
 
 df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
 

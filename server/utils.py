@@ -414,7 +414,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
 
     # Compute BLEU and F-score
     bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    # fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
     results = {
@@ -423,7 +423,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         'Memory Footprint (Bytes)': [memory_footprint],
         'Compression Ratio': [compression_ratio],
         'BLEU Score': [bleu],
-        # 'Character F-score': [fscore]
+        'Character F-score': [fscore]
     }
     dataframe = pd.DataFrame(results)
     
