@@ -87,7 +87,7 @@ from tqdm import tqdm
 
 results = []
 
-with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
+with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for tile_size, step, skip in zip(tile_sizes, steps, skips):
         tiled_layers = init_tiled_layers(encoder_layers, tile_size)
         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
