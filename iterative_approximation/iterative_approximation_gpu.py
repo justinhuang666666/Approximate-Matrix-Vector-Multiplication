@@ -105,15 +105,23 @@ class WeightArray:
             # Update SVD on the error matrix using PyTorch
             U_n, S_n, Vt_n = torch.svd(Wi)
             sigma1_n = S_n[0]
-            u1_n = U_n[:, 0]
-            v1_n = Vt_n[:, 0]
 
-            # Update the binary mask matrix Fi
+            # Move tensors to CPU if needed before using them in NumPy operations
+            u1_n = U_n[:, 0].cpu() if U_n.is_cuda else U_n[:, 0]  # Ensure it's on CPU
+            v1_n = Vt_n[:, 0].cpu() if Vt_n.is_cuda else Vt_n[:, 0]  # Ensure it's on CPU
+
+            # Update the binary mask matrix Fi using CPU tensors
             Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
             Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, self.NZr, self.Tr)
 
-            # Update the weight matrix approximation
-            reconstructed = RWi + sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)  # Use torch.ger for outer product
+            # If tensors need to be back on GPU, move them back
+            Fi_v_n = Fi_v_n.to(self.device)
+            Fi_u_n = Fi_u_n.to(self.device)
+            u1_n = u1_n.to(self.device)
+            v1_n = v1_n.to(self.device)
+
+            # Update the weight matrix approximation with all tensors on the same device
+            reconstructed = RWi + sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)
             residual = Wi - sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)
 
             reconstructed_weight_array_step[idx] = reconstructed
