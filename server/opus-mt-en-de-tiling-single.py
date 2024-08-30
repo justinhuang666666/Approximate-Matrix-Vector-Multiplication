@@ -36,21 +36,55 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-# Compute BLEU score
-baseline_bleu = compute_bleu_score(device,model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+original_atten_block_weight_array_encoder_0 = extract_weight_array(model.model.encoder.layers[0])
+original_atten_block_weight_array_encoder_1 = extract_weight_array(model.model.encoder.layers[1])
+original_atten_block_weight_array_encoder_2 = extract_weight_array(model.model.encoder.layers[2])
+original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.encoder.layers[3])
+original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
+original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
-baseline_fscore = compute_character_fscore(device,model, tokenizer, source_texts, target_texts)
-print("Baseline Character Fscore")
-print(baseline_fscore) 
+def get_tiled_layers(encoder_layers, tile_size):
+    """
+    Generate tiled weight arrays for each encoder layer.
 
-# original_atten_block_weight_array_encoder_0 = extract_weight_array(model.model.encoder.layers[0])
-# original_atten_block_weight_array_encoder_1 = extract_weight_array(model.model.encoder.layers[1])
-# original_atten_block_weight_array_encoder_2 = extract_weight_array(model.model.encoder.layers[2])
-# original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.encoder.layers[3])
-# original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
-# original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
+    Args:
+        encoder_layers (List): List of encoder layers.
+        tile_size (int): The size of the tiles for each weight matrix.
+
+    Returns:
+        List[List[WeightArray]]: A list containing tiled weight arrays for each encoder layer.
+    """
+    # Initialize a list to store tiled weight arrays for each layer
+    tiled_layers = []
+
+    # Iterate over each layer in the encoder and initialize the tiling
+    for layer in encoder_layers:
+        # Extract weight arrays for k, q, and v
+        weight_array = extract_weight_array(layer)
+        k = divide_matrix(weight_array[0], tile_size)
+        q = divide_matrix(weight_array[1], tile_size)
+        v = divide_matrix(weight_array[2], tile_size)
+
+        # Create WeightArray objects for each tiled matrix
+        kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
+        qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
+        vv = WeightArray(v, 'array', 0.001, 1, 1, tile_size, tile_size)
+
+        # Append the initialized weight arrays to the tiled_layers list
+        tiled_layers.append([kk, qq, vv])
+
+    return tiled_layers
+
+# Example usage:
+tile_size = 64
+encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
+tiled_layers = get_tiled_layers(encoder_layers, tile_size)
+print(len(tiled_layers))
+print(tiled_layers[0][0])
+# Output the tiled layers
+print("Tiled layers:", tiled_layers)
+
+
 
 # W0 = WeightArray(original_atten_block_weight_array_encoder_0,'array',0.001,1,1,512,512)
 # W1 = WeightArray(original_atten_block_weight_array_encoder_1,'array',0.001,1,1,512,512)

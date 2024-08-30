@@ -38,11 +38,11 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-baseline_bleu = compute_bleu_score(device,model, tokenizer, source_texts, target_texts)
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
 print("Baseline BLEU Score")
 print(baseline_bleu) 
 
-baseline_fscore = compute_character_fscore(device,model, tokenizer, source_texts, target_texts)
+baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 print("Baseline Character Fscore")
 print(baseline_fscore) 
 

@@ -117,16 +117,57 @@ def set_layer_weight(layer,atten_block_weight_array):
 
     return layer
 
+# def divide_matrix(matrix, tile_size):
+#     """
+#     Divide a square matrix into smaller square matrices of given tile size.
+
+#     Args:
+#         matrix (numpy.ndarray): The input square matrix.
+#         tile_size (int): The size of the smaller square matrices.
+
+#     Returns:
+#         List of numpy.ndarray: A list of smaller square matrices.
+
+#     Raises:
+#         ValueError: If the matrix size is not divisible by the tile size.
+#     """
+#     # Check if the matrix is square
+#     if matrix.shape[0] != matrix.shape[1]:
+#         raise ValueError("The input matrix must be square.")
+
+#     # Check if the matrix size is divisible by tile_size
+#     n = matrix.shape[0]
+#     if n % tile_size != 0:
+#         raise ValueError(f"The matrix size ({n}) is not divisible by the tile size ({tile_size}).")
+
+#     # Number of tiles along each dimension
+#     num_tiles = n // tile_size
+
+#     # Create a list to store the smaller matrices
+#     smaller_matrices = []
+
+#     # Divide the matrix into smaller matrices
+#     for i in range(num_tiles):
+#         for j in range(num_tiles):
+#             # Extract the sub-matrix of size tile_size x tile_size
+#             sub_matrix = matrix[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size]
+#             smaller_matrices.append(sub_matrix)
+
+#     return smaller_matrices
+
+import torch
+
 def divide_matrix(matrix, tile_size):
     """
-    Divide a square matrix into smaller square matrices of given tile size.
+    Divide a square matrix into smaller square matrices of given tile size and run on GPU.
 
     Args:
-        matrix (numpy.ndarray): The input square matrix.
+        matrix (torch.Tensor): The input square matrix.
         tile_size (int): The size of the smaller square matrices.
+        device (str): The device to run the computation ('cuda' for GPU, 'cpu' for CPU).
 
     Returns:
-        List of numpy.ndarray: A list of smaller square matrices.
+        List of torch.Tensor: A list of smaller square matrices on the specified device.
 
     Raises:
         ValueError: If the matrix size is not divisible by the tile size.
@@ -139,6 +180,10 @@ def divide_matrix(matrix, tile_size):
     n = matrix.shape[0]
     if n % tile_size != 0:
         raise ValueError(f"The matrix size ({n}) is not divisible by the tile size ({tile_size}).")
+
+    # Move matrix to the specified device (GPU or CPU)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    matrix = matrix.to(device)
 
     # Number of tiles along each dimension
     num_tiles = n // tile_size
@@ -155,7 +200,43 @@ def divide_matrix(matrix, tile_size):
 
     return smaller_matrices
 
-import torch
+
+def merge_matrices(smaller_matrices, tile_size):
+    """
+    Merge smaller square matrices into a larger square matrix.
+
+    Args:
+        smaller_matrices (List[torch.Tensor]): A list of smaller square matrices.
+        tile_size (int): The size of each smaller square matrix.
+        device (str): The device to run the computation ('cuda' for GPU, 'cpu' for CPU).
+
+    Returns:
+        torch.Tensor: The merged larger square matrix on the specified device.
+
+    Raises:
+        ValueError: If the smaller matrices cannot be combined into a square matrix.
+    """
+    # Calculate the number of tiles along each dimension
+    num_tiles = int(len(smaller_matrices) ** 0.5)
+
+    # Ensure the list of smaller matrices forms a square layout
+    if num_tiles * num_tiles != len(smaller_matrices):
+        raise ValueError("The number of smaller matrices does not form a perfect square.")
+
+    # Calculate the size of the larger matrix
+    n = num_tiles * tile_size
+
+    # Initialize the larger matrix on the specified device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    merged_matrix = torch.zeros((n, n), device=device)
+
+    # Merge the smaller matrices into the larger matrix
+    for i in range(num_tiles):
+        for j in range(num_tiles):
+            # Place each smaller matrix in its correct position in the larger matrix
+            merged_matrix[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size] = smaller_matrices[i*num_tiles + j]
+
+    return merged_matrix
 
 def mean_square_error_vector(vector1, vector2):
     """
@@ -266,6 +347,7 @@ def mean_square_error_array1(array1, array2):
     MSE = [(a1 - a2).pow(2).mean() for a1, a2 in zip(array1, array2)]
     
     return torch.mean(torch.stack(MSE)).item()  # Return as a Python float
+
 def create_mask_vector(v1, NZ, Tc):
     """
     Creates a mask vector based on the input vector v1, the number of non-zero elements NZ,
