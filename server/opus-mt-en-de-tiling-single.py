@@ -79,7 +79,7 @@ def get_tiled_layers(encoder_layers, tile_size):
 tile_size = 64
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tiled_layers = get_tiled_layers(encoder_layers, tile_size)
-print(len(tiled_layers))
+print(len(tiled_layers[0]))
 print(tiled_layers[0][0])
 # Output the tiled layers
 print("Tiled layers:", tiled_layers)
