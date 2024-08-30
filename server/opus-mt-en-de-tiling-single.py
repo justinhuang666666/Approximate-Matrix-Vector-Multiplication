@@ -46,7 +46,7 @@ original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.e
 
 
 tile_sizes = [32,64.128,256,512] #0.586
-steps = [19,38,76,152,304]
+steps = [2,38,76,152,304]
 skips = [1,2,4,8,16]
 
 tile_size = 32
