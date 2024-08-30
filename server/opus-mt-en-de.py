@@ -10,7 +10,7 @@ parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
-from iterative_approximation import *
+from iterative_approximation_gpu import *
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
