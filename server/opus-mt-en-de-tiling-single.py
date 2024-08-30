@@ -93,7 +93,7 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
             for i in range(step):
                 for j in range(len(tiled_layers)):
-                    for k in range(len(tiled_layers[i])):  # Ensure the correct length is used
+                    for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
                         # Assuming iterative_approximation is defined within the WeightArray class
                         tiled_layers[j][k].iterative_approximation(1)
 
