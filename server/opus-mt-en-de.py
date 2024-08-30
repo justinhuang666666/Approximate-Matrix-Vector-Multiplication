@@ -88,7 +88,7 @@ for i in range(2): #18
     set_layer_weight(model.model.encoder.layers[4],atten_block_weight_array_4)
     set_layer_weight(model.model.encoder.layers[5],atten_block_weight_array_5)
 
-    bleu = compute_bleu_score(model,source_texts,target_texts)
+    bleu = compute_bleu_score(device, model, tokenizer,source_texts,target_texts)
     bleu_scores.append(bleu)
 
 print(bleu_scores)
