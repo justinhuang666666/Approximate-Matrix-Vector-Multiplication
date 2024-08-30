@@ -66,8 +66,6 @@ for i in range(150):  #150
         atten_block_weight_array_4 = W4.iterative_approximation(1)
         atten_block_weight_array_5 = W5.iterative_approximation(1)
 
-print(atten_block_weight_array_0)
-
 from tqdm import tqdm
 with tqdm(total=len(18), desc='Processing', unit='iteration') as pbar:
     for i in range(18): #18
