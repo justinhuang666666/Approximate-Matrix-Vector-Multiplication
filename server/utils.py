@@ -174,8 +174,8 @@ def mean_square_error_vector(vector1, vector2):
     
     # Move tensors to GPU if available
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    vector1 = torch.tensor(vector1, device=device, dtype=torch.float32)
-    vector2 = torch.tensor(vector2, device=device, dtype=torch.float32)
+    vector1 = vector1.to(device, dtype=torch.float32)
+    vector2 = vector2.to(device, dtype=torch.float32)
     
     # Calculate the element-wise difference, square it, and then compute the mean
     diff_squared = (vector1 - vector2) ** 2
@@ -200,8 +200,8 @@ def mean_square_error_matrix(matrix1, matrix2):
     
     # Move tensors to GPU if available
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    matrix1 = torch.tensor(matrix1, device=device, dtype=torch.float32)
-    matrix2 = torch.tensor(matrix2, device=device, dtype=torch.float32)
+    matrix1 = matrix1.to(device, dtype=torch.float32)
+    matrix2 = matrix2.to(device, dtype=torch.float32)
     
     # Calculate the element-wise difference, square it, and then compute the mean
     diff_squared = (matrix1 - matrix2) ** 2
@@ -230,8 +230,8 @@ def mean_square_error_array(array1, array2):
     
     # Move tensors to GPU if available
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    array1 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array1]
-    array2 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array2]
+    array1 = [a.to(device, dtype=torch.float32) for a in array1]
+    array2 = [a.to(device, dtype=torch.float32) for a in array2]
     
     # Calculate MSE for each corresponding matrix pair and return the list of errors
     MSE = [(a1 - a2).pow(2).mean().item() for a1, a2 in zip(array1, array2)]
@@ -259,14 +259,13 @@ def mean_square_error_array1(array1, array2):
     
     # Move tensors to GPU if available
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    array1 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array1]
-    array2 = [torch.tensor(a, device=device, dtype=torch.float32) for a in array2]
+    array1 = [a.to(device, dtype=torch.float32) for a in array1]
+    array2 = [a.to(device, dtype=torch.float32) for a in array2]
     
     # Calculate MSE for each corresponding matrix pair and take the mean of these errors
     MSE = [(a1 - a2).pow(2).mean() for a1, a2 in zip(array1, array2)]
     
-    return torch.mean(torch.tensor(MSE, device=device)).item()  # Return as a Python float
-
+    return torch.mean(torch.stack(MSE)).item()  # Return as a Python float
 def create_mask_vector(v1, NZ, Tc):
     """
     Creates a mask vector based on the input vector v1, the number of non-zero elements NZ,
