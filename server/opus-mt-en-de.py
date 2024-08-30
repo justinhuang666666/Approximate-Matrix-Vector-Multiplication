@@ -68,28 +68,33 @@ for i in range(150):  #150
 
 print(atten_block_weight_array_0)
 
-for i in range(18): #18
-    for i in range(5):  #5
-        atten_block_weight_array_0 = W0.iterative_approximation(1)
-        atten_block_weight_array_1 = W1.iterative_approximation(1)
-        atten_block_weight_array_2 = W2.iterative_approximation(1)
-        atten_block_weight_array_3 = W3.iterative_approximation(1)
-        atten_block_weight_array_4 = W4.iterative_approximation(1)
-        atten_block_weight_array_5 = W5.iterative_approximation(1)
+from tqdm import tqdm
+with tqdm(total=len(18), desc='Processing', unit='iteration') as pbar:
+    for i in range(18): #18
+        for i in range(5):  #5
+            atten_block_weight_array_0 = W0.iterative_approximation(1)
+            atten_block_weight_array_1 = W1.iterative_approximation(1)
+            atten_block_weight_array_2 = W2.iterative_approximation(1)
+            atten_block_weight_array_3 = W3.iterative_approximation(1)
+            atten_block_weight_array_4 = W4.iterative_approximation(1)
+            atten_block_weight_array_5 = W5.iterative_approximation(1)
 
-    W0_MSE = (W0.average_mse_array()+W1.average_mse_array()+W2.average_mse_array()+W3.average_mse_array()+W4.average_mse_array()+W5.average_mse_array())/6
-    mse.append(W0_MSE)
-    compression_ratio.append(W0.compression_ratio())
+        W0_MSE = (W0.average_mse_array()+W1.average_mse_array()+W2.average_mse_array()+W3.average_mse_array()+W4.average_mse_array()+W5.average_mse_array())/6
+        mse.append(W0_MSE)
+        compression_ratio.append(W0.compression_ratio())
 
-    set_layer_weight(model.model.encoder.layers[0],atten_block_weight_array_0)
-    set_layer_weight(model.model.encoder.layers[1],atten_block_weight_array_1)
-    set_layer_weight(model.model.encoder.layers[2],atten_block_weight_array_2)
-    set_layer_weight(model.model.encoder.layers[3],atten_block_weight_array_3)
-    set_layer_weight(model.model.encoder.layers[4],atten_block_weight_array_4)
-    set_layer_weight(model.model.encoder.layers[5],atten_block_weight_array_5)
+        set_layer_weight(model.model.encoder.layers[0],atten_block_weight_array_0)
+        set_layer_weight(model.model.encoder.layers[1],atten_block_weight_array_1)
+        set_layer_weight(model.model.encoder.layers[2],atten_block_weight_array_2)
+        set_layer_weight(model.model.encoder.layers[3],atten_block_weight_array_3)
+        set_layer_weight(model.model.encoder.layers[4],atten_block_weight_array_4)
+        set_layer_weight(model.model.encoder.layers[5],atten_block_weight_array_5)
 
-    bleu = compute_bleu_score(device, model, tokenizer,source_texts,target_texts)
-    bleu_scores.append(bleu)
+        bleu = compute_bleu_score(device, model, tokenizer,source_texts,target_texts)
+        bleu_scores.append(bleu)
+
+        pbar.update(1)
+
 
 print(bleu_scores)
 
@@ -100,7 +105,7 @@ print(bleu_scores)
 # original_atten_block_weight_array_decoder_4 = extract_weight_array(model.model.decoder.layers[4])
 # original_atten_block_weight_array_decoder_5 = extract_weight_array(model.model.decoder.layers[5])
 
-from tqdm import tqdm
+
 
 print('single matrix approximation')
 
