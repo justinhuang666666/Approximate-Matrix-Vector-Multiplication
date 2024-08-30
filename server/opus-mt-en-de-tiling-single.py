@@ -65,6 +65,8 @@ def get_tiled_layers(encoder_layers, tile_size):
         q = divide_matrix(weight_array[1], tile_size)
         v = divide_matrix(weight_array[2], tile_size)
 
+        print(len(k))
+
         # Create WeightArray objects for each tiled matrix
         kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
         qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
