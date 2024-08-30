@@ -72,7 +72,7 @@ for i in range(150):  #150
         atten_block_weight_array_5 = W5.iterative_approximation(1)
 
 from tqdm import tqdm
-with tqdm(total=len(18), desc='Processing', unit='iteration') as pbar:
+with tqdm(total=18, desc='Processing', unit='iteration') as pbar:
     for i in range(18): #18
         for i in range(5):  #5
             atten_block_weight_array_0 = W0.iterative_approximation(1)
@@ -107,12 +107,6 @@ print(bleu_scores)
 # original_atten_block_weight_array_decoder_3 = extract_weight_array(model.model.decoder.layers[3])
 # original_atten_block_weight_array_decoder_4 = extract_weight_array(model.model.decoder.layers[4])
 # original_atten_block_weight_array_decoder_5 = extract_weight_array(model.model.decoder.layers[5])
-
-
-
-print('single matrix approximation')
-
-tile_sizes = [32,64]#[32,64,128,256,512]
 
 # with tqdm(total=len(tile_sizes), desc='Processing', unit='iteration') as pbar:
 #     for tile_size in tile_sizes:
