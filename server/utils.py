@@ -95,13 +95,19 @@ def compute_character_fscore(device, model, tokenizer, source_texts, target_text
     return avg_fscore
 
 def extract_weight_array(layer):
-    atten_block = layer.self_attn
-    
-    k_weight = atten_block.k_proj.weight.detach().clone().numpy()
-    v_weight = atten_block.v_proj.weight.detach().clone().numpy()
-    q_weight = atten_block.q_proj.weight.detach().clone().numpy()
+    # Move the layer to GPU if available
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    layer = layer.to(device)
 
-    return [k_weight,v_weight,q_weight]
+    # Access the attention block
+    atten_block = layer.self_attn
+
+    # Detach and clone weights, staying in PyTorch and keeping tensors on GPU
+    k_weight = atten_block.k_proj.weight.detach().clone().to(device)
+    v_weight = atten_block.v_proj.weight.detach().clone().to(device)
+    q_weight = atten_block.q_proj.weight.detach().clone().to(device)
+
+    return [k_weight, v_weight, q_weight]
 
 def set_layer_weight(layer,atten_block_weight_array,quantizer=False,precision=32):
     layer.self_attn.k_proj.weight.data = torch.tensor(atten_block_weight_array[0],dtype=torch.float32)
