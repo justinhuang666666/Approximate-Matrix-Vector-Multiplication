@@ -105,7 +105,9 @@ with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
 
         pbar2.update(1)
 
-df = pd.DataFrame(results)
+df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
+
+# Save the concatenated DataFrame to CSV
 df.to_csv('single.csv', index=False)
 
 print("Results saved to 'single.csv'")
