@@ -82,7 +82,6 @@ def init_tiled_layers(encoder_layers, tile_size):
     return tiled_layers
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
-tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 from tqdm import tqdm
 
@@ -90,6 +89,7 @@ results = []
 
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
     for tile_size, step, skip in zip(tile_sizes, steps, skips):
+        tiled_layers = init_tiled_layers(encoder_layers, tile_size)
         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
             for i in range(step):
                 for j in range(len(tiled_layers)):
