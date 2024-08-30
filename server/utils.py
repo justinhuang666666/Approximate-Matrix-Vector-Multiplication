@@ -109,10 +109,11 @@ def extract_weight_array(layer):
 
     return [k_weight, v_weight, q_weight]
 
-def set_layer_weight(layer,atten_block_weight_array,quantizer=False,precision=32):
-    layer.self_attn.k_proj.weight.data = torch.tensor(atten_block_weight_array[0],dtype=torch.float32)
-    layer.self_attn.v_proj.weight.data = torch.tensor(atten_block_weight_array[1],dtype=torch.float32)
-    layer.self_attn.q_proj.weight.data = torch.tensor(atten_block_weight_array[2],dtype=torch.float32)
+def set_layer_weight(layer,atten_block_weight_array):
+    # Set the weights directly, using clone().detach() to avoid computation graph issues
+    layer.self_attn.k_proj.weight.data = atten_block_weight_array[0].clone().detach().to(torch.float32)
+    layer.self_attn.v_proj.weight.data = atten_block_weight_array[1].clone().detach().to(torch.float32)
+    layer.self_attn.q_proj.weight.data = atten_block_weight_array[2].clone().detach().to(torch.float32)
 
     return layer
 

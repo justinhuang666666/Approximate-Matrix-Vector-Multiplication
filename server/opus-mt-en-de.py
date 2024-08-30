@@ -32,8 +32,8 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-# baseline_bleu = compute_bleu_score(device,model, tokenizer, source_texts, target_texts)
-# print(baseline_bleu) 
+baseline_bleu = compute_bleu_score(device,model, tokenizer, source_texts, target_texts)
+print(baseline_bleu) 
 
 # baseline_fscore = compute_character_fscore(device,model, tokenizer, source_texts, target_texts)
 
@@ -58,7 +58,7 @@ mse = []
 bleu_scores = []
 compression_ratio = []
 
-for i in range(10):  #150
+for i in range(150):  #150
         atten_block_weight_array_0 = W0.iterative_approximation(1)
         atten_block_weight_array_1 = W1.iterative_approximation(1)
         atten_block_weight_array_2 = W2.iterative_approximation(1)
@@ -68,7 +68,7 @@ for i in range(10):  #150
 
 print(atten_block_weight_array_0)
 
-for i in range(2): #18
+for i in range(18): #18
     for i in range(5):  #5
         atten_block_weight_array_0 = W0.iterative_approximation(1)
         atten_block_weight_array_1 = W1.iterative_approximation(1)
