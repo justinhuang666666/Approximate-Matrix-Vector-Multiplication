@@ -77,7 +77,7 @@ for i in range(len(tiled_layers)):
         approximated_matrix_array.append(approximated_matrix)
 
     # Set the approximated matrices as weights for the model layer
-    set_layer_weight(approximated_matrix_array, model.model.encoder.layers[i])
+    set_layer_weight(model.model.encoder.layers[i],approximated_matrix_array)
 
 bleu = compute_bleu_score(device, model, tokenizer,source_texts,target_texts)
 print(bleu)
