@@ -126,44 +126,6 @@ def set_layer_weight(layer,atten_block_weight_array):
 
     return layer
 
-# def divide_matrix(matrix, tile_size):
-#     """
-#     Divide a square matrix into smaller square matrices of given tile size.
-
-#     Args:
-#         matrix (numpy.ndarray): The input square matrix.
-#         tile_size (int): The size of the smaller square matrices.
-
-#     Returns:
-#         List of numpy.ndarray: A list of smaller square matrices.
-
-#     Raises:
-#         ValueError: If the matrix size is not divisible by the tile size.
-#     """
-#     # Check if the matrix is square
-#     if matrix.shape[0] != matrix.shape[1]:
-#         raise ValueError("The input matrix must be square.")
-
-#     # Check if the matrix size is divisible by tile_size
-#     n = matrix.shape[0]
-#     if n % tile_size != 0:
-#         raise ValueError(f"The matrix size ({n}) is not divisible by the tile size ({tile_size}).")
-
-#     # Number of tiles along each dimension
-#     num_tiles = n // tile_size
-
-#     # Create a list to store the smaller matrices
-#     smaller_matrices = []
-
-#     # Divide the matrix into smaller matrices
-#     for i in range(num_tiles):
-#         for j in range(num_tiles):
-#             # Extract the sub-matrix of size tile_size x tile_size
-#             sub_matrix = matrix[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size]
-#             smaller_matrices.append(sub_matrix)
-
-#     return smaller_matrices
-
 import torch
 
 def divide_matrix(matrix, tile_size):

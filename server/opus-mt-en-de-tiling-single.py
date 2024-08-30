@@ -43,39 +43,6 @@ original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.e
 original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
 original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
-# def init_tiled_layers(encoder_layers, tile_size):
-#     """
-#     Generate tiled weight arrays for each encoder layer.
-
-#     Args:
-#         encoder_layers (List): List of encoder layers.
-#         tile_size (int): The size of the tiles for each weight matrix.
-
-#     Returns:
-#         List[List[WeightArray]]: A list containing tiled weight arrays for each encoder layer.
-#     """
-#     # Initialize a list to store tiled weight arrays for each layer
-#     tiled_layers = []
-
-#     # Iterate over each layer in the encoder and initialize the tiling
-#     for layer in encoder_layers:
-#         # Extract weight arrays for k, q, and v
-#         weight_array = extract_weight_array(layer)
-#         k = divide_matrix(weight_array[0], tile_size)
-#         q = divide_matrix(weight_array[1], tile_size)
-#         v = divide_matrix(weight_array[2], tile_size)
-
-#         # Create WeightArray objects for each tiled matrix
-#         kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
-#         qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
-#         vv = WeightArray(v, 'array', 0.001, 1, 1, tile_size, tile_size)
-
-#         # Append the initialized weight arrays to the tiled_layers list
-#         tiled_layers.append([kk, qq, vv])
-
-#     return tiled_layers
-
-# Example usage:
 tile_size = 64
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
@@ -83,6 +50,37 @@ print(len(tiled_layers[0]))
 print(tiled_layers[0][0])
 # Output the tiled layers
 print("Tiled layers:", tiled_layers)
+
+
+from tqdm import tqdm
+
+# Debugging using tqdm for progress visualization
+with tqdm(total=100, desc='Processing', unit='iteration') as pbar:
+    for step in range(100):
+        for i in range(len(tiled_layers)):
+            for j in range(len(tiled_layers[i])):  # Ensure the correct length is used
+                # Assuming iterative_approximation is defined within the WeightArray class
+                tiled_layers[i][j].iterative_approximation(1)
+        pbar.update(1)
+
+# Loop to merge approximated submatrices back into full matrices
+for i in range(len(tiled_layers)):
+    approximated_matrix_array = []
+    for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
+        # Access the current reconstructed submatrices
+        approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
+
+        # Merge submatrices back into the original sized matrix
+        approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
+
+        # Append the merged matrix to the array
+        approximated_matrix_array.append(approximated_matrix)
+
+    # Set the approximated matrices as weights for the model layer
+    set_layer_weight(approximated_matrix_array, model.model.encoder.layers[i])
+
+bleu = compute_bleu_score(device, model, tokenizer,source_texts,target_texts)
+print(bleu)
 
 
 
