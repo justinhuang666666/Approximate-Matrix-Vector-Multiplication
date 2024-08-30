@@ -106,9 +106,8 @@ class WeightArray:
             U_n, S_n, Vt_n = torch.svd(Wi)
             sigma1_n = S_n[0]
 
-            # Move tensors to CPU if needed before using them in NumPy operations
-            u1_n = U_n[:, 0].cpu() if U_n.is_cuda else U_n[:, 0]  # Ensure it's on CPU
-            v1_n = Vt_n[:, 0].cpu() if Vt_n.is_cuda else Vt_n[:, 0]  # Ensure it's on CPU
+            u1_n = U_n[:, 0]
+            v1_n = Vt_n[:, 0]
 
             # Update the binary mask matrix Fi using CPU tensors
             # Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
