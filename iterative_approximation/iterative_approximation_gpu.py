@@ -210,4 +210,4 @@ W32.init_precision(32)
 for i in range(10):
     for j in range(10):
         WW_32 = W32.iterative_approximation(1)
-        print(W32.average_mse_array()) 
+    print(W32.average_mse_array()) 
