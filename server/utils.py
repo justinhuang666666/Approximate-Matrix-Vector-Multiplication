@@ -11,12 +11,12 @@ import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 nltk.download('punkt_tab')
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# parent_dir = os.path.dirname(current_dir)
 
-# Add utility directories dynamically
-sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
-from iterative_approximation_gpu import *
+# # Add utility directories dynamically
+# sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
+# from iterative_approximation_gpu import *
 
 def to_device(tensor, device):
     return tensor.to(device) if tensor.device != device else tensor
@@ -325,38 +325,6 @@ def divide_matrix(matrix, tile_size):
 
     return smaller_matrices
 
-def init_tiled_layers(encoder_layers, tile_size):
-    """
-    Generate tiled weight arrays for each encoder layer.
-
-    Args:
-        encoder_layers (List): List of encoder layers.
-        tile_size (int): The size of the tiles for each weight matrix.
-
-    Returns:
-        List[List[WeightArray]]: A list containing tiled weight arrays for each encoder layer.
-    """
-    # Initialize a list to store tiled weight arrays for each layer
-    tiled_layers = []
-
-    # Iterate over each layer in the encoder and initialize the tiling
-    for layer in encoder_layers:
-        # Extract weight arrays for k, q, and v
-        weight_array = extract_weight_array(layer)
-        k = divide_matrix(weight_array[0], tile_size)
-        q = divide_matrix(weight_array[1], tile_size)
-        v = divide_matrix(weight_array[2], tile_size)
-
-        # Create WeightArray objects for each tiled matrix
-        kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
-        qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
-        vv = WeightArray(v, 'array', 0.001, 1, 1, tile_size, tile_size)
-
-        # Append the initialized weight arrays to the tiled_layers list
-        tiled_layers.append([kk, qq, vv])
-
-    return tiled_layers
-
 
 def merge_matrices(smaller_matrices, tile_size):
     """
@@ -395,69 +363,5 @@ def merge_matrices(smaller_matrices, tile_size):
 
     return merged_matrix
 
-
-def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
-    """
-    Evaluate the performance of a model with tiled layers of approximated submatrices.
-
-    Args:
-        tiled_layers (list): List of tiled layer objects containing approximated submatrices.
-        tile_size (int): Size of the tile used in the approximation.
-        model: The model object containing the encoder with layers to set weights.
-        tokenizer: The tokenizer used for encoding the source and target texts.
-        source_texts (list): List of source texts for BLEU and F-score evaluation.
-        target_texts (list): List of target texts for BLEU and F-score evaluation.
-        device (str): Device to use for evaluation ('cuda' or 'cpu').
-
-    Returns:
-        pd.DataFrame: DataFrame containing the evaluation metrics.
-    """
-    mse_array = []
-    compression_ratio_array = []
-    memory_footprint = 0
-
-    # Loop to merge approximated submatrices back into full matrices
-    for i in range(len(tiled_layers)):
-        approximated_matrix_array = []
-        for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
-            # Access the current reconstructed submatrices
-            approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
-
-            # Merge submatrices back into the original sized matrix
-            approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
-
-            # Append the merged matrix to the array
-            approximated_matrix_array.append(approximated_matrix)
-
-            # Collect MSE and update memory footprint
-            mse_array.append(tiled_layers[i][j].average_mse())
-            memory_footprint += tiled_layers[i][j].memory_footprint_compressed
-            compression_ratio_array.append(tiled_layers[i][j].memory_footprint_compressed / tiled_layers[i][j].memory_footprint_baseline)
-
-        # Set the approximated matrices as weights for the model layer
-        set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
-
-    # Calculate overall metrics
-    num_step = tiled_layers[-1][-1].steps
-    mse = sum(mse_array) / len(mse_array) if mse_array else 0
-    memory_footprint /= 8  # Convert bits to bytes
-    compression_ratio = sum(compression_ratio_array) / len(compression_ratio_array) if compression_ratio_array else 0
-
-    # Compute BLEU and F-score
-    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
-
-    # Compile results into a DataFrame
-    results = {
-        'Steps': [num_step],
-        'MSE': [mse],
-        'Memory Footprint (Bytes)': [memory_footprint],
-        'Compression Ratio': [compression_ratio],
-        'BLEU Score': [bleu],
-        'Character F-score': [fscore]
-    }
-    dataframe = pd.DataFrame(results)
-    
-    return dataframe
 
 

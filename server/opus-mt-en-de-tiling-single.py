@@ -44,6 +44,54 @@ original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.e
 original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
 
+tile_sizes = [32,64.128,256,512] #0.586
+steps = [19,38,76,152,304]
+skips = [1,2,4,8,16]
+
+tile_size = 32
+step = 19
+skip = 1
+
+def init_tiled_layers(encoder_layers, tile_size):
+    """
+    Generate tiled weight arrays for each encoder layer.
+
+    Args:
+        encoder_layers (List): List of encoder layers.
+        tile_size (int): The size of the tiles for each weight matrix.
+
+    Returns:
+        List[List[WeightArray]]: A list containing tiled weight arrays for each encoder layer.
+    """
+    # Initialize a list to store tiled weight arrays for each layer
+    tiled_layers = []
+
+    # Iterate over each layer in the encoder and initialize the tiling
+    for layer in encoder_layers:
+        # Extract weight arrays for k, q, and v
+        weight_array = extract_weight_array(layer)
+        k = divide_matrix(weight_array[0], tile_size)
+        q = divide_matrix(weight_array[1], tile_size)
+        v = divide_matrix(weight_array[2], tile_size)
+
+        # Create WeightArray objects for each tiled matrix
+        kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
+        qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
+        vv = WeightArray(v, 'array', 0.001, 1, 1, tile_size, tile_size)
+
+        # Append the initialized weight arrays to the tiled_layers list
+        tiled_layers.append([kk, qq, vv])
+
+    return tiled_layers
+
+encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
+tiled_layers = init_tiled_layers(encoder_layers, tile_size)
+
+from tqdm import tqdm
+
+results = []
+
+
 def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
     """
     Evaluate the performance of a model with tiled layers of approximated submatrices.
@@ -108,20 +156,6 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     
     return dataframe
 
-tile_sizes = [32,64.128,256,512] #0.586
-steps = [19,38,76,152,304]
-skips = [1,2,4,8,16]
-
-tile_size = 32
-step = 19
-skip = 1
-
-encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
-tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-
-from tqdm import tqdm
-
-results = []
 
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
     for i in range(step):
