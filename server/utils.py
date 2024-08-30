@@ -260,11 +260,12 @@ def mean_square_error_array1(array1, array2):
     
     return torch.mean(torch.tensor(MSE, device=device)).item()  # Return as a Python float
 
+
 def create_mask_vector(v1, NZ, Tc):
     """
     Creates a mask vector based on the input vector v1, the number of non-zero elements NZ,
-    and the group size Tc.
-    
+    and the group size Tc, optimized to run on GPU.
+
     Parameters:
     - v1: The input vector from the SVD (v1 vector of the rank-1 approximation).
     - NZ: The number of non-zero elements to keep in the mask.
@@ -278,28 +279,32 @@ def create_mask_vector(v1, NZ, Tc):
     # Validate inputs
     if NZ > len(v1) / Tc:
         raise ValueError('NZ cannot be larger than the number of elements in v1 divided by Tc')
+
+    # Move data to GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
-    # Initialize the compressed mask vector
-    compressed_fi = np.zeros(len(v1) // Tc)
+    # Convert v1 to a PyTorch tensor and move it to the GPU
+    v1 = torch.tensor(v1, device=device, dtype=torch.float32)
     
-    # Group v1 into parts with length Tc
-    v1_grouped = np.reshape(v1, (-1, Tc))
+    # Initialize the compressed mask vector as a tensor on the GPU
+    compressed_fi = torch.zeros(len(v1) // Tc, device=device)
     
-    # Compute the mean of each group
-    group_means = np.mean(np.abs(v1_grouped), axis=1)
+    # Group v1 into parts with length Tc and compute the mean of each group
+    v1_grouped = v1.reshape(-1, Tc)
+    group_means = torch.mean(torch.abs(v1_grouped), dim=1)
     
     # Find the indices of the NZ largest group means
-    selected_indices = np.argsort(group_means)[-NZ:]
+    selected_indices = torch.argsort(group_means, descending=True)[:NZ]
     
     # Set the corresponding elements in the compressed mask to 1
     compressed_fi[selected_indices] = 1
     
     # Repeat each element in compressed_fi Tc times to create fi
-    fi = np.repeat(compressed_fi, Tc)
+    fi = compressed_fi.repeat_interleave(Tc)
     
-    # Type cast fi and compressed_fi to int arrays
-    fi = fi.astype(int)
-    compressed_fi = compressed_fi.astype(int)
+    # Type cast fi and compressed_fi to int tensors
+    fi = fi.int()
+    compressed_fi = compressed_fi.int()
     
-    return fi, compressed_fi
-
+    # Return results as numpy arrays for compatibility with other non-tensor code
+    return fi.cpu().numpy(), compressed_fi.cpu().numpy()
