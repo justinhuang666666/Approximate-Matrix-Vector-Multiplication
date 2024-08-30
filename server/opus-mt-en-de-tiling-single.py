@@ -43,20 +43,15 @@ original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.e
 original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
 original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
-tile_size = 64
+tile_size = 512 #[32,64.128,256,512]
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-print(len(tiled_layers[0]))
-print(tiled_layers[0][0])
-# Output the tiled layers
-print("Tiled layers:", tiled_layers)
-
 
 from tqdm import tqdm
 
 # Debugging using tqdm for progress visualization
-with tqdm(total=100, desc='Processing', unit='iteration') as pbar:
-    for step in range(100):
+with tqdm(total=10, desc='Processing', unit='iteration') as pbar:
+    for step in range(10):
         for i in range(len(tiled_layers)):
             for j in range(len(tiled_layers[i])):  # Ensure the correct length is used
                 # Assuming iterative_approximation is defined within the WeightArray class
