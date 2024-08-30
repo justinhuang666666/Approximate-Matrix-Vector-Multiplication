@@ -74,16 +74,16 @@ class WeightArray:
                 'fro': lambda: print("Single matrix approximation does not support normalization."),
                 'spec': lambda: print("Single matrix approximation does not support normalization.")
             },
-            2: {
-                'none': self.iterative_approximation_group,
-                'fro': lambda: self.iterative_approximation_group_norm('fro'),
-                'spec': lambda: self.iterative_approximation_group_norm('spec')
-            },
-            3: {
-                'none': self.iterative_approximation_stack,
-                'fro': lambda: self.iterative_approximation_stack_norm('fro'),
-                'spec': lambda: self.iterative_approximation_stack_norm('spec')
-            }
+            # 2: {
+            #     'none': self.iterative_approximation_group,
+            #     'fro': lambda: self.iterative_approximation_group_norm('fro'),
+            #     'spec': lambda: self.iterative_approximation_group_norm('spec')
+            # },
+            # 3: {
+            #     'none': self.iterative_approximation_stack,
+            #     'fro': lambda: self.iterative_approximation_stack_norm('fro'),
+            #     'spec': lambda: self.iterative_approximation_stack_norm('spec')
+            # }
         }
 
         if method in method_mapping:
