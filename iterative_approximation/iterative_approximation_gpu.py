@@ -88,7 +88,7 @@ class WeightArray:
 
         if method in method_mapping:
             if norm in method_mapping[method]:
-                method_mapping[method][norm]()  # Call the appropriate function or action
+                return method_mapping[method][norm]()  # Call the appropriate function or action
             else:
                 print(unsupported_norm_message)
         else:
