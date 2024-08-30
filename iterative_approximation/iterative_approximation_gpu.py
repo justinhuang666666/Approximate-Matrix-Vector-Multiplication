@@ -114,11 +114,11 @@ class WeightArray:
             Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
             Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, self.NZr, self.Tr)
 
-            # If tensors need to be back on GPU, move them back
-            Fi_v_n = Fi_v_n.to(self.device)
-            Fi_u_n = Fi_u_n.to(self.device)
-            u1_n = u1_n.to(self.device)
-            v1_n = v1_n.to(self.device)
+            # # If tensors need to be back on GPU, move them back
+            # Fi_v_n = Fi_v_n.to(self.device)
+            # Fi_u_n = Fi_u_n.to(self.device)
+            # u1_n = u1_n.to(self.device)
+            # v1_n = v1_n.to(self.device)
 
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)
