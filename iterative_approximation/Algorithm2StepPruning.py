@@ -110,7 +110,7 @@ class WeightArrayStepPruning:
                 print(v1_n)
                 # print(sigma1_n)
 
-                u1_n_quantized = integer_quantize(sigma1_n*u1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
+                u1_n_quantized = integer_quantize(sigma1_n * u1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
                 v1_n_quantized = integer_quantize(v1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
                 # sigma1_n_quantized = integer_quantize(sigma1_n, width=self.precision, frac_width=self.precision-4, is_signed=True)
 
