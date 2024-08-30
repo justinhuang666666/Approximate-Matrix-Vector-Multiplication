@@ -12,10 +12,9 @@ parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'server'))
-sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
+# sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
 
 from utils import *
-
 
 class WeightArray:
     def __init__(self, weight, method, threshold, NZr, NZc, Tr, Tc):
