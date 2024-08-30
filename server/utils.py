@@ -200,6 +200,38 @@ def divide_matrix(matrix, tile_size):
 
     return smaller_matrices
 
+def init_tiled_layers(encoder_layers, tile_size):
+    """
+    Generate tiled weight arrays for each encoder layer.
+
+    Args:
+        encoder_layers (List): List of encoder layers.
+        tile_size (int): The size of the tiles for each weight matrix.
+
+    Returns:
+        List[List[WeightArray]]: A list containing tiled weight arrays for each encoder layer.
+    """
+    # Initialize a list to store tiled weight arrays for each layer
+    tiled_layers = []
+
+    # Iterate over each layer in the encoder and initialize the tiling
+    for layer in encoder_layers:
+        # Extract weight arrays for k, q, and v
+        weight_array = extract_weight_array(layer)
+        k = divide_matrix(weight_array[0], tile_size)
+        q = divide_matrix(weight_array[1], tile_size)
+        v = divide_matrix(weight_array[2], tile_size)
+
+        # Create WeightArray objects for each tiled matrix
+        kk = WeightArray(k, 'array', 0.001, 1, 1, tile_size, tile_size)
+        qq = WeightArray(q, 'array', 0.001, 1, 1, tile_size, tile_size)
+        vv = WeightArray(v, 'array', 0.001, 1, 1, tile_size, tile_size)
+
+        # Append the initialized weight arrays to the tiled_layers list
+        tiled_layers.append([kk, qq, vv])
+
+    return tiled_layers
+
 
 def merge_matrices(smaller_matrices, tile_size):
     """
