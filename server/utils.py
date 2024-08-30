@@ -9,6 +9,13 @@ import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 nltk.download('punkt_tab')
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
+from iterative_approximation_gpu import *
+
 def to_device(tensor, device):
     return tensor.to(device) if tensor.device != device else tensor
 
