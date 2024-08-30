@@ -3,6 +3,8 @@ from transformers import MarianMTModel, MarianTokenizer
 
 import json
 
+import numpy
+
 import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 nltk.download('punkt_tab')
