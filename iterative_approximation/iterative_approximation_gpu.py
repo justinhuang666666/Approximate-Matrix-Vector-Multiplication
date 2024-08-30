@@ -111,8 +111,8 @@ class WeightArray:
             v1_n = Vt_n[:, 0].cpu() if Vt_n.is_cuda else Vt_n[:, 0]  # Ensure it's on CPU
 
             # Update the binary mask matrix Fi using CPU tensors
-            Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
-            Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, self.NZr, self.Tr)
+            # Fi_v_n, compressed_Fi_v_n = create_mask_vector(v1_n, self.NZc, self.Tc)
+            # Fi_u_n, compressed_Fi_u_n = create_mask_vector(u1_n, self.NZr, self.Tr)
 
             # # If tensors need to be back on GPU, move them back
             # Fi_v_n = Fi_v_n.to(self.device)
@@ -121,8 +121,8 @@ class WeightArray:
             # v1_n = v1_n.to(self.device)
 
             # Update the weight matrix approximation with all tensors on the same device
-            reconstructed = RWi + sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)
-            residual = Wi - sigma1_n * torch.ger(Fi_u_n * u1_n, Fi_v_n * v1_n)
+            reconstructed = RWi + sigma1_n * torch.ger(u1_n, v1_n)
+            residual = Wi - sigma1_n * torch.ger(u1_n, v1_n)
 
             reconstructed_weight_array_step[idx] = reconstructed
             residual_weight_array_step[idx] = residual
