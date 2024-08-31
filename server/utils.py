@@ -407,6 +407,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
 
     # Calculate overall metrics
+    tile_size = tiled_layers[i][j].R
     num_step = tiled_layers[-1][-1].steps
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
     memory_footprint /= 8  # Convert bits to bytes
@@ -418,6 +419,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
 
     # Compile results into a DataFrame
     results = {
+        'Steps': [tile_size],
         'Steps': [num_step],
         'MSE': [mse],
         'Memory Footprint (Bytes)': [memory_footprint],
