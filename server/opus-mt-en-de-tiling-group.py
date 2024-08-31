@@ -167,16 +167,15 @@ def eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts,
     return dataframe
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
-tile_size = 32
-step = 50
-tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-
+# tile_size = 32
+# step = 50
+# tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 steps = [50,100,200,400,800]
 tile_sizes = [32,64,128,256,512]
 skips = [1,2,4,8,16]
 
-# from tqdm import tqdm
+
 # with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
 #     for i in range(step):
 #         for j in range(len(tiled_layers)):
@@ -190,6 +189,8 @@ skips = [1,2,4,8,16]
 # print(bleu)
 
 results = []
+
+from tqdm import tqdm
 
 with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for tile_size, step, skip in zip(tile_sizes, steps, skips):
