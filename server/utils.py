@@ -419,7 +419,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
 
     # Compile results into a DataFrame
     results = {
-        'Steps': [tile_size],
+        'Tile Size': [tile_size],
         'Steps': [num_step],
         'MSE': [mse],
         'Memory Footprint (Bytes)': [memory_footprint],
