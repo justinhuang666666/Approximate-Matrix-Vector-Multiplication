@@ -45,10 +45,6 @@ original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.e
 original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
 
 
-tile_sizes = [32,64,128,256,512]
-steps = [19,38,76,152,304]
-skips = [1,2,4,8,16]
-
 def init_tiled_layers(encoder_layers, tile_size):
     """
     Generate tiled weight arrays for each encoder layer.
@@ -116,48 +112,106 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
     return model
 
+def eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
+    """
+    Evaluate the performance of a model with tiled layers of approximated submatrices.
+
+    Args:
+        tiled_layers (list): List of tiled layer objects containing approximated submatrices.
+        tile_size (int): Size of the tile used in the approximation.
+        model: The model object containing the encoder with layers to set weights.
+        tokenizer: The tokenizer used for encoding the source and target texts.
+        source_texts (list): List of source texts for BLEU and F-score evaluation.
+        target_texts (list): List of target texts for BLEU and F-score evaluation.
+        device (str): Device to use for evaluation ('cuda' or 'cpu').
+
+    Returns:
+        pd.DataFrame: DataFrame containing the evaluation metrics.
+    """
+    mse_array = []
+    memory_footprint = 0
+
+    # Loop to merge approximated submatrices back into full matrices
+    for i in range(len(tiled_layers)):
+        for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
+            # Collect MSE and update memory footprint
+            mse_array.append(tiled_layers[i][j].average_mse())
+            memory_footprint += tiled_layers[i][j].memory_footprint_compressed
+
+    model = reverse_tiling(model, tiled_layers, tile_size)
+
+    # Calculate overall metrics
+    tile_size = tiled_layers[i][j].R
+    num_step = tiled_layers[i][j].steps
+    mse = sum(mse_array) / len(mse_array) if mse_array else 0
+    memory_footprint /= 8  # Convert bits to bytes
+    compression_ratio = tiled_layers[i][j].compression_ratio()
+
+    # Compute BLEU and F-score
+    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+
+    # Compile results into a DataFrame
+    results = {
+        'Tile Size': [tile_size],
+        'Steps': [num_step],
+        'MSE': [mse],
+        'Memory Footprint (Bytes)': [memory_footprint],
+        'Compression Ratio': [compression_ratio],
+        'BLEU Score': [bleu],
+        'Character F-score': [fscore]
+    }
+
+    dataframe = pd.DataFrame(results)
+    
+    return dataframe
+
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tile_size = 32
 step = 50
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 
-from tqdm import tqdm
-with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
-    for i in range(step):
-        for j in range(len(tiled_layers)):
-            for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
-                # Assuming iterative_approximation is defined within the WeightArray class
-                tiled_layers[j][k].iterative_approximation(2)
-        pbar1.update(1)    
+steps = [50,100,200,400,800]
+tile_sizes = [32,64,128,256,512]
+skips = [1,2,4,8,16]
 
-model = reverse_tiling(model, tiled_layers, tile_size)
-bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print(bleu)
+# from tqdm import tqdm
+# with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
+#     for i in range(step):
+#         for j in range(len(tiled_layers)):
+#             for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
+#                 # Assuming iterative_approximation is defined within the WeightArray class
+#                 tiled_layers[j][k].iterative_approximation(2)
+#         pbar1.update(1)    
+
+# model = reverse_tiling(model, tiled_layers, tile_size)
+# bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print(bleu)
 
 results = []
 
-# with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
-#     for tile_size, step, skip in zip(tile_sizes, steps, skips):
-#         tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-#         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-#             for i in range(step):
-#                 for j in range(len(tiled_layers)):
-#                     for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
-#                         # Assuming iterative_approximation is defined within the WeightArray class
-#                         tiled_layers[j][k].iterative_approximation(1)
+with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
+    for tile_size, step, skip in zip(tile_sizes, steps, skips):
+        tiled_layers = init_tiled_layers(encoder_layers, tile_size)
+        with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+            for i in range(step):
+                for j in range(len(tiled_layers)):
+                    for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
+                        # Assuming iterative_approximation is defined within the WeightArray class
+                        tiled_layers[j][k].iterative_approximation(2)
 
-#                 if(i%skip==0):
-#                     result = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
-#                     results.append(result)
+                if(i%skip==0):
+                    result = eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
+                    results.append(result)
 
-#                 pbar2.update(1)
-#             pbar1.update(1)
+                pbar2.update(1)
+            pbar1.update(1)
     
 
-# df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
+df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
-# # Save the concatenated DataFrame to CSV
-# df.to_csv('single.csv', index=False)
+# Save the concatenated DataFrame to CSV
+df.to_csv('group.csv', index=False)
 
-# print("Results saved to 'single.csv'")
+print("Results saved to 'group.csv'")
