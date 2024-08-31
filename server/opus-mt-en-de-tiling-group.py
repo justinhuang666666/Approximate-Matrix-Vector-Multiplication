@@ -118,7 +118,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tile_size = 32
-step = 10
+step = 100
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 
