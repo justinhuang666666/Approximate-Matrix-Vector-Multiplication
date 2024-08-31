@@ -112,7 +112,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
         weight_array = [k, q, v]
 
         # Append the merged weight array to the original layers list
-        set_weight(model.model.encoder.layers[i],weight_array)
+        set_layer_weight(model.model.encoder.layers[i],weight_array)
 
     return model
 
