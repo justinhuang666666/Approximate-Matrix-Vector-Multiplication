@@ -73,11 +73,11 @@ class WeightArray:
                 'fro': lambda: print("Single matrix approximation does not support normalization."),
                 'spec': lambda: print("Single matrix approximation does not support normalization.")
             },
-            # 2: {
-            #     'none': self.iterative_approximation_group,
-            #     'fro': lambda: self.iterative_approximation_group_norm('fro'),
-            #     'spec': lambda: self.iterative_approximation_group_norm('spec')
-            # },
+            2: {
+                'none': self.iterative_approximation_group,
+                'fro': lambda: self.iterative_approximation_group_norm('fro'),
+                'spec': lambda: self.iterative_approximation_group_norm('spec')
+            }#,
             # 3: {
             #     'none': self.iterative_approximation_stack,
             #     'fro': lambda: self.iterative_approximation_stack_norm('fro'),
@@ -134,6 +134,75 @@ class WeightArray:
         self.cal_memory_footprint_compressed_array()
         
         return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array_step]
+        
+    def iterative_approximation_group(self):
+        residual_weight_array = self.current_residual_weight_array
+
+        reconstructed_weight_array = self.current_reconstructed_weight_array
+
+        # Compute the summation matrix using GPU
+        summation_matrix = sum(W @ W.T for W in residual_weight_array)
+
+        # Perform SVD on the summation matrix
+        U, S, Vt = torch.linalg.svd(summation_matrix, full_matrices=False)
+        u = U[:, 0]
+
+        # Compute W_hat on the GPU
+        W_hat = torch.stack([W.T @ u for W in residual_weight_array], dim=1)
+        U, S, Vt = torch.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+        v = Vt[0, :]
+
+        # Initialize previous vectors and thresholds
+        u_previous = torch.zeros_like(u)
+        v_previous = torch.zeros_like(v)
+
+        threshold = self.threshold
+        u_diff = threshold + 1
+        v_diff = threshold + 1
+
+        count = 0
+
+        # Iterative approximation loop
+        while u_diff > threshold or v_diff > threshold:
+            W_hat = torch.stack([W @ v for W in residual_weight_array], dim=1)
+            U, S, Vt = torch.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            u = U[:, 0]
+
+            W_hat = torch.stack([W.T @ u for W in residual_weight_array], dim=1)
+            U, S, Vt = torch.linalg.svd(W_hat @ W_hat.T, full_matrices=False)
+            v = Vt[0, :]
+
+            # Compute mean square error using GPU tensors
+            u_diff = torch.mean((u - u_previous) ** 2).item()
+            v_diff = torch.mean((v - v_previous) ** 2).item()
+
+            u_previous = u
+            v_previous = v
+            count += 1
+            if count > 200:
+                break
+
+        # # Convert back to CPU for further processing (if needed)
+        # Fi_v, compressed_Fi_v = create_mask_vector(v_previous.cpu().numpy(), self.NZc, self.Tc)
+        # Fi_u, compressed_Fi_u = create_mask_vector(u_previous.cpu().numpy(), self.NZr, self.Tr)
+
+        # Compute A_j and lambda_i_array on GPU
+        A_j = torch.outer(u_previous, v_previous)
+        lambda_i_array = [v_previous.T @ W.T @ u_previous for W in residual_weight_array]
+
+        # Update residual and reconstructed weight arrays on GPU
+        residual_weight_array = [W - lmbda * A_j for W, lmbda in zip(residual_weight_array, lambda_i_array)]
+        reconstructed_weight_array = [RW + lmbda * A_j for RW, lmbda in zip(reconstructed_weight_array, lambda_i_array)]
+
+        # Update class variables
+        self.current_reconstructed_weight_array = [RW for RW in reconstructed_weight_array]
+        self.current_residual_weight_array = [W for W in residual_weight_array]
+        self.steps += 1
+        self.num_group.append(1)
+        self.cal_memory_footprint_compressed_array()
+
+        # Return reconstructed weight array, sliced to dimensions R and C
+        return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array]
 
     def cal_memory_footprint_baseline_array(self):     
         self.memory_footprint_baseline = len(self.original_weight_array) * self.R * self.C * self.precision 
@@ -197,16 +266,16 @@ class WeightArray:
             self.current_reconstructed_weight= np.hstack((self.current_reconstructed_weight, np.zeros((self.current_reconstructed_weight.shape[0], Tc - pad_cols))))
             self.current_residual_weight= np.hstack((self.current_residual_weight, np.zeros((self.current_residual_weight.shape[0], Tc - pad_cols))))
 
-# random_matrix1 = np.random.rand(512, 512)
-# random_matrix2 = np.random.rand(512, 512)
-# random_matrix3 = np.random.rand(512, 512)
+random_matrix1 = np.random.rand(512, 512)
+random_matrix2 = np.random.rand(512, 512)
+random_matrix3 = np.random.rand(512, 512)
 
-# W = [random_matrix1,random_matrix2,random_matrix3]
+W = [random_matrix1,random_matrix2,random_matrix3]
 
-# W32 = WeightArray(W,'array',0.001,1,1,512,512)
-# W32.init_precision(32)
+W32 = WeightArray(W,'array',0.001,1,1,512,512)
+W32.init_precision(32)
 
-# for i in range(10):
-#     for j in range(10):
-#         WW_32 = W32.iterative_approximation(1)
-#     print(W32.average_mse_array()) 
+for i in range(10):
+    for j in range(10):
+        WW_32 = W32.iterative_approximation(2)
+    print(W32.average_mse_array()) 
