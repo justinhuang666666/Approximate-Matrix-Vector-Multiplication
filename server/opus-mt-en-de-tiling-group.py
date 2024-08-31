@@ -118,7 +118,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tile_size = 32
-step = 100
+step = 50
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 
@@ -135,10 +135,7 @@ model = reverse_tiling(model, tiled_layers, tile_size)
 bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
 print(bleu)
 
-
-# from tqdm import tqdm
-
-# results = []
+results = []
 
 # with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
 #     for tile_size, step, skip in zip(tile_sizes, steps, skips):
