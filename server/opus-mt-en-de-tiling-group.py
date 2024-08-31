@@ -118,14 +118,18 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tile_size = 32
-step = 500
+step = 10
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-for i in range(step):
-    for j in range(len(tiled_layers)):
-        for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
-            # Assuming iterative_approximation is defined within the WeightArray class
-            tiled_layers[j][k].iterative_approximation(2)
 
+
+from tqdm import tqdm
+with tqdm(total=len(step), desc='Processing', unit='iteration') as pbar1:
+    for i in range(step):
+        for j in range(len(tiled_layers)):
+            for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
+                # Assuming iterative_approximation is defined within the WeightArray class
+                tiled_layers[j][k].iterative_approximation(2)
+        pbar1.update(1)    
 
 model = reverse_tiling(model, tiled_layers, tile_size)
 bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
