@@ -123,7 +123,7 @@ tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
 
 from tqdm import tqdm
-with tqdm(total=len(step), desc='Processing', unit='iteration') as pbar1:
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
     for i in range(step):
         for j in range(len(tiled_layers)):
             for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
