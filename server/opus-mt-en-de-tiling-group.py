@@ -79,7 +79,7 @@ def init_tiled_layers(encoder_layers, tile_size):
             layer_array.append(array)
 
         # Append the initialized weight arrays to the tiled_layers list
-        tiled_layers.append(arr)
+        tiled_layers.append(layer_array)
 
     return tiled_layers
 
@@ -118,7 +118,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 tile_size = 32
-step = 300
+step = 500
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 for i in range(step):
     for j in range(len(tiled_layers)):
