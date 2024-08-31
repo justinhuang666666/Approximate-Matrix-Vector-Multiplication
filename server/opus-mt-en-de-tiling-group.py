@@ -99,9 +99,9 @@ def reverse_tiling(model, tiled_layers, tile_size):
     # Iterate over each layer's tiled weights
     for i, layer_array in enumerate(tiled_layers):
         # Extract the k, q, v tiled matrices
-        k_tiles = [array[0] for array in layer_array]
-        q_tiles = [array[1] for array in layer_array]
-        v_tiles = [array[2] for array in layer_array]
+        k_tiles = [array.current_reconstructed_weight[0] for array in layer_array]
+        q_tiles = [array.current_reconstructed_weight[1] for array in layer_array]
+        v_tiles = [array.current_reconstructed_weight[2] for array in layer_array]
 
         # Merge the tiles back into the original matrices
         k = merge_matrix(k_tiles, tile_size)
