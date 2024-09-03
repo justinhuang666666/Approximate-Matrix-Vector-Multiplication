@@ -426,14 +426,10 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     for i in range(len(tiled_layers)):
         approximated_matrix_array = []
         layer_absolute_error = []
-        print("number of layers",len(tiled_layers))
         for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
-            print("number of weights",len(tiled_layers[i]))
             approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
             error = cal_absolute_error(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array)
             layer_absolute_error.append(error)
-            print("number of tiles",len(error))
-            print("number of errors",len(error[0]))
             # Merge submatrices back into the original sized matrix
             approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
 
