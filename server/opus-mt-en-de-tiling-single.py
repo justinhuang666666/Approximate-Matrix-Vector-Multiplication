@@ -77,7 +77,8 @@ encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example en
 
 from tqdm import tqdm
 
-results = []
+metrics_results = []
+absolute_error_results = []
 
 with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for tile_size, step, skip in zip(tile_sizes, steps, skips):
@@ -90,16 +91,24 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
                         tiled_layers[j][k].iterative_approximation(1)
 
                 if(i%skip==0):
-                    result = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
-                    results.append(result)
+                    metrics_dataframe,absolute_error_dataframe = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
+                    metrics_results.append(metrics_dataframe)
+                    absolute_error_results.append(absolute_error_dataframe)
 
                 pbar2.update(1)
         pbar1.update(1)
     
 
-df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
+df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
 # Save the concatenated DataFrame to CSV
 df.to_csv('single.csv', index=False)
 
-print("Results saved to 'single.csv'")
+print("metrics_results saved to 'single.csv'")
+
+df = pd.concat(absolute_error_results, ignore_index=True)  # Correct way to combine DataFrames in a list
+
+# Save the concatenated DataFrame to CSV
+df.to_csv('single_error.csv', index=False)
+
+print("absolute_error_results saved to 'single_error.csv'")

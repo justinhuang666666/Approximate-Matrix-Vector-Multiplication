@@ -9,6 +9,8 @@ import numpy as np
 
 import pandas as pd
 
+import torch
+
 import nltk
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 nltk.download('punkt_tab')
@@ -133,6 +135,35 @@ def mean_square_error_array1(array1, array2):
     MSE = [(a1 - a2).pow(2).mean() for a1, a2 in zip(array1, array2)]
     
     return torch.mean(torch.stack(MSE)).item()  # Return as a Python float
+
+def calculate_absolute_errors(arr1, arr2):
+    """
+    Calculate absolute errors between corresponding matrices in two arrays.
+
+    Parameters:
+    - arr1: List of PyTorch tensors (matrices) on GPU.
+    - arr2: List of PyTorch tensors (matrices) on GPU.
+
+    Returns:
+    - errors: List of absolute errors between corresponding matrices.
+    """
+    # Check if inputs are of the same length
+    if len(arr1) != len(arr2):
+        raise ValueError("Both arrays must have the same length.")
+
+    # Ensure all tensors are on the GPU
+    arr1 = [tensor.to('cuda') for tensor in arr1]
+    arr2 = [tensor.to('cuda') for tensor in arr2]
+
+    # Calculate absolute errors
+    errors = []
+    for tensor1, tensor2 in zip(arr1, arr2):
+        # Calculate absolute error
+        error = torch.nn.functional.l1_loss(tensor1, tensor2, reduction='mean')
+        # Append error to the result list
+        errors.append(error.item())
+
+    return errors
 
 def create_mask_vector(v1, NZ, Tc):
     """
@@ -282,7 +313,7 @@ def set_layer_weight(layer,atten_block_weight_array):
 
     return layer
 
-import torch
+
 
 def divide_matrix(matrix, tile_size):
     """
@@ -386,54 +417,68 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     compression_ratio_array = []
     memory_footprint = 0
 
+    absolute_error = []
+    absolute_error_records = []
+
     # Loop to merge approximated submatrices back into full matrices
     for i in range(len(tiled_layers)):
         approximated_matrix_array = []
+        layer_absolute_error = []
         for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
             # Access the current reconstructed submatrices
             approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
-
+            layer_absolute_error.append(calculate_absolute_errors(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array))
             # Merge submatrices back into the original sized matrix
             approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
 
             # Append the merged matrix to the array
             approximated_matrix_array.append(approximated_matrix)
-
-            # Collect MSE and update memory footprint
-            mse_array.append(tiled_layers[i][j].average_mse())
             
             memory_footprint += tiled_layers[i][j].memory_footprint_compressed
             
-        mse_check_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),approximated_matrix_array))
+        mse_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),approximated_matrix_array))
         # Set the approximated matrices as weights for the model layer
         set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
+        absolute_error.append(layer_absolute_error)
 
     # Calculate overall metrics
     tile_size = tiled_layers[i][j].R
     num_step = tiled_layers[-1][-1].steps
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
-    mse_check = sum(mse_check_array) / len(mse_check_array) if mse_check_array else 0
     memory_footprint /= 8  # Convert bits to bytes
     compression_ratio = tiled_layers[i][j].compression_ratio()
 
     # Compute BLEU and F-score
-    bleu = 0#compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = 0#compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
     results = {
         'Tile Size': [tile_size],
         'Steps': [num_step],
         'MSE': [mse],
-        'MSE Check': [mse_check],
         'Memory Footprint (Bytes)': [memory_footprint],
         'Compression Ratio': [compression_ratio],
         'BLEU Score': [bleu],
         'Character F-score': [fscore]
     }
-    dataframe = pd.DataFrame(results)
+
+    for layer_idx, layer_error in enumerate(absolute_error):
+        for matrix_idx, matrix_error in enumerate(layer_error):
+            for tile_idx, tile_error in enumerate(matrix_error):
+                absolute_error_records.append({
+                    'Tile Size': [tile_size],
+                    'Steps': [num_step],
+                    'Layer': layer_idx,  # Assuming layers are 1-indexed
+                    'Matrix': matrix_idx,   # Assuming tiles are 1-indexed
+                    'Tile': tile_idx,
+                    'Absolute Error': tile_error
+                })
+                
+    metrics_dataframe = pd.DataFrame(results)
+    absolute_error_dataframe = pd.DataFrame(absolute_error_records)
     
-    return dataframe
+    return metrics_dataframe,absolute_error_dataframe
 
 
 
