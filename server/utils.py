@@ -161,7 +161,7 @@ def cal_absolute_error(arr1, arr2):
         error = tensor1 - tensor2  # Elementwise error
 
         # Reshape error to a 1D array (flatten if necessary)
-        reshaped_error = error.view(-1).numpy()  # Convert to 1D array
+        reshaped_error = error.view(-1)  # Convert to 1D array
 
         # Append reshaped error to the result list
         errors.append(reshaped_error)
