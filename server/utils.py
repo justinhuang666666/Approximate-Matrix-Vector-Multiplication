@@ -158,10 +158,14 @@ def cal_absolute_error(arr1, arr2):
     # Calculate absolute errors
     errors = []
     for tensor1, tensor2 in zip(arr1, arr2):
-        # Calculate absolute error
-        error = torch.nn.functional.l1_loss(tensor1, tensor2, reduction='mean')
-        # Append error to the result list
-        errors.append(error.item())
+        error = tensor1 - tensor2  # Elementwise error
+
+        # Reshape error to a 1D array (flatten if necessary)
+        reshaped_error = error.view(-1).numpy()  # Convert to 1D array
+
+        # Append reshaped error to the result list
+        errors.append(reshaped_error)
+
 
     return errors
 
@@ -430,7 +434,8 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
             approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
             error = cal_absolute_error(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array)
             layer_absolute_error.append(error)
-            print("errors",len(error))
+            print("number of tiles",len(error))
+            print("number of errors",len(error[0]))
             # Merge submatrices back into the original sized matrix
             approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
 
