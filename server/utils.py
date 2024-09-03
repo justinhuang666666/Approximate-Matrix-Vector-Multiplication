@@ -382,6 +382,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         pd.DataFrame: DataFrame containing the evaluation metrics.
     """
     mse_array = []
+    mse_check_array = []
     compression_ratio_array = []
     memory_footprint = 0
 
@@ -400,9 +401,10 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
 
             # Collect MSE and update memory footprint
             mse_array.append(tiled_layers[i][j].average_mse())
+            
             memory_footprint += tiled_layers[i][j].memory_footprint_compressed
             
-
+        mse_check_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),approximated_matrix_array))
         # Set the approximated matrices as weights for the model layer
         set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
 
@@ -410,6 +412,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     tile_size = tiled_layers[i][j].R
     num_step = tiled_layers[-1][-1].steps
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
+    mse_check = sum(mse_check_array) / len(mse_check_array) if mse_check_array else 0
     memory_footprint /= 8  # Convert bits to bytes
     compression_ratio = tiled_layers[i][j].compression_ratio()
 
@@ -422,6 +425,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         'Tile Size': [tile_size],
         'Steps': [num_step],
         'MSE': [mse],
+        'MSE Check': [mse_check],
         'Memory Footprint (Bytes)': [memory_footprint],
         'Compression Ratio': [compression_ratio],
         'BLEU Score': [bleu],
