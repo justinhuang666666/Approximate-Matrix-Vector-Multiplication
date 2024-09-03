@@ -417,8 +417,8 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     compression_ratio = tiled_layers[i][j].compression_ratio()
 
     # Compute BLEU and F-score
-    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+    bleu = 0#compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+    fscore = 0#compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
     results = {

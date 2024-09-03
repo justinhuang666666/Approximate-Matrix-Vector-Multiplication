@@ -207,7 +207,7 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
                     results.append(result)
 
                 pbar2.update(1)
-            pbar1.update(1)
+        pbar1.update(1)
     
 
 df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list

@@ -37,14 +37,6 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-original_atten_block_weight_array_encoder_0 = extract_weight_array(model.model.encoder.layers[0])
-original_atten_block_weight_array_encoder_1 = extract_weight_array(model.model.encoder.layers[1])
-original_atten_block_weight_array_encoder_2 = extract_weight_array(model.model.encoder.layers[2])
-original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.encoder.layers[3])
-original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
-original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
-
-
 tile_sizes = [32,64] #[32,64,128,256,512]
 steps = [4,8] #[19,38,76,152,304]
 skips = [1,2] #[1,2,4,8,16]
@@ -102,7 +94,7 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
                     results.append(result)
 
                 pbar2.update(1)
-            pbar1.update(1)
+        pbar1.update(1)
     
 
 df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
