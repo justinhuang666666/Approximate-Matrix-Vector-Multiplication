@@ -165,8 +165,6 @@ def cal_absolute_error(arr1, arr2):
 
         # Append reshaped error to the result list
         errors.append(reshaped_error)
-
-
     return errors
 
 def create_mask_vector(v1, NZ, Tc):
@@ -480,7 +478,7 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
                     'Layer': layer_idx,  # Assuming layers are 1-indexed
                     'Matrix': matrix_idx,   # Assuming tiles are 1-indexed
                     'Tile': tile_idx,
-                    'Absolute Error': tile_error
+                    'Absolute Error': tile_error.cpu().numpy()
                 })
 
     metrics_dataframe = pd.DataFrame(results)
