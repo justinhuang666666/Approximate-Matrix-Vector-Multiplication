@@ -37,9 +37,9 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-tile_sizes = [32,64] #[32,64,128,256,512]
-steps = [4,8] #[19,38,76,152,304]
-skips = [1,2] #[1,2,4,8,16]
+tile_sizes = [32,64,128,256,512]
+steps = [19,38,76,152,304]
+skips = [1,2,4,8,16]
 
 def init_tiled_layers(encoder_layers, tile_size):
     """
