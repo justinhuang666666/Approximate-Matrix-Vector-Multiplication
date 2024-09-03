@@ -136,7 +136,7 @@ def mean_square_error_array1(array1, array2):
     
     return torch.mean(torch.stack(MSE)).item()  # Return as a Python float
 
-def calculate_absolute_errors(arr1, arr2):
+def absolute_error(arr1, arr2):
     """
     Calculate absolute errors between corresponding matrices in two arrays.
 
@@ -424,10 +424,13 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
     for i in range(len(tiled_layers)):
         approximated_matrix_array = []
         layer_absolute_error = []
+        print("number of layers",len(tiled_layers))
         for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
-            # Access the current reconstructed submatrices
+            print("number of weights",len(tiled_layers[i]))
             approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
-            layer_absolute_error.append(calculate_absolute_errors(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array))
+            error = absolute_error(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array)
+            layer_absolute_error.append(error)
+            print("errors",len(error))
             # Merge submatrices back into the original sized matrix
             approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
 
