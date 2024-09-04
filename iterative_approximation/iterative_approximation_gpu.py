@@ -214,10 +214,10 @@ class WeightArray:
         # Call the method to calculate memory footprint
         self.cal_memory_footprint_compressed_weight()
 
-        return [reconstructed[i*(i+1)*self.R:(i+1)*self.R, 0:self.C] for i in range(self.num_weights)]
+        return [reconstructed[i*self.R:(i+1)*self.R, 0:self.C] for i in range(self.num_weights)]
     
     def reconstructed_weight(self):
-        return [self.current_reconstructed_weight[i*(i+1)*self.R:(i+1)*self.R, 0:self.C] for i in range(self.num_weights)]
+        return [self.current_reconstructed_weight[i*self.R:(i+1)*self.R, 0:self.C] for i in range(self.num_weights)]
 
     def cal_memory_footprint_baseline_array(self):     
         self.memory_footprint_baseline = len(self.original_weight_array) * self.R * self.C * self.precision 
