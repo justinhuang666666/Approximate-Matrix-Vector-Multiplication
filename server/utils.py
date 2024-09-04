@@ -415,21 +415,13 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         pd.DataFrame: DataFrame containing the evaluation metrics.
     """
     mse_array = []
-    mse_check_array = []
-    compression_ratio_array = []
     memory_footprint = 0
-
-    absolute_error = []
-    absolute_error_records = []
 
     # Loop to merge approximated submatrices back into full matrices
     for i in range(len(tiled_layers)):
         approximated_matrix_array = []
-        layer_absolute_error = []
         for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
             approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
-            error = cal_absolute_error(tiled_layers[i][j].original_weight_array,tiled_layers[i][j].current_reconstructed_weight_array)
-            layer_absolute_error.append(error)
             # Merge submatrices back into the original sized matrix
             approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
 
@@ -441,7 +433,6 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         mse_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),approximated_matrix_array))
         # Set the approximated matrices as weights for the model layer
         set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
-        absolute_error.append(layer_absolute_error)
 
     # Calculate overall metrics
     tile_size = tiled_layers[i][j].R
@@ -465,22 +456,38 @@ def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, 
         'Character F-score': [fscore]
     }
 
-    for layer_idx, layer_error in enumerate(absolute_error):
-        for matrix_idx, matrix_error in enumerate(layer_error):
-            for tile_idx, tile_error in enumerate(matrix_error):
-                absolute_error_records.append({
-                    'Tile Size': [tile_size],
-                    'Steps': [num_step],
-                    'Layer': layer_idx,  # Assuming layers are 1-indexed
-                    'Matrix': matrix_idx,   # Assuming tiles are 1-indexed
-                    'Tile': tile_idx,
-                    'Absolute Error': tile_error.cpu().numpy()
-                })
-
     metrics_dataframe = pd.DataFrame(results)
+
+    return metrics_dataframe
+
+
+def eval_abs_error(tiled_layers, tile_size, num_step):
+    absolute_error_records = {
+        'Tile Size': [],
+        'Steps': [],
+        'Layer': [],
+        'Matrix': [],
+        'Tile': [],
+        'Absolute Error': []
+    }
+
+    for layer_idx, layer in enumerate(tiled_layers):
+        for matrix_idx, matrix in enumerate(layer):
+            errors = cal_absolute_error(matrix.original_weight_array, matrix.current_reconstructed_weight_array)
+            for tile_idx, tile_error in enumerate(errors):
+                for error_idx, error in enumerate(tile_error):
+                    absolute_error_records['Tile Size'].append(tile_size)
+                    absolute_error_records['Steps'].append(num_step)
+                    absolute_error_records['Layer Index'].append(layer_idx)
+                    absolute_error_records['Matrix Index'].append(matrix_idx)
+                    absolute_error_records['Tile Index'].append(tile_idx)
+                    absolute_error_records['Error Index'].append(error_idx)
+                    absolute_error_records['Absolute Error'].append(error.cpu().numpy())
+
     absolute_error_dataframe = pd.DataFrame(absolute_error_records)
+
+    return absolute_error_dataframe
     
-    return metrics_dataframe,absolute_error_dataframe
 
 
 
