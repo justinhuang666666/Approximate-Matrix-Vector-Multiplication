@@ -95,7 +95,7 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
         metrics_dataframe = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
         absolute_error_dataframe = eval_abs_error(tiled_layers, tile_size, step)
         metrics_results.append(metrics_dataframe)
-        df.to_csv(f'single1_error_{tile_size}.csv', index=False)
+        absolute_error_dataframe.to_csv(f'single1_error_{tile_size}.csv', index=False)
         print(f"metrics_results saved to 'single1_error{tile_size}.csv'")
         pbar1.update(1)
 
