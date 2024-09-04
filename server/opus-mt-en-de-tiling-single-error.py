@@ -38,8 +38,8 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 tile_sizes = [32,64,128,256,512]
-steps = [11,21,45,89,161]
-skips = [11,21,45,89,161]
+steps = [13,29,57,121,289]
+skips = [13,29,57,121,289]
 
 def init_tiled_layers(encoder_layers, tile_size):
     """
