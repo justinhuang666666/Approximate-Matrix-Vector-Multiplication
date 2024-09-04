@@ -95,6 +95,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
             print(array)
             stacked = array.reconstructed_weight()
             print(len(stacked))
+            print(stacked[0])
             k_tiles.append(stacked[0])
             q_tiles.append(stacked[1])
             v_tiles.append(stacked[2])
