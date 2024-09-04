@@ -37,14 +37,6 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-original_atten_block_weight_array_encoder_0 = extract_weight_array(model.model.encoder.layers[0])
-original_atten_block_weight_array_encoder_1 = extract_weight_array(model.model.encoder.layers[1])
-original_atten_block_weight_array_encoder_2 = extract_weight_array(model.model.encoder.layers[2])
-original_atten_block_weight_array_encoder_3 = extract_weight_array(model.model.encoder.layers[3])
-original_atten_block_weight_array_encoder_4 = extract_weight_array(model.model.encoder.layers[4])
-original_atten_block_weight_array_encoder_5 = extract_weight_array(model.model.encoder.layers[5])
-
-
 def init_tiled_layers(encoder_layers, tile_size):
     """
     Generate tiled weight arrays for each encoder layer.
@@ -91,6 +83,7 @@ def reverse_tiling(model, tiled_layers, tile_size):
         original_layers (list): List of original weight arrays for each encoder layer.
     """
     original_layers = []
+    mse_array = []
 
     # Iterate over each layer's tiled weights
     for i, layer_array in enumerate(tiled_layers):
@@ -108,9 +101,11 @@ def reverse_tiling(model, tiled_layers, tile_size):
         weight_array = [k, q, v]
 
         # Append the merged weight array to the original layers list
+        mse_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),weight_array))
         set_layer_weight(model.model.encoder.layers[i],weight_array)
 
-    return model
+    mse = sum(mse_array) / len(mse_array) if mse_array else 0
+    return model,mse
 
 def eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
     """
@@ -138,7 +133,7 @@ def eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts,
             mse_array.append(tiled_layers[i][j].average_mse())
             memory_footprint += tiled_layers[i][j].memory_footprint_compressed
 
-    model = reverse_tiling(model, tiled_layers, tile_size)
+    model,mse_check = reverse_tiling(model, tiled_layers, tile_size)
 
     # Calculate overall metrics
     tile_size = tiled_layers[i][j].R
@@ -148,14 +143,15 @@ def eval2(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts,
     compression_ratio = tiled_layers[i][j].compression_ratio()
 
     # Compute BLEU and F-score
-    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+    bleu = 0 #compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+    fscore = 0 #compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
     results = {
         'Tile Size': [tile_size],
         'Steps': [num_step],
         'MSE': [mse],
+        'MSE Check': [mse_check],
         'Memory Footprint (Bytes)': [memory_footprint],
         'Compression Ratio': [compression_ratio],
         'BLEU Score': [bleu],
@@ -171,22 +167,9 @@ encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example en
 # step = 50
 # tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 
-steps = [50,100,200,400,800]
-tile_sizes = [32,64,128,256,512]
-skips = [1,2,4,8,16]
-
-
-# with tqdm(total=step, desc='Processing', unit='iteration') as pbar1:
-#     for i in range(step):
-#         for j in range(len(tiled_layers)):
-#             for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
-#                 # Assuming iterative_approximation is defined within the WeightArray class
-#                 tiled_layers[j][k].iterative_approximation(2)
-#         pbar1.update(1)    
-
-# model = reverse_tiling(model, tiled_layers, tile_size)
-# bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print(bleu)
+steps = [4,8] #[50,100,200,400,800]
+tile_sizes = [32,64] #[32,64,128,256,512]
+skips = [1,2] #[1,2,4,8,16]
 
 results = []
 
