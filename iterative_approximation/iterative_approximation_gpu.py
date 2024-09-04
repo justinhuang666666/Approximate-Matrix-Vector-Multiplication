@@ -200,7 +200,7 @@ class WeightArray:
         # Return reconstructed weight array, sliced to dimensions R and C
         return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array]
 
-    def iterative_approximation_step3(self):
+    def iterative_approximation_stack(self):
         # Ensure residual and reconstructed weights are on the GPU
         residual_weight = self.current_residual_weight.to('cuda')
         reconstructed_weight = self.current_reconstructed_weight.to('cuda')
