@@ -77,12 +77,12 @@ class WeightArray:
                 'none': self.iterative_approximation_group,
                 'fro': lambda: self.iterative_approximation_group_norm('fro'),
                 'spec': lambda: self.iterative_approximation_group_norm('spec')
-            }#,
-            # 3: {
-            #     'none': self.iterative_approximation_stack,
-            #     'fro': lambda: self.iterative_approximation_stack_norm('fro'),
-            #     'spec': lambda: self.iterative_approximation_stack_norm('spec')
-            # }
+            },
+            3: {
+                'none': self.iterative_approximation_stack,
+                'fro': lambda: self.iterative_approximation_stack_norm('fro'),
+                'spec': lambda: self.iterative_approximation_stack_norm('spec')
+            }
         }
 
         if method in method_mapping:
@@ -182,10 +182,6 @@ class WeightArray:
             if count > 200:
                 break
 
-        # # Convert back to CPU for further processing (if needed)
-        # Fi_v, compressed_Fi_v = create_mask_vector(v_previous.cpu().numpy(), self.NZc, self.Tc)
-        # Fi_u, compressed_Fi_u = create_mask_vector(u_previous.cpu().numpy(), self.NZr, self.Tr)
-
         # Compute A_j and lambda_i_array on GPU
         A_j = torch.outer(u_previous, v_previous)
         lambda_i_array = [v_previous.T @ W.T @ u_previous for W in residual_weight_array]
@@ -203,6 +199,35 @@ class WeightArray:
 
         # Return reconstructed weight array, sliced to dimensions R and C
         return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array]
+
+    def iterative_approximation_step3(self):
+        # Ensure residual and reconstructed weights are on the GPU
+        residual_weight = self.current_residual_weight.to('cuda')
+        reconstructed_weight = self.current_reconstructed_weight.to('cuda')
+
+        # Update SVD on the error matrix
+        U_n, S_n, Vt_n = torch.linalg.svd(residual_weight, full_matrices=False)
+        sigma1_n = S_n[0]
+        u1_n = U_n[:, 0]
+        v1_n = Vt_n[0, :]
+
+        # Update the weight matrix approximation
+        reconstructed = reconstructed_weight + sigma1_n * torch.ger(u1_n,v1_n)  # ger is the outer product in PyTorch
+        residual = residual_weight - sigma1_n * torch.ger(u1_n,v1_n)
+
+        # Update class attributes
+        self.current_reconstructed_weight = reconstructed
+        self.current_residual_weight = residual
+        self.steps += 1
+        self.num_group.append(self.num_weights)
+
+        # Call the method to calculate memory footprint
+        self.cal_memory_footprint_compressed_weight()
+
+        return [reconstructed[0:i*self.R, 0:self.C] for i in range(self.num_weights)]
+    
+    def reconstructed_weight(self):
+        return [self.current_reconstructed_weight[0:i*self.R, 0:self.C] for i in range(self.num_weights)]
 
     def cal_memory_footprint_baseline_array(self):     
         self.memory_footprint_baseline = len(self.original_weight_array) * self.R * self.C * self.precision 
