@@ -190,7 +190,7 @@ from tqdm import tqdm
 
 #                 pbar2.update(1)
 #         pbar1.update(1)
-step = 100
+step = 30
 tile_size= 32
 tiled_layers = init_tiled_layers(encoder_layers, tile_size)
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
