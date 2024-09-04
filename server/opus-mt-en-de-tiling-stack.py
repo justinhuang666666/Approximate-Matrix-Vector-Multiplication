@@ -87,18 +87,9 @@ def reverse_tiling(model, tiled_layers, tile_size):
 
     # Iterate over each layer's tiled weights
     for i, layer_array in enumerate(tiled_layers):
-        print(len(layer_array))
-        k_tiles = []
-        q_tiles = []
-        v_tiles = []
-        for array in layer_array:
-            print(array)
-            stacked = array.reconstructed_weight()
-            print(len(stacked))
-            print(stacked[0])
-            k_tiles.append(stacked[0])
-            q_tiles.append(stacked[1])
-            v_tiles.append(stacked[2])
+        k_tiles = [array.reconstructed_weight()[0] for array in layer_array]
+        q_tiles = [array.reconstructed_weight()[1] for array in layer_array]
+        v_tiles = [array.reconstructed_weight()[2] for array in layer_array]
 
         # Merge the tiles back into the original matrices
         k = merge_matrices(k_tiles, tile_size)
