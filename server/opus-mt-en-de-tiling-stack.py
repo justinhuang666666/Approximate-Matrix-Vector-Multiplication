@@ -174,27 +174,35 @@ results = []
 
 from tqdm import tqdm
 
-with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
-    for tile_size, step, skip in zip(tile_sizes, steps, skips):
-        tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-        with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-            for i in range(step):
-                for j in range(len(tiled_layers)):
-                    for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
-                        # Assuming iterative_approximation is defined within the WeightArray class
-                        tiled_layers[j][k].iterative_approximation(3)
+# with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
+#     for tile_size, step, skip in zip(tile_sizes, steps, skips):
+#         tiled_layers = init_tiled_layers(encoder_layers, tile_size)
+#         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+#             for i in range(step):
+#                 for j in range(len(tiled_layers)):
+#                     for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
+#                         # Assuming iterative_approximation is defined within the WeightArray class
+#                         tiled_layers[j][k].iterative_approximation(3)
 
-                if(i%skip==0):
-                    result = eval3(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
-                    results.append(result)
+#                 if(i%skip==0):
+#                     result = eval3(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
+#                     results.append(result)
 
-                pbar2.update(1)
-        pbar1.update(1)
-    
+#                 pbar2.update(1)
+#         pbar1.update(1)
+step = 100
+tile_size= 32
+tiled_layers = init_tiled_layers(encoder_layers, tile_size)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+    for i in range(step):
+        for j in range(len(tiled_layers)):
+            for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
+                # Assuming iterative_approximation is defined within the WeightArray class
+                tiled_layers[j][k].iterative_approximation(3)
+        pbar2.update(1)
 
-df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
-
+result = eval3(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)  
 # Save the concatenated DataFrame to CSV
-df.to_csv('stack.csv', index=False)
+result.to_csv('stack.csv', index=False)
 
 print("Results saved to 'stack.csv'")

@@ -96,7 +96,7 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
         absolute_error_dataframe = eval_abs_error(tiled_layers, tile_size, step)
         metrics_results.append(metrics_dataframe)
         absolute_error_dataframe.to_csv(f'single1_error_{tile_size}.csv', index=False)
-        print(f"metrics_results saved to 'single1_error{tile_size}.csv'")
+        print(f"metrics_results saved to 'single1_error_{tile_size}.csv'")
         pbar1.update(1)
 
 df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
