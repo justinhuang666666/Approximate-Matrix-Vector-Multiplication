@@ -465,9 +465,10 @@ def eval_abs_error(tiled_layers, tile_size, num_step):
     absolute_error_records = {
         'Tile Size': [],
         'Steps': [],
-        'Layer': [],
-        'Matrix': [],
-        'Tile': [],
+        'Layer Index': [],
+        'Matrix Index': [],
+        'Tile Index': [],
+        'Error Index': [],
         'Absolute Error': []
     }
 
