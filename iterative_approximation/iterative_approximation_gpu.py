@@ -287,10 +287,10 @@ random_matrix3 = np.random.rand(512, 512)
 
 W = [random_matrix1,random_matrix2,random_matrix3]
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512)
+W32 = WeightArray(W,'weight',0.001,1,1,512,512)
 W32.init_precision(32)
 
 for i in range(100):
     for j in range(10):
-        WW_32 = W32.iterative_approximation(2)
+        WW_32 = W32.iterative_approximation(3)
     print(W32.average_mse_array()) 
