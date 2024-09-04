@@ -89,14 +89,13 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
                     for k in range(len(tiled_layers[j])):  # Ensure the correct length is used
                         # Assuming iterative_approximation is defined within the WeightArray class
                         tiled_layers[j][k].iterative_approximation(1)
-
-                if(i%skip==0):
-                    metrics_dataframe = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
-                    absolute_error_dataframe = eval_abs_error(tiled_layers, tile_size, step)
-                    metrics_results.append(metrics_dataframe)
-                    absolute_error_results.append(absolute_error_dataframe)
-
                 pbar2.update(1)
+            metrics_dataframe = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
+            absolute_error_dataframe = eval_abs_error(tiled_layers, tile_size, step)
+            metrics_results.append(metrics_dataframe)
+            df = pd.concat(absolute_error_dataframe, ignore_index=True)
+            df.to_csv(f'single1_error_{tile_size}.csv', index=False)
+            print(f"metrics_results saved to 'single1_error{tile_size}.csv'")
         pbar1.update(1)
 
 df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
@@ -106,9 +105,3 @@ df.to_csv('single1.csv', index=False)
 
 print("metrics_results saved to 'single1.csv'")
 
-df = pd.concat(absolute_error_results, ignore_index=True)  # Correct way to combine DataFrames in a list
-
-# Save the concatenated DataFrame to CSV
-df.to_csv('single1_error.csv', index=False)
-
-print("metrics_results saved to 'single1_error.csv'")
