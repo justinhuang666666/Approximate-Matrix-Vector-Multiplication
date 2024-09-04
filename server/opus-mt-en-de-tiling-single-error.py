@@ -83,7 +83,7 @@ absolute_error_results = []
 with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for tile_size, step, skip in zip(tile_sizes, steps, skips):
         tiled_layers = init_tiled_layers(encoder_layers, tile_size)
-        
+
         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
             for i in range(step):
                 for j in range(len(tiled_layers)):
@@ -95,7 +95,6 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
         metrics_dataframe = eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts)
         absolute_error_dataframe = eval_abs_error(tiled_layers, tile_size, step)
         metrics_results.append(metrics_dataframe)
-        df = pd.concat(absolute_error_dataframe, ignore_index=True)
         df.to_csv(f'single1_error_{tile_size}.csv', index=False)
         print(f"metrics_results saved to 'single1_error{tile_size}.csv'")
         pbar1.update(1)
