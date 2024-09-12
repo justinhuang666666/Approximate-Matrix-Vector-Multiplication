@@ -65,8 +65,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [8, 16] #[8, 16, 32]
-frac_lengths = [1, 2] # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,18,20,22,24,26,28]  # reasonable fraction lengths based on wl
+word_lengths = [8, 16, 32]
+frac_lengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # reasonable fraction lengths based on wl
 symmetric_options = [True, False]
 round_modes = ["nearest", "stochastic"]
 
@@ -104,19 +104,19 @@ for wl in word_lengths:
                 quant_scheme_int = replace_with_quantized(model, quant_scheme_int, filter)
 
                 # Compute BLEU score
-                bleu_int32 = compute_bleu_score(device, quant_scheme_int, tokenizer, source_texts, target_texts)
+                bleu_int = compute_bleu_score(device, quant_scheme_int, tokenizer, source_texts, target_texts)
 
                 # Print BLEU score
-                print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={fl}, symmetric={symmetric}, round_mode={round_mode}")
-                print(bleu_int32)
+                print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
+                print(bleu_int)
 
                 # Store the results
                 results_list.append({
                 "Word Length": wl,
-                "Fraction Length": fl,
+                "Fraction Length": frac,
                 "Symmetric": symmetric,
                 "Round Mode": round_mode,
-                "BLEU Score": bleu_int32
+                "BLEU Score": bleu_int
                 })
 
 # Convert the list of dictionaries to a DataFrame
