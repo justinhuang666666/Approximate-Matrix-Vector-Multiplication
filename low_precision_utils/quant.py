@@ -189,13 +189,13 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
 
 #     return network
 
-def replace_with_quantized(network, quant_scheme):
+def replace_with_quantized(network, quant_scheme, filter):
     # List to keep track of layers to be replaced
     to_replace = []
     
     for name, module in network.named_children():
         # Check if the module is the specific self-attention layer of the encoder
-        if isinstance(module, MarianEncoderLayer):
+        if isinstance(module, filter):
             # Access the self-attention layer within the MarianEncoderLayer
             self_attn = module.self_attn
             

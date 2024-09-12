@@ -42,99 +42,93 @@ print(device)
 model.to(device)
 
 
+# Load the JSON file
+with open('translations.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+# Extract the source and target texts
+source_texts = data['source_texts']
+target_texts = data['target_texts']
+
+# Compute BLEU score
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("Baseline BLEU Score")
+print(baseline_bleu) 
+
+# baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline Character Fscore")
+# print(baseline_fscore) 
+
+# Create a DataFrame to store the results in a reformatted style
+# results = {
+#     'Model': ['opus-mt-en-de'],
+#     'BLEU Score': [baseline_bleu],
+#     'Character Fscore': [baseline_fscore]
+# }
+
+# df = pd.DataFrame(results)
+
+# # Save the results to a CSV file named 'baseline.csv'
+# df.to_csv('baseline.csv', index=False)
+
+# print("Results saved to 'baseline.csv'")
 
 
+# Quantisation
 filter = type(model.model.encoder.layers[0].self_attn)
-print(filter)
+
+import argparse
+
+# Create a mock argument namespace to simulate input arguments
+args_int32 = argparse.Namespace()
+
+# Define the quantization scheme dictionary with IntQuant settings
+args_int32.quant_scheme = {
+    "act": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "same_input": True,
+    "same_weight": True
+}
+
+# Create the quantization scheme using the from_args method
+quant_scheme_int32 = QuantScheme.from_args(args_int32)
+
+quant_scheme_int32 = replace_with_quantized(model, quant_scheme_int32,filter)
+
+bleu_int32 = compute_bleu_score(device, quant_scheme_int32, tokenizer, source_texts, target_texts)
+print("INT32 BLEU Score")
+print(bleu_int32) 
 
 
-# # Load the JSON file
-# with open('translations.json', 'r', encoding='utf-8') as f:
-#     data = json.load(f)
+# Create a mock argument namespace to simulate input arguments
+args_int16 = argparse.Namespace()
 
-# # Extract the source and target texts
-# source_texts = data['source_texts']
-# target_texts = data['target_texts']
+# Define the quantization scheme dictionary with IntQuant settings
+args_int16.quant_scheme = {
+    "act": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "same_input": True,
+    "same_weight": True
+}
 
-# # Compute BLEU score
-# # baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# # print("Baseline BLEU Score")
-# # print(baseline_bleu) 
-
-# # baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
-# # print("Baseline Character Fscore")
-# # print(baseline_fscore) 
-
-# # Create a DataFrame to store the results in a reformatted style
-# # results = {
-# #     'Model': ['opus-mt-en-de'],
-# #     'BLEU Score': [baseline_bleu],
-# #     'Character Fscore': [baseline_fscore]
-# # }
-
-# # df = pd.DataFrame(results)
-
-# # # Save the results to a CSV file named 'baseline.csv'
-# # df.to_csv('baseline.csv', index=False)
-
-# # print("Results saved to 'baseline.csv'")
+# Create the quantization scheme using the from_args method
+quant_scheme_int16 = QuantScheme.from_args(args_int16)
 
 
-# # Quantisation
-# attention_layer_types = nn.MultiheadAttention
+# INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
+INT16_model = replace_with_quantized(model, quant_scheme_int16,filter)
 
-# import argparse
-
-# # Create a mock argument namespace to simulate input arguments
-# args_int32 = argparse.Namespace()
-
-# # Define the quantization scheme dictionary with IntQuant settings
-# args_int32.quant_scheme = {
-#     "act": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "weight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "same_input": True,
-#     "same_weight": True
-# }
-
-# # Create the quantization scheme using the from_args method
-# quant_scheme_int32 = QuantScheme.from_args(args_int32)
-
-# quant_scheme_int32 = replace_with_quantized(model, quant_scheme_int32)
-
-# bleu_int32 = compute_bleu_score(device, quant_scheme_int32, tokenizer, source_texts, target_texts)
-# print("INT32 BLEU Score")
-# print(bleu_int32) 
-
-
-# # Create a mock argument namespace to simulate input arguments
-# args_int16 = argparse.Namespace()
-
-# # Define the quantization scheme dictionary with IntQuant settings
-# args_int16.quant_scheme = {
-#     "act": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "weight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "same_input": True,
-#     "same_weight": True
-# }
-
-# # Create the quantization scheme using the from_args method
-# quant_scheme_int16 = QuantScheme.from_args(args_int16)
-
-
-# # INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
-# INT16_model = replace_with_quantized(model, quant_scheme_int16)
-
-# bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
-# print("INT16 BLEU Score")
-# print(bleu_int16) 
+bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
+print("INT16 BLEU Score")
+print(bleu_int16) 
 
 
 
