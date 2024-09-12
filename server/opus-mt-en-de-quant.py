@@ -50,9 +50,9 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 # baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 # print("Baseline Character Fscore")
@@ -121,11 +121,13 @@ args_int16.quant_scheme = {
 # Create the quantization scheme using the from_args method
 quant_scheme_int16 = QuantScheme.from_args(args_int16)
 
-INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
+print(quant_scheme_int16)
 
-bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
-print("INT16 BLEU Score")
-print(bleu_int16) 
+# INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
+
+# bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
+# print("INT16 BLEU Score")
+# print(bleu_int16) 
 
 
 
