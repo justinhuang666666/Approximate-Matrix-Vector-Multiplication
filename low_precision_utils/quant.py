@@ -169,38 +169,58 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
                 module.quant_scheme = quant_scheme
     return network
 
-def replace_with_quantized(network, quant_scheme, filter_layers=None):
-    """
-    Replaces specified layers in the network with quantized versions based on the quant_scheme.
+# def replace_with_quantized(network, quant_scheme, filter_layers=None):
+#     """
+#     Replaces specified layers in the network with quantized versions based on the quant_scheme.
 
-    Args:
-        network: The neural network containing layers to be quantized.
-        quant_scheme: The quantization scheme to be applied.
-        filter_layers: A tuple of layer types to be targeted for replacement (e.g., (nn.MultiheadAttention,)).
-                       Default is None, which applies quantization to all nn.Linear, nn.Conv2d, and nn.Conv1d layers.
+#     Args:
+#         network: The neural network containing layers to be quantized.
+#         quant_scheme: The quantization scheme to be applied.
+#         filter_layers: A tuple of layer types to be targeted for replacement (e.g., (nn.MultiheadAttention,)).
+#                        Default is None, which applies quantization to all nn.Linear, nn.Conv2d, and nn.Conv1d layers.
 
-    Returns:
-        Modified network with specified layers replaced by quantized versions.
-    """
+#     Returns:
+#         Modified network with specified layers replaced by quantized versions.
+#     """
+#     to_replace = []
+    
+#     for name, module in network.named_children():
+#         # Apply filter if specified, otherwise replace all eligible layers
+#         if filter_layers is None or isinstance(module, filter_layers):
+#             if isinstance(module, nn.Linear):
+#                 new_module = layers.QuantLinear.from_full_precision(module, quant_scheme)
+#                 to_replace.append((name, new_module))
+#             elif isinstance(module, nn.Conv2d):
+#                 new_module = layers.QuantConv2d.from_full_precision(module, quant_scheme)
+#                 to_replace.append((name, new_module))
+#             elif isinstance(module, nn.Conv1d):
+#                 new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
+#                 to_replace.append((name, new_module))
+#         # Recursively apply the function to nested modules
+#         else:
+#             replace_with_quantized(module, quant_scheme, filter_layers)
+    
+#     # Replace targeted layers with quantized versions
+#     for name, new_module in to_replace:
+#         setattr(network, name, new_module)
+
+#     return network
+
+def replace_with_quantized(network, quant_scheme):
     to_replace = []
-    
     for name, module in network.named_children():
-        # Apply filter if specified, otherwise replace all eligible layers
-        if filter_layers is None or isinstance(module, filter_layers):
-            if isinstance(module, nn.Linear):
-                new_module = layers.QuantLinear.from_full_precision(module, quant_scheme)
-                to_replace.append((name, new_module))
-            elif isinstance(module, nn.Conv2d):
-                new_module = layers.QuantConv2d.from_full_precision(module, quant_scheme)
-                to_replace.append((name, new_module))
-            elif isinstance(module, nn.Conv1d):
-                new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
-                to_replace.append((name, new_module))
-        # Recursively apply the function to nested modules
+        if isinstance(module, nn.Linear):
+            new_module = layers.QuantLinear.from_full_precision(module, quant_scheme)
+            to_replace.append((name, new_module))
+        elif isinstance(module, nn.Conv2d):
+            new_module = layers.QuantConv2d.from_full_precision(module, quant_scheme)
+            to_replace.append((name, new_module))
+        elif isinstance(module, nn.Conv1d):
+            new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
+            to_replace.append((name, new_module))
         else:
-            replace_with_quantized(module, quant_scheme, filter_layers)
+            replace_with_quantized(module, quant_scheme)
     
-    # Replace targeted layers with quantized versions
     for name, new_module in to_replace:
         setattr(network, name, new_module)
 
