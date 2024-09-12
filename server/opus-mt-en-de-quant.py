@@ -96,7 +96,7 @@ args_int32.quant_scheme = {
 # Create the quantization scheme using the from_args method
 quant_scheme_int32 = QuantScheme.from_args(args_int32)
 
-quant_scheme_int32 = replace_with_quantized(model, quant_scheme_int32)
+quant_scheme_int32 = replace_with_quantized(model, quant_scheme_int32, attention_layer_types)
 
 bleu_int32 = compute_bleu_score(device, quant_scheme_int32, tokenizer, source_texts, target_texts)
 print("INT32 BLEU Score")
@@ -121,10 +121,9 @@ args_int16.quant_scheme = {
 # Create the quantization scheme using the from_args method
 quant_scheme_int16 = QuantScheme.from_args(args_int16)
 
-print(quant_scheme_int16)
 
 # INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
-INT16_model = replace_with_quantized(model, quant_scheme_int16)
+INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
 
 bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
 print("INT16 BLEU Score")

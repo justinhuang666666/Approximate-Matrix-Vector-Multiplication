@@ -206,20 +206,31 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
 
 #     return network
 
-def replace_with_quantized(network, quant_scheme):
+def replace_with_quantized(network, quant_scheme,filter_layers):
     to_replace = []
     for name, module in network.named_children():
-        if isinstance(module, nn.Linear):
-            new_module = layers.QuantLinear.from_full_precision(module, quant_scheme)
-            to_replace.append((name, new_module))
-        elif isinstance(module, nn.Conv2d):
-            new_module = layers.QuantConv2d.from_full_precision(module, quant_scheme)
-            to_replace.append((name, new_module))
-        elif isinstance(module, nn.Conv1d):
-            new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
-            to_replace.append((name, new_module))
+        if isinstance(module, filter_layers):
+            if isinstance(module, nn.Linear):
+                new_module = layers.QuantLinear.from_full_precision(module, quant_scheme)
+                to_replace.append((name, new_module))
+            elif isinstance(module, nn.Conv2d):
+                new_module = layers.QuantConv2d.from_full_precision(module, quant_scheme)
+                to_replace.append((name, new_module))
+            elif isinstance(module, nn.Conv1d):
+                new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
+                to_replace.append((name, new_module))
+            else:
+                replace_with_quantized(module, quant_scheme)
         else:
-            replace_with_quantized(module, quant_scheme)
+            if isinstance(module, nn.Linear):
+                to_replace.append((name, new_module))
+            elif isinstance(module, nn.Conv2d):
+                to_replace.append((name, new_module))
+            elif isinstance(module, nn.Conv1d):
+                to_replace.append((name, new_module))
+            else:
+                replace_with_quantized(module, quant_scheme)
+
     
     for name, new_module in to_replace:
         setattr(network, name, new_module)
