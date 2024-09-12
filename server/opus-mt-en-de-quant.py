@@ -41,7 +41,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 model.to(device)
 
-print(type(model.encoder.layers[0].self_attn))
+print(type(model.model.encoder.layers[0].self_attn))
 
 
 
