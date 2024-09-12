@@ -195,15 +195,17 @@ def replace_with_quantized(network, quant_scheme):
     
     for name, module in network.named_children():
         # Check if the module is the specific self-attention layer of the encoder
-        if isinstance(module, MarianAttention):
-            # Replace only the k, q, v projections with quantized versions
-            new_self_attn = MarianAttention(
-                k_proj=layers.QuantLinear.from_full_precision(module.k_proj, quant_scheme),
-                v_proj=layers.QuantLinear.from_full_precision(module.v_proj, quant_scheme),
-                q_proj=layers.QuantLinear.from_full_precision(module.q_proj, quant_scheme),
-                out_proj=module.out_proj  # Keep out_proj unchanged
-            )
-            to_replace.append((name, new_self_attn))
+        if isinstance(module, MarianEncoderLayer):
+            # Access the self-attention layer within the MarianEncoderLayer
+            self_attn = module.self_attn
+            
+            # Replace k_proj, q_proj, v_proj with quantized versions, but keep out_proj unchanged
+            self_attn.k_proj = layers.QuantLinear.from_full_precision(self_attn.k_proj, quant_scheme)
+            self_attn.q_proj = layers.QuantLinear.from_full_precision(self_attn.q_proj, quant_scheme)
+            self_attn.v_proj = layers.QuantLinear.from_full_precision(self_attn.v_proj, quant_scheme)
+            
+            # Add the modified self-attention back to the encoder layer
+            module.self_attn = self_attn
         else:
             # Recursively search within child modules
             replace_with_quantized(module, quant_scheme)
