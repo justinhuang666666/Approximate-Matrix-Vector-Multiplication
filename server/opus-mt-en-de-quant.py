@@ -75,7 +75,7 @@ print(baseline_bleu)
 
 
 # Quantisation
-filter = type(model.model.encoder.layers[0].self_attn)
+filter = type(model.model.encoder.layers[0])
 
 import argparse
 
