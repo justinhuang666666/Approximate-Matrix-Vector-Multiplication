@@ -78,7 +78,7 @@ for wl in word_lengths:
         for symmetric in symmetric_options:
             for round_mode in round_modes:
                 # Skip invalid combinations where fl is greater than wl
-                if wl > fl:
+                if wl >= fl:
                     continue
 
                 frac = wl - fl
