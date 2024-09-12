@@ -43,8 +43,8 @@ model.to(device)
 
 
 
-filter = transformers.models.marian.modeling_marian.MarianAttention
-print(type(model.model.encoder.layers[0].self_attn))
+
+filter = type(model.model.encoder.layers[0].self_attn)
 print(filter)
 
 
