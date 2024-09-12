@@ -78,29 +78,29 @@ attention_layer_types = nn.MultiheadAttention
 
 import argparse
 
-# # Create a mock argument namespace to simulate input arguments
-# args_int32 = argparse.Namespace()
+# Create a mock argument namespace to simulate input arguments
+args_int32 = argparse.Namespace()
 
-# # Define the quantization scheme dictionary with IntQuant settings
-# args_int32.quant_scheme = {
-#     "act": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "weight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "bweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "goweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-#     "same_input": True,
-#     "same_weight": True
-# }
+# Define the quantization scheme dictionary with IntQuant settings
+args_int32.quant_scheme = {
+    "act": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "same_input": True,
+    "same_weight": True
+}
 
-# # Create the quantization scheme using the from_args method
-# quant_scheme_int32 = QuantScheme.from_args(args_int32)
+# Create the quantization scheme using the from_args method
+quant_scheme_int32 = QuantScheme.from_args(args_int32)
 
-# replace_with_quantized(model, quant_scheme_int32, attention_layer_types)
+quant_scheme_int32 = replace_with_quantized(model, quant_scheme_int32, attention_layer_types)
 
-# bleu_int32 = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print("INT32 BLEU Score")
-# print(bleu_int32) 
+bleu_int32 = compute_bleu_score(device, quant_scheme_int32, tokenizer, source_texts, target_texts)
+print("INT32 BLEU Score")
+print(bleu_int32) 
 
 
 # Create a mock argument namespace to simulate input arguments
@@ -108,12 +108,12 @@ args_int16 = argparse.Namespace()
 
 # Define the quantization scheme dictionary with IntQuant settings
 args_int16.quant_scheme = {
-    "act": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "weight": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "bact": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "bweight": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "goact": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "goweight": {"number_type": "int", "wl": 16, "fl": 12, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "act": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
     "same_input": True,
     "same_weight": True
 }
