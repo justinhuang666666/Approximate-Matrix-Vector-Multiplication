@@ -42,7 +42,7 @@ print(device)
 model.to(device)
 
 
-print(MarianMTModel.MarianModel)
+print(MarianMTModel.model.encoder)
 # Load the JSON file
 with open('translations.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
