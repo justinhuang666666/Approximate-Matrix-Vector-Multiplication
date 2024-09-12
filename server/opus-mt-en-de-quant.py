@@ -108,12 +108,12 @@ args_int16 = argparse.Namespace()
 
 # Define the quantization scheme dictionary with IntQuant settings
 args_int16.quant_scheme = {
-    "act": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "weight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "bact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "bweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "goact": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
-    "goweight": {"number_type": "int", "wl": 16, "fl": 11, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "act": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 16, "fl": 5, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
     "same_input": True,
     "same_weight": True
 }
