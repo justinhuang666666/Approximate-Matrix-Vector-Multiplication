@@ -10,6 +10,10 @@ from torch import nn
 
 import warnings
 
+import argparse
+import itertools
+import csv
+
 # Suppress all warnings
 warnings.filterwarnings("ignore")
 
@@ -41,7 +45,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 model.to(device)
 
-
 # Load the JSON file
 with open('translations.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -58,10 +61,6 @@ print(baseline_bleu)
 # Quantisation
 filter = type(model.model.encoder.layers[0])
 
-import argparse
-import itertools
-import csv
-
 # Create a mock argument namespace to simulate input arguments
 args_int = argparse.Namespace()
 
@@ -70,7 +69,6 @@ word_lengths = [8, 16] #[8, 16, 32]
 frac_lengths = [1, 2] # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]  # reasonable fraction lengths based on wl
 symmetric_options = [True, False]
 round_modes = ["nearest", "stochastic"]
-
 
 results_df = pd.DataFrame(columns=["Word Length", "Fraction Length", "Symmetric", "Round Mode", "BLEU Score"])
 
