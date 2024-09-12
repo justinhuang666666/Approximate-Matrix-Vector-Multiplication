@@ -107,8 +107,8 @@ for wl in word_lengths:
                 bleu_int = compute_bleu_score(device, quant_scheme_int, tokenizer, source_texts, target_texts)
 
                 # Print BLEU score
-                print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
-                print(bleu_int)
+                # print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
+                # print(bleu_int)
 
                 # Store the results
                 results_list.append({
