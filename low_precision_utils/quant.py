@@ -206,7 +206,7 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
 
 #     return network
 
-def replace_with_quantized(network, quant_scheme,filter_layers):
+def replace_with_quantized(network, quant_scheme, filter_layers=None):
     to_replace = []
     for name, module in network.named_children():
         if isinstance(module, filter_layers):
@@ -220,7 +220,7 @@ def replace_with_quantized(network, quant_scheme,filter_layers):
                 new_module = layers.QuantConv1d.from_full_precision(module, quant_scheme)
                 to_replace.append((name, new_module))
             else:
-                replace_with_quantized(module, quant_scheme)
+                replace_with_quantized(module, quant_scheme, filter_layers)
         else:
             if isinstance(module, nn.Linear):
                 to_replace.append((name, new_module))
@@ -229,7 +229,7 @@ def replace_with_quantized(network, quant_scheme,filter_layers):
             elif isinstance(module, nn.Conv1d):
                 to_replace.append((name, new_module))
             else:
-                replace_with_quantized(module, quant_scheme)
+                replace_with_quantized(module, quant_scheme, filter_layers)
 
     
     for name, new_module in to_replace:
