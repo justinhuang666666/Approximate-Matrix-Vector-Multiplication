@@ -41,8 +41,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 model.to(device)
 
+print(type(model))
 
-print(MarianMTModel.model.encoder)
+
 # Load the JSON file
 with open('translations.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
