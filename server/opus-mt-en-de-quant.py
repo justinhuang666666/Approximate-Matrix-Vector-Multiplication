@@ -36,47 +36,65 @@ tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
 
-# Check if GPU is available and move model to GPU if possible
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
-model.to(device)
+# # Check if GPU is available and move model to GPU if possible
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# print(device)
+# model.to(device)
 
-# Load the JSON file
-with open('translations.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
+# # Load the JSON file
+# with open('translations.json', 'r', encoding='utf-8') as f:
+#     data = json.load(f)
 
-# Extract the source and target texts
-source_texts = data['source_texts']
-target_texts = data['target_texts']
+# # Extract the source and target texts
+# source_texts = data['source_texts']
+# target_texts = data['target_texts']
 
-# Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# # Compute BLEU score
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 # baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 # print("Baseline Character Fscore")
 # print(baseline_fscore) 
 
 # Create a DataFrame to store the results in a reformatted style
-results = {
-    'Model': ['opus-mt-en-de'],
-    'BLEU Score': [baseline_bleu],
-    'Character Fscore': [baseline_fscore]
-}
+# results = {
+#     'Model': ['opus-mt-en-de'],
+#     'BLEU Score': [baseline_bleu],
+#     'Character Fscore': [baseline_fscore]
+# }
 
-df = pd.DataFrame(results)
+# df = pd.DataFrame(results)
 
-# Save the results to a CSV file named 'baseline.csv'
-df.to_csv('baseline.csv', index=False)
+# # Save the results to a CSV file named 'baseline.csv'
+# df.to_csv('baseline.csv', index=False)
 
-print("Results saved to 'baseline.csv'")
+# print("Results saved to 'baseline.csv'")
 
 
 # Quantisation
 attention_layer_types = nn.MultiheadAttention
 
-quant_scheme = 
+import argparse
+
+# Create a mock argument namespace to simulate input arguments
+args = argparse.Namespace()
+
+# Define the quantization scheme dictionary with IntQuant settings
+args.quant_scheme = {
+    "act": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "weight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "bweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goact": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "goweight": {"number_type": "int", "wl": 32, "fl": 27, "clamp": True, "symmetric": False, "round_mode": "stochastic"},
+    "same_input": True,
+    "same_weight": True
+}
+
+# Create the quantization scheme using the from_args method
+quant_scheme = QuantScheme.from_args(args)
 
 replace_with_quantized(model, quant_scheme, attention_layer_types)
 
