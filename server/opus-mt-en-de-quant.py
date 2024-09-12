@@ -147,7 +147,7 @@ round_modes = ["nearest", "stochastic"]
 # Initialize an empty list to store the results
 results = []
 
-esults_df = pd.DataFrame(columns=["Word Length", "Fraction Length", "Symmetric", "Round Mode", "BLEU Score"])
+results_df = pd.DataFrame(columns=["Word Length", "Fraction Length", "Symmetric", "Round Mode", "BLEU Score"])
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for wl, fl, symmetric, round_mode in itertools.product(word_lengths, frac_lengths, symmetric_options, round_modes):
@@ -155,14 +155,16 @@ for wl, fl, symmetric, round_mode in itertools.product(word_lengths, frac_length
     if wl > fl:
         continue
 
+    frac = wl - fl
+
     # Define the quantization scheme dictionary with IntQuant settings
     args_int.quant_scheme = {
-        "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-        "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-        "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-        "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-        "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-        "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "same_input": True,
         "same_weight": True
     }
