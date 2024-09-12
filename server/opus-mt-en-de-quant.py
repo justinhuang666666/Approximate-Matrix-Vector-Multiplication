@@ -126,9 +126,9 @@ print(quant_scheme_int16)
 # INT16_model = replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
 INT16_model = replace_with_quantized(model, quant_scheme_int16)
 
-# bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
-# print("INT16 BLEU Score")
-# print(bleu_int16) 
+bleu_int16 = compute_bleu_score(device, INT16_model, tokenizer, source_texts, target_texts)
+print("INT16 BLEU Score")
+print(bleu_int16) 
 
 
 
