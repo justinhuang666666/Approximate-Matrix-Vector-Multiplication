@@ -123,8 +123,8 @@ quant_scheme_int16 = QuantScheme.from_args(args_int16)
 
 replace_with_quantized(model, quant_scheme_int16, attention_layer_types)
 
-bleu_int32 = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("INT32 BLEU Score")
+bleu_int16 = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("INT16 BLEU Score")
 print(bleu_int16) 
 
 
