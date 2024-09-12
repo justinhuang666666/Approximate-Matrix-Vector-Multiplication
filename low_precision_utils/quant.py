@@ -15,7 +15,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
-sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+sys.path.append(parent_dir)
 from low_precision_utils import layers
 
 import torch.autograd
