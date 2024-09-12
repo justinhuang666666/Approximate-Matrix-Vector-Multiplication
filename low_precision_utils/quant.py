@@ -229,7 +229,7 @@ def replace_with_quantized(network, quant_scheme, filter_layers=None):
             elif isinstance(module, nn.Conv1d):
                 to_replace.append((name, module))
             else:
-                replace_with_quantized(module, quant_scheme, filter_layers)
+                replace_with_quantized(module, quant_scheme)
 
     
     for name, new_module in to_replace:
