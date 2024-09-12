@@ -66,11 +66,12 @@ args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [8, 16] #[8, 16, 32]
-frac_lengths = [1, 2] # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]  # reasonable fraction lengths based on wl
+frac_lengths = [1, 2] # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,18,20,22,24,26,28]  # reasonable fraction lengths based on wl
 symmetric_options = [True, False]
 round_modes = ["nearest", "stochastic"]
 
-results_df = pd.DataFrame(columns=["Word Length", "Fraction Length", "Symmetric", "Round Mode", "BLEU Score"])
+results_list = []
+
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for wl in word_lengths: 
@@ -110,13 +111,16 @@ for wl in word_lengths:
                 print(bleu_int32)
 
                 # Store the results
-                results_df = results_df.append({
-                    "Word Length": wl,
-                    "Fraction Length": fl,
-                    "Symmetric": symmetric,
-                    "Round Mode": round_mode,
-                    "BLEU Score": bleu_int32
-                }, ignore_index=True)
+                results_list.append({
+                "Word Length": wl,
+                "Fraction Length": fl,
+                "Symmetric": symmetric,
+                "Round Mode": round_mode,
+                "BLEU Score": bleu_int32
+                })
+
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
 results_df.to_csv('quantization_results.csv', index=False)
