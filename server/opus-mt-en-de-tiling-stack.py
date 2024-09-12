@@ -187,8 +187,9 @@ with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
 
                 pbar2.update(1)
         pbar1.update(1)
-        
-# Save the concatenated DataFrame to CSV
-result.to_csv('stack.csv', index=False)
 
-print("Results saved to 'stack.csv'")
+df = pd.concat(results, ignore_index=True)  # Correct way to combine DataFrames in a list
+# Save the concatenated DataFrame to CSV
+df.to_csv('stack1.csv', index=False)
+
+print("Results saved to 'stack1.csv'")
