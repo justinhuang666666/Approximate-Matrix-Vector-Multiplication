@@ -223,11 +223,11 @@ def replace_with_quantized(network, quant_scheme, filter_layers=None):
                 replace_with_quantized(module, quant_scheme, filter_layers)
         else:
             if isinstance(module, nn.Linear):
-                to_replace.append((name, new_module))
+                to_replace.append((name, module))
             elif isinstance(module, nn.Conv2d):
-                to_replace.append((name, new_module))
+                to_replace.append((name, module))
             elif isinstance(module, nn.Conv1d):
-                to_replace.append((name, new_module))
+                to_replace.append((name, module))
             else:
                 replace_with_quantized(module, quant_scheme, filter_layers)
 
