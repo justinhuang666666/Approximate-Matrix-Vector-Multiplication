@@ -41,8 +41,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 model.to(device)
 
-print(type(model.model.encoder.layers[0].self_attn))
 
+
+filter = transformers.models.marian.modeling_marian.MarianAttention
+print(type(model.model.encoder.layers[0].self_attn))
+print(filter)
 
 
 # # Load the JSON file
