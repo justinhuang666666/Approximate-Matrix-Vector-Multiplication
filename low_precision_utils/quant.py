@@ -183,8 +183,6 @@ def replace_with_quantized(network, quant_scheme, filter_layers=None):
         Modified network with specified layers replaced by quantized versions.
     """
     to_replace = []
-
-    print(quant_scheme)
     
     for name, module in network.named_children():
         # Apply filter if specified, otherwise replace all eligible layers

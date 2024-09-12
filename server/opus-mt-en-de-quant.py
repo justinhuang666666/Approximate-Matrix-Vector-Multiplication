@@ -36,23 +36,23 @@ tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
 
-# # Check if GPU is available and move model to GPU if possible
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# print(device)
-# model.to(device)
+# Check if GPU is available and move model to GPU if possible
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+model.to(device)
 
-# # Load the JSON file
-# with open('translations.json', 'r', encoding='utf-8') as f:
-#     data = json.load(f)
+# Load the JSON file
+with open('translations.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 
-# # Extract the source and target texts
-# source_texts = data['source_texts']
-# target_texts = data['target_texts']
+# Extract the source and target texts
+source_texts = data['source_texts']
+target_texts = data['target_texts']
 
-# # Compute BLEU score
-# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print("Baseline BLEU Score")
-# print(baseline_bleu) 
+# Compute BLEU score
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("Baseline BLEU Score")
+print(baseline_bleu) 
 
 # baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
 # print("Baseline Character Fscore")
@@ -79,7 +79,7 @@ attention_layer_types = nn.MultiheadAttention
 import argparse
 
 # Create a mock argument namespace to simulate input arguments
-args = argparse.Namespace()
+args16 = argparse.Namespace()
 
 # Define the quantization scheme dictionary with IntQuant settings
 args.quant_scheme = {
@@ -94,9 +94,13 @@ args.quant_scheme = {
 }
 
 # Create the quantization scheme using the from_args method
-quant_scheme = QuantScheme.from_args(args)
+quant_scheme_16 = QuantScheme.from_args(args16)
 
-replace_with_quantized(model, quant_scheme, attention_layer_types)
+replace_with_quantized(model, quant_scheme_16, attention_layer_types)
+
+bleu_int32 = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("INT32 BLEU Score")
+print(bleu_int32) 
 
 
 
