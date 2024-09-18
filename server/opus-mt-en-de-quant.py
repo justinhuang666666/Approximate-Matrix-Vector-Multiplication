@@ -65,8 +65,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [8, 16, 32]
-frac_lengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # reasonable fraction lengths based on wl
+word_lengths = [4, 5, 6, 7, 8]
+frac_lengths = [1, 2, 3, 4, 5, 6, 7, 8]  # reasonable fraction lengths based on wl
 symmetric_options = [True, False]
 round_modes = ["nearest", "stochastic"]
 
@@ -123,7 +123,7 @@ for wl in word_lengths:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_results.csv', index=False)
+results_df.to_csv('quantization_results1.csv', index=False)
 
 
 
