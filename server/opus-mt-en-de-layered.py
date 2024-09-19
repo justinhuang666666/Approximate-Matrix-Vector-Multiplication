@@ -269,22 +269,22 @@ from tqdm import tqdm
 
 metrics_results = []
 
-layers = [0,1,2,3,4,5]
+layers = [0,1] #[0,1,2,3,4,5]
 tile_size = 64
 step = 10
-skip = 1
+skip = 2
 
 with tqdm(total=len(layers), desc='Processing', unit='iteration') as pbar1:
     for layer_id in layers:
-        tiled_layer = init_tiled_layer_single(encoder_layers, layer_id, tile_size)
+        tiled_layer = init_tiled_layer_group(encoder_layers, layer_id, tile_size)
         with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
             for i in range(step):
                 for k in range(len(tiled_layer)):  # Ensure the correct length is used
                     # Assuming iterative_approximation is defined within the WeightArray class
-                    tiled_layer[k].iterative_approximation(1)
+                    tiled_layer[k].iterative_approximation(2)
 
                 if(i%skip==0):
-                    metrics_dataframe = eval_single(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, target_texts)
+                    metrics_dataframe = eval_group(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, target_texts)
                     metrics_results.append(metrics_dataframe)
 
                 pbar2.update(1)
