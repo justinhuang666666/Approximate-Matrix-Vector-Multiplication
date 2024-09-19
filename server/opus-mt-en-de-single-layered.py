@@ -7,6 +7,7 @@ import sys
 
 import pandas as pd
 import warnings
+import copy
 
 # Suppress all warnings
 warnings.filterwarnings("ignore")
@@ -56,7 +57,7 @@ def init_tiled_layer(encoder_layers, layer_id, tile_size):
     tiled_layers = []
 
     # Iterate over each layer in the encoder and initialize the tiling
-    layer = [layer_id]
+    layer = encoder_layers[layer_id]
 
     # Extract weight arrays for k, q, and v
     weight_array = extract_weight_array(layer)
@@ -144,7 +145,7 @@ from tqdm import tqdm
 
 metrics_results = []
 
-layers = [0,1,2,3,4,5]
+layers = [4,5] #[0,1,2,3,4,5]
 tile_size = 32
 step = 6
 
