@@ -398,68 +398,6 @@ def merge_matrices(smaller_matrices, tile_size):
 
     return merged_matrix
 
-def eval(tiled_layers, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
-    """
-    Evaluate the performance of a model with tiled layers of approximated submatrices.
-
-    Args:
-        tiled_layers (list): List of tiled layer objects containing approximated submatrices.
-        tile_size (int): Size of the tile used in the approximation.
-        model: The model object containing the encoder with layers to set weights.
-        tokenizer: The tokenizer used for encoding the source and target texts.
-        source_texts (list): List of source texts for BLEU and F-score evaluation.
-        target_texts (list): List of target texts for BLEU and F-score evaluation.
-        device (str): Device to use for evaluation ('cuda' or 'cpu').
-
-    Returns:
-        pd.DataFrame: DataFrame containing the evaluation metrics.
-    """
-    mse_array = []
-    memory_footprint = 0
-
-    # Loop to merge approximated submatrices back into full matrices
-    for i in range(len(tiled_layers)):
-        approximated_matrix_array = []
-        for j in range(len(tiled_layers[i])):  # Ensure correct sublist length
-            approximated_submatrix_array = tiled_layers[i][j].current_reconstructed_weight_array
-            # Merge submatrices back into the original sized matrix
-            approximated_matrix = merge_matrices(approximated_submatrix_array, tile_size)
-
-            # Append the merged matrix to the array
-            approximated_matrix_array.append(approximated_matrix)
-            
-            memory_footprint += tiled_layers[i][j].memory_footprint_compressed
-            
-        mse_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[i]),approximated_matrix_array))
-        # Set the approximated matrices as weights for the model layer
-        set_layer_weight(model.model.encoder.layers[i], approximated_matrix_array)
-
-    # Calculate overall metrics
-    tile_size = tiled_layers[i][j].R
-    num_step = tiled_layers[-1][-1].steps
-    mse = sum(mse_array) / len(mse_array) if mse_array else 0
-    memory_footprint /= 8  # Convert bits to bytes
-    compression_ratio = tiled_layers[i][j].compression_ratio()
-
-    # Compute BLEU and F-score
-    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
-
-    # Compile results into a DataFrame
-    results = {
-        'Tile Size': [tile_size],
-        'Steps': [num_step],
-        'MSE': [mse],
-        'Memory Footprint (Bytes)': [memory_footprint],
-        'Compression Ratio': [compression_ratio],
-        'BLEU Score': [bleu],
-        'Character F-score': [fscore]
-    }
-
-    metrics_dataframe = pd.DataFrame(results)
-
-    return metrics_dataframe
-
 
 def eval_abs_error(tiled_layers, tile_size, num_step):
     absolute_error_records = {
