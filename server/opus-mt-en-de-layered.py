@@ -269,7 +269,7 @@ from tqdm import tqdm
 
 metrics_results = []
 
-layers = [0,1] #[0,1,2,3,4,5]
+layers = [0,1,2,3,4,5]
 tile_size = 64
 step = 10
 skip = 1
@@ -295,6 +295,6 @@ with tqdm(total=len(layers), desc='Processing', unit='iteration') as pbar1:
 df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
 # Save the concatenated DataFrame to CSV
-df.to_csv('layered_results.csv', index=False)
+df.to_csv('layered_results_single.csv', index=False)
 
-print("metrics_results saved to 'layered_results.csv'")
+print("metrics_results saved to 'layered_results_single.csv'")
