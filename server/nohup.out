@@ -645,3 +645,56 @@ Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=False, round_mode=nearest
 1.4868554866171844
 Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=False, round_mode=stochastic
 3.272675922394285e-154
+[nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+cuda
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:04,  1.23iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:03,  1.20iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.26iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.28iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:04<00:00,  1.24iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.23iteration/s][AProcessing: 100%|██████████| 6/6 [01:18<00:00, 13.14s/iteration]
+Processing:  17%|█▋        | 1/6 [01:18<06:34, 78.89s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:04,  1.24iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:03,  1.22iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.27iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.26iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:04<00:00,  1.23iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.24iteration/s][AProcessing: 100%|██████████| 6/6 [01:16<00:00, 12.81s/iteration]
+Processing:  33%|███▎      | 2/6 [02:35<05:10, 77.73s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.34iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.40iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.39iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.37iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.34iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.34iteration/s][AProcessing: 100%|██████████| 6/6 [01:15<00:00, 12.62s/iteration]
+Processing:  50%|█████     | 3/6 [03:51<03:50, 76.82s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:04,  1.25iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:03,  1.31iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.33iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.28iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.25iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.27iteration/s][AProcessing: 100%|██████████| 6/6 [01:14<00:00, 12.35s/iteration]
+Processing:  67%|██████▋   | 4/6 [05:05<02:31, 75.76s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.35iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.37iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.40iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.38iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.31iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.34iteration/s][AProcessing: 100%|██████████| 6/6 [01:15<00:00, 12.65s/iteration]
+Processing:  83%|████████▎ | 5/6 [06:21<01:15, 75.82s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.36iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.36iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.41iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.38iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.36iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.35iteration/s][AProcessing: 100%|██████████| 6/6 [01:17<00:00, 12.98s/iteration]
+Processing: 100%|██████████| 6/6 [07:39<00:00, 76.52s/iteration]Processing: 100%|██████████| 6/6 [07:39<00:00, 76.58s/iteration]
+metrics_results saved to 'single_layered.csv'
