@@ -56,7 +56,7 @@ def init_tiled_layer(encoder_layers, layer_id, tile_size):
     tiled_layers = []
 
     # Iterate over each layer in the encoder and initialize the tiling
-    layer = encoder_layers[layer_id]
+    layer = [layer_id]
 
     # Extract weight arrays for k, q, and v
     weight_array = extract_weight_array(layer)
@@ -89,6 +89,9 @@ def eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, targe
     Returns:
         pd.DataFrame: DataFrame containing the evaluation metrics.
     """
+    # Create a deep copy of the model to avoid modifying the original model
+    local_model = copy.deepcopy(model)
+
     mse_array = []
     memory_footprint = 0
 
@@ -105,9 +108,9 @@ def eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, targe
         
         memory_footprint += tiled_layer[j].memory_footprint_compressed
         
-    mse_array.append(mean_square_error_array1(extract_weight_array(model.model.encoder.layers[layer_id]),approximated_matrix_array))
+    mse_array.append(mean_square_error_array1(extract_weight_array(local_model.model.encoder.layers[layer_id]), approximated_matrix_array))
 
-    set_layer_weight(model.model.encoder.layers[layer_id], approximated_matrix_array)
+    set_layer_weight(local_model.model.encoder.layers[layer_id], approximated_matrix_array)
 
     # Calculate overall metrics
     num_step = tiled_layer[-1].steps
@@ -116,8 +119,8 @@ def eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, targe
     compression_ratio = tiled_layer[-1].compression_ratio()
 
     # Compute BLEU and F-score
-    bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-    fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+    bleu = compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
+    fscore = compute_character_fscore(device, local_model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
     results = {
@@ -141,7 +144,7 @@ from tqdm import tqdm
 
 metrics_results = []
 
-layers = [4,5] #[0,1,2,3,4,5]
+layers = [0,1,2,3,4,5]
 tile_size = 32
 step = 6
 
