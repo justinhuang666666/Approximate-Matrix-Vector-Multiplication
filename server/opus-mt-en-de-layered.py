@@ -270,7 +270,7 @@ from tqdm import tqdm
 metrics_results = []
 
 layers = [0,1] #[0,1,2,3,4,5]
-tile_size = 32
+tile_size = 64
 step = 10
 skip = 1
 
