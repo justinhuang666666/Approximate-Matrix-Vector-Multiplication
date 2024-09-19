@@ -143,7 +143,7 @@ metrics_results = []
 
 layers = [0,1,2,3,4,5]
 tile_size = 32
-step = 7
+step = 6
 
 with tqdm(total=len(layers), desc='Processing', unit='iteration') as pbar1:
     for layer_id in layers:
