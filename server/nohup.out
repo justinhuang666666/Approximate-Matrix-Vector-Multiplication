@@ -698,3 +698,56 @@ cuda
 Processing: 100%|██████████| 6/6 [00:04<00:00,  1.35iteration/s][AProcessing: 100%|██████████| 6/6 [01:17<00:00, 12.98s/iteration]
 Processing: 100%|██████████| 6/6 [07:39<00:00, 76.52s/iteration]Processing: 100%|██████████| 6/6 [07:39<00:00, 76.58s/iteration]
 metrics_results saved to 'single_layered.csv'
+[nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+cuda
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:04,  1.10iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:03,  1.13iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.19iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.16iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:04<00:00,  1.15iteration/s][A
+Processing: 100%|██████████| 6/6 [00:05<00:00,  1.16iteration/s][AProcessing: 100%|██████████| 6/6 [01:21<00:00, 13.54s/iteration]
+Processing:  17%|█▋        | 1/6 [01:21<06:46, 81.32s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.40iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.35iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.35iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.31iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.31iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.29iteration/s][AProcessing: 100%|██████████| 6/6 [01:13<00:00, 12.23s/iteration]
+Processing:  33%|███▎      | 2/6 [02:34<05:06, 76.66s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.35iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.39iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.35iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.39iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.41iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.36iteration/s][AProcessing: 100%|██████████| 6/6 [01:14<00:00, 12.37s/iteration]
+Processing:  50%|█████     | 3/6 [03:48<03:46, 75.57s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.52iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.54iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  1.52iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.51iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.49iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.47iteration/s][AProcessing: 100%|██████████| 6/6 [01:13<00:00, 12.30s/iteration]
+Processing:  67%|██████▋   | 4/6 [05:02<02:29, 74.88s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.39iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.37iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.31iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.32iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.24iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.21iteration/s][AProcessing: 100%|██████████| 6/6 [01:15<00:00, 12.64s/iteration]
+Processing:  83%|████████▎ | 5/6 [06:18<01:15, 75.25s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.33iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.34iteration/s][A
+Processing:  50%|█████     | 3/6 [00:02<00:02,  1.34iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:03<00:01,  1.32iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.31iteration/s][A
+Processing: 100%|██████████| 6/6 [00:04<00:00,  1.28iteration/s][AProcessing: 100%|██████████| 6/6 [01:17<00:00, 12.97s/iteration]
+Processing: 100%|██████████| 6/6 [07:36<00:00, 76.13s/iteration]Processing: 100%|██████████| 6/6 [07:36<00:00, 76.09s/iteration]
+metrics_results saved to 'single_layered.csv'
