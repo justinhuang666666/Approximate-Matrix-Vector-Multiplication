@@ -440,3 +440,208 @@ Opus-mt-en-de INT BLEU Score for wl=32, fl=22, symmetric=False, round_mode=neare
 41.337328250540224
 Opus-mt-en-de INT BLEU Score for wl=32, fl=22, symmetric=False, round_mode=stochastic
 41.337328250540224
+[nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+cuda
+Baseline BLEU Score
+41.337328250540224
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, symmetric=True, round_mode=nearest
+14.64823917137387
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, symmetric=True, round_mode=stochastic
+17.868253100604445
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, symmetric=False, round_mode=nearest
+16.12132163927481
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, symmetric=False, round_mode=stochastic
+13.406978869352331
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, symmetric=True, round_mode=nearest
+1.7657994853073269
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, symmetric=True, round_mode=stochastic
+3.75985668333605e-154
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, symmetric=False, round_mode=nearest
+1.742351552735498
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, symmetric=False, round_mode=stochastic
+4.113791230469775e-154
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, symmetric=True, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, symmetric=True, round_mode=stochastic
+2.8952663871933016e-154
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, symmetric=False, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, symmetric=False, round_mode=stochastic
+3.729323387841948e-154
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, symmetric=True, round_mode=nearest
+34.29473709027254
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, symmetric=True, round_mode=stochastic
+32.92480879041923
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, symmetric=False, round_mode=nearest
+35.62249025470157
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, symmetric=False, round_mode=stochastic
+34.42189110568313
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, symmetric=True, round_mode=nearest
+20.725579140685106
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, symmetric=True, round_mode=stochastic
+1.2426920350485893
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, symmetric=False, round_mode=nearest
+20.26526842987906
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, symmetric=False, round_mode=stochastic
+0.6187174954256593
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, symmetric=True, round_mode=nearest
+1.6213126613416187
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, symmetric=True, round_mode=stochastic
+3.338409129206802e-154
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, symmetric=False, round_mode=nearest
+1.6212347156809885
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, symmetric=False, round_mode=stochastic
+4.651244775992691e-154
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, symmetric=True, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, symmetric=True, round_mode=stochastic
+3.381721511301509e-154
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, symmetric=False, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, symmetric=False, round_mode=stochastic
+2.934379164847687e-154
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, symmetric=True, round_mode=nearest
+36.58118530620124
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, symmetric=True, round_mode=stochastic
+37.43434837217903
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, symmetric=False, round_mode=nearest
+36.95333465987433
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, symmetric=False, round_mode=stochastic
+37.484898943264184
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, symmetric=True, round_mode=nearest
+36.64093901769
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, symmetric=True, round_mode=stochastic
+36.332002166602926
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, symmetric=False, round_mode=nearest
+36.593253006276846
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, symmetric=False, round_mode=stochastic
+32.553323094893976
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, symmetric=True, round_mode=nearest
+21.025037432180316
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, symmetric=True, round_mode=stochastic
+1.6576176800968097
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, symmetric=False, round_mode=nearest
+20.656812291621605
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, symmetric=False, round_mode=stochastic
+1.757947670972679
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, symmetric=True, round_mode=nearest
+1.4125517638699494
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, symmetric=True, round_mode=stochastic
+4.9098227995735286e-154
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, symmetric=False, round_mode=nearest
+1.4125517638699494
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, symmetric=False, round_mode=stochastic
+4.4103644504626534e-154
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, symmetric=True, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, symmetric=True, round_mode=stochastic
+3.46004371130953e-154
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, symmetric=False, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, symmetric=False, round_mode=stochastic
+3.3614162195898675e-154
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, symmetric=True, round_mode=nearest
+39.13501200642959
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, symmetric=True, round_mode=stochastic
+38.78792022628164
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, symmetric=False, round_mode=nearest
+39.49351274714322
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, symmetric=False, round_mode=stochastic
+38.68141729970012
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, symmetric=True, round_mode=nearest
+37.69375541203966
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, symmetric=True, round_mode=stochastic
+37.411683987735486
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, symmetric=False, round_mode=nearest
+37.33989649070853
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, symmetric=False, round_mode=stochastic
+37.74012859796113
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, symmetric=True, round_mode=nearest
+38.171157875523136
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, symmetric=True, round_mode=stochastic
+35.48574894279468
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, symmetric=False, round_mode=nearest
+37.8623028859134
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, symmetric=False, round_mode=stochastic
+37.04325553043792
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, symmetric=True, round_mode=nearest
+22.81861141322873
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, symmetric=True, round_mode=stochastic
+8.28378194722003
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, symmetric=False, round_mode=nearest
+22.81861141322873
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, symmetric=False, round_mode=stochastic
+4.7724331178881645
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, symmetric=True, round_mode=nearest
+1.4515223332996845
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, symmetric=True, round_mode=stochastic
+3.596307993665111e-154
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, symmetric=False, round_mode=nearest
+1.4515223332996845
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, symmetric=False, round_mode=stochastic
+4.0185236164107014e-154
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, symmetric=True, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, symmetric=True, round_mode=stochastic
+4.609556935276579e-154
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, symmetric=False, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, symmetric=False, round_mode=stochastic
+4.250002762913776e-230
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, symmetric=True, round_mode=nearest
+39.03597302336057
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, symmetric=True, round_mode=stochastic
+38.48089081494015
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, symmetric=False, round_mode=nearest
+39.33619098728983
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, symmetric=False, round_mode=stochastic
+39.04225972318765
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, symmetric=True, round_mode=nearest
+38.161832481203575
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, symmetric=True, round_mode=stochastic
+39.12940905768499
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, symmetric=False, round_mode=nearest
+38.161832481203575
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, symmetric=False, round_mode=stochastic
+37.81695348460059
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, symmetric=True, round_mode=nearest
+39.535809857107154
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, symmetric=True, round_mode=stochastic
+39.249114027846005
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, symmetric=False, round_mode=nearest
+39.592654034591185
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, symmetric=False, round_mode=stochastic
+37.70260719953981
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, symmetric=True, round_mode=nearest
+39.13545439430108
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, symmetric=True, round_mode=stochastic
+36.12110845506404
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, symmetric=False, round_mode=nearest
+39.06783729245367
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, symmetric=False, round_mode=stochastic
+36.54835093806234
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, symmetric=True, round_mode=nearest
+21.93446302606657
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, symmetric=True, round_mode=stochastic
+10.965145626959941
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, symmetric=False, round_mode=nearest
+21.93446302606657
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, symmetric=False, round_mode=stochastic
+12.250273219824265
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, symmetric=True, round_mode=nearest
+1.9764806519275886
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, symmetric=True, round_mode=stochastic
+5.131288051109092e-154
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, symmetric=False, round_mode=nearest
+1.9764806519275886
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, symmetric=False, round_mode=stochastic
+5.890989707979306e-154
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=True, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=True, round_mode=stochastic
+4.1152637463267926e-154
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=False, round_mode=nearest
+1.4868554866171844
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, symmetric=False, round_mode=stochastic
+3.272675922394285e-154
