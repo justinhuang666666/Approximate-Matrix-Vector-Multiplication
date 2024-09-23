@@ -13,6 +13,10 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     S = torch.diag(torch.full((qu.size(0),), s))                      # Create diagonal matrix from singular values
     qs = quant_scheme.weight.quant(S)    # Quantize S (singular values)
 
+    print(qu)
+    print(qv)
+    print(qs)
+
     qreconstructed = S.mm(qu).mm(qv.t()).to(input_type)
 
     return qreconstructed
