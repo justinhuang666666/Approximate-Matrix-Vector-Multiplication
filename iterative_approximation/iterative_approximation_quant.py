@@ -295,6 +295,11 @@ random_matrix3 = np.random.rand(512, 512)
 
 W = [random_matrix1,random_matrix2,random_matrix3]
 
+wl = 8
+frac = 4
+symmetric = True
+round_mode = 'nearest'
+
 # Define the quantization scheme dictionary with IntQuant settings
 args_int.quant_scheme = {
     "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
