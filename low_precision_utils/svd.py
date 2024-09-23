@@ -7,7 +7,7 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     # Ensure that u, s, and v are quantized using the provided quantization scheme
     input_type = u.dtype
     device = u.device
-    
+
     qu = quant_scheme.weight.quant(u)    # Quantize U (left singular vector)
     qv = quant_scheme.weight.quant(v)    # Quantize V (right singular vector)
     
@@ -19,7 +19,7 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     print(qv)
     print(qs)
 
-    qreconstructed = S.mm(qu).mm(qv.t()).to(input_type)
+    qreconstructed = qs.mm(qu).mm(qv.t()).to(input_type)
 
     return qreconstructed
 
