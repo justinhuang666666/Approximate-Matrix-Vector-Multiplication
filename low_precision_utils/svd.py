@@ -22,7 +22,7 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     print(qv)
     print(S)
 
-    qreconstructed = S.mv(qu).mm(qv.t()).to(input_type)
+    qreconstructed = S.mv(qu).vv(qv.t()).to(input_type)
 
     return qreconstructed
 
