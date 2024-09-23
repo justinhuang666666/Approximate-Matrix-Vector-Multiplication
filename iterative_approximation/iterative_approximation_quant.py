@@ -284,13 +284,33 @@ class WeightArray:
             self.current_reconstructed_weight= np.hstack((self.current_reconstructed_weight, np.zeros((self.current_reconstructed_weight.shape[0], Tc - pad_cols))))
             self.current_residual_weight= np.hstack((self.current_residual_weight, np.zeros((self.current_residual_weight.shape[0], Tc - pad_cols))))
 
+
+import argparse
+# Create a mock argument namespace to simulate input arguments
+args_int = argparse.Namespace()
+
 random_matrix1 = np.random.rand(512, 512)
 random_matrix2 = np.random.rand(512, 512)
 random_matrix3 = np.random.rand(512, 512)
 
 W = [random_matrix1,random_matrix2,random_matrix3]
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512)
+# Define the quantization scheme dictionary with IntQuant settings
+args_int.quant_scheme = {
+    "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "same_input": True,
+    "same_weight": True
+}
+
+# Create the quantization scheme using the from_args method
+quant_method_int = QuantScheme.from_args(args_int)
+
+W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_methd)
 
 for i in range(10):
     for j in range(10):
