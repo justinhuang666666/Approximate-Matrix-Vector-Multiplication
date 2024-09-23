@@ -14,8 +14,10 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     print(qv)
     print(qs)
 
+    QS = torch.full((qu.size(1),), qs)
+
     # Adjust the dimensions of S to match the dimensions of qu and qv
-    S = torch.diag(qs)                      # Create diagonal matrix from singular values
+    S = torch.diag(QS)                      # Create diagonal matrix from singular values
     print(S)
 
     # Check dimensions to ensure compatibility before multiplying
