@@ -112,8 +112,8 @@ class WeightArray:
             v1_n = Vt_n[:, 0]
 
             # Update the weight matrix approximation with all tensors on the same device
-            reconstructed = RWi + quant_svd(u1_n,v1_n,sigma1_n,self.quant_method)
-            residual = Wi - quant_svd(u1_n,v1_n,sigma1_n,self.quant_method)
+            reconstructed = RWi + quant_svd(u1_n,sigma1_n,v1_n,self.quant_method)
+            residual = Wi - quant_svd(u1_n,sigma1_n,v1_n,self.quant_method)
 
             reconstructed_weight_array_step[idx] = reconstructed
             residual_weight_array_step[idx] = residual
@@ -293,6 +293,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
 from quant import *
 from svd import *
+
 # Create a mock argument namespace to simulate input arguments
 args_int = argparse.Namespace()
 
