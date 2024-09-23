@@ -10,17 +10,17 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     qv = quant_scheme.weight.quant(v)    # Quantize V (right singular vector)
     qs = quant_scheme.weight.quant(s)       # Quantize S (singular values)
 
-    print(qu)
-    print(qv)
-    print(qs)
+    # print(qu)
+    # print(qv)
+    # print(qs)
 
-    QS = torch.full((qu.size(0),), qs)
+    # QS = torch.full((qu.size(0),), qs)
 
-    # Adjust the dimensions of S to match the dimensions of qu and qv
-    S = torch.diag(QS)                      # Create diagonal matrix from singular values
-    print(S)
+    # # Adjust the dimensions of S to match the dimensions of qu and qv
+    # S = torch.diag(QS)                      # Create diagonal matrix from singular values
+    # print(S)
 
-    qreconstructed = qu.mm(S).mm(qv.t()).to(input_type)
+    qreconstructed = qu.mm(qs).mm(qv.t()).to(input_type)
 
     return qreconstructed
 
