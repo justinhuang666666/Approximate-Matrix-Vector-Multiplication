@@ -292,6 +292,7 @@ parent_dir = os.path.dirname(current_dir)
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
 from quant import *
+from svd import *
 # Create a mock argument namespace to simulate input arguments
 args_int = argparse.Namespace()
 
