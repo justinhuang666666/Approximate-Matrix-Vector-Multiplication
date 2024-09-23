@@ -73,6 +73,7 @@ def test_quant_svd():
     # Display the reconstructed quantized matrix
     print("Quantized Reconstructed Matrix:")
     print(qreconstructed)
+    print(qreconstructed.dtype)
 
 
 
