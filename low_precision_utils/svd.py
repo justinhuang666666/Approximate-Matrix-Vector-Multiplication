@@ -66,16 +66,16 @@ def test_quant_svd():
     v = torch.randn(2, 1)  # A 4x1 vector
     s = torch.tensor(1.12418129739)  # A scalar value
 
+    print('U:',u)
+    print('V:',v)
+    print('S:',s)
+
     # Perform quantized SVD reconstruction
     qreconstructed = quant_svd(u, s, v, quant_scheme_int)
 
     # Display the reconstructed quantized matrix
     print("Quantized Reconstructed Matrix:")
     print(qreconstructed)
-
-
-
-
 
 
 
