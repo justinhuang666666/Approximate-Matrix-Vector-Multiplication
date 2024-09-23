@@ -20,11 +20,6 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     S = torch.diag(QS)                      # Create diagonal matrix from singular values
     print(S)
 
-    # Check dimensions to ensure compatibility before multiplying
-    if qu.shape[1] != S.shape[0]:
-        # Adjust S dimensions to match qu and qv
-        S = torch.diag_embed(qs).to(qu.device)
-
     qreconstructed = qu.mm(S).mm(qv.t()).to(input_type)
 
     return qreconstructed
@@ -67,9 +62,9 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 # Test case setup
 def test_quant_svd():
     # Generate random tensors for u and v (vectors), and s as a scalar
-    u = torch.randn(4, 1)  # A 4x1 vector
-    v = torch.randn(4, 1)  # A 4x1 vector
-    s = torch.tensor(1.0)  # A scalar value
+    u = torch.randn(2, 1)  # A 4x1 vector
+    v = torch.randn(2, 1)  # A 4x1 vector
+    s = torch.tensor(1.12418129739)  # A scalar value
 
     # Perform quantized SVD reconstruction
     qreconstructed = quant_svd(u, s, v, quant_scheme_int)
