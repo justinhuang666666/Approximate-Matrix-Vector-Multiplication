@@ -8,6 +8,10 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     input_type = u.dtype
     device = u.device
 
+    print(u)
+    print(s)
+    print(v)
+
     qu = quant_scheme.weight.quant(u)    # Quantize U (left singular vector)
     qv = quant_scheme.weight.quant(v)    # Quantize V (right singular vector)
     qs = quant_scheme.weight.quant(s)
