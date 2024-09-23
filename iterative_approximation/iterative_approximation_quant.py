@@ -321,7 +321,7 @@ args_int.quant_scheme = {
 # Create the quantization scheme using the from_args method
 quant_method_int = QuantScheme.from_args(args_int)
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_methd)
+W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_method_int)
 
 for i in range(10):
     for j in range(10):
