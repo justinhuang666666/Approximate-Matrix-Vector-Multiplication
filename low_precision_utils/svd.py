@@ -16,7 +16,6 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     qus = qs.mv(qu) #.mv(qv.t()).to(u_type)
     qreconstructed = qus * qv.t()
 
-    print(qreconstructed)
     return qreconstructed.to(u_type)
 
 # import argparse
