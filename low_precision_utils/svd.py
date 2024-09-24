@@ -5,7 +5,7 @@ import sys
 def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
 
     # Ensure that u, s, and v are quantized using the provided quantization scheme
-    input_type = u.dtype
+    u_type = u.dtype
     device = u.device
 
     print(u)
@@ -18,15 +18,15 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     # Adjust the dimensions of S to match the dimensions of qu and qv
     S = torch.diag(torch.full((qu.size(0),), s)).to(device) 
     qs = quant_scheme.weight.quant(S).to(device)
-    u_shape = input.shape
+    u_shape = u.shape()
     print(u_shape)
     
 
-    qus = qs.mv(qu) #.mv(qv.t()).to(input_type)
+    qus = qs.mv(qu) #.mv(qv.t()).to(u_type)
     print('qus')
     print(qus)
     # qus.view(*u_shape[:-1], -1)
-    qreconstructed = 0 # q.mm(qv.t()).to(input_type)
+    qreconstructed = 0 # q.mm(qv.t()).to(u_type)
     # print('reconstructed')
     # print(qreconstructed)
     return qreconstructed
