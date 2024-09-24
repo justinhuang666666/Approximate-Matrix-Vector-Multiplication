@@ -303,8 +303,8 @@ random_matrix3 = np.random.rand(512, 512)
 
 W = [random_matrix1,random_matrix2,random_matrix3]
 
-wl = 16
-frac = 8
+wl = 32
+frac = 18
 symmetric = True
 round_mode = 'nearest'
 
