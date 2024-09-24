@@ -326,7 +326,7 @@ quant_method_int = QuantScheme.from_args(args_int)
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_method_int)
 WW_32 = W32.iterative_approximation(1)
 
-for i in range(10):
-    for j in range(10):
-        WW_32 = W32.iterative_approximation(1)
-    print(W32.average_mse_array()) 
+# for i in range(10):
+#     for j in range(10):
+#         WW_32 = W32.iterative_approximation(1)
+#     print(W32.average_mse_array()) 
