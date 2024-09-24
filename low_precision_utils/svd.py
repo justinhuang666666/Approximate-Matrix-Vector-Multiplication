@@ -14,15 +14,16 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
 
     qu = quant_scheme.weight.quant(u)    # Quantize U (left singular vector)
     qv = quant_scheme.weight.quant(v)    # Quantize V (right singular vector)
-    qs = quant_scheme.weight.quant(s)
+    
     # Adjust the dimensions of S to match the dimensions of qu and qv
-    S = torch.diag(torch.full((qu.size(0),), qs)).to(device) 
+    S = torch.diag(torch.full((qu.size(0),), s)).to(device) 
+    qs = quant_scheme.weight.quant(S).to(device)
     
     print(qu)
     print(qv)
-    print(S)
+    print(qs)
 
-    qreconstructed = S.mv(qu).mv(qv.t()).to(input_type)
+    qreconstructed = qs.mv(qu).mv(qv.t()).to(input_type)
 
     return qreconstructed
 
