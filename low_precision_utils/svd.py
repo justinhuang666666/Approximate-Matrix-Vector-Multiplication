@@ -18,19 +18,17 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     # Adjust the dimensions of S to match the dimensions of qu and qv
     S = torch.diag(torch.full((qu.size(0),), s)).to(device) 
     qs = quant_scheme.weight.quant(S).to(device)
-    print('qu')
-    print(qu.shape)
-    print('qv')
-    print(qv.shape)
-    print('qs')
-    print(qs.shape)
+    u_shape = input.shape
+    print(u_shape)
+    
 
-    qus = qu.mm(qs.t()) #.mv(qv.t()).to(input_type)
+    qus = qs.mv(qu) #.mv(qv.t()).to(input_type)
     print('qus')
     print(qus)
+    # qus.view(*u_shape[:-1], -1)
     qreconstructed = 0 # q.mm(qv.t()).to(input_type)
-    #print('reconstructed')
-    print(qreconstructed)
+    # print('reconstructed')
+    # print(qreconstructed)
     return qreconstructed
 
 # import argparse
