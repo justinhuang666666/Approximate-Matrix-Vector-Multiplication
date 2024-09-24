@@ -20,6 +20,7 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     qs = quant_scheme.weight.quant(S).to(device)
     u_shape = u.shape
     print('u shape:',u_shape[-1])
+    print('qs shape',qs.shape)
     
 
     qus = qs.mv(qu) #.mv(qv.t()).to(u_type)
