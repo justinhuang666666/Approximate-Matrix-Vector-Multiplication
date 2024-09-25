@@ -120,7 +120,7 @@ def eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, targe
     compression_ratio = tiled_layer[-1].compression_ratio()
 
     # Compute BLEU and F-score
-    bleu = 0 # compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
+    bleu = compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
     fscore = 0 # compute_character_fscore(device, local_model, tokenizer, source_texts, target_texts)
 
     # Compile results into a DataFrame
@@ -147,7 +147,7 @@ metrics_results = []
 
 layers = [0,1,2,3,4,5]
 tile_size = 64
-steps = [2,4]#[2,4,6,8,10,12,14,16,18]
+steps = [2,4,6,8,10,12,14,16,18]
 
 with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for step in steps:
