@@ -146,22 +146,24 @@ from tqdm import tqdm
 metrics_results = []
 
 layers = [0,1,2,3,4,5]
-tile_size = 32
-step = 6
+tile_size = 64
+step = [2,4]#[2,4,6,8,10,12,14,16,18]
 
-with tqdm(total=len(layers), desc='Processing', unit='iteration') as pbar1:
-    for layer_id in layers:
-        tiled_layer = init_tiled_layer(encoder_layers, layer_id, tile_size)
-        with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-            for i in range(step):
-                for k in range(len(tiled_layer)):  # Ensure the correct length is used
-                    # Assuming iterative_approximation is defined within the WeightArray class
-                    tiled_layer[k].iterative_approximation(1)
+with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
+    for step in steps:
+        with tqdm(total=len(layers), desc='Processing', unit='iteration') as pbar2:
+            for layer_id in layers:
+                tiled_layer = init_tiled_layer(encoder_layers, layer_id, tile_size)
+                with tqdm(total=step, desc='Processing', unit='iteration') as pbar3:
+                    for i in range(step):
+                        for k in range(len(tiled_layer)):  # Ensure the correct length is used
+                            # Assuming iterative_approximation is defined within the WeightArray class
+                            tiled_layer[k].iterative_approximation(1)
+                        pbar3.update(1)
+
+                    metrics_dataframe = eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, target_texts)
+                    metrics_results.append(metrics_dataframe)
                 pbar2.update(1)
-
-            metrics_dataframe = eval(tiled_layer, layer_id, tile_size, model, tokenizer, source_texts, target_texts)
-            metrics_results.append(metrics_dataframe)
-            
 
         pbar1.update(1)
     
