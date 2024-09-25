@@ -184,7 +184,7 @@ def reconstruct_tiled_layer(tiled_layer, method, tile_size):
     elif method == 2:
         return reconstruct_tiled_layer_group(tiled_layer, tile_size)
     elif method == 3:
-        return reconstruct_tiled_layer_group(tiled_layer, tile_size)
+        return reconstruct_tiled_layer_stack(tiled_layer, tile_size)
     else:
         return 0
 
@@ -241,8 +241,8 @@ opt_methods4 = [1,1,2,1,1,2]
 
 opt_methods = opt_methods2
 
-step = 20
-skip = 5
+step = 40
+skip = 10
 
 tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
