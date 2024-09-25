@@ -239,10 +239,10 @@ opt_methods2 = [2,2,2,2,2,2]
 opt_methods3 = [3,3,3,3,3,3]
 opt_methods4 = [1,1,2,1,1,2]
 
-opt_methods = opt_methods2
+opt_methods = opt_methods3
 
 step = 60
-skip = 20
+skip = 15
 
 tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
@@ -252,7 +252,7 @@ with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
                 for k in range(len(tiled_layers[j])): 
                     tiled_layers[j][k].iterative_approximation(method)
                 pbar3.update(1)
-            if (i%skip) == 0:
+            if ((i+1)%skip) == 0:
                 metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, model, tokenizer, source_texts, target_texts)
                 metrics_results.append(metrics_dataframe)
         pbar2.update(1)
