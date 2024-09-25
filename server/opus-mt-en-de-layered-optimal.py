@@ -239,7 +239,7 @@ opt_methods2 = [2,2,2,2,2,2]
 opt_methods3 = [3,3,3,3,3,3]
 opt_methods4 = [1,1,2,1,1,2]
 
-opt_methods = opt_methods1
+opt_methods = opt_methods2
 
 step = 20
 skip = 5
