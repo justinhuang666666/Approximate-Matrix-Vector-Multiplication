@@ -245,16 +245,19 @@ step = 20
 skip = 5
 
 tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
-
-for i in range(step):
-    with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
-        for j, method in enumerate(opt_methods):
-            for k in range(len(tiled_layers[j])): 
-                tiled_layers[j][k].iterative_approximation(method)
-    if (i%skip) == 0:
-        metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, model, tokenizer, source_texts, target_texts)
-        metrics_results.append(metrics_dataframe)
-    pbar3.update(1)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+    for i in range(step):
+        with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
+            for j, method in enumerate(opt_methods):
+                for k in range(len(tiled_layers[j])): 
+                    tiled_layers[j][k].iterative_approximation(method)
+                pbar3.update(1)
+            if (i%skip) == 0:
+                metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, model, tokenizer, source_texts, target_texts)
+                metrics_results.append(metrics_dataframe)
+        pbar2.update(1)
+            
+        
 
 df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
