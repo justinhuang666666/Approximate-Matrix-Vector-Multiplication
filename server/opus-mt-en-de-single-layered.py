@@ -147,7 +147,7 @@ metrics_results = []
 
 layers = [0,1,2,3,4,5]
 tile_size = 64
-step = [2,4]#[2,4,6,8,10,12,14,16,18]
+steps = [2,4]#[2,4,6,8,10,12,14,16,18]
 
 with tqdm(total=len(steps), desc='Processing', unit='iteration') as pbar1:
     for step in steps:
