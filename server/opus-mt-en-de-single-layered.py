@@ -38,10 +38,6 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-tile_sizes = [32,64,128,256,512]
-steps = [19,38,76,152,304]
-skips = [1,2,4,8,16]
-
 def init_tiled_layer(encoder_layers, layer_id, tile_size):
     """
     Generate tiled weight arrays for each encoder layer.
