@@ -160,9 +160,9 @@ def reconstruct_tiled_layer_group(tiled_layer, tile_size):
     return approximated_matrix_array, memory_footprint
 
 def reconstruct_tiled_layer_stack(tiled_layer, tile_size):
-    k_tiles = [array.current_reconstructed_weight_array[0] for array in tiled_layer]
-    q_tiles = [array.current_reconstructed_weight_array[1] for array in tiled_layer]
-    v_tiles = [array.current_reconstructed_weight_array[2] for array in tiled_layer]
+    k_tiles = [array.reconstructed_weight()[0] for array in tiled_layer]
+    q_tiles = [array.reconstructed_weight()[1] for array in tiled_layer]
+    v_tiles = [array.reconstructed_weight()[2] for array in tiled_layer]
 
     memory_footprint = 0
     for array in tiled_layer:
