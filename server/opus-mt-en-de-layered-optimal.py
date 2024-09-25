@@ -194,8 +194,7 @@ def eval(tiled_layers, opt_methods, tile_size, model, tokenizer, source_texts, t
 
     mse_array = []
     memory_footprint = 0
-
-    for layer_id, method, tiled_layer in enumerate(zip(opt_methods, tiled_layers)):
+    for layer_id, (method, tiled_layer) in enumerate(zip(opt_methods, tiled_layers)):
         approximated_matrix_array, memory_footprint_layer = reconstruct_tiled_layer(tiled_layer, method, tile_size)
         mse_array.append(mean_square_error_array1(extract_weight_array(local_model.model.encoder.layers[layer_id]), approximated_matrix_array))
         set_layer_weight(local_model.model.encoder.layers[layer_id], approximated_matrix_array)
