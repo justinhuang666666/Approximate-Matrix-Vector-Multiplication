@@ -14,9 +14,11 @@ def quant_svd(u, s, v, quant_scheme: "quant.QuantScheme" = None):
     qs = quant_scheme.weight.quant(S).to(device)
 
     qus = qs.mv(qu) #.mv(qv.t()).to(u_type)
-    qreconstructed = qus * qv.t()
+    qreconstructed = qus @ qv.t()
 
-    return qreconstructed.to(u_type)
+    qqreconstructed = quant_scheme.weight.quant(qreconstructed).to(u_type)
+
+    return qqreconstructed
 
 # import argparse
 # import warnings
