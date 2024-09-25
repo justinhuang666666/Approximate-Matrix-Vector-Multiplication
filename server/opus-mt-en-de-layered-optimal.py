@@ -241,8 +241,8 @@ opt_methods4 = [1,1,2,1,1,2]
 
 opt_methods = opt_methods2
 
-step = 90
-skip = 15
+step = 150
+skip = 30
 
 tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
 with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
