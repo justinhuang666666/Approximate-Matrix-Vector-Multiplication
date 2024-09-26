@@ -338,7 +338,8 @@ with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
                 elif method == 2:
                     for k in range(len(tiled_layers[j])): 
                         tiled_layers[j][k].iterative_approximation(method)
-                        # tiled_layers[j][k].iterative_approximation(method)
+                        tiled_layers[j][k].iterative_approximation(method)
+                        tiled_layers[j][k].iterative_approximation(method)
                     pbar3.update(1)
                 elif method == 3:
                     for k in range(len(tiled_layers[j])): 
@@ -353,7 +354,7 @@ with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
 df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
 # Save the concatenated DataFrame to CSV
-df.to_csv('layered_optimal_results1.csv', index=False)
+df.to_csv('layered_optimal_results2.csv', index=False)
 
-print("metrics_results saved to 'layered_optimal_results1.csv'")
+print("metrics_results saved to 'layered_optimal_results2.csv'")
         
