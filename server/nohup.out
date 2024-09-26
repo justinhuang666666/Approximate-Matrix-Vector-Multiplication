@@ -2724,4 +2724,84 @@ cuda
 Processing:  50%|█████     | 3/6 [00:00<00:00,  3.06iteration/s][A
 Processing:  67%|██████▋   | 4/6 [00:01<00:00,  3.05iteration/s][A
 Processing:  83%|████████▎ | 5/6 [00:01<00:00,  3.05iteration/s][A
-Processing: 100%|██████████| 6/6 [00:01<00:00,  3.05iteration/s][A
+Processing: 100%|██████████| 6/6 [00:01<00:00,  3.05iteration/s][AProcessing: 100%|██████████| 6/6 [00:23<00:00,  3.87s/iteration]
+Processing:  30%|███       | 12/40 [03:44<07:36, 16.30s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.89iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.96iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.99iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  3.00iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  3.01iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  3.01iteration/s][AProcessing: 100%|██████████| 6/6 [00:02<00:00,  3.00iteration/s]
+Processing:  32%|███▎      | 13/40 [03:46<05:23, 11.97s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  3.00iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  3.00iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:00,  3.00iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  3.00iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  3.00iteration/s][A
+Processing: 100%|██████████| 6/6 [00:01<00:00,  3.00iteration/s][AProcessing: 100%|██████████| 6/6 [00:24<00:00,  4.07s/iteration]
+Processing:  35%|███▌      | 14/40 [04:10<06:48, 15.73s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.75iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.82iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.84iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.85iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.85iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.86iteration/s][AProcessing: 100%|██████████| 6/6 [00:02<00:00,  2.84iteration/s]
+Processing:  38%|███▊      | 15/40 [04:12<04:50, 11.62s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.85iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.85iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.85iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.84iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.83iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.83iteration/s][AProcessing: 100%|██████████| 6/6 [00:23<00:00,  3.91s/iteration]
+Processing:  40%|████      | 16/40 [04:36<06:04, 15.19s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.82iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.90iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.92iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.93iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.93iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.94iteration/s][AProcessing: 100%|██████████| 6/6 [00:02<00:00,  2.92iteration/s]
+Processing:  42%|████▎     | 17/40 [04:38<04:18, 11.24s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.92iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.94iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.91iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.91iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.92iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.92iteration/s][AProcessing: 100%|██████████| 6/6 [00:22<00:00,  3.80s/iteration]
+Processing:  45%|████▌     | 18/40 [05:01<05:23, 14.71s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.68iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.82iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.87iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.90iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.91iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.91iteration/s][AProcessing: 100%|██████████| 6/6 [00:02<00:00,  2.89iteration/s]
+Processing:  48%|████▊     | 19/40 [05:03<03:49, 10.92s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.92iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.92iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.91iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.91iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.91iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.91iteration/s][AProcessing: 100%|██████████| 6/6 [00:22<00:00,  3.78s/iteration]
+Processing:  50%|█████     | 20/40 [05:25<04:49, 14.46s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.67iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.81iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.86iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.88iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.89iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.90iteration/s][AProcessing: 100%|██████████| 6/6 [00:02<00:00,  2.87iteration/s]
+Processing:  52%|█████▎    | 21/40 [05:28<03:24, 10.75s/iteration]
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:  17%|█▋        | 1/6 [00:00<00:01,  2.92iteration/s][A
+Processing:  33%|███▎      | 2/6 [00:00<00:01,  2.91iteration/s][A
+Processing:  50%|█████     | 3/6 [00:01<00:01,  2.91iteration/s][A
+Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.89iteration/s][A
+Processing:  83%|████████▎ | 5/6 [00:01<00:00,  2.88iteration/s][A
+Processing: 100%|██████████| 6/6 [00:02<00:00,  2.89iteration/s][A
