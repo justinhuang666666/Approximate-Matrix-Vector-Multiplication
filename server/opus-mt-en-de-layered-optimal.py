@@ -204,7 +204,7 @@ def eval(tiled_layers, opt_methods, tile_size, step, model, tokenizer, source_te
     num_step = step
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
     memory_footprint /= 8  # Convert bits to bytes
-    compression_ratio = tiled_layers[-1][-1].compression_ratio()
+    compression_ratio = 32*512*512*3*6/memory_footprint
 
     # Compute BLEU and F-score
     bleu = compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
@@ -336,7 +336,6 @@ with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
                     pbar3.update(1)
                 elif method == 2:
                     for k in range(len(tiled_layers[j])): 
-                        tiled_layers[j][k].iterative_approximation(method)
                         tiled_layers[j][k].iterative_approximation(method)
                         tiled_layers[j][k].iterative_approximation(method)
                     pbar3.update(1)
