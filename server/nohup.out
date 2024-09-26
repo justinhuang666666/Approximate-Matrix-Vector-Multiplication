@@ -620,4 +620,7 @@ metrics_results saved to 'layered_optimal_single_results.csv'
 Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.70s/iteration][A
 Processing: 100%|██████████| 6/6 [00:10<00:00,  1.71s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration]
 Processing:  31%|███       | 37/120 [14:35<43:55, 31.75s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
+Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][ATraceback (most recent call last):
+  File "/home/jh4420/Approximate-Matrix-Vector-Multiplication/server/opus-mt-en-de-layered-optimal.py", line 1, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
