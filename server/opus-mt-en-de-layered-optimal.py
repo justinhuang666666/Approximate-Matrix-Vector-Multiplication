@@ -203,8 +203,9 @@ def eval(tiled_layers, opt_methods, tile_size, step, model, tokenizer, source_te
     # Calculate overall metrics
     num_step = step
     mse = sum(mse_array) / len(mse_array) if mse_array else 0
-    memory_footprint /= 8  # Convert bits to bytes
     compression_ratio = 32*512*512*3*6/memory_footprint
+    memory_footprint /= 8  # Convert bits to bytes
+    
 
     # Compute BLEU and F-score
     bleu = compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
