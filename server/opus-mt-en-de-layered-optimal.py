@@ -238,85 +238,85 @@ opt_methods3 = [3,3,3,3,3,3]
 opt_methods4 = [1,1,2,1,1,2]
 
 
-# opt_methods = opt_methods1
-# step = 40
-# skip = 2
+opt_methods = opt_methods1
+step = 40
+skip = 2
 
-# metrics_results = []
+metrics_results = []
 
-# tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
-# with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-#     for i in range(step):
-#         with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
-#             for j, method in enumerate(opt_methods):
-#                 for k in range(len(tiled_layers[j])): 
-#                     tiled_layers[j][k].iterative_approximation(method)
-#                 pbar3.update(1)
-#             if ((i+1)%skip) == 0:
-#                 metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
-#                 metrics_results.append(metrics_dataframe)
-#         pbar2.update(1)
+tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+    for i in range(step):
+        with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
+            for j, method in enumerate(opt_methods):
+                for k in range(len(tiled_layers[j])): 
+                    tiled_layers[j][k].iterative_approximation(method)
+                pbar3.update(1)
+            if ((i+1)%skip) == 0:
+                metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
+                metrics_results.append(metrics_dataframe)
+        pbar2.update(1)
 
-# df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
+df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
-# # Save the concatenated DataFrame to CSV
-# df.to_csv('layered_optimal_single_results.csv', index=False)
+# Save the concatenated DataFrame to CSV
+df.to_csv('layered_optimal_single_results.csv', index=False)
 
-# print("metrics_results saved to 'layered_optimal_single_results.csv'")
-
-
-# opt_methods = opt_methods2
-# step = 120
-# skip = 6
-
-# metrics_results = []
-
-# tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
-# with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-#     for i in range(step):
-#         with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
-#             for j, method in enumerate(opt_methods):
-#                 for k in range(len(tiled_layers[j])): 
-#                     tiled_layers[j][k].iterative_approximation(method)
-#                 pbar3.update(1)
-#             if ((i+1)%skip) == 0:
-#                 metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
-#                 metrics_results.append(metrics_dataframe)
-#         pbar2.update(1)
-
-# df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
-
-# # Save the concatenated DataFrame to CSV
-# df.to_csv('layered_optimal_group_results.csv', index=False)
-
-# print("metrics_results saved to 'layered_optimal_group_results.csv'")
+print("metrics_results saved to 'layered_optimal_single_results.csv'")
 
 
-# opt_methods = opt_methods3
-# step = 60
-# skip = 3
+opt_methods = opt_methods2
+step = 120
+skip = 6
 
-# metrics_results = []
+metrics_results = []
 
-# tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
-# with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
-#     for i in range(step):
-#         with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
-#             for j, method in enumerate(opt_methods):
-#                 for k in range(len(tiled_layers[j])): 
-#                     tiled_layers[j][k].iterative_approximation(method)
-#                 pbar3.update(1)
-#             if ((i+1)%skip) == 0:
-#                 metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
-#                 metrics_results.append(metrics_dataframe)
-#         pbar2.update(1)
+tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+    for i in range(step):
+        with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
+            for j, method in enumerate(opt_methods):
+                for k in range(len(tiled_layers[j])): 
+                    tiled_layers[j][k].iterative_approximation(method)
+                pbar3.update(1)
+            if ((i+1)%skip) == 0:
+                metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
+                metrics_results.append(metrics_dataframe)
+        pbar2.update(1)
 
-# df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
+df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
 
-# # Save the concatenated DataFrame to CSV
-# df.to_csv('layered_optimal_stack_results.csv', index=False)
+# Save the concatenated DataFrame to CSV
+df.to_csv('layered_optimal_group_results.csv', index=False)
 
-# print("metrics_results saved to 'layered_optimal_stack_results.csv'")
+print("metrics_results saved to 'layered_optimal_group_results.csv'")
+
+
+opt_methods = opt_methods3
+step = 60
+skip = 3
+
+metrics_results = []
+
+tiled_layers = init_tiled_layers(encoder_layers, opt_methods, tile_size)
+with tqdm(total=step, desc='Processing', unit='iteration') as pbar2:
+    for i in range(step):
+        with tqdm(total=len(opt_methods), desc='Processing', unit='iteration') as pbar3:
+            for j, method in enumerate(opt_methods):
+                for k in range(len(tiled_layers[j])): 
+                    tiled_layers[j][k].iterative_approximation(method)
+                pbar3.update(1)
+            if ((i+1)%skip) == 0:
+                metrics_dataframe = eval(tiled_layers, opt_methods, tile_size, i, model, tokenizer, source_texts, target_texts)
+                metrics_results.append(metrics_dataframe)
+        pbar2.update(1)
+
+df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine DataFrames in a list
+
+# Save the concatenated DataFrame to CSV
+df.to_csv('layered_optimal_stack_results.csv', index=False)
+
+print("metrics_results saved to 'layered_optimal_stack_results.csv'")
 
 
 opt_methods = opt_methods4
