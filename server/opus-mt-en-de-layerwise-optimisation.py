@@ -38,9 +38,9 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-def init_tiled_layer_single(encoder_layers, layer_id, tile_size):
+def init_tiled_layer_single(encoder_layer, tile_size):
     # Iterate over each layer in the encoder and initialize the tiling
-    layer = encoder_layers[layer_id]
+    layer = encoder_layer
 
     # Extract weight arrays for k, q, and v
     weight_array = extract_weight_array(layer)
@@ -57,9 +57,9 @@ def init_tiled_layer_single(encoder_layers, layer_id, tile_size):
 
     return tiled_layer
 
-def init_tiled_layer_group(encoder_layers, layer_id, tile_size):
+def init_tiled_layer_group(encoder_layer, tile_size):
     # Initialize a list to store tiled weight arrays for each layer
-    layer = encoder_layers[layer_id]
+    layer = encoder_layer
     # Extract weight arrays for k, q, and v
     weight_array = extract_weight_array(layer)
     k = divide_matrix(weight_array[0], tile_size)
@@ -76,8 +76,8 @@ def init_tiled_layer_group(encoder_layers, layer_id, tile_size):
     return tiled_layer
 
 
-def init_tiled_layer_stack(encoder_layers, layer_id, tile_size):
-    layer = encoder_layers[layer_id]
+def init_tiled_layer_stack(encoder_layer, tile_size):
+    layer = encoder_layer
 
     # Extract weight arrays for k, q, and v
     weight_array = extract_weight_array(layer)
@@ -94,20 +94,20 @@ def init_tiled_layer_stack(encoder_layers, layer_id, tile_size):
 
     return tiled_layer
 
-def init_tiled_layer(encoder_layers, layer_id, method, tile_size):
+def init_tiled_layer(encoder_layer, method, tile_size):
     if method == 1:
-        return init_tiled_layer_single(encoder_layers, layer_id, tile_size)
+        return init_tiled_layer_single(encoder_layer, tile_size)
     elif method == 2:
-        return init_tiled_layer_group(encoder_layers, layer_id, tile_size)
+        return init_tiled_layer_group(encoder_layer, tile_size)
     elif method == 3:
-        return init_tiled_layer_stack(encoder_layers, layer_id, tile_size)
+        return init_tiled_layer_stack(encoder_layer, tile_size)
     else:
         return 0
 
 def init_tiled_layers(encoder_layers, opt_methods, tile_size):
     tiled_layers = []
     for layer_id, method in enumerate(opt_methods):
-        tiled_layers.append(init_tiled_layer(encoder_layers, layer_id, method, tile_size))
+        tiled_layers.append(init_tiled_layer(encoder_layers[layer_id], method, tile_size))
     return tiled_layers
 
 
@@ -188,44 +188,21 @@ def reconstruct_tiled_layer(tiled_layer, method, tile_size):
     else:
         return 0
 
-def eval(tiled_layers, opt_methods, tile_size, step, model, tokenizer, source_texts, target_texts, device='cuda'):
+def eval_bleu(tiled_layer, layer_id, method, tile_size, model, tokenizer, source_texts, target_texts, device='cuda'):
     # Create a deep copy of the model to avoid modifying the original model
     local_model = copy.deepcopy(model)
 
     mse_array = []
-    memory_footprint = 0
-    for layer_id, (method, tiled_layer) in enumerate(zip(opt_methods, tiled_layers)):
-        approximated_matrix_array, memory_footprint_layer = reconstruct_tiled_layer(tiled_layer, method, tile_size)
-        mse_array.append(mean_square_error_array1(extract_weight_array(local_model.model.encoder.layers[layer_id]), approximated_matrix_array))
-        set_layer_weight(local_model.model.encoder.layers[layer_id], approximated_matrix_array)
-        memory_footprint += memory_footprint_layer
 
-    # Calculate overall metrics
-    num_step = step
-    mse = sum(mse_array) / len(mse_array) if mse_array else 0
-    compression_ratio = 32*512*512*3*6/memory_footprint
-    memory_footprint /= 8  # Convert bits to bytes
-    
+    approximated_matrix_array, memory_footprint_layer = reconstruct_tiled_layer(tiled_layer, method, tile_size)
+    mse_array.append(mean_square_error_array1(extract_weight_array(local_model.model.encoder.layers[layer_id]), approximated_matrix_array))
+    set_layer_weight(local_model.model.encoder.layers[layer_id], approximated_matrix_array)
+
 
     # Compute BLEU and F-score
     bleu = compute_bleu_score(device, local_model, tokenizer, source_texts, target_texts)
-    fscore = 0 # compute_character_fscore(device, local_model, tokenizer, source_texts, target_texts)
 
-    # Compile results into a DataFrame
-    results = {
-        'Layer': [layer_id],
-        'Tile Size': [tile_size],
-        'Steps': [num_step],
-        'MSE': [mse],
-        'Memory Footprint (Bytes)': [memory_footprint],
-        'Compression Ratio': [compression_ratio],
-        'BLEU Score': [bleu],
-        'Character F-score': [fscore]
-    }
-
-    metrics_dataframe = pd.DataFrame(results)
-
-    return metrics_dataframe
+    return local_model,bleu,memory_footprint_layer
 
 encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example encoder layers
 
@@ -358,4 +335,59 @@ df = pd.concat(metrics_results, ignore_index=True)  # Correct way to combine Dat
 df.to_csv('layered_optimal_results2.csv', index=False)
 
 print("metrics_results saved to 'layered_optimal_results2.csv'")
-        
+
+layers= [0,1,2,3,4]
+methods = [1,2,3]
+bleu_threshold = 39
+
+memory_footprints = []
+optimal_methods = []
+steps = []
+bleus = []
+compression_ratios = []
+memory_footprint = 0
+baseline_memory_footprint = 0
+
+for layer_id in layers:
+    model_array = []
+    memory_footprint_array = []
+    bleu_array = []
+
+    method = 1
+    # for method in methods:
+    tiled_layer = init_tiled_layer(encoder_layers[layer_id], method, tile_size)
+
+    method_bleu = 0
+    
+    i = 0
+
+    while (method_bleu < bleu_threshold) & (i < (layer_id+1)*tile_size):
+        for k in range(len(tiled_layer)): 
+            tiled_layer[k].iterative_approximation(method)
+        i += 1
+
+        method_model, method_bleu, method_memory_footprint = eval_bleu(
+            tiled_layer, layer_id, method, tile_size, model, tokenizer, source_texts, target_texts
+        )
+    
+    model_array.append(method_model)
+    memory_footprint_array.append(method_memory_footprint)
+    bleu_array.append(method_bleu)
+
+    # Find the index of the model with the lowest memory footprint
+    best_model_idx = memory_footprint_array.index(min(memory_footprint_array))
+    model = model_array[best_model_idx]
+    memory_footprint.append(memory_footprint_array[best_model_idx])
+    memory_footprint += memory_footprint_array[best_model_idx]
+    baseline_memory_footprint += 32*512*512*3
+    compression_ratios.append(baseline_memory_footprint/memory_footprint)
+    optimal_methods.append(best_model_idx)
+    steps.append(i)
+    bleus.append(bleu_array[best_model_idx])
+
+
+print('memory_footprint: ',memory_footprint)
+print('optimal_methods: ',optimal_methods)
+print('steps: ',steps)
+print('bleus: ',bleus)
+print('compression_ratios: ',compression_ratios)
