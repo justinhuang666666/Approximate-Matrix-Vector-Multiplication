@@ -386,8 +386,8 @@ for layer_id in layers:
     bleus.append(bleu_array[best_model_idx])
 
 
-print('memory_footprint: ',memory_footprint)
-print('optimal_methods: ',optimal_methods)
-print('steps: ',steps)
-print('bleus: ',bleus)
-print('compression_ratios: ',compression_ratios)
+    print('memory_footprint: ',memory_footprint)
+    print('optimal_methods: ',optimal_methods)
+    print('steps: ',steps)
+    print('bleus: ',bleus)
+    print('compression_ratios: ',compression_ratios)
