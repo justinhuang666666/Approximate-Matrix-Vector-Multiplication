@@ -360,6 +360,10 @@ for layer_id in layers:
     method_bleu = 0
     
     i = 0
+    if layer_id == 0:
+        for j in range (10):
+            for k in range(len(tiled_layer)): 
+                tiled_layer[k].iterative_approximation(method)
 
     while (method_bleu < bleu_threshold) & (i < (layer_id+1)*tile_size):
         for k in range(len(tiled_layer)): 
