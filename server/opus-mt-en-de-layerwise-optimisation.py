@@ -377,7 +377,7 @@ for layer_id in layers:
     # Find the index of the model with the lowest memory footprint
     best_model_idx = memory_footprint_array.index(min(memory_footprint_array))
     model = model_array[best_model_idx]
-    memory_footprint.append(memory_footprint_array[best_model_idx])
+    memory_footprints.append(memory_footprint_array[best_model_idx])
     memory_footprint += memory_footprint_array[best_model_idx]
     baseline_memory_footprint += 32*512*512*3
     compression_ratios.append(baseline_memory_footprint/memory_footprint)
