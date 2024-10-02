@@ -240,7 +240,7 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
         method = 1  # Define the method for layer approximation (this can be parameterized as needed)
         
         # Initialize the tiled layer for the given layer_id
-        tiled_layer = init_tiled_layer(target_compression_ratio, encoder_layers[layer_id], method, tile_size)
+        tiled_layer = init_tiled_layer(encoder_layers[layer_id], method, tile_size)
 
         # Perform iterative approximation for the current layer
         for step in range(steps[layer_id] - 1):
@@ -270,6 +270,11 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
 
     # Calculate the compression ratio achieved by the optimized model
     compression_ratio = 512 * 512 * 6 * 3 * 32 / next_model_memory_footprint
+
+    print('current bleu: ',next_model_bleu)
+    print('current steps: ',next_model_steps)
+    print('current compression ratio: ',compression_ratio)
+
 
     # Recursively optimize until the desired compression ratio is achieved
     if compression_ratio < target_compression_ratio:
