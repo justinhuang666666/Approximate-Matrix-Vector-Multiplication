@@ -208,64 +208,81 @@ encoder_layers = [model.model.encoder.layers[i] for i in range(6)]  # Example en
 
 from tqdm import tqdm
 
-tile_size = 64
 
-layers= [0,1,2,3,4,5]
-methods = [1,2,3]
-bleu_threshold = 39
 
-memory_footprints = []
-optimal_methods = []
-steps = []
-bleus = []
-compression_ratios = []
-memory_footprint = 0
-baseline_memory_footprint = 0
+def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, steps, tile_size, tokenizer, source_texts, target_texts):
+    """
+    Function to perform layer-wise optimization for a model to achieve a target compression ratio.
 
-for layer_id in layers:
-    model_array = []
-    memory_footprint_array = []
-    bleu_array = []
+    Parameters:
+    - model: The base model to be optimized.
+    - target_compression_ratio: The desired compression ratio to achieve.
+    - encoder_layers: List of encoder layers of the model to be optimized.
+    - memory_footprint_array: List of current memory footprints for each layer.
+    - steps: Number of steps allocated for optimization for each layer.
+    - tile_size: Size of the tiles used for layer approximation.
+    - tokenizer: Tokenizer used for evaluation.
+    - source_texts: List of source texts for evaluation.
+    - target_texts: List of target texts for evaluation.
 
-    method = 1
-    # for method in methods:
-    tiled_layer = init_tiled_layer(encoder_layers[layer_id], method, tile_size)
+    Returns:
+    - next_model_bleu: BLEU score of the optimized model.
+    - next_model_steps: Updated number of steps for each layer.
+    - compression_ratio: The final compression ratio achieved by the optimized model.
+    """
 
-    method_bleu = 0
-    
-    i = 0
-    if layer_id == 0:
-        for j in range (10):
-            for k in range(len(tiled_layer)): 
+    next_model_array = []                      # To store the models for each layer optimization.
+    next_model_layer_i_memory_array = []        # To store the memory footprint for each optimized layer.
+    next_model_bleu_array = []                  # To store the BLEU scores for each optimized model.
+
+    # Iterate over each layer to perform optimization
+    for layer_id in range(len(encoder_layers)):
+        method = 1  # Define the method for layer approximation (this can be parameterized as needed)
+        
+        # Initialize the tiled layer for the given layer_id
+        tiled_layer = init_tiled_layer(target_compression_ratio, encoder_layers[layer_id], method, tile_size)
+
+        # Perform iterative approximation for the current layer
+        for step in range(steps[layer_id] - 1):
+            for k in range(len(tiled_layer)):
                 tiled_layer[k].iterative_approximation(method)
 
-    while (method_bleu < bleu_threshold) & (i < (layer_id+1)*tile_size):
-        for k in range(len(tiled_layer)): 
-            tiled_layer[k].iterative_approximation(method)
-        i += 1
-
-        method_model, method_bleu, method_memory_footprint = eval_bleu(
+        # Evaluate the optimized model for the current layer
+        next_model_i, next_model_i_bleu, next_model_layer_i_memory = eval_bleu(
             tiled_layer, layer_id, method, tile_size, model, tokenizer, source_texts, target_texts
         )
+
+        # Store the results for comparison
+        next_model_array.append(next_model_i)
+        next_model_layer_i_memory_array.append(next_model_layer_i_memory)
+        next_model_bleu_array.append(next_model_i_bleu)
+
+    # Find the index of the model with the best BLEU score (indicating better performance)
+    best_model_idx = next_model_bleu_array.index(max(next_model_bleu_array))
+    next_model = next_model_array[best_model_idx]
     
-    model_array.append(method_model)
-    memory_footprint_array.append(method_memory_footprint)
-    bleu_array.append(method_bleu)
+    # Update memory footprint and steps for the best performing model
+    memory_footprint_array[best_model_idx] = next_model_layer_i_memory_array[best_model_idx]
+    next_model_bleu = next_model_bleu_array[best_model_idx]
+    steps[best_model_idx] -= 1  # Reduce the step count for the best layer
+    next_model_steps = steps
+    next_model_memory_footprint = sum(memory_footprint_array)  # Total memory footprint after optimization
 
-    # Find the index of the model with the lowest memory footprint
-    best_model_idx = memory_footprint_array.index(min(memory_footprint_array))
-    model = model_array[best_model_idx]
-    memory_footprints.append(memory_footprint_array[best_model_idx])
-    memory_footprint += memory_footprint_array[best_model_idx]
-    baseline_memory_footprint += 32*512*512*3
-    compression_ratios.append(baseline_memory_footprint/memory_footprint)
-    optimal_methods.append(best_model_idx)
-    steps.append(i)
-    bleus.append(bleu_array[best_model_idx])
+    # Calculate the compression ratio achieved by the optimized model
+    compression_ratio = 512 * 512 * 6 * 3 * 32 / next_model_memory_footprint
 
+    # Recursively optimize until the desired compression ratio is achieved
+    if compression_ratio < target_compression_ratio:
+        return layerwise_optimisation(next_model, target_compression_ratio, encoder_layers, memory_footprint_array, steps, tile_size, tokenizer, source_texts, target_texts)
+    else:
+        return next_model_bleu, next_model_steps, compression_ratio
+    
+tile_size = 64
+steps = [45,45,45,45,45,45]
+target_compression_ratio = 1
+memory_footprint_array = [213995520,213995520,213995520,213995520,213995520,213995520]
+model_bleu, model_steps, compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, steps, tile_size, tokenizer, source_texts, target_texts)
 
-    print('memory_footprint: ',memory_footprint)
-    print('optimal_methods: ',optimal_methods)
-    print('steps: ',steps)
-    print('bleus: ',bleus)
-    print('compression_ratios: ',compression_ratios)
+print('bleu: ',model_bleu)
+print('steps: ',model_steps)
+print('compression ratio: ',compression_ratio)
