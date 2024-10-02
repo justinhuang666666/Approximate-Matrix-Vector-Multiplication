@@ -281,8 +281,8 @@ tile_size = 64
 steps = [45,45,45,45,45,45]
 target_compression_ratio = 1
 memory_footprint_array = [213995520,213995520,213995520,213995520,213995520,213995520]
-model_bleu, model_steps, compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, steps, tile_size, tokenizer, source_texts, target_texts)
+model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, steps, tile_size, tokenizer, source_texts, target_texts)
 
 print('bleu: ',model_bleu)
 print('steps: ',model_steps)
-print('compression ratio: ',compression_ratio)
+print('compression ratio: ',model_compression_ratio)
