@@ -275,11 +275,11 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
     print('current steps: ',next_model_steps)
     print('current compression ratio: ',compression_ratio)
 
-    return next_model, next_model_bleu, next_model_steps, compression_ratio
+    return next_model, next_model_bleu, next_model_steps, memory_footprint_array, compression_ratio
     
 tile_size = 64
 steps = [35,35,35,35,35,35]
-target_compression_ratio = 1.22 
+target_compression_ratio = 1.32 
 memory_footprint_array = [166440960,166440960,166440960,166440960,166440960,166440960]
 
 model_compression_ratio = 0
@@ -289,19 +289,19 @@ import pandas as pd
 results_list = []
 
 while(model_compression_ratio < target_compression_ratio):
-    model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
+    model, model_bleu, model_steps, memory_footprint_array, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
     # Append current results to list as a dictionary
     results_list.append({
         'BLEU Score': model_bleu,
         'Steps': model_steps,
         'Compression Ratio': model_compression_ratio
     })
-    
+
 # Convert list of dictionaries to DataFrame
 results_df = pd.DataFrame(results_list)
 
 # Save the DataFrame to a CSV file
-results_df.to_csv('model_compression_results.csv', index=False)
+results_df.to_csv('model_compression_results_132.csv', index=False)
 
 print('----------------Final----------------')
 print('bleu: ',model_bleu)
