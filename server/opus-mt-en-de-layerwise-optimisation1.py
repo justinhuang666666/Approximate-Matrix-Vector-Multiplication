@@ -275,7 +275,7 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
     print('current steps: ',next_model_steps)
     print('current compression ratio: ',compression_ratio)
 
-    return next_model_bleu, next_model_steps, compression_ratio
+    return next_model, next_model_bleu, next_model_steps, compression_ratio
     
 tile_size = 64
 steps = [35,35,35,35,35,35]
@@ -283,11 +283,10 @@ target_compression_ratio = 1.22
 memory_footprint_array = [166440960,166440960,166440960,166440960,166440960,166440960]
 
 model_compression_ratio = 0
-model_bleu = model
 model_steps = steps
 
 while(model_compression_ratio < target_compression_ratio):
-    model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model_bleu, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
+    model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
 
     print('bleu: ',model_bleu)
     print('steps: ',model_steps)
