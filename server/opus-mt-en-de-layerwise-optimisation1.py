@@ -285,6 +285,11 @@ memory_footprint_array = [166440960,166440960,166440960,166440960,166440960,1664
 model_compression_ratio = 0
 model_steps = steps
 
+import pandas as pd
+
+# Create an empty DataFrame to store results
+results_df = pd.DataFrame(columns=['BLEU Score', 'Steps', 'Compression Ratio'])
+
 while(model_compression_ratio < target_compression_ratio):
     model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
     # Append current results to DataFrame
@@ -293,12 +298,6 @@ while(model_compression_ratio < target_compression_ratio):
         'Steps': model_steps,
         'Compression Ratio': model_compression_ratio
     }, ignore_index=True)
-import pandas as pd
-
-# Create an empty DataFrame to store results
-results_df = pd.DataFrame(columns=['BLEU Score', 'Steps', 'Compression Ratio'])
-
-
 
 # Save the DataFrame to a CSV file
 results_df.to_csv('layerwise_optimisation_results.csv', index=False)
