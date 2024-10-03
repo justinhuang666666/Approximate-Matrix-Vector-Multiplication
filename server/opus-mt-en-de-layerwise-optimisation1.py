@@ -243,7 +243,7 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
         tiled_layer = init_tiled_layer(encoder_layers[layer_id], method, tile_size)
 
         # Perform iterative approximation for the current layer
-        for step in range(steps[layer_id] - 1):
+        for step in range(steps[layer_id] - 2):
             for k in range(len(tiled_layer)):
                 tiled_layer[k].iterative_approximation(method)
 
@@ -264,7 +264,7 @@ def layerwise_optimisation(model, target_compression_ratio, encoder_layers, memo
     # Update memory footprint and steps for the best performing model
     memory_footprint_array[best_model_idx] = next_model_layer_i_memory_array[best_model_idx]
     next_model_bleu = next_model_bleu_array[best_model_idx]
-    steps[best_model_idx] -= 1  # Reduce the step count for the best layer
+    steps[best_model_idx] -= 2  # Reduce the step count for the best layer
     next_model_steps = steps
     next_model_memory_footprint = sum(memory_footprint_array)  # Total memory footprint after optimization
 
@@ -287,6 +287,21 @@ model_steps = steps
 
 while(model_compression_ratio < target_compression_ratio):
     model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
+
+import pandas as pd
+
+# Create an empty DataFrame to store results
+results_df = pd.DataFrame(columns=['BLEU Score', 'Steps', 'Compression Ratio'])
+
+# Append current results to DataFrame
+results_df = results_df.append({
+    'BLEU Score': model_bleu,
+    'Steps': model_steps,
+    'Compression Ratio': model_compression_ratio
+}, ignore_index=True)
+
+# Save the DataFrame to a CSV file
+results_df.to_csv('layerwise_optimisation_results.csv', index=False)
 
 print('----------------Final----------------')
 print('bleu: ',model_bleu)
