@@ -294,6 +294,7 @@ while(model_compression_ratio < target_compression_ratio):
     results_list.append({
         'BLEU Score': model_bleu,
         'Steps': model_steps,
+        'Memory Footprint':memory_footprint_array,
         'Compression Ratio': model_compression_ratio
     })
 
