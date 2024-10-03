@@ -288,10 +288,6 @@ model_steps = steps
 while(model_compression_ratio < target_compression_ratio):
     model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
 
-    print('bleu: ',model_bleu)
-    print('steps: ',model_steps)
-    print('compression ratio: ',model_compression_ratio)
-
 print('----------------Final----------------')
 print('bleu: ',model_bleu)
 print('steps: ',model_steps)
