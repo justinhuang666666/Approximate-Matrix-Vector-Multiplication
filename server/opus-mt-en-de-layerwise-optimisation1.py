@@ -286,21 +286,22 @@ model_compression_ratio = 0
 model_steps = steps
 
 import pandas as pd
-
-# Create an empty DataFrame to store results
-results_df = pd.DataFrame(columns=['BLEU Score', 'Steps', 'Compression Ratio'])
+results_list = []
 
 while(model_compression_ratio < target_compression_ratio):
     model, model_bleu, model_steps, model_compression_ratio = layerwise_optimisation(model, target_compression_ratio, encoder_layers, memory_footprint_array, model_steps, tile_size, tokenizer, source_texts, target_texts)
-    # Append current results to DataFrame
-    results_df = results_df.append({
+    # Append current results to list as a dictionary
+    results_list.append({
         'BLEU Score': model_bleu,
         'Steps': model_steps,
         'Compression Ratio': model_compression_ratio
-    }, ignore_index=True)
+    })
+    
+# Convert list of dictionaries to DataFrame
+results_df = pd.DataFrame(results_list)
 
 # Save the DataFrame to a CSV file
-results_df.to_csv('layerwise_optimisation_results.csv', index=False)
+results_df.to_csv('model_compression_results.csv', index=False)
 
 print('----------------Final----------------')
 print('bleu: ',model_bleu)
