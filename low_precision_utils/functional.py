@@ -48,6 +48,38 @@ class quant_linear(Function):
 
         grad_bias = grad_output.sum(0) if bias is not None else None
         return grad_input.view(*grad_output_shape[:-1], -1), grad_weight, grad_bias, None
+    
+
+class quant_linear_svd(Function):
+    @staticmethod
+    def forward(ctx, input, U, V, bias=None, quant_scheme:"quant.QuantScheme" = None):
+        ctx.quant_scheme = quant_scheme
+        input_shape = input.shape
+
+        input = input.view(-1, input_shape[-1])
+        input_type = input.dtype
+        
+        # Quantization
+        qinput = quant_scheme.act.quant(input)
+        qu = quant_scheme.weight.quant(U)
+        qv = quant_scheme.weight.quant(V)
+
+        # Convert bias to a compatible data type
+        if bias is not None:
+            bias = bias.to(torch.bfloat16)
+
+        # Perform matrix multiplication
+        vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
+        qvx = quant_scheme.weight.quant(vx)
+        output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
+
+        # Add bias if provided
+        if bias is not None:
+            output += bias
+
+        return output.view(*input_shape[:-1], -1)
+
+
 
 class quant_conv1d(Function):
     @staticmethod

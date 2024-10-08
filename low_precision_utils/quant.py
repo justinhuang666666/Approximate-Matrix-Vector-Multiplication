@@ -216,6 +216,34 @@ def replace_with_quantized(network, quant_scheme, filter):
     
     return network
 
+def replace_with_quantized_svd(network, rank, quant_scheme, filter):
+
+    # List to keep track of layers to be replaced
+    to_replace = []
+
+    # Iterate through the modules in the network
+    for name, module in network.named_children():
+        # Check if the module matches the specified filter type
+        if isinstance(module, filter):
+            self_attn = module.self_attn
+            
+            # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
+            self_attn.k_proj = QuantLinearSVD.from_full_precision(self_attn.k_proj, rank, quant_scheme)
+            self_attn.q_proj = QuantLinearSVD.from_full_precision(self_attn.q_proj, rank, quant_scheme)
+            self_attn.v_proj = QuantLinearSVD.from_full_precision(self_attn.v_proj, rank, quant_scheme)
+
+            # Assign the modified self-attention back to the module
+            module.self_attn = self_attn
+        # Recursively apply replacements to submodules
+        else:
+            replace_with_quantized_svd(module, rank, quant_scheme, filter)
+
+    # Replace identified layers with their quantized versions
+    for name, new_module in to_replace:
+        setattr(network, name, new_module)
+
+    return network
+
 
 class ModelEma(nn.Module):
     def __init__(self, model, decay=0.9999, device=None):
