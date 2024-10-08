@@ -37,9 +37,6 @@ class QuantLinearSVD(nn.Linear):
         self.U = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
         self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
 
-        print(self.U)
-        print(self.V)
-
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
 
@@ -53,6 +50,9 @@ class QuantLinearSVD(nn.Linear):
         U, V = compute_uv(module.weight.data, rank)
         l.U.data.copy_(U)
         l.V.data.copy_(V)
+
+        print(l.U)
+        print(l.V)
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
