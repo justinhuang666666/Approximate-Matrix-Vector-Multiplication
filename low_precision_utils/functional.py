@@ -53,30 +53,32 @@ class quant_linear(Function):
 class quant_linear_svd(Function):
     @staticmethod
     def forward(ctx, input, U, V, bias=None, quant_scheme:"quant.QuantScheme" = None):
+        print("quant_linear_svd forward-------------")
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
 
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         
-        # Quantization
-        qinput = quant_scheme.act.quant(input)
-        qu = quant_scheme.weight.quant(U)
-        print(U[0:9,0])
-        print(qu[0:9,0])
-        qv = quant_scheme.weight.quant(V)
-        print(V[0:9,0])
-        print(qv[0:9,0])
+        # # Quantization
+        # qinput = quant_scheme.act.quant(input)
+        # qu = quant_scheme.weight.quant(U)
+        # # print(U[0:9,0])
+        # # print(qu[0:9,0])
+        # qv = quant_scheme.weight.quant(V)
+        # # print(V[0:9,0])
+        # # print(qv[0:9,0])
 
-        # Convert bias to a compatible data type
-        if bias is not None:
-            bias = bias.to(torch.bfloat16)
+        # # Convert bias to a compatible data type
+        # if bias is not None:
+        #     bias = bias.to(torch.bfloat16)
 
-        # Perform matrix multiplication
-        vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
-        qvx = quant_scheme.weight.quant(vx)
-        output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
+        # # Perform matrix multiplication
+        # vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
+        # qvx = quant_scheme.weight.quant(vx)
+        # output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
 
+        output = U * V * input
         # Add bias if provided
         if bias is not None:
             output += bias
