@@ -225,6 +225,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
     for name, module in local_network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
+            print(module)
             self_attn = module.self_attn
             
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged

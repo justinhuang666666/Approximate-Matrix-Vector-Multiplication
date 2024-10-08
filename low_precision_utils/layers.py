@@ -40,8 +40,11 @@ class QuantLinearSVD(nn.Linear):
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
 
+    def forward(self, input):
+        return functional.quant_linear_svd.apply(input, self.U, self.V, self.bias, self.quant_scheme)
+
     @classmethod
-    def from_full_precision(cls, module, rank, quant_scheme):
+    def from_full_precision(self, module, rank, quant_scheme):
         l = QuantLinearSVD(module.in_features, module.out_features, rank, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme)
         # Decompose the weight matrix into U and V
         U, V = compute_uv(module.weight.data, rank)
@@ -50,11 +53,6 @@ class QuantLinearSVD(nn.Linear):
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
-
-    def forward(self, input):
-        return functional.quant_linear_svd.apply(input, self.U, self.V, self.bias, self.quant_scheme)
-
-
 
 class QuantConv1d(nn.Conv1d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, 
