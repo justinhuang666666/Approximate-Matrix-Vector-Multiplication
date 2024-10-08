@@ -64,8 +64,8 @@ filter = type(model.model.encoder.layers[0])
 # Create a mock argument namespace to simulate input arguments
 args_int = argparse.Namespace()
 
-wl = 32
-frac = 16
+wl = 64
+frac = 32
 symmetric = True
 round_mode = "nearest"
 
@@ -80,9 +80,6 @@ args_int.quant_scheme = {
     "same_input": True,
     "same_weight": True
 }
-
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
 
 # Replace with quantized model
 quant_svd_model = replace_with_quantized_svd(model, 500, quant_scheme_int, filter)
@@ -107,6 +104,8 @@ quant_svd_model = replace_with_quantized_svd(model, 100, quant_scheme_int, filte
 bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
 
 print(bleu_int)
+
+
 
 
 
