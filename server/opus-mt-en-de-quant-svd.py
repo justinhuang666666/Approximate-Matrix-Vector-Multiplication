@@ -92,6 +92,21 @@ bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, 
 
 print(bleu_int)
 
+# Replace with quantized model
+quant_svd_model = replace_with_quantized_svd(model, 300, quant_scheme_int, filter)
+
+# Compute BLEU score
+bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+
+print(bleu_int)
+
+# Replace with quantized model
+quant_svd_model = replace_with_quantized_svd(model, 100, quant_scheme_int, filter)
+
+# Compute BLEU score
+bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+
+print(bleu_int)
 
 
 
