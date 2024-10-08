@@ -45,8 +45,6 @@ class QuantLinearSVD(nn.Linear):
         l = QuantLinearSVD(module.in_features, module.out_features, rank, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme)
         # Decompose the weight matrix into U and V
         U, V = compute_uv(module.weight.data, rank)
-        print(U.shape)
-        print(V.shape)
         l.U.data.copy_(U)
         l.V.data.copy_(V)
         if module.bias is not None:
