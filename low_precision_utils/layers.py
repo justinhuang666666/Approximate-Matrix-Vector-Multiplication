@@ -45,6 +45,8 @@ class QuantLinearSVD(nn.Linear):
         l = QuantLinearSVD(module.in_features, module.out_features, rank, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme)
         # Decompose the weight matrix into U and V
         U, V = compute_uv(module.weight.data, rank)
+        print(U.shape)
+        print(V.shape)
         l.U.data.copy_(U)
         l.V.data.copy_(V)
         if module.bias is not None:
@@ -99,75 +101,5 @@ class QuantConv2d(nn.Conv2d):
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
-
-class QuantSelfAttention(nn.Module):
-    def __init__(self, embed_dim, num_heads, quant_scheme=None, dropout=0.0):
-        super(QuantSelfAttention, self).__init__()
-        self.embed_dim = embed_dim
-        self.num_heads = num_heads
-        self.head_dim = embed_dim // num_heads
-        assert self.head_dim * num_heads == embed_dim, "Embedding dimension must be divisible by number of heads"
-
-        # Define the quantization scheme
-        self.quant_scheme = quant_scheme
-
-        # Create quantized linear layers for query, key, and value projections
-        self.q_proj = QuantLinear(embed_dim, embed_dim, quant_scheme=quant_scheme)
-        self.k_proj = QuantLinear(embed_dim, embed_dim, quant_scheme=quant_scheme)
-        self.v_proj = QuantLinear(embed_dim, embed_dim, quant_scheme=quant_scheme)
-
-        # Output projection layer
-        self.out_proj = QuantLinear(embed_dim, embed_dim, quant_scheme=quant_scheme)
-
-        # Dropout layer
-        self.dropout = nn.Dropout(dropout)
-
-    def forward(self, query, key, value, attn_mask=None):
-        # Compute query, key, and value projections
-        query = self.q_proj(query)
-        key = self.k_proj(key)
-        value = self.v_proj(value)
-
-        # Reshape into (batch_size, num_heads, seq_len, head_dim)
-        batch_size, seq_length, _ = query.size()
-        query = query.view(batch_size, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
-        key = key.view(batch_size, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
-        value = value.view(batch_size, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
-
-        # Compute attention scores
-        attn_scores = torch.matmul(query, key.transpose(-2, -1)) / self.head_dim ** 0.5
-
-        # Apply attention mask if provided
-        if attn_mask is not None:
-            attn_scores = attn_scores.masked_fill(attn_mask == 0, float('-inf'))
-
-        # Compute attention weights
-        attn_weights = F.softmax(attn_scores, dim=-1)
-        attn_weights = self.dropout(attn_weights)
-
-        # Compute attention output
-        attn_output = torch.matmul(attn_weights, value)
-
-        # Reshape back to (batch_size, seq_length, embed_dim)
-        attn_output = attn_output.transpose(1, 2).contiguous().view(batch_size, seq_length, self.embed_dim)
-
-        # Output projection
-        attn_output = self.out_proj(attn_output)
-        return attn_output
-
-    @classmethod
-    def from_full_precision(cls, module, quant_scheme):
-        # Create a new QuantSelfAttention module with quantized sub-layers
-        qsa = cls(module.embed_dim, module.num_heads, quant_scheme=quant_scheme, dropout=module.dropout.p)
-        
-        # Copy weights and biases from full precision module
-        qsa.q_proj = QuantLinear.from_full_precision(module.q_proj, quant_scheme)
-        qsa.k_proj = QuantLinear.from_full_precision(module.k_proj, quant_scheme)
-        qsa.v_proj = QuantLinear.from_full_precision(module.v_proj, quant_scheme)
-        qsa.out_proj = QuantLinear.from_full_precision(module.out_proj, quant_scheme)
-        
-        return qsa
-
-# Assuming functional.quant_linear is defined elsewhere in your project or replace it with your own quantization operation.
 
 
