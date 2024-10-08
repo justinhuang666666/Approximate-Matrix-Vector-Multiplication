@@ -1,6 +1,7 @@
 from torch import nn
 from . import functional
 from . import quant 
+import torch
 
 class QuantLinear(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None):
