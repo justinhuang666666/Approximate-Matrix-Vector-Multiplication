@@ -37,6 +37,9 @@ class QuantLinearSVD(nn.Linear):
         self.U = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
         self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
 
+        print(self.U)
+        print(self.V)
+
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
 
