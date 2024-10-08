@@ -217,12 +217,12 @@ def replace_with_quantized(network, quant_scheme, filter):
     return network
 
 def replace_with_quantized_svd(network, rank, quant_scheme, filter):
-
+    local_network = copy.deepcopy(network)
     # List to keep track of layers to be replaced
     to_replace = []
 
     # Iterate through the modules in the network
-    for name, module in network.named_children():
+    for name, module in local_network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
             self_attn = module.self_attn
@@ -240,9 +240,9 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
-        setattr(network, name, new_module)
+        setattr(local_network, name, new_module)
 
-    return network
+    return local_network
 
 
 class ModelEma(nn.Module):
