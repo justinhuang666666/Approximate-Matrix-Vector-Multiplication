@@ -62,9 +62,11 @@ class quant_linear_svd(Function):
         # Quantization
         qinput = quant_scheme.act.quant(input)
         qu = quant_scheme.weight.quant(U)
-        print(qu)
+        print(U[0:9,0])
+        print(qu[0:9,0])
         qv = quant_scheme.weight.quant(V)
-        print(qv)
+        print(V[0:9,0])
+        print(qv[0:9,0])
 
         # Convert bias to a compatible data type
         if bias is not None:
