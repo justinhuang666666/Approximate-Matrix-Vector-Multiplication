@@ -93,7 +93,7 @@ from low_precision_utils import layers
 
 layer = layers.QuantLinearSVD(512,512)
 
-layer(random())
+layer(torch.randn(512, 512))
 
 print(layer)
 # # Replace with quantized model
