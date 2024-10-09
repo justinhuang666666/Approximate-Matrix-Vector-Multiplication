@@ -9,7 +9,7 @@ class QuantLinear(nn.Linear):
         self.quant_scheme = quant_scheme
 
     def forward(self, input):
-        print("forward from QuantLinearSVD")
+        print("forward from QuantLinear")
         return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme)
 
     @classmethod
