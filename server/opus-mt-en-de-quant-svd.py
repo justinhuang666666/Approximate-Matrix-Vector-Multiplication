@@ -91,7 +91,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 from low_precision_utils import layers
 
-layer = QuantLinearSVD()
+layer = layers.QuantLinearSVD()
 
 layer(random())
 
