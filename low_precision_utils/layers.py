@@ -28,19 +28,20 @@ def compute_uv(weight, rank):
     return U, V
 
 class QuantLinearSVD(nn.Linear):
-    def __init__(self, in_features, out_features, rank, bias=True, device=None, dtype=None, quant_scheme=None):
-        super(QuantLinearSVD, self).__init__(in_features, out_features, bias=bias, device=device, dtype=dtype)
+    def __init__(self, in_features, out_features, rank, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None):
+        super(QuantLinearSVD, self).__init__(in_features, out_features, rank, bias, device, dtype)
 
         self.rank = rank
 
         # Initialize parameters for U and V matrices
-        self.U = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
-        self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
+        self.U = torch.empty(out_features, rank, device=device, dtype=dtype)
+        self.V = torch.empty(rank, in_features, device=device, dtype=dtype)
 
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
 
     def forward(self, input):
+        print("forward from QuantLinearSVD")
         return functional.quant_linear_svd.apply(input, self.U, self.V, self.bias, self.quant_scheme)
 
     @classmethod
