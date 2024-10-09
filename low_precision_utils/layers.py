@@ -9,6 +9,7 @@ class QuantLinear(nn.Linear):
         self.quant_scheme = quant_scheme
 
     def forward(self, input):
+        print("forward from QuantLinearSVD")
         return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme)
 
     @classmethod
@@ -41,13 +42,14 @@ class QuantLinearSVD(nn.Linear):
 
     def forward(self, input):
         print("forward from QuantLinearSVD")
-        return functional.quant_linear_svd.apply(input, self.U, self.V, self.bias, self.quant_scheme)
+        return functional.quant_linear_svd.apply(input, self.weight, self.bias, self.quant_scheme,self.U, self.V)
 
     @classmethod
     def from_full_precision(self, module, rank, quant_scheme):
         l = QuantLinearSVD(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme, rank)
         # Decompose the weight matrix into U and V
         U, V = compute_uv(module.weight.data, rank)
+        l.weight.data.copy_(module.weight)
         l.U.data.copy_(U)
         l.V.data.copy_(V)
 

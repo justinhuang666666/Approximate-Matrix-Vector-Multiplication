@@ -53,7 +53,7 @@ class quant_linear(Function):
 
 class quant_linear_svd(Function):
     @staticmethod
-    def forward(ctx, input, U, V, bias=None, quant_scheme:"quant.QuantScheme" = None):
+    def forward(ctx, input, weight ,bias=None, quant_scheme:"quant.QuantScheme" = None, U=0, V=0):
         print("quant_linear_svd forward-------------")
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
