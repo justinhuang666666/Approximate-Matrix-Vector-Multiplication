@@ -31,14 +31,14 @@ class QuantLinearSVD(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, rank=0):
         super(QuantLinearSVD, self).__init__(in_features, out_features, bias, device, dtype)
 
-        self.rank = rank
-
         # Initialize parameters for U and V matrices
-        self.U = nn.parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
-        self.V = nn.parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
+        self.U = [] # [nn.parameter(torch.empty(out_features, rank, device=device, dtype=dtype))]
+        self.V = [] # nn.parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
 
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
+
+        self.rank = rank
 
     def forward(self, input):
         print("forward from QuantLinearSVD")
