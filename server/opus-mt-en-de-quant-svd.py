@@ -54,55 +54,6 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print("Baseline BLEU Score")
-# print(baseline_bleu) 
-
-# Quantisation
-filter = type(model.model.encoder.layers[0])
-
-# Create a mock argument namespace to simulate input arguments
-args_int = argparse.Namespace()
-
-wl = 64
-frac = 32
-symmetric = True
-round_mode = "nearest"
-
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "same_input": True,
-    "same_weight": True
-}
-
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
-
-# # Replace with quantized model
-# quant_svd_model = replace_with_quantized_svd(model, 512, quant_scheme_int, filter)
-
-# # Compute BLEU score
-# bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-
-# print(bleu_int)
-
-quant_svd_model = replace_with_quantized_svd_wrapper(model, 512, quant_scheme_int, filter)
-
-# Compute BLEU score
-bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-
-print(bleu_int)
-
-
-
-
-# Compute BLEU score
 baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
 print("Baseline BLEU Score")
 print(baseline_bleu) 
