@@ -84,7 +84,30 @@ class quant_linear_svd(Function):
             output += bias
 
         return output.view(*input_shape[:-1], -1)
+    
+    @staticmethod
+    def backward(ctx, grad_output):
+        quant_scheme : "quant.QuantScheme" = ctx.quant_scheme
+        grad_output_shape = grad_output.shape
+        # print(grad_output_shape)
+        grad_output = grad_output.reshape(-1, grad_output_shape[-1])
+        grad_output_type = grad_output.dtype
+        qinput, qweight, bias = ctx.saved_tensors
 
+        if not quant_scheme.same_input:
+            qinput = quant_scheme.bact.quant(qinput)
+        if not quant_scheme.same_weight:
+            qweight = quant_scheme.bweight.quant(qweight)
+
+        qgrad_output1 = quant_scheme.goact.quant(grad_output)
+        qgrad_output2 = quant_scheme.goweight.quant(grad_output)
+
+        grad_input = qgrad_output1.mm(qweight).to(grad_output_type)
+        grad_weight = qgrad_output2.t().mm(qinput).to(grad_output_type)
+
+        grad_bias = grad_output.sum(0) if bias is not None else None
+        return grad_input.view(*grad_output_shape[:-1], -1), grad_weight, grad_bias, None
+    
 
 
 class quant_conv1d(Function):
