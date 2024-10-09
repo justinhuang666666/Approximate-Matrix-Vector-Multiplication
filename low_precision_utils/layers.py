@@ -45,25 +45,24 @@ class QuantLinearSVD(nn.Linear):
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         
-        # # Quantization
-        # qinput = quant_scheme.act.quant(input)
-        # qu = quant_scheme.weight.quant(U)
-        # # print(U[0:9,0])
-        # # print(qu[0:9,0])
-        # qv = quant_scheme.weight.quant(V)
-        # # print(V[0:9,0])
-        # # print(qv[0:9,0])
+        # Quantization
+        qinput = self.quant_scheme.act.quant(input)
+        qu = self.quant_scheme.weight.quant(U)
+        # print(U[0:9,0])
+        # print(qu[0:9,0])
+        qv = self.quant_scheme.weight.quant(V)
+        # print(V[0:9,0])
+        # print(qv[0:9,0])
 
-        # # Convert bias to a compatible data type
-        # if bias is not None:
-        #     bias = bias.to(torch.bfloat16)
+        # Convert bias to a compatible data type
+        if bias is not None:
+            bias = bias.to(torch.bfloat16)
 
-        # # Perform matrix multiplication
-        # vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
-        # qvx = quant_scheme.weight.quant(vx)
-        # output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
+        # Perform matrix multiplication
+        vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
+        qvx = self.quant_scheme.weight.quant(vx)
+        output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
 
-        output = self.U * self.V.T * input
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
