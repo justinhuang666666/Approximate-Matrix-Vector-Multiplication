@@ -41,8 +41,36 @@ class QuantLinearSVD(nn.Linear):
         self.rank = rank
 
     def forward(self, input):
-        print("forward from QuantLinearSVD")
-        return functional.quant_linear_svd.apply(input, self.weight, self.bias, self.quant_scheme,self.U, self.V)
+        print("forward")
+        input_shape = input.shape
+
+        input = input.view(-1, input_shape[-1])
+        input_type = input.dtype
+        
+        # # Quantization
+        # qinput = quant_scheme.act.quant(input)
+        # qu = quant_scheme.weight.quant(U)
+        # # print(U[0:9,0])
+        # # print(qu[0:9,0])
+        # qv = quant_scheme.weight.quant(V)
+        # # print(V[0:9,0])
+        # # print(qv[0:9,0])
+
+        # # Convert bias to a compatible data type
+        # if bias is not None:
+        #     bias = bias.to(torch.bfloat16)
+
+        # # Perform matrix multiplication
+        # vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
+        # qvx = quant_scheme.weight.quant(vx)
+        # output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
+
+        output = self.U * self.V * input
+        # Add bias if provided
+        if self.bias is not None:
+            output += self.bias
+
+        return output.view(*input_shape[:-1], -1)
 
     @classmethod
     def from_full_precision(self, module, rank, quant_scheme):
@@ -53,8 +81,6 @@ class QuantLinearSVD(nn.Linear):
         l.U.data.copy_(U)
         l.V.data.copy_(V)
 
-        # print(l.U)
-        # print(l.V)
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
