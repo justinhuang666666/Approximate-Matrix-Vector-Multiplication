@@ -84,6 +84,16 @@ args_int.quant_scheme = {
 # Create the quantization scheme using the from_args method
 quant_scheme_int = QuantScheme.from_args(args_int)
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(parent_dir)
+from low_precision_utils import layers
+
+layer = QuantLinearSVD()
+
+layer(random())
 # # Replace with quantized model
 # quant_svd_model = replace_with_quantized_svd(model, 512, quant_scheme_int, filter)
 
