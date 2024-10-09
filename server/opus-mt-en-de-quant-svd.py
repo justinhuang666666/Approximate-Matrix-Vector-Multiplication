@@ -15,7 +15,7 @@ import itertools
 import csv
 
 # Suppress all warnings
-warnings.filterwarnings("ignore")
+# warnings.filterwarnings("ignore")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -53,10 +53,10 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-# # Compute BLEU score
-# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print("Baseline BLEU Score")
-# print(baseline_bleu) 
+# Compute BLEU score
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("Baseline BLEU Score")
+print(baseline_bleu) 
 
 # Quantisation
 filter = type(model.model.encoder.layers[0])
@@ -71,7 +71,6 @@ rank_samples = [100,200] #[20,40,60,80,100,120,140,160,180,200]
 
 symmetric = True
 round_mode = "nearest"
-rank_samples = []
 results_list = []
 
 for rank in rank_samples:
