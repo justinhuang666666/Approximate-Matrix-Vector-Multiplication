@@ -9,7 +9,6 @@ class QuantLinear(nn.Linear):
         self.quant_scheme = quant_scheme
 
     def forward(self, input):
-        print("forward from QuantLinear")
         return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme)
 
     @classmethod
@@ -41,7 +40,6 @@ class QuantLinearSVD(nn.Linear):
         self.rank = rank
 
     def forward(self, input):
-        print("forward")
         input_shape = input.shape
 
         input = input.view(-1, input_shape[-1])
@@ -65,7 +63,7 @@ class QuantLinearSVD(nn.Linear):
         # qvx = quant_scheme.weight.quant(vx)
         # output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
 
-        output = self.U * self.V * input
+        output = self.U * self.V.T * input
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
