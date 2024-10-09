@@ -83,15 +83,20 @@ args_int.quant_scheme = {
 
 # Create the quantization scheme using the from_args method
 quant_scheme_int = QuantScheme.from_args(args_int)
-print("QuantLinearSVD initialized:", model)
+
+print("QuantLinear initialized:", model)
 
 print("Before replacing layers")
-quant_svd_model = replace_with_quantized(model, quant_scheme=quant_scheme_int, filter=filter)
+quant_model = replace_with_quantized(model, quant_scheme=quant_scheme_int, filter=filter)
 print("After replacing layers")
 
-print("QuantLinearSVD initialized:", quant_svd_model)
+print("QuantLinear initialized:", quant_model)
 
+print("Before replacing layers")
+quant_svd_model = replace_with_quantized_svd(model, rank=312, quant_scheme=quant_scheme_int, filter=filter)
+print("After replacing layers")
 
+print("QuantLinear initialized:", quant_svd_model)
 # # Replace with quantized model
 # quant_svd_model = replace_with_quantized_svd(model, 512, quant_scheme_int, filter)
 
