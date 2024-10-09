@@ -94,6 +94,8 @@ from low_precision_utils import layers
 layer = QuantLinearSVD()
 
 layer(random())
+
+print(layer)
 # # Replace with quantized model
 # quant_svd_model = replace_with_quantized_svd(model, 512, quant_scheme_int, filter)
 
