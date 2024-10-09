@@ -53,8 +53,8 @@ class QuantLinearSVD(nn.Linear):
         l.U.data.copy_(U)
         l.V.data.copy_(V)
 
-        print(l.U)
-        print(l.V)
+        # print(l.U)
+        # print(l.V)
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
