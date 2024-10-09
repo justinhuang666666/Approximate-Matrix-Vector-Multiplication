@@ -65,9 +65,9 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [4,5] # [4, 5, 6, 7, 8, 16, 32]
-frac_lengths = [1,2] # [1, 2, 3, 4, 5, 6, 7, 8]  # reasonable fraction lengths based on wl
-rank_samples = [100,200] #[20,40,60,80,100,120,140,160,180,200]
+word_lengths = [4, 5, 6, 7, 8, 16, 32]
+frac_lengths = [1, 2, 3, 4, 5, 6, 7, 8]  # reasonable fraction lengths based on wl
+rank_samples = [100,150,200,250,300,350,400,450]
 
 symmetric = True
 round_mode = "nearest"
@@ -104,10 +104,10 @@ for rank in rank_samples:
             bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
 
             # Print BLEU score
-            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
+            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, round_mode={round_mode}, symmetric={symmetric}, rank={rank}")
             print("BLEU Score",bleu_int)
 
-            compression_ratio = 512*512*3*6/(rank*(512*2)*3*6)
+            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*frac)
 
             # Store the results
             results_list.append({
