@@ -32,9 +32,8 @@ class QuantLinearSVD(nn.Linear):
         super(QuantLinearSVD, self).__init__(in_features, out_features, bias, device, dtype)
 
         # Initialize parameters for U and V matrices
-        self.U = [] # [nn.parameter(torch.empty(out_features, rank, device=device, dtype=dtype))]
-        self.V = [] # nn.parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
-
+        self.U = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
+        self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
 
