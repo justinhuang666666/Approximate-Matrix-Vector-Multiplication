@@ -234,6 +234,8 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
             self_attn.q_proj = layers.QuantLinearSVD.from_full_precision(self_attn.q_proj, rank, quant_scheme)
             self_attn.v_proj = layers.QuantLinearSVD.from_full_precision(self_attn.v_proj, rank, quant_scheme)
 
+            print(type(self_attn.k_proj))
+
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
         # Recursively apply replacements to submodules
