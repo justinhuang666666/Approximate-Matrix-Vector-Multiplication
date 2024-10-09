@@ -92,7 +92,7 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 # print(bleu_int)
 
-quant_svd_model = replace_with_quantized_svd(model, 512, quant_scheme_int, filter)
+quant_svd_model = replace_with_quantized_svd(model, 212, quant_scheme_int, filter)
 
 # Compute BLEU score
 bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
