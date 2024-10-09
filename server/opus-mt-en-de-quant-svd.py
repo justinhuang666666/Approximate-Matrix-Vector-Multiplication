@@ -99,12 +99,77 @@ bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, 
 
 print(bleu_int)
 
-# quant_svd_model = replace_with_quantized_svd(model, 112, quant_scheme_int, filter)
-
-# # Compute BLEU score
-# bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-
-# print(bleu_int)
 
 
 
+# Compute BLEU score
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("Baseline BLEU Score")
+print(baseline_bleu) 
+
+# Quantisation
+filter = type(model.model.encoder.layers[0])
+
+# Create a mock argument namespace to simulate input arguments
+args_int = argparse.Namespace()
+
+# Define possible values for wl, fl, symmetric, and round_mode
+word_lengths = [4,5] # [4, 5, 6, 7, 8, 16, 32]
+frac_lengths = [1,2] # [1, 2, 3, 4, 5, 6, 7, 8]  # reasonable fraction lengths based on wl
+rank_samples = [100,200] #[20,40,60,80,100,120,140,160,180,200]
+
+symmetric = True
+round_mode = "nearest"
+rank_samples = []
+results_list = []
+
+for rank in rank_samples:
+    # Iterate over all combinations of wl, fl, symmetric, and round_mode
+    for wl in word_lengths: 
+        for fl in frac_lengths:
+            # Skip invalid combinations where fl is greater than wl
+            frac = wl - fl
+
+            if frac <= 0:
+                continue
+
+            # Define the quantization scheme dictionary with IntQuant settings
+            args_int.quant_scheme = {
+                "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+                "same_input": True,
+                "same_weight": True
+            }
+
+            # Create the quantization scheme using the from_args method
+            quant_scheme_int = QuantScheme.from_args(args_int)
+
+            quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
+
+            # Compute BLEU score
+            bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+
+            # Print BLEU score
+            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
+            print("BLEU Score",bleu_int)
+
+            compression_ratio = 512*512*3*6/(rank*(512*2)*3*6)
+
+            # Store the results
+            results_list.append({
+            "Word Length": wl,
+            "Fraction Length": frac,
+            "Rank":rank,
+            "BLEU Score": bleu_int,
+            "Compression Ratio":compression_ratio
+            })
+
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
+
+# Save results to a CSV file
+results_df.to_csv('svd_quantization_results.csv', index=False)
