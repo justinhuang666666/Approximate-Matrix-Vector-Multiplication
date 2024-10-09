@@ -224,7 +224,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
     to_replace = []
 
     # Iterate through the modules in the network
-    for name, module in local_network.named_children():
+    for name, module in network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
             self_attn = module.self_attn
