@@ -53,10 +53,10 @@ with open('translations.json', 'r', encoding='utf-8') as f:
 source_texts = data['source_texts']
 target_texts = data['target_texts']
 
-# Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# # Compute BLEU score
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 # Quantisation
 filter = type(model.model.encoder.layers[0])
