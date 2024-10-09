@@ -55,8 +55,8 @@ class QuantLinearSVD(nn.Linear):
         # print(qv[0:9,0])
 
         # Convert bias to a compatible data type
-        if bias is not None:
-            bias = bias.to(torch.bfloat16)
+        if self.bias is not None:
+            bias = self.bias.to(torch.bfloat16)
 
         # Perform matrix multiplication
         vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
