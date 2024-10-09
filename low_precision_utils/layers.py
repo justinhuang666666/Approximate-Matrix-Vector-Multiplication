@@ -28,8 +28,8 @@ def compute_uv(weight, rank):
     return U, V
 
 class QuantLinearSVD(nn.Linear):
-    def __init__(self, in_features, out_features, rank, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None):
-        super(QuantLinearSVD, self).__init__(in_features, out_features, rank, bias, device, dtype)
+    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, rank=0):
+        super(QuantLinearSVD, self).__init__(in_features, out_features, bias, device, dtype)
 
         self.rank = rank
 
