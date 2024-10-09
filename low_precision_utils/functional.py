@@ -5,6 +5,7 @@ from . import quant
 class quant_linear(Function):
     @staticmethod
     def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None):
+        print("forward")
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
         # input = input.view(input_shape[0], -1)
