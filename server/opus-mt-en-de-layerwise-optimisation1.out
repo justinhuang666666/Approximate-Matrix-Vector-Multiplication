@@ -1,0 +1,89 @@
+nohup: ignoring input
+[nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+cuda
+current bleu:  41.956736250831966
+current steps:  [35, 35, 35, 33, 35, 35]
+current compression ratio:  0.17590841682156447
+current bleu:  41.67526110714343
+current steps:  [35, 33, 35, 33, 35, 35]
+current compression ratio:  0.21027031362797785
+current bleu:  41.72291436136793
+current steps:  [35, 31, 35, 33, 35, 35]
+current compression ratio:  0.2107357228605728
+current bleu:  41.41052441034929
+current steps:  [35, 29, 35, 33, 35, 35]
+current compression ratio:  0.21120319692339093
+current bleu:  41.60922151970368
+current steps:  [35, 27, 35, 33, 35, 35]
+current compression ratio:  0.2116727495881916
+current bleu:  41.4440954917779
+current steps:  [35, 27, 35, 31, 35, 35]
+current compression ratio:  0.21214439474947802
+current bleu:  41.644382919674314
+current steps:  [35, 25, 35, 31, 35, 35]
+current compression ratio:  0.21261814642586785
+current bleu:  40.91026830814548
+current steps:  [35, 25, 33, 31, 35, 35]
+current compression ratio:  0.2649516038285701
+current bleu:  41.33181788185594
+current steps:  [35, 25, 33, 31, 35, 33]
+current compression ratio:  0.3514591396215622
+current bleu:  41.38960914630526
+current steps:  [33, 25, 33, 31, 35, 33]
+current compression ratio:  0.5218422990915907
+current bleu:  41.3818073041228
+current steps:  [33, 23, 33, 31, 35, 33]
+current compression ratio:  0.5247182689805641
+current bleu:  41.477624868138165
+current steps:  [33, 21, 33, 31, 35, 33]
+current compression ratio:  0.5276261145513952
+current bleu:  41.36890408994245
+current steps:  [31, 21, 33, 31, 35, 33]
+current compression ratio:  0.5305663686962389
+current bleu:  41.207197242099284
+current steps:  [29, 21, 33, 31, 35, 33]
+current compression ratio:  0.5335395762522134
+current bleu:  41.33126621094562
+current steps:  [27, 21, 33, 31, 35, 33]
+current compression ratio:  0.536546294337975
+current bleu:  41.00267009779382
+current steps:  [25, 21, 33, 31, 35, 33]
+current compression ratio:  0.5395870927017365
+current bleu:  40.81766227774326
+current steps:  [25, 19, 33, 31, 35, 33]
+current compression ratio:  0.542662554081189
+current bleu:  40.64924493530553
+current steps:  [25, 19, 33, 29, 35, 33]
+current compression ratio:  0.5457732745758007
+current bleu:  40.29701292159045
+current steps:  [25, 19, 33, 27, 35, 33]
+current compression ratio:  0.5489198640319958
+current bleu:  40.621033719786766
+current steps:  [25, 19, 33, 27, 33, 33]
+current compression ratio:  1.1201139438826377
+current bleu:  40.514121197363686
+current steps:  [23, 19, 33, 27, 33, 33]
+current compression ratio:  1.1334486336907645
+current bleu:  40.774111000986395
+current steps:  [21, 19, 33, 27, 33, 33]
+current compression ratio:  1.147104641325593
+current bleu:  40.85797211438933
+current steps:  [21, 17, 33, 27, 33, 33]
+current compression ratio:  1.1610937223173685
+current bleu:  40.931755778619404
+current steps:  [19, 17, 33, 27, 33, 33]
+current compression ratio:  1.1754282127163482
+current bleu:  40.62899784364923
+current steps:  [19, 17, 31, 27, 33, 33]
+current compression ratio:  1.1901210653753027
+current bleu:  40.30824216273514
+current steps:  [19, 17, 29, 27, 33, 33]
+current compression ratio:  1.2051858889876483
+current bleu:  40.10513366081188
+current steps:  [19, 17, 27, 27, 33, 33]
+current compression ratio:  1.2206369901285155
+----------------Final----------------
+bleu:  40.10513366081188
+steps:  [19, 17, 27, 27, 33, 33]
+compression ratio:  1.2206369901285155

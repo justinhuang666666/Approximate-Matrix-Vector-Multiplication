@@ -1,626 +1,664 @@
 [nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
 [nltk_data]   Package punkt_tab is already up-to-date!
+/home/jh4420/.conda/envs/transformer/lib/python3.12/site-packages/torch/utils/cpp_extension.py:1965: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
 cuda
-Processing:   0%|          | 0/40 [00:00<?, ?iteration/s]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.68iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.86iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.93iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  2.00iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  2.02iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  2.01iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.96iteration/s]
-Processing:   2%|▎         | 1/40 [00:03<01:59,  3.05s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.96iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:01,  2.00iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  2.02iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:01<00:00,  2.02iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.97iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.97iteration/s][AProcessing: 100%|██████████| 6/6 [01:03<00:00, 10.59s/iteration]
-Processing:   5%|▌         | 2/40 [01:06<24:28, 38.64s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.91iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.93iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.96iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.86iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.86iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.88iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.89iteration/s]
-Processing:   8%|▊         | 3/40 [01:09<13:50, 22.45s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.82iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.81iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.82iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.80iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.82iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.82iteration/s][AProcessing: 100%|██████████| 6/6 [01:15<00:00, 12.66s/iteration]
-Processing:  10%|█         | 4/40 [02:25<26:08, 43.57s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.72iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.69iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.71iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.72iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.74iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.71iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.71iteration/s]
-Processing:  12%|█▎        | 5/40 [02:29<16:59, 29.12s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.62iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.66iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.68iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.65iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.64iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.66iteration/s][AProcessing: 100%|██████████| 6/6 [00:58<00:00,  9.76s/iteration]
-Processing:  15%|█▌        | 6/40 [03:27<22:10, 39.13s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.59iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.62iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.63iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.66iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.63iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.60iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.62iteration/s]
-Processing:  18%|█▊        | 7/40 [03:31<15:09, 27.55s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.68iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.66iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.62iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.59iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.61iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.64iteration/s][AProcessing: 100%|██████████| 6/6 [00:34<00:00,  5.72s/iteration]
-Processing:  20%|██        | 8/40 [04:05<15:50, 29.71s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.77iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.79iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.80iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.77iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.79iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.77iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.78iteration/s]
-Processing:  22%|██▎       | 9/40 [04:09<11:05, 21.48s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.72iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.73iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.75iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.75iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.73iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.73iteration/s][AProcessing: 100%|██████████| 6/6 [00:35<00:00,  5.87s/iteration]
-Processing:  25%|██▌       | 10/40 [04:44<12:51, 25.72s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.54iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.51iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.54iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.57iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.53iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.53iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.54iteration/s]
-Processing:  28%|██▊       | 11/40 [04:48<09:12, 19.04s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.53iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.55iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.53iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.51iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.53iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.54iteration/s][AProcessing: 100%|██████████| 6/6 [00:33<00:00,  5.63s/iteration]
-Processing:  30%|███       | 12/40 [05:22<10:58, 23.53s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.43iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.48iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:01,  1.51iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.52iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.49iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.51iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.50iteration/s]
-Processing:  32%|███▎      | 13/40 [05:26<07:55, 17.61s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.53iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.53iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.47iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.49iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.51iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.51iteration/s][AProcessing: 100%|██████████| 6/6 [00:33<00:00,  5.57s/iteration]
-Processing:  35%|███▌      | 14/40 [05:59<09:42, 22.39s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.48iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.45iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:01,  1.50iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.53iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.51iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.49iteration/s]
-Processing:  38%|███▊      | 15/40 [06:03<07:01, 16.86s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.54iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.52iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.51iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.49iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.51iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.50iteration/s][AProcessing: 100%|██████████| 6/6 [00:32<00:00,  5.39s/iteration]
-Processing:  40%|████      | 16/40 [06:35<08:36, 21.52s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.72iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.67iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.67iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.67iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.67iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.66iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.67iteration/s]
-Processing:  42%|████▎     | 17/40 [06:39<06:10, 16.13s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:02,  1.69iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.67iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.65iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.67iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:02<00:00,  1.67iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.67iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.24s/iteration]
-Processing:  45%|████▌     | 18/40 [07:10<07:36, 20.73s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.48iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.46iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.48iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.50iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.48iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.47iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s]
-Processing:  48%|████▊     | 19/40 [07:15<05:30, 15.73s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.52iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.56iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:02,  1.49iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.49iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.50iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.50iteration/s][AProcessing: 100%|██████████| 6/6 [00:32<00:00,  5.41s/iteration]
-Processing:  50%|█████     | 20/40 [07:47<06:55, 20.75s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.46iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.50iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.52iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.46iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.46iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s]
-Processing:  52%|█████▎    | 21/40 [07:51<04:59, 15.74s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.51iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.47iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.46iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.48iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.47iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.31s/iteration]
-Processing:  55%|█████▌    | 22/40 [08:23<06:10, 20.57s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.49iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.50iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.48iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.48iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.48iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.51iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.50iteration/s]
-Processing:  57%|█████▊    | 23/40 [08:27<04:25, 15.60s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.40iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.40iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.44iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.46iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.44iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.44iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.32s/iteration]
-Processing:  60%|██████    | 24/40 [08:59<05:27, 20.50s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.49iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.53iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.47iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.50iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.55iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.57iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.54iteration/s]
-Processing:  62%|██████▎   | 25/40 [09:03<03:52, 15.52s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.61iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.64iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.62iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.63iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.63iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.63iteration/s][AProcessing: 100%|██████████| 6/6 [00:30<00:00,  5.14s/iteration]
-Processing:  65%|██████▌   | 26/40 [09:34<04:41, 20.11s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.63iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.61iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.63iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.61iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.64iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.63iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.63iteration/s]
-Processing:  68%|██████▊   | 27/40 [09:37<03:17, 15.18s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.59iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.62iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.62iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.62iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.62iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.61iteration/s][AProcessing: 100%|██████████| 6/6 [00:30<00:00,  5.12s/iteration]
-Processing:  70%|███████   | 28/40 [10:08<03:58, 19.84s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.45iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.46iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.47iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.46iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.45iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.45iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.45iteration/s]
-Processing:  72%|███████▎  | 29/40 [10:12<02:46, 15.13s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.48iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.46iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.43iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.45iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.47iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.33s/iteration]
-Processing:  75%|███████▌  | 30/40 [10:44<03:21, 20.19s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.46iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.42iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.47iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.50iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.47iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.46iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.46iteration/s]
-Processing:  78%|███████▊  | 31/40 [10:48<02:18, 15.36s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.53iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.54iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.48iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.47iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.48iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.51iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.33s/iteration]
-Processing:  80%|████████  | 32/40 [11:20<02:42, 20.35s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.48iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.42iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.46iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.47iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.45iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.45iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.45iteration/s]
-Processing:  82%|████████▎ | 33/40 [11:24<01:48, 15.48s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.51iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.50iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.46iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.47iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.48iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.47iteration/s][AProcessing: 100%|██████████| 6/6 [00:30<00:00,  5.07s/iteration]
-Processing:  85%|████████▌ | 34/40 [11:55<01:59, 19.96s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.64iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.63iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.65iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.65iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.62iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.64iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.64iteration/s]
-Processing:  88%|████████▊ | 35/40 [11:58<01:15, 15.07s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.59iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.62iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.63iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.62iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.63iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.64iteration/s][AProcessing: 100%|██████████| 6/6 [00:30<00:00,  5.09s/iteration]
-Processing:  90%|█████████ | 36/40 [12:29<01:18, 19.71s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.49iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.50iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:01,  1.53iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.54iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.49iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.49iteration/s][AProcessing: 100%|██████████| 6/6 [00:03<00:00,  1.50iteration/s]
-Processing:  92%|█████████▎| 37/40 [12:33<00:44, 15.00s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.54iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.56iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.48iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.49iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.51iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.50iteration/s][AProcessing: 100%|██████████| 6/6 [00:30<00:00,  5.14s/iteration]
-Processing:  95%|█████████▌| 38/40 [13:04<00:39, 19.76s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.49iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.44iteration/s][A
-Processing:  50%|█████     | 3/6 [00:02<00:02,  1.49iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.51iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.50iteration/s][A
-Processing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s][AProcessing: 100%|██████████| 6/6 [00:04<00:00,  1.48iteration/s]
-Processing:  98%|█████████▊| 39/40 [13:08<00:15, 15.05s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:00<00:03,  1.55iteration/s][A
-Processing:  33%|███▎      | 2/6 [00:01<00:02,  1.59iteration/s][A
-Processing:  50%|█████     | 3/6 [00:01<00:02,  1.49iteration/s][A
-Processing:  67%|██████▋   | 4/6 [00:02<00:01,  1.49iteration/s][A
-Processing:  83%|████████▎ | 5/6 [00:03<00:00,  1.51iteration/s][A
-Processing: 100%|██████████| 6/6 [00:03<00:00,  1.52iteration/s][AProcessing: 100%|██████████| 6/6 [00:31<00:00,  5.28s/iteration]
-Processing: 100%|██████████| 40/40 [13:39<00:00, 20.03s/iteration]Processing: 100%|██████████| 40/40 [13:39<00:00, 20.50s/iteration]
-metrics_results saved to 'layered_optimal_single_results.csv'
-Processing:   0%|          | 0/120 [00:00<?, ?iteration/s]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.63s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.55s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.56s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.54s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:07<00:01,  1.52s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.52s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.53s/iteration]
-Processing:   1%|          | 1/120 [00:09<18:14,  9.20s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.61s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.57s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.55s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.56s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:07<00:01,  1.54s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.55s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.55s/iteration]
-Processing:   2%|▏         | 2/120 [00:18<18:13,  9.27s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.57s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.54s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.57s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.62s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:07<00:01,  1.59s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.59s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.58s/iteration]
-Processing:   2%|▎         | 3/120 [00:28<18:17,  9.38s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.57s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.51s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:02,  1.46s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:07<00:01,  1.43s/iteration][A
-Processing: 100%|██████████| 6/6 [00:08<00:00,  1.44s/iteration][AProcessing: 100%|██████████| 6/6 [00:08<00:00,  1.47s/iteration]
-Processing:   3%|▎         | 4/120 [00:36<17:43,  9.17s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:06,  1.40s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:02<00:05,  1.38s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.36s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:05<00:02,  1.38s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:06<00:01,  1.41s/iteration][A
-Processing: 100%|██████████| 6/6 [00:08<00:00,  1.41s/iteration][AProcessing: 100%|██████████| 6/6 [00:08<00:00,  1.40s/iteration]
-Processing:   4%|▍         | 5/120 [00:45<17:02,  8.89s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.43s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:02<00:05,  1.40s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.40s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:05<00:02,  1.40s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:07<00:01,  1.43s/iteration][A
-Processing: 100%|██████████| 6/6 [00:08<00:00,  1.44s/iteration][AProcessing: 100%|██████████| 6/6 [01:14<00:00, 12.35s/iteration]
-Processing:   5%|▌         | 6/120 [01:59<59:00, 31.05s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.67s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.62s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.63s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.62s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.62s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.58s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.60s/iteration]
-Processing:   6%|▌         | 7/120 [02:08<45:17, 24.05s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.67s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.59s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.60s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.63s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.61s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.62s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.62s/iteration]
-Processing:   7%|▋         | 8/120 [02:18<36:21, 19.48s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.62s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.61s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.62s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.60s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.60s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.60s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.60s/iteration]
-Processing:   8%|▊         | 9/120 [02:28<30:20, 16.40s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.64s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.61s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.61s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.65s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.63s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.62s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.62s/iteration]
-Processing:   8%|▊         | 10/120 [02:38<26:18, 14.35s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.72s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.67s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.64s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.67s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.65s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.65s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.66s/iteration]
-Processing:   9%|▉         | 11/120 [02:48<23:37, 13.00s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.51s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.57s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.64s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.66s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.61s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.61s/iteration][AProcessing: 100%|██████████| 6/6 [01:42<00:00, 17.16s/iteration]
-Processing:  10%|█         | 12/120 [04:30<1:12:40, 40.37s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.59s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.62s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.67s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.62s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.63s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.64s/iteration]
-Processing:  11%|█         | 13/120 [04:40<55:30, 31.12s/iteration]  
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.62s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.67s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.65s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.68s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.67s/iteration]
-Processing:  12%|█▏        | 14/120 [04:50<43:42, 24.74s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.68s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.65s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.68s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.65s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.64s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.66s/iteration]
-Processing:  12%|█▎        | 15/120 [05:00<35:29, 20.28s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.70s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.66s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.64s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.65s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.66s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.68s/iteration]
-Processing:  13%|█▎        | 16/120 [05:10<29:48, 17.20s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.70s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.64s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.69s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.72s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration]
-Processing:  14%|█▍        | 17/120 [05:20<25:53, 15.08s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.76s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.76s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.73s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.69s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration][AProcessing: 100%|██████████| 6/6 [01:39<00:00, 16.59s/iteration]
-Processing:  15%|█▌        | 18/120 [07:00<1:08:47, 40.47s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.55s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.58s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:05,  1.70s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.72s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.72s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.67s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.67s/iteration]
-Processing:  16%|█▌        | 19/120 [07:10<52:44, 31.33s/iteration]  
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.71s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.68s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.72s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.70s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.67s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration]
-Processing:  17%|█▋        | 20/120 [07:20<41:37, 24.98s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.68s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.71s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.72s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.70s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.68s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration]
-Processing:  18%|█▊        | 21/120 [07:30<33:52, 20.53s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.70s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.74s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.72s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.71s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.68s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration]
-Processing:  18%|█▊        | 22/120 [07:41<28:27, 17.43s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.68s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.59s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:04,  1.64s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.65s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.62s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.65s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.64s/iteration]
-Processing:  19%|█▉        | 23/120 [07:50<24:29, 15.15s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.79s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.76s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.71s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.71s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.72s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration][AProcessing: 100%|██████████| 6/6 [01:29<00:00, 14.89s/iteration]
-Processing:  20%|██        | 24/120 [09:20<59:51, 37.41s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.71s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.70s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.70s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.69s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.66s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.62s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.66s/iteration]
-Processing:  21%|██        | 25/120 [09:30<46:10, 29.17s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.75s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.75s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.69s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.69s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.64s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.67s/iteration]
-Processing:  22%|██▏       | 26/120 [09:40<36:41, 23.42s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.66s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.71s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.75s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.72s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.71s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration]
-Processing:  22%|██▎       | 27/120 [09:50<30:11, 19.48s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.67s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.68s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.71s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.69s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.68s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration]
-Processing:  23%|██▎       | 28/120 [10:00<25:34, 16.68s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:07,  1.60s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.64s/iteration][A
-Processing:  50%|█████     | 3/6 [00:04<00:05,  1.67s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.67s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.63s/iteration][A
-Processing: 100%|██████████| 6/6 [00:09<00:00,  1.65s/iteration][AProcessing: 100%|██████████| 6/6 [00:09<00:00,  1.65s/iteration]
-Processing:  24%|██▍       | 29/120 [10:10<22:12, 14.64s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.69s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.70s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.73s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.70s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration][AProcessing: 100%|██████████| 6/6 [01:43<00:00, 17.20s/iteration]
-Processing:  25%|██▌       | 30/120 [11:53<1:01:48, 41.21s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:09,  1.80s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.72s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.74s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.73s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.71s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.67s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration]
-Processing:  26%|██▌       | 31/120 [12:03<47:20, 31.91s/iteration]  
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.74s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.70s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.70s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.75s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.74s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration]
-Processing:  27%|██▋       | 32/120 [12:14<37:18, 25.44s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.69s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.70s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.73s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.73s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.73s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.69s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration]
-Processing:  28%|██▊       | 33/120 [12:24<30:15, 20.87s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.79s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.76s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.70s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.71s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.68s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.68s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.70s/iteration]
-Processing:  28%|██▊       | 34/120 [12:34<25:19, 17.67s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.67s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:06,  1.72s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.71s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.72s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.71s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.71s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.71s/iteration]
-Processing:  29%|██▉       | 35/120 [12:44<21:52, 15.45s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:09,  1.84s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.80s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.76s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:07<00:03,  1.76s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.78s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.80s/iteration][AProcessing: 100%|██████████| 6/6 [01:40<00:00, 16.73s/iteration]
-Processing:  30%|███       | 36/120 [14:25<57:17, 40.92s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][A
-Processing:  17%|█▋        | 1/6 [00:01<00:08,  1.78s/iteration][A
-Processing:  33%|███▎      | 2/6 [00:03<00:07,  1.78s/iteration][A
-Processing:  50%|█████     | 3/6 [00:05<00:05,  1.76s/iteration][A
-Processing:  67%|██████▋   | 4/6 [00:06<00:03,  1.73s/iteration][A
-Processing:  83%|████████▎ | 5/6 [00:08<00:01,  1.70s/iteration][A
-Processing: 100%|██████████| 6/6 [00:10<00:00,  1.71s/iteration][AProcessing: 100%|██████████| 6/6 [00:10<00:00,  1.72s/iteration]
-Processing:  31%|███       | 37/120 [14:35<43:55, 31.75s/iteration]
-Processing:   0%|          | 0/6 [00:00<?, ?iteration/s][ATraceback (most recent call last):
-  File "/home/jh4420/Approximate-Matrix-Vector-Multiplication/server/opus-mt-en-de-layered-optimal.py", line 1, in <module>
-    import torch
-ModuleNotFoundError: No module named 'torch'
+Baseline BLEU Score
+41.337328250540224
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.47664712143862
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 1.7261832117329856
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 3.5999663517897593
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 3.5616498931501614
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.0170052556786735
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.771245907570802
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 6.722482799950906
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 3.3796543813747895
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.1883795831832034
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 3.511474194894124
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 8.168287260496646
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 15.63004932127456
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 6.404243136204343
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 1.9524789278804449
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 3.4478995092594595
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 7.135457926770693
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 19.6117465394097
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 20.117652038799754
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 6.252076998215536
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.2167795999291675
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.962936850034393
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 8.439408309494643
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 21.300824467048507
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.72005849888782
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 26.57666557711544
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.59417685969502
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.913473539005793
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 26.18906560007513
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 2.962936850034393
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 8.439408309494643
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 21.300824467048507
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.728284966964537
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 26.308984604865653
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.810070762972593
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.901975251220282
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=100
+BLEU Score 25.901975251220282
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.7298110851701904
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.4403449806291146
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 3.334857994566278
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.1128034065380055
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.8861810618430699
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.8106723268150273
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 11.26179582861601
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.263015716110813
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.794086074997894
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.9934202001021895
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 9.534519211625316
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 22.384239306081042
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.627778019712858
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.7943664696887252
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 3.4449625830707764
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 10.996909990577503
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 26.229358222616707
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 28.720215000620513
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 3.469740453060413
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 1.772866365144691
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.9771661903363746
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 10.116736719492613
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 27.66270024058917
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 35.30194263593437
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 35.23093219570291
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.70578012127263
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.683204104987766
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.2353901026853
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 2.9771661903363746
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 10.116736719492613
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 27.66270024058917
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 35.23854326517163
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 35.25115851157239
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.70578012127263
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.76324952626128
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=150
+BLEU Score 34.76324952626128
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 1.718249116053562
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 1.7156703736541508
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 3.9415057503508057
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.0682854801016575
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.0631295586846408
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 4.160743549468971
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 10.860031275592616
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.808720750267144
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 1.8981010930776698
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 5.0675804330390966
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 13.081334041484538
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 26.37016196184116
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 3.0912052209121725
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 1.8550451019324756
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 4.117095618128226
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 14.233298423281173
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 31.3985703614717
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 34.12574213900854
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 5.362056243983543
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 1.8789027230176785
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 4.270497408085549
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 14.61007418612029
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 33.71751968746501
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 38.143343844911456
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.880910705773935
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 38.97360591126582
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.31623665044962
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 38.81360724484469
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 4.270497408085549
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 14.61007418612029
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 33.71751968746501
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 38.12162075546708
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.72826609587362
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.27989173976279
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.16960048052053
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=200
+BLEU Score 39.16960048052053
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.3701828408856236
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.3050033109531378
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 5.843873733519429
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.2962121067535226
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.837183701921061
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 5.495418876477281
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 12.404038302883675
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.92649291887682
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.8466092343627043
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 6.168374893782503
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 15.333591248761774
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 29.784776545902986
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 4.116031915570847
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.8969553765826608
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 6.242596412982207
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 17.05163161723985
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 32.17613241797085
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 36.12523543356426
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 6.54672278778733
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 1.8859606528978783
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 6.357631003927991
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 16.16377302822756
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 35.58390839481024
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 39.565565012814034
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 40.88911807659813
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 41.34134250189455
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 41.50832783832762
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 40.819080617410094
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 6.357631003927991
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 16.154412329248142
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 35.58390839481024
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 39.53039300374824
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 40.84752970607412
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 41.319382297539455
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 41.20134009309601
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=250
+BLEU Score 41.20134009309601
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 1.3290096118275514
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 1.3108605508874343
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 6.904661697020628
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.5835668240705134
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.156955452664616
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 6.480165319246585
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 11.10801486018753
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.570878109643019
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.1885845665936556
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 5.526744377772036
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 16.1499703677458
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 26.79683666559122
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 4.093351444993158
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.0644004388708845
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 5.0165249877243365
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 15.981095139118304
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 32.44213979634623
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 36.179172781500284
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 6.171847328610709
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.0005832982310223
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 6.036180881641356
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 15.775991949593948
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 35.808823837852024
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 40.43615269727811
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 38.33362990284808
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.29586377268382
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.550252905497004
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.66860176275199
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 6.0492480519650575
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 15.775991949593948
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 35.808823837852024
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 40.45749465517717
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 38.898998040270364
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.24759713040375
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.582923870358805
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=300
+BLEU Score 39.582923870358805
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 1.448215846032781
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 1.5172704308882734
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 6.684997956576617
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.3853216366853283
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.13251359494784
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 7.1568024170892235
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 12.72525007526553
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.1006367955949843
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 1.8713899139970809
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 6.376094532128071
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 16.494973648505088
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 29.291830492342
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 4.325570204660501
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 1.967091829796704
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 7.707914089617366
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 17.108210540717167
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 33.0995290917806
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 36.920937191823846
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 5.786838064956657
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 1.8418306389968855
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 6.213964618830617
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 16.304433646911352
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 36.181675785857564
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 41.80875105089727
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 39.870150660965564
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 40.57230342651521
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 41.092464340687044
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 40.35177365950572
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 6.213964618830617
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 16.68460839402558
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 36.28027107137161
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 41.80875105089727
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 39.77013322399075
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 40.50908144990604
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 40.74413182328712
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=350
+BLEU Score 40.74413182328712
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 1.8271892064866808
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 1.5172704308882734
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 7.683990634887267
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.5516239607813547
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.13251359494784
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 5.825631777306337
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 13.000638932435898
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.754997736323722
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 1.8713899139970809
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 5.832930779312121
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 15.459903131533443
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 27.829123207912637
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 4.20891330924258
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 1.967091829796704
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 6.892983675333905
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 16.499986596417532
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 33.036765171522774
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 36.01535295638679
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 5.706880062417436
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 1.8418306389968855
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 6.919873682084135
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 17.64254556010865
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 35.99762050061273
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.60852613468834
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 39.77797187109321
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.81428959591215
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.632283560777985
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.85267725171207
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 6.932725834753625
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 16.940483880258196
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 35.99762050061273
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.6608681578217
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 39.87569912543843
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.811286616240864
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.5686282208978
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=400
+BLEU Score 40.5686282208978
+Opus-mt-en-de INT BLEU Score for wl=4, fl=3, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 1.6815722793362124
+Opus-mt-en-de INT BLEU Score for wl=4, fl=2, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 1.5172704308882734
+Opus-mt-en-de INT BLEU Score for wl=4, fl=1, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.991749855444523
+Opus-mt-en-de INT BLEU Score for wl=5, fl=4, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 6.701028058309082
+Opus-mt-en-de INT BLEU Score for wl=5, fl=3, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.3532993918897493
+Opus-mt-en-de INT BLEU Score for wl=5, fl=2, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.13251359494784
+Opus-mt-en-de INT BLEU Score for wl=5, fl=1, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.216503689597686
+Opus-mt-en-de INT BLEU Score for wl=6, fl=5, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 6.617043880854114
+Opus-mt-en-de INT BLEU Score for wl=6, fl=4, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 12.371643425501926
+Opus-mt-en-de INT BLEU Score for wl=6, fl=3, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 3.0145466878314013
+Opus-mt-en-de INT BLEU Score for wl=6, fl=2, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 1.8713899139970809
+Opus-mt-en-de INT BLEU Score for wl=6, fl=1, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.1626696565143044
+Opus-mt-en-de INT BLEU Score for wl=7, fl=6, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 6.982758876673794
+Opus-mt-en-de INT BLEU Score for wl=7, fl=5, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 15.301285747993226
+Opus-mt-en-de INT BLEU Score for wl=7, fl=4, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 27.731682942479807
+Opus-mt-en-de INT BLEU Score for wl=7, fl=3, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 4.782226632775056
+Opus-mt-en-de INT BLEU Score for wl=7, fl=2, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 1.967091829796704
+Opus-mt-en-de INT BLEU Score for wl=7, fl=1, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.492314924392241
+Opus-mt-en-de INT BLEU Score for wl=8, fl=7, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 7.245440071191794
+Opus-mt-en-de INT BLEU Score for wl=8, fl=6, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 16.46849666287288
+Opus-mt-en-de INT BLEU Score for wl=8, fl=5, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 34.324288569240316
+Opus-mt-en-de INT BLEU Score for wl=8, fl=4, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 36.57020593617456
+Opus-mt-en-de INT BLEU Score for wl=8, fl=3, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 5.134469932523319
+Opus-mt-en-de INT BLEU Score for wl=8, fl=2, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 1.8418306389968855
+Opus-mt-en-de INT BLEU Score for wl=8, fl=1, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 2.4350625165056172
+Opus-mt-en-de INT BLEU Score for wl=16, fl=15, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 7.255332868175738
+Opus-mt-en-de INT BLEU Score for wl=16, fl=14, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 17.593993887390724
+Opus-mt-en-de INT BLEU Score for wl=16, fl=13, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 36.28287995472063
+Opus-mt-en-de INT BLEU Score for wl=16, fl=12, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 40.74359097927984
+Opus-mt-en-de INT BLEU Score for wl=16, fl=11, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.02685240754057
+Opus-mt-en-de INT BLEU Score for wl=16, fl=10, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.124451987749715
+Opus-mt-en-de INT BLEU Score for wl=16, fl=9, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.21375308952162
+Opus-mt-en-de INT BLEU Score for wl=16, fl=8, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 40.873567723384255
+Opus-mt-en-de INT BLEU Score for wl=32, fl=31, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 7.255332868175738
+Opus-mt-en-de INT BLEU Score for wl=32, fl=30, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 17.593993887390724
+Opus-mt-en-de INT BLEU Score for wl=32, fl=29, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 36.28287995472063
+Opus-mt-en-de INT BLEU Score for wl=32, fl=28, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 40.501296874376635
+Opus-mt-en-de INT BLEU Score for wl=32, fl=27, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.04742329286669
+Opus-mt-en-de INT BLEU Score for wl=32, fl=26, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.124451987749715
+Opus-mt-en-de INT BLEU Score for wl=32, fl=25, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.412911185319345
+Opus-mt-en-de INT BLEU Score for wl=32, fl=24, round_mode=nearest, symmetric=True, rank=450
+BLEU Score 41.412911185319345
