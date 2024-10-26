@@ -1,7 +1,15 @@
-from torch import nn
-from . import functional
-from . import quant 
-import torch
+# from torch import nn
+# from . import functional
+# from . import quant 
+# import torch
+
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(current_dir)
+
+from functional import *
+from quant import *
 
 def quant_svd(u,v,quant_scheme):
     qu = quant_scheme.weight.quant(u)

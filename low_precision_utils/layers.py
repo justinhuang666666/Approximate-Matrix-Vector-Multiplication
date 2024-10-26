@@ -3,6 +3,14 @@ from . import functional
 from . import quant 
 import torch
 
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(current_dir)
+
+from functional import *
+from quant import *
+
 class QuantLinear(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None):
         super(QuantLinear, self).__init__(in_features, out_features, bias, device, dtype)
