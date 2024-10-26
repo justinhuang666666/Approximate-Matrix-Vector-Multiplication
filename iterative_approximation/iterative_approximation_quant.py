@@ -118,7 +118,11 @@ class WeightArray:
 
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
+            print(vv.shape)
             residual = Wi - quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
+
+            refine = quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
+            print(refine.shape)
 
             # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
             # v.vstack(quant(v1_n,self.quant_scheme))
