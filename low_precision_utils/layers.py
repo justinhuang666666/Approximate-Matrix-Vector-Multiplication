@@ -56,14 +56,14 @@ class QuantLinearSVD(nn.Linear):
 
         # Perform matrix multiplication
         vx = torch.matmul(qinput, qv.T)  # qv.T to match dimensions for multiplication
-        qvx = self.quant_scheme.weight.quant(vx)
+        qvx = self.quant_scheme.weight.quant(vx) ##########
         output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
 
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
 
-        output = self.quant_scheme.weight.quant(output)
+        output = self.quant_scheme.weight.quant(output) ################
 
         return output.view(*input_shape[:-1], -1)
 

@@ -12,13 +12,14 @@ parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'server'))
-# sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
-sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+sys.path.append(os.path.join(parent_dir, 'low_precision'))
+
+from quant_svd import *
 
 from utils import *
 
 class WeightArray:
-    def __init__(self, weight, method, threshold, NZr, NZc, Tr, Tc, quant_method):
+    def __init__(self, weight, method, threshold, NZr, NZc, Tr, Tc, quant_scheme):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # Use GPU if available
         self.num_weights = len(weight)
 
@@ -31,7 +32,7 @@ class WeightArray:
         self.Tr = Tr
         self.Tc = Tc
 
-        self.precision = 32  # Initialize the precision (by default 32 bits per operand) and threshold
+        self.quant_scheme = quant_scheme # Initialize the precision (by default 32 bits per operand) and threshold
         self.threshold = threshold
 
         self.memory_footprint_baseline = 0
@@ -41,8 +42,6 @@ class WeightArray:
         self.steps = 0  # Counter of current step
 
         self.method = method
-
-        self.quant_method = quant_method
 
         # Move weights to GPU
         weight = [torch.tensor(w, dtype=torch.float32, device=self.device) for w in weight]
@@ -61,9 +60,6 @@ class WeightArray:
             self.padding_array()
 
             self.cal_memory_footprint_baseline_array()
-    
-    def init_precision(self, precision):
-        self.precision = precision
 
     def iterative_approximation(self, method, norm='none'):
         unsupported_method_message = "Unsupported iterative approximation method."
@@ -112,11 +108,14 @@ class WeightArray:
             v1_n = Vt_n[:, 0]
 
             # Update the weight matrix approximation with all tensors on the same device
-            reconstructed = RWi + quant_svd(u1_n,sigma1_n,v1_n,self.quant_method)
-            residual = Wi - quant_svd(u1_n,sigma1_n,v1_n,self.quant_method)
+            reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
+            residual = Wi - quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
 
-            reconstructed_weight_array_step[idx] = reconstructed
-            residual_weight_array_step[idx] = residual
+            # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
+            # v.vstack(quant(v1_n,self.quant_scheme))
+
+            reconstructed_weight_array_step[idx] = quantisation(reconstructed,self.quant_scheme)
+            residual_weight_array_step[idx] = quantisation(residual,self.quant_scheme)
         
         self.current_reconstructed_weight_array = reconstructed_weight_array_step
         self.current_residual_weight_array = residual_weight_array_step
@@ -284,18 +283,27 @@ class WeightArray:
             self.current_reconstructed_weight= np.hstack((self.current_reconstructed_weight, np.zeros((self.current_reconstructed_weight.shape[0], Tc - pad_cols))))
             self.current_residual_weight= np.hstack((self.current_residual_weight, np.zeros((self.current_residual_weight.shape[0], Tc - pad_cols))))
 
+import warnings
 
 import argparse
+import itertools
+import csv
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
 from quant import *
-from svd import *
 
-# Create a mock argument namespace to simulate input arguments
-args_int = argparse.Namespace()
+# Suppress all warnings
+warnings.filterwarnings("ignore")
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
 
 random_matrix1 = np.random.rand(512, 512)
 random_matrix2 = np.random.rand(512, 512)
@@ -303,28 +311,29 @@ random_matrix3 = np.random.rand(512, 512)
 
 W = [random_matrix1,random_matrix2,random_matrix3]
 
+args_int = argparse.Namespace()
+
 wl = 32
-frac = 18
-symmetric = True
-round_mode = 'nearest'
+fl = 16
 
 # Define the quantization scheme dictionary with IntQuant settings
 args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
     "same_input": True,
     "same_weight": True
 }
 
 # Create the quantization scheme using the from_args method
-quant_method_int = QuantScheme.from_args(args_int)
+quant_scheme_int = QuantScheme.from_args(args_int)
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_method_int)
+W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-for i in range(200):
-    WW_32 = W32.iterative_approximation(1)
+for i in range(10):
+    for j in range(10):
+        WW_32 = W32.iterative_approximation(3)
     print(W32.average_mse_array()) 

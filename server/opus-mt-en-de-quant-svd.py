@@ -107,7 +107,7 @@ for rank in rank_samples:
             print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, round_mode={round_mode}, symmetric={symmetric}, rank={rank}")
             print("BLEU Score",bleu_int)
 
-            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*frac)
+            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
             # Store the results
             results_list.append({

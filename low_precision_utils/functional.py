@@ -92,6 +92,7 @@ class quant_linear_svd(Function):
         grad_output_shape = grad_output.shape
         # print(grad_output_shape)
         grad_output = grad_output.reshape(-1, grad_output_shape[-1])
+        
         grad_output_type = grad_output.dtype
         qinput, qweight, bias = ctx.saved_tensors
 
