@@ -5,6 +5,9 @@ import math
 import numpy as np
 import torch
 
+import warnings
+warnings.filterwarnings("ignore")
+
 # Dynamically add paths relative to the current script's location
 # This makes it more portable since it does not rely on hard-coded absolute paths
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -107,6 +110,9 @@ class WeightArray:
 
             u1_n = U_n[:, 0]
             v1_n = Vt_n[:, 0]
+
+            print(u1_n.shape)
+            print(v1_n.shape)
 
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
