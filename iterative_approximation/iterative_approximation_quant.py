@@ -32,7 +32,8 @@ class WeightArray:
         self.Tr = Tr
         self.Tc = Tc
 
-        self.quant_scheme = quant_scheme # Initialize the precision (by default 32 bits per operand) and threshold
+        self.quant_scheme = quant_scheme 
+        self.precision = 32# Initialize the precision (by default 32 bits per operand) and threshold
         self.threshold = threshold
 
         self.memory_footprint_baseline = 0
