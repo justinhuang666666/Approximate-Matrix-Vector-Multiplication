@@ -113,16 +113,14 @@ class WeightArray:
 
             vv = v1_n.T
 
-            print(u1_n.shape)
-            print(vv.shape)
+            print(u1_n)
+            print(vv)
 
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
-            print(vv.shape)
             residual = Wi - quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
 
             refine = quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
-            print(refine)
 
             # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
             # v.vstack(quant(v1_n,self.quant_scheme))
@@ -346,6 +344,6 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-for i in range(5):
+for i in range(1):
     WW_32 = W32.iterative_approximation(1)
     print(W32.average_mse_array()) 
