@@ -122,7 +122,7 @@ class WeightArray:
             residual = Wi - quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
 
             refine = quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
-            print(refine.shape)
+            print(refine)
 
             # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
             # v.vstack(quant(v1_n,self.quant_scheme))
