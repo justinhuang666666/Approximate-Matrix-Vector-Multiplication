@@ -1,15 +1,19 @@
 from torch import nn
-from . import functional
-from . import quant 
+# from . import functional
+# from . import quant 
 import torch
 
-import sys
-import os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
 
-from functional import *
-from quant import *
+import os
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(parent_dir)
+from low_precision_utils import functional
+from low_precision_utils import quant
 
 class QuantLinear(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None):

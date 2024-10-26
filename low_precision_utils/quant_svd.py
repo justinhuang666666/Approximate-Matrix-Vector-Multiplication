@@ -3,13 +3,16 @@
 # from . import quant 
 # import torch
 
-import sys
 import os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
+import sys
 
-from functional import *
-from quant import *
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(parent_dir)
+from low_precision_utils import functional
+from low_precision_utils import quant
 
 def quant_svd(u,v,quant_scheme):
     qu = quant_scheme.weight.quant(u)

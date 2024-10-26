@@ -1,6 +1,16 @@
 import torch
 from torch.autograd import Function
-from . import quant
+# from . import quant
+
+import os
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(parent_dir)
+from low_precision_utils import quant
 
 class quant_linear(Function):
     @staticmethod
