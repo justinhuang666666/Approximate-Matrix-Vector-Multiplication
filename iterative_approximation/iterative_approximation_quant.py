@@ -12,7 +12,7 @@ parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'server'))
-sys.path.append(os.path.join(parent_dir, 'low_precision'))
+sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
 
 from quant_svd import *
 
