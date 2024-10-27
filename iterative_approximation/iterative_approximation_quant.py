@@ -115,10 +115,6 @@ class WeightArray:
             reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
             residual = Wi - quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
 
-            # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
-
-            # v.vstack(quant(v1_n,self.quant_scheme))
-
             reconstructed_weight_array_step[idx] = quantisation(reconstructed,self.quant_scheme)
             residual_weight_array_step[idx] = quantisation(residual,self.quant_scheme)
         
