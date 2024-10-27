@@ -332,7 +332,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 
 
-def mse1(array1, array2, device='gpu'):
+def mse1(array1, array2, device='cpu'):
     # Ensure that array1 and array2 are lists of PyTorch tensors
     array1 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array1]
     array2 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array2]
@@ -374,7 +374,7 @@ u_array, v_array = W32.compute_uv(500, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW))
+print(mse1(W,WW,W.device))
 
 wl = 16
 fl = 8
@@ -401,7 +401,7 @@ u_array, v_array = W32.compute_uv(500, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW))
+print(mse1(W,WW,W.device))
 
 wl = 8
 fl = 4
@@ -428,4 +428,4 @@ u_array, v_array = W32.compute_uv(500, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW))
+print(mse1(W,WW,W.device))
