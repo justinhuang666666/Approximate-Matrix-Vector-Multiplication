@@ -369,7 +369,7 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(500, 1)
+u_array, v_array = W32.compute_uv(200, 1)
 
 WW=[]
 for i in range(len(u_array)):
@@ -396,7 +396,7 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(500, 1)
+u_array, v_array = W32.compute_uv(200, 1)
 
 WW=[]
 for i in range(len(u_array)):
@@ -423,7 +423,7 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(500, 1)
+u_array, v_array = W32.compute_uv(200, 1)
 
 WW=[]
 for i in range(len(u_array)):
