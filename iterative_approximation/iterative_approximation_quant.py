@@ -113,8 +113,8 @@ class WeightArray:
 
             vv = v1_n.T
 
-            print(u1_n)
-            print(vv)
+            print(u1_n[0:10])
+            print(vv[0:10])
 
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
@@ -123,6 +123,7 @@ class WeightArray:
             refine = quant_svd(sigma1_n * u1_n, v1_n.T, self.quant_scheme)
 
             # u.hstack(quant(sigma1_n * u1_n,self.quant_scheme))
+
             # v.vstack(quant(v1_n,self.quant_scheme))
 
             reconstructed_weight_array_step[idx] = quantisation(reconstructed,self.quant_scheme)
