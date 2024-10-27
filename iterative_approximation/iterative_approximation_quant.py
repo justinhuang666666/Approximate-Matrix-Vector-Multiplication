@@ -332,13 +332,13 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 
 
-def mse1(array1, array2):
-    # Ensure array1 and array2 are lists of numpy arrays
-    array1 = [np.asarray(a, dtype=np.float32) for a in array1]
-    array2 = [np.asarray(a, dtype=np.float32) for a in array2]
+def mse1(array1, array2, device='gpu'):
+    # Ensure that array1 and array2 are lists of PyTorch tensors
+    array1 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array1]
+    array2 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array2]
     
     # Calculate mean squared error
-    mse = sum(np.mean((a1 - a2) ** 2) for a1, a2 in zip(array1, array2)) / len(array1)
+    mse = sum((a1 - a2).pow(2).mean().item() for a1, a2 in zip(array1, array2)) / len(array1)
     return mse
 
 random_matrix1 = np.random.rand(512, 512)
