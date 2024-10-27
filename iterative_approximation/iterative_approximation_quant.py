@@ -101,7 +101,7 @@ class WeightArray:
         u_array = [torch.tensor([]) for _ in range(self.num_weights)]
         v_array = [torch.tensor([]) for _ in range(self.num_weights)]
         
-        for i in rank:
+        for i in range(rank):
             # Perform single-step approximation to get u and v for current rank
             u, v = self.iterative_approximation(method,norm)
 
