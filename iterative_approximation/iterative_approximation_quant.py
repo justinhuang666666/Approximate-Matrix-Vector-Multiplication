@@ -365,3 +365,9 @@ print(len(u_array))
 print(len(v_array))
 print(u_array[0].shape)
 print(v_array[0].shape)
+
+WW=[]
+for i in range(len(u_array)):
+    WW.append(u_array[i]@v_array[i])
+print(WW[0][0:10,0])
+print(W[0][0:10,0])
