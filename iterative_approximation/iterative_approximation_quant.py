@@ -95,6 +95,24 @@ class WeightArray:
                 print(unsupported_norm_message)
         else:
             print(unsupported_method_message)
+        
+    def compute_uv(self, rank, method, norm='none'):
+        # Initialize u_array and v_array with empty lists to hold stacked components
+        u_array = [torch.tensor([]) for _ in range(self.num_weights)]
+        v_array = [torch.tensor([]) for _ in range(self.num_weights)]
+        
+        for i in rank:
+            # Perform single-step approximation to get u and v for current rank
+            u, v = self.iterative_approximation(method,norm)
+
+            # Stack each u and v vector into u_array and v_array
+            for j in range(len(u)):
+                # Use torch.hstack or torch.vstack to concatenate the vectors
+                u_array[j] = torch.hstack((u_array[j], u[j].unsqueeze(1))) if u_array[j].numel() > 0 else u[j].unsqueeze(1)
+                v_array[j] = torch.vstack((v_array[j], v[j].unsqueeze(1))) if v_array[j].numel() > 0 else v[j].unsqueeze(1)
+        
+        return u_array, v_array
+
                 
     def iterative_approximation_single(self):
         residual_weight_array = self.current_residual_weight_array
@@ -102,6 +120,9 @@ class WeightArray:
 
         residual_weight_array_step = [torch.zeros_like(W) for W in residual_weight_array]
         reconstructed_weight_array_step = [torch.zeros_like(W) for W in reconstructed_weight_array]
+
+        u = [None] * len(residual_weight_array)  # Initialize u for singular vectors
+        v = [None] * len(residual_weight_array)  # Initialize v for singular vectors
 
         for idx, (Wi, RWi) in enumerate(zip(residual_weight_array, reconstructed_weight_array)):
             # Update SVD on the error matrix using PyTorch
@@ -117,6 +138,9 @@ class WeightArray:
 
             reconstructed_weight_array_step[idx] = quantisation(reconstructed,self.quant_scheme)
             residual_weight_array_step[idx] = quantisation(residual,self.quant_scheme)
+
+            u[idx] = quantisation(sigma1_n * u1_n,self.quant_scheme)
+            v[idx] = quantisation(v1_n,self.quant_scheme)
         
         self.current_reconstructed_weight_array = reconstructed_weight_array_step
         self.current_residual_weight_array = residual_weight_array_step
@@ -126,7 +150,8 @@ class WeightArray:
 
         self.cal_memory_footprint_compressed_array()
         
-        return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array_step]
+        # return [W[0:self.R, 0:self.C] for W in reconstructed_weight_array_step]
+        return u, v
         
     def iterative_approximation_group(self):
         residual_weight_array = self.current_residual_weight_array
@@ -334,12 +359,9 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 
 W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-for i in range(10):
-    for j in range(50):
-        WW_32 = W32.iterative_approximation(1)
-    print(W32.average_mse_array()) 
+u_array, v_array = W32.compute_uv(100, 1)
 
-print('Original')
-print(W[0][0:10,0])
-print('Approximated')
-print(WW_32[0][0:10,0])
+print(len(u_array))
+print(len(v_array))
+print(u_array[0].shape)
+print(v_array[0].shape)
