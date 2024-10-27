@@ -374,7 +374,7 @@ u_array, v_array = W32.compute_uv(200, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,W.device))
+print(mse1(W,WW,WW[0].device))
 
 wl = 16
 fl = 8
@@ -401,7 +401,7 @@ u_array, v_array = W32.compute_uv(200, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,W.device))
+print(mse1(W,WW,WW[0].device))
 
 wl = 8
 fl = 4
@@ -428,4 +428,4 @@ u_array, v_array = W32.compute_uv(200, 1)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,W.device))
+print(mse1(W,WW,WW[0].device))
