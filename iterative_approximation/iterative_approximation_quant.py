@@ -109,7 +109,7 @@ class WeightArray:
             for j in range(len(u)):
                 # Use torch.hstack or torch.vstack to concatenate the vectors
                 u_array[j] = torch.hstack((u_array[j], u[j].unsqueeze(1))) if u_array[j].numel() > 0 else u[j].unsqueeze(1)
-                v_array[j] = torch.vstack((v_array[j], v[j].unsqueeze(0))) if v_array[j].numel() > 0 else v[j].unsqueeze(1)
+                v_array[j] = torch.vstack((v_array[j], v[j].unsqueeze(0))) if v_array[j].numel() > 0 else v[j].unsqueeze(0)
         
         return u_array, v_array
 
