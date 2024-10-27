@@ -369,5 +369,4 @@ print(v_array[0].shape)
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(WW[0][0:10,0])
-print(W[0][0:10,0])
+print(mean_square_error_array1(W,WW))
