@@ -331,6 +331,16 @@ warnings.filterwarnings("ignore")
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 
+
+def mse1(array1, array2):
+    # Ensure array1 and array2 are lists of numpy arrays
+    array1 = [np.asarray(a, dtype=np.float32) for a in array1]
+    array2 = [np.asarray(a, dtype=np.float32) for a in array2]
+    
+    # Calculate mean squared error
+    mse = sum(np.mean((a1 - a2) ** 2) for a1, a2 in zip(array1, array2)) / len(array1)
+    return mse
+
 random_matrix1 = np.random.rand(512, 512)
 random_matrix2 = np.random.rand(512, 512)
 random_matrix3 = np.random.rand(512, 512)
@@ -361,15 +371,10 @@ W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
 u_array, v_array = W32.compute_uv(500, 1)
 
-print(len(u_array))
-print(len(v_array))
-print(u_array[0].shape)
-print(v_array[0].shape)
-
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mean_square_error_array1(W,WW))
+print(mse1(W,WW))
 
 wl = 16
 fl = 8
@@ -393,15 +398,10 @@ W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
 u_array, v_array = W32.compute_uv(500, 1)
 
-print(len(u_array))
-print(len(v_array))
-print(u_array[0].shape)
-print(v_array[0].shape)
-
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mean_square_error_array1(W,WW))
+print(mse1(W,WW))
 
 wl = 8
 fl = 4
@@ -425,12 +425,7 @@ W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
 u_array, v_array = W32.compute_uv(500, 1)
 
-print(len(u_array))
-print(len(v_array))
-print(u_array[0].shape)
-print(v_array[0].shape)
-
 WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
-print(mean_square_error_array1(W,WW))
+print(mse1(W,WW))
