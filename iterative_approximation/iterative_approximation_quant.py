@@ -370,3 +370,67 @@ WW=[]
 for i in range(len(u_array)):
     WW.append(u_array[i]@v_array[i])
 print(mean_square_error_array1(W,WW))
+
+wl = 16
+fl = 8
+
+# Define the quantization scheme dictionary with IntQuant settings
+args_int.quant_scheme = {
+    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "same_input": True,
+    "same_weight": True
+}
+
+# Create the quantization scheme using the from_args method
+quant_scheme_int = QuantScheme.from_args(args_int)
+
+W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
+
+u_array, v_array = W32.compute_uv(500, 1)
+
+print(len(u_array))
+print(len(v_array))
+print(u_array[0].shape)
+print(v_array[0].shape)
+
+WW=[]
+for i in range(len(u_array)):
+    WW.append(u_array[i]@v_array[i])
+print(mean_square_error_array1(W,WW))
+
+wl = 8
+fl = 4
+
+# Define the quantization scheme dictionary with IntQuant settings
+args_int.quant_scheme = {
+    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+    "same_input": True,
+    "same_weight": True
+}
+
+# Create the quantization scheme using the from_args method
+quant_scheme_int = QuantScheme.from_args(args_int)
+
+W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
+
+u_array, v_array = W32.compute_uv(500, 1)
+
+print(len(u_array))
+print(len(v_array))
+print(u_array[0].shape)
+print(v_array[0].shape)
+
+WW=[]
+for i in range(len(u_array)):
+    WW.append(u_array[i]@v_array[i])
+print(mean_square_error_array1(W,WW))
