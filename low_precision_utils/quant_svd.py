@@ -1,7 +1,7 @@
 # from torch import nn
 # from . import functional
 # from . import quant 
-# import torch
+import torch
 
 import os
 import sys
@@ -18,7 +18,7 @@ def quant_svd(u,v,quant_scheme):
     qu = quant_scheme.weight.quant(u)
     qv = quant_scheme.weight.quant(v)
 
-    reconstructed_matrix = qu @ qv
+    reconstructed_matrix = torch.ger(u, v)
 
     quant_reconstructed_matrix = quant_scheme.weight.quant(reconstructed_matrix)
 
