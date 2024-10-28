@@ -271,7 +271,7 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
         if isinstance(module, filter):
             self_attn = module.self_attn
 
-            weight_array = [self_attn.k_proj,self_attn.q_proj,self_attn.v_proj]
+            weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
 
             W = WeightArray(weight_array,'array',0.001,1,1,512,512,quant_scheme)
 
