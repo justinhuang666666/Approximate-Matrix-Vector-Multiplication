@@ -309,123 +309,123 @@ class WeightArray:
             self.current_reconstructed_weight= np.hstack((self.current_reconstructed_weight, np.zeros((self.current_reconstructed_weight.shape[0], Tc - pad_cols))))
             self.current_residual_weight= np.hstack((self.current_residual_weight, np.zeros((self.current_residual_weight.shape[0], Tc - pad_cols))))
 
-import warnings
+# import warnings
 
-import argparse
-import itertools
-import csv
+# import argparse
+# import itertools
+# import csv
 
-# Suppress all warnings
-warnings.filterwarnings("ignore")
+# # Suppress all warnings
+# warnings.filterwarnings("ignore")
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# parent_dir = os.path.dirname(current_dir)
 
-# Add utility directories dynamically
-sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
-from quant import *
+# # Add utility directories dynamically
+# sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+# from quant import *
 
-# Suppress all warnings
-warnings.filterwarnings("ignore")
+# # Suppress all warnings
+# warnings.filterwarnings("ignore")
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# parent_dir = os.path.dirname(current_dir)
 
 
-def mse1(array1, array2, device='cpu'):
-    # Ensure that array1 and array2 are lists of PyTorch tensors
-    array1 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array1]
-    array2 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array2]
+# def mse1(array1, array2, device='cpu'):
+#     # Ensure that array1 and array2 are lists of PyTorch tensors
+#     array1 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array1]
+#     array2 = [torch.tensor(a, device=device, dtype=torch.float32) if isinstance(a, np.ndarray) else a.to(device, dtype=torch.float32) for a in array2]
     
-    # Calculate mean squared error
-    mse = sum((a1 - a2).pow(2).mean().item() for a1, a2 in zip(array1, array2)) / len(array1)
-    return mse
+#     # Calculate mean squared error
+#     mse = sum((a1 - a2).pow(2).mean().item() for a1, a2 in zip(array1, array2)) / len(array1)
+#     return mse
 
-random_matrix1 = np.random.rand(512, 512)
-random_matrix2 = np.random.rand(512, 512)
-random_matrix3 = np.random.rand(512, 512)
+# random_matrix1 = np.random.rand(512, 512)
+# random_matrix2 = np.random.rand(512, 512)
+# random_matrix3 = np.random.rand(512, 512)
 
-W = [random_matrix1,random_matrix2,random_matrix3]
+# W = [random_matrix1,random_matrix2,random_matrix3]
 
-args_int = argparse.Namespace()
+# args_int = argparse.Namespace()
 
-wl = 32
-fl = 16
+# wl = 32
+# fl = 16
 
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "same_input": True,
-    "same_weight": True
-}
+# # Define the quantization scheme dictionary with IntQuant settings
+# args_int.quant_scheme = {
+#     "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "same_input": True,
+#     "same_weight": True
+# }
 
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
+# # Create the quantization scheme using the from_args method
+# quant_scheme_int = QuantScheme.from_args(args_int)
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
+# W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(200, 1)
+# u_array, v_array = W32.compute_uv(200, 1)
 
-WW=[]
-for i in range(len(u_array)):
-    WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,WW[0].device))
+# WW=[]
+# for i in range(len(u_array)):
+#     WW.append(u_array[i]@v_array[i])
+# print(mse1(W,WW,WW[0].device))
 
-wl = 16
-fl = 8
+# wl = 16
+# fl = 8
 
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "same_input": True,
-    "same_weight": True
-}
+# # Define the quantization scheme dictionary with IntQuant settings
+# args_int.quant_scheme = {
+#     "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "same_input": True,
+#     "same_weight": True
+# }
 
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
+# # Create the quantization scheme using the from_args method
+# quant_scheme_int = QuantScheme.from_args(args_int)
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
+# W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(200, 1)
+# u_array, v_array = W32.compute_uv(200, 1)
 
-WW=[]
-for i in range(len(u_array)):
-    WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,WW[0].device))
+# WW=[]
+# for i in range(len(u_array)):
+#     WW.append(u_array[i]@v_array[i])
+# print(mse1(W,WW,WW[0].device))
 
-wl = 8
-fl = 4
+# wl = 8
+# fl = 4
 
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
-    "same_input": True,
-    "same_weight": True
-}
+# # Define the quantization scheme dictionary with IntQuant settings
+# args_int.quant_scheme = {
+#     "act": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "weight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "bweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goact": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "goweight": {"number_type": "int", "wl": wl, "fl": fl, "clamp": True, "symmetric": True, "round_mode": 'nearest'},
+#     "same_input": True,
+#     "same_weight": True
+# }
 
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
+# # Create the quantization scheme using the from_args method
+# quant_scheme_int = QuantScheme.from_args(args_int)
 
-W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
+# W32 = WeightArray(W,'array',0.001,1,1,512,512,quant_scheme_int)
 
-u_array, v_array = W32.compute_uv(200, 1)
+# u_array, v_array = W32.compute_uv(200, 1)
 
-WW=[]
-for i in range(len(u_array)):
-    WW.append(u_array[i]@v_array[i])
-print(mse1(W,WW,WW[0].device))
+# WW=[]
+# for i in range(len(u_array)):
+#     WW.append(u_array[i]@v_array[i])
+# print(mse1(W,WW,WW[0].device))

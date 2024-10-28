@@ -17,6 +17,9 @@ parent_dir = os.path.dirname(current_dir)
 # Add utility directories dynamically
 sys.path.append(parent_dir)
 from low_precision_utils import layers
+sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
+from iterative_approximation_quant import *
+
 
 import torch.autograd
 import torch.nn.grad
@@ -254,10 +257,46 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
 def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
+    local_network = replace_with_quantized_svd1(local_network, rank, quant_scheme, filter)
     return local_network
 
-replace_with_quantized_svd
+
+def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
+    # List to keep track of layers to be replaced
+    to_replace = []
+
+    # Iterate through the modules in the network
+    for name, module in network.named_children():
+        # Check if the module matches the specified filter type
+        if isinstance(module, filter):
+            self_attn = module.self_attn
+
+            weight_array = [self_attn.k_proj,self_attn.q_proj,self_attn.v_proj]
+
+            W = WeightArray(weight_array,'array',0.001,1,1,512,512,quant_scheme)
+
+            u_array, v_array = W.compute_uv(rank, 1)
+            
+            # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
+            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision(self_attn.k_proj, u_array[0], v_array[0], quant_scheme)
+            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision(self_attn.q_proj, u_array[1], v_array[1], quant_scheme)
+            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision(self_attn.v_proj, u_array[2], v_array[2], quant_scheme)
+
+            # Assign the modified self-attention back to the module
+            module.self_attn = self_attn
+
+        # Recursively apply replacements to submodules
+        else:
+            replace_with_quantized_svd(module, rank, quant_scheme, filter)
+
+    # Replace identified layers with their quantized versions
+    for name, new_module in to_replace:
+        setattr(
+            network, name, new_module)
+
+    return network
+    
+
 
 class ModelEma(nn.Module):
     def __init__(self, model, decay=0.9999, device=None):

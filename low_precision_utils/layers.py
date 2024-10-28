@@ -80,10 +80,10 @@ class QuantLinearSVD(nn.Linear):
         return output.view(*input_shape[:-1], -1)
 
     @classmethod
-    def from_full_precision(self, module, rank, quant_scheme):
+    def from_full_precision(self, module, U, V, quant_scheme):
         l = QuantLinearSVD(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme, rank)
         # Decompose the weight matrix into U and V
-        U, V = compute_uv(module.weight.data, rank)
+        # U, V = compute_uv(module.weight.data, rank)
         l.weight.data.copy_(module.weight)
         l.U.data.copy_(U)
         l.V.data.copy_(V)
