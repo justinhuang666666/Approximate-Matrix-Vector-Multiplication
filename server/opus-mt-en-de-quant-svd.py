@@ -15,7 +15,7 @@ import itertools
 import csv
 
 # Suppress all warnings
-# warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
