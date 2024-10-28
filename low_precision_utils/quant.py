@@ -278,9 +278,9 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
             u_array, v_array = W.compute_uv(rank, 1)
             
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
-            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision(self_attn.k_proj, u_array[0], v_array[0], quant_scheme)
-            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision(self_attn.q_proj, u_array[1], v_array[1], quant_scheme)
-            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision(self_attn.v_proj, u_array[2], v_array[2], quant_scheme)
+            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
+            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision(self_attn.q_proj, u_array[1], v_array[1], rank, quant_scheme)
+            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision(self_attn.v_proj, u_array[2], v_array[2], rank, quant_scheme)
 
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
