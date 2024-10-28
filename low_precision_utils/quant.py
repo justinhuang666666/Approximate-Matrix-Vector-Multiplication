@@ -287,7 +287,7 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_svd(module, rank, quant_scheme, filter)
+            replace_with_quantized_svd1(module, rank, quant_scheme, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
