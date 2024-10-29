@@ -65,7 +65,7 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [8, 16]
+word_lengths = [6, 8, 16]
 frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
 rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300]
 
