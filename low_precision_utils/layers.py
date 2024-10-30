@@ -76,14 +76,21 @@ class QuantLinearSVD(nn.Linear):
         output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
         print(qinput.shape)
 
-        for i in range(qu.shape[0]):
-            # Perform matrix multiplication
-            vx = torch.matmul(qinput,qv[i,:].T)  # qv[i].T to match dimensions for multiplication
-            print(vx.shape)
-            print(qu[:,i].shape)
-            qvx = self.quant_scheme.weight.quant(vx)
-            output= torch.matmul(qvx, qu[:,i].T) # Multiplying by qu without transposing
-            qoutput += self.quant_scheme.weight.quant(output)
+        # Initialize qoutput and output as zero tensors of the correct shape
+        qoutput = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
+        output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
+
+        for i in range(qu.shape[1]):
+            # Perform matrix multiplication for each i
+            vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
+            print("vx shape:", vx.shape)  # Expected [15, 1]
+            print("qu[:, i] shape:", qu[:, i].shape)  # Expected [512]
+
+            qvx = self.quant_scheme.weight.quant(vx.squeeze(-1))  # Quantize vx and remove extra dimension
+            output[:, i] = torch.matmul(qvx, qu[:, i])  # Multiply by qu[:, i] directly
+
+        qoutput += self.quant_scheme.weight.quant(output)  # Quantize and accumulate in qoutput
+
 
         print(output.shape)
         # Add bias if provided
