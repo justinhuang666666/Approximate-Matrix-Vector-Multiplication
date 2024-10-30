@@ -84,10 +84,10 @@ class QuantLinearSVD(nn.Linear):
             print("qv shape:",qv[i,:].unsqueeze(1).shape)
             vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
             print("vx shape:", vx.shape)  # Expected [15, 1]
-            print("qu shape",qu[:, i].unsqueeze(1).shape)
+            print("qu shape", qu[:, i].reshape(1, 512))
 
             qvx = self.quant_scheme.weight.quant(vx)  # Quantize vx and remove extra dimension
-            output = torch.matmul(qvx.T, qu[:, i].reshape(512, -1))
+            output = torch.matmul(qvx, qu[:, i].reshape(1, 512))
 
 
 
