@@ -77,6 +77,7 @@ class QuantLinearSVD(nn.Linear):
             # Perform matrix multiplication
             vx = torch.matmul(qinput,qv[i,:].T)  # qv[i].T to match dimensions for multiplication
             print(vx.shape)
+            print(qu[:,i].shape)
             qvx = self.quant_scheme.weight.quant(vx)
             output= torch.matmul(qvx, qu[:,i]) # Multiplying by qu without transposing
             qoutput += self.quant_scheme.weight.quant(output)
