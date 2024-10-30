@@ -79,6 +79,8 @@ class QuantLinearSVD(nn.Linear):
         qoutput = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
         output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
 
+        print("rank: ", qu.shape[1])
+
         for i in range(qu.shape[1]):
             # print("qv shape:",qv[i,:].unsqueeze(1).shape)
             vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]

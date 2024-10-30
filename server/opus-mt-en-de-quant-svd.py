@@ -67,14 +67,14 @@ args_int = argparse.Namespace()
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [6, 8, 16]
 frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [100,200]#[100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350]
+rank_samples = [200,400]#[100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350]
 
 symmetric = True
 round_mode = "nearest"
 results_list = []
 
-wl = 8
-fl = 4
+wl = 32
+fl = 6
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
