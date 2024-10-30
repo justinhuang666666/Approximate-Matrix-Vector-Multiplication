@@ -82,13 +82,11 @@ class QuantLinearSVD(nn.Linear):
 
         for i in range(qu.shape[1]):
             print("qv shape:",qv[i,:].unsqueeze(1).shape)
-            # Perform matrix multiplication for each i
             vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
             print("vx shape:", vx.shape)  # Expected [15, 1]
 
             qvx = self.quant_scheme.weight.quant(vx)  # Quantize vx and remove extra dimension
-            print("qu shape:",qu[:,i].T.shape)
-            output[:, i] = torch.matmul(qvx, qu[:, i].T)  # Multiply by qu[:, i] directly
+            output = torch.matmul(qvx, qu[:, i].T)  # Multiply by qu[:, i] directly
 
         qoutput += self.quant_scheme.weight.quant(output)  # Quantize and accumulate in qoutput
 
