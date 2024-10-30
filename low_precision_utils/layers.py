@@ -80,7 +80,7 @@ class QuantLinearSVD(nn.Linear):
         output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
 
         for i in range(qu.shape[1]):
-            print("qv shape:",qv[i,:].unsqueeze(1).shape)
+            # print("qv shape:",qv[i,:].unsqueeze(1).shape)
             vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
             # print("vx shape:", vx.shape)  # Expected [15, 1]
             # print("qu shape", qu[:, i].reshape(1, 512))
@@ -90,7 +90,7 @@ class QuantLinearSVD(nn.Linear):
             qoutput += self.quant_scheme.weight.quant(output)  # Quantize and accumulate in qoutput
 
 
-        print(output.shape)
+        # print(output.shape)
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
