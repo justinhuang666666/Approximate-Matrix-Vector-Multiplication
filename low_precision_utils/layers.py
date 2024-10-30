@@ -71,14 +71,17 @@ class QuantLinearSVD(nn.Linear):
         # Initialize output to zero tensor of correct shape and dtype
         qoutput = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
         output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
+        print(qinput.shape)
 
         for i in range(qu.shape[0]):
             # Perform matrix multiplication
-            vx = torch.matmul(qinput, qv[i,:])  # qv[i].T to match dimensions for multiplication
+            vx = torch.matmul(qv[i,:],qinput)  # qv[i].T to match dimensions for multiplication
+            print(vx.shape)
             qvx = self.quant_scheme.weight.quant(vx)
             output= torch.matmul(qvx, qu[:,i]) # Multiplying by qu without transposing
             qoutput += self.quant_scheme.weight.quant(output)
 
+        print(output.shape)
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
