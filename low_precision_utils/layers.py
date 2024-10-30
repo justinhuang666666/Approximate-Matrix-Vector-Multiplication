@@ -79,7 +79,7 @@ class QuantLinearSVD(nn.Linear):
             print(vx.shape)
             print(qu[:,i].shape)
             qvx = self.quant_scheme.weight.quant(vx)
-            output= torch.matmul(qvx, qu[:,i]) # Multiplying by qu without transposing
+            output= torch.matmul(qvx, qu[:,i].T) # Multiplying by qu without transposing
             qoutput += self.quant_scheme.weight.quant(output)
 
         print(output.shape)
