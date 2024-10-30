@@ -81,6 +81,7 @@ class QuantLinearSVD(nn.Linear):
         output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
 
         for i in range(qu.shape[1]):
+            print(qv[i,:].shape)
             # Perform matrix multiplication for each i
             vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
             print("vx shape:", vx.shape)  # Expected [15, 1]
