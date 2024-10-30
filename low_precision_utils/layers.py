@@ -2,6 +2,7 @@ from torch import nn
 # from . import functional
 # from . import quant 
 import torch
+from copy import deepcopy
 
 
 import os
@@ -80,7 +81,22 @@ class QuantLinearSVD(nn.Linear):
         return output.view(*input_shape[:-1], -1)
 
     @classmethod
-    def from_full_precision(self, module, U, V, rank, quant_scheme):
+    def from_full_precision(self, module, rank, quant_scheme):
+        l = QuantLinearSVD(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme,rank)
+        # Deep copy the weight and assign it
+        l.weight = deepcopy(module.weight)
+        
+        # Compute U, V and deep copy their values without nn.Parameter
+        U, V = compute_uv(module.weight, rank)
+        l.U = deepcopy(U)
+        l.V = deepcopy(V)
+
+        if module.bias is not None:
+            l.bias.data.copy_(module.bias.data)
+        return l
+    
+    @classmethod
+    def from_full_precision1(self, module, U, V, rank, quant_scheme):
         l = QuantLinearSVD(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme,rank)
         l.weight = module.weight
         l.U = nn.Parameter(U)  # Wrap U as a torch.nn.Parameter

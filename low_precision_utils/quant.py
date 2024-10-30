@@ -257,6 +257,11 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
 def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
     local_network = copy.deepcopy(network)
+    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
+    return local_network
+
+def replace_with_quantized_svd_wrapper1(network, rank, quant_scheme, filter):
+    local_network = copy.deepcopy(network)
     local_network = replace_with_quantized_svd1(local_network, rank, quant_scheme, filter)
     return local_network
 

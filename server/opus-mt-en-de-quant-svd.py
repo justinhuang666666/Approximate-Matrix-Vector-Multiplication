@@ -67,16 +67,19 @@ args_int = argparse.Namespace()
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [6, 8, 16]
 frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300]
+rank_samples = [100,200]#[100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350]
 
 symmetric = True
 round_mode = "nearest"
 results_list = []
 
+wl = 8
+fl = 4
+
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
-    for wl in word_lengths: 
-        for fl in frac_lengths:
+    # for wl in word_lengths: 
+    #     for fl in frac_lengths:
             # Skip invalid combinations where fl is greater than wl
             frac = wl - fl
 
@@ -101,12 +104,17 @@ for rank in rank_samples:
             quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
 
             # Compute BLEU score
-            bleu_int = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+            bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+
+            quant_svd_model = replace_with_quantized_svd_wrapper1(model, rank, quant_scheme_int, filter)
+
+            # Compute BLEU score
+            bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
 
             # Print BLEU score
             print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-            print("BLEU Score",bleu_int)
-
+            print("BLEU Score (Quant SVD)",bleu_int1)
+            print("BLEU Score (Iterative Quant SVD)",bleu_int2)
             compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
             # Store the results
@@ -114,7 +122,8 @@ for rank in rank_samples:
             "Word Length": wl,
             "Fraction Length": frac,
             "Rank":rank,
-            "BLEU Score": bleu_int,
+            "BLEU Score (Quant SVD)": bleu_int1,
+            "BLEU Score (Iterative Quant SVD)": bleu_int2,
             "Compression Ratio":compression_ratio
             })
 
@@ -122,4 +131,4 @@ for rank in rank_samples:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results1.csv', index=False)
+results_df.to_csv('svd_quantization_results2.csv', index=False)
