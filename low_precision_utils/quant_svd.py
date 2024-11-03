@@ -22,7 +22,7 @@ def quant_svd(u,v,quant_scheme):
 
     # quant_reconstructed_matrix = quant_scheme.weight.quant(reconstructed_matrix)
 
-    return quant_reconstructed_matrix
+    return reconstructed_matrix
 
 def quantisation(input,quant_scheme):
     quant_input = quant_scheme.weight.quant(input)
