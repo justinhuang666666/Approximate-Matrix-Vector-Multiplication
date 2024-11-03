@@ -73,8 +73,8 @@ symmetric = True
 round_mode = "nearest"
 results_list = []
 
-wl = 16
-fl = 8
+wl = 32
+fl = 16
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
