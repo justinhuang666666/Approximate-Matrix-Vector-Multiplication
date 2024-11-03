@@ -73,7 +73,7 @@ class QuantLinearSVD(nn.Linear):
 
         temp_output = input @ qv.T  # This will be of shape [15, 200]
         print("temp_output shape: ",temp_output.shape)
-        output = temp_output @ qu  # This will be of shape [15, 512]
+        output = temp_output @ qu.T  # This will be of shape [15, 512]
 
 
         # Add bias if provided
