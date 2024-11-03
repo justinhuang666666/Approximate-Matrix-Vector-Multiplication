@@ -67,6 +67,10 @@ class QuantLinearSVD(nn.Linear):
         if self.bias is not None:
             bias = self.bias.to(torch.bfloat16)
 
+        print("input shape: ",input.shape)
+        print("qu shape: ",qu.shape)
+        print("qv shape: ",qv.shape)
+
         output = qu @ qv @ input
 
         # Add bias if provided
