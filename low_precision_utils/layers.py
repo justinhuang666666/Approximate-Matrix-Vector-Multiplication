@@ -59,45 +59,21 @@ class QuantLinearSVD(nn.Linear):
         input_type = input.dtype
         
         # Quantization
-        qinput = self.quant_scheme.act.quant(input)
+        # qinput = self.quant_scheme.act.quant(input)
         qu = self.quant_scheme.weight.quant(self.U)
         qv = self.quant_scheme.weight.quant(self.V)
 
-        # print(qu.shape)
-        # print(qv.shape)
-        
         # Convert bias to a compatible data type
         if self.bias is not None:
             bias = self.bias.to(torch.bfloat16)
 
-        # Initialize output to zero tensor of correct shape and dtype
-        qoutput = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
-        output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
-        # print(qinput.shape)
+        output = qu @ qv @ input
 
-        # Initialize qoutput and output as zero tensors of the correct shape
-        qoutput = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
-        output = torch.zeros(input.shape[0], qu.shape[0], dtype=input_type, device=input.device)
-
-        # print("rank: ", qu.shape[1])
-
-        for i in range(qu.shape[1]):
-            # print("qv shape:",qv[i,:].unsqueeze(1).shape)
-            vx = torch.matmul(qinput, qv[i, :].unsqueeze(1))  # qv[i, :].unsqueeze(1) to ensure [512, 1]
-            # print("vx shape:", vx.shape)  # Expected [15, 1]
-            # print("qu shape", qu[:, i].reshape(1, 512))
-
-            qvx = self.quant_scheme.weight.quant(vx)  # Quantize vx and remove extra dimension
-            output = torch.matmul(qvx, qu[:, i].reshape(1, 512))
-            qoutput += self.quant_scheme.weight.quant(output)  # Quantize and accumulate in qoutput
-
-
-        # print(output.shape)
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
 
-        output = self.quant_scheme.weight.quant(output) ################
+        # output = self.quant_scheme.weight.quant(output)
 
         return output.view(*input_shape[:-1], -1)
 

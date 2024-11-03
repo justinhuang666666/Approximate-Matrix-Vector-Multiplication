@@ -73,8 +73,8 @@ symmetric = True
 round_mode = "nearest"
 results_list = []
 
-wl = 32
-fl = 6
+wl = 16
+fl = 8
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
@@ -128,7 +128,7 @@ for rank in rank_samples:
             })
 
 # Convert the list of dictionaries to a DataFrame
-results_df = pd.DataFrame(results_list)
+# results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results2.csv', index=False)
+# results_df.to_csv('svd_quantization_results2.csv', index=False)
