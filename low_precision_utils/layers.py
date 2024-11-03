@@ -71,7 +71,9 @@ class QuantLinearSVD(nn.Linear):
         print("qu shape: ",qu.shape)
         print("qv shape: ",qv.shape)
 
-        output = qu @ qv @ input
+        temp_output = input @ qu  # This will be of shape [15, 200]
+        output = temp_output @ qv  # This will be of shape [15, 512]
+
 
         # Add bias if provided
         if self.bias is not None:
