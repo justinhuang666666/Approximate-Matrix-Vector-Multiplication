@@ -75,8 +75,8 @@ results_list = []
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
-    # for wl in word_lengths: 
-    #     for fl in frac_lengths:
+    for wl in word_lengths: 
+        for fl in frac_lengths:
             # Skip invalid combinations where fl is greater than wl
             frac = wl - fl
 
