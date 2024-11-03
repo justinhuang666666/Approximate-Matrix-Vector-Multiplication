@@ -67,14 +67,11 @@ args_int = argparse.Namespace()
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [6, 8, 16]
 frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [200,400]#[100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350]
+rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
 
 symmetric = True
 round_mode = "nearest"
 results_list = []
-
-wl = 16
-fl = 8
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
@@ -128,7 +125,7 @@ for rank in rank_samples:
             })
 
 # Convert the list of dictionaries to a DataFrame
-# results_df = pd.DataFrame(results_list)
+results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-# results_df.to_csv('svd_quantization_results2.csv', index=False)
+results_df.to_csv('svd_quantization_results3.csv', index=False)
