@@ -80,8 +80,6 @@ class QuantLinearSVD(nn.Linear):
         if self.bias is not None:
             output += self.bias
 
-        # output = self.quant_scheme.weight.quant(output)
-
         return output.view(*input_shape[:-1], -1)
 
     @classmethod

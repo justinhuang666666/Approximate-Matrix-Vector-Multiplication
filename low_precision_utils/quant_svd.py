@@ -20,8 +20,6 @@ def quant_svd(u,v,quant_scheme):
 
     reconstructed_matrix = torch.ger(u, v)
 
-    # quant_reconstructed_matrix = quant_scheme.weight.quant(reconstructed_matrix)
-
     return reconstructed_matrix
 
 def quantisation(input,quant_scheme):
