@@ -71,7 +71,7 @@ class QuantLinearSVD(nn.Linear):
         # print("qu shape: ",qu.shape)
         # print("qv shape: ",qv.shape)
 
-        temp_output = qinput @ qv.T  # This will be of shape [15, 200]
+        temp_output = input @ qv.T  # This will be of shape [15, 200]
         # print("temp_output shape: ",temp_output.shape)
         output = temp_output @ qu.T  # This will be of shape [15, 512]
 
