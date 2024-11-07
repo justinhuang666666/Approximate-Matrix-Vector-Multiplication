@@ -55,9 +55,9 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [8,16] # [6, 8, 16]
-frac_lengths = [4,5] # [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [200,400] # [100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+word_lengths = [6, 8, 16]
+frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
+rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
 
 symmetric = True
 round_mode = "nearest"
@@ -142,7 +142,7 @@ for rank in rank_samples:
             print("MSE (Quant SVD)",mse1)
             print("MSE (Iterative Quant SVD)",mse2)
 
-            print("Delta MSE (Iterative Quant SVD)",mse1 - mse2)
+            print("Delta MSE (Quant - Iterative Quant SVD)",mse1 - mse2)
             compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
             # Store the results
@@ -150,8 +150,9 @@ for rank in rank_samples:
             "Word Length": wl,
             "Fraction Length": frac,
             "Rank":rank,
-            "BLEU Score (Quant SVD)": mse1,
-            "BLEU Score (Iterative Quant SVD)": mse2,
+            "MSE (Quant SVD)": mse1,
+            "MSE (Iterative Quant SVD)": mse2,
+            "Delta MSE (Quant - Iterative Quant SVD)": mse1 - mse2,
             "Compression Ratio":compression_ratio
             })
 
