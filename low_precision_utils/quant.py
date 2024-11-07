@@ -19,7 +19,8 @@ sys.path.append(parent_dir)
 from low_precision_utils import layers
 sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
 from iterative_approximation_quant import *
-
+sys.path.append(os.path.join(parent_dir, 'server'))
+from utils import *
 
 import torch.autograd
 import torch.nn.grad
@@ -298,8 +299,6 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
             network, name, new_module)
 
     return network
-    
-
 
 class ModelEma(nn.Module):
     def __init__(self, model, decay=0.9999, device=None):
