@@ -106,8 +106,8 @@ fl = 3
 # Skip invalid combinations where fl is greater than wl
 frac = wl - fl
 
-if frac <= 0:
-    continue
+# if frac <= 0:
+#     continue
 
 # Define the quantization scheme dictionary with IntQuant settings
 args_int.quant_scheme = {
