@@ -151,6 +151,9 @@ for rank in rank_samples:
                 # Calculate MSE for the Iterative Quant SVD approach
                 approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
                 mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
+
+                print(u_array1[0][0:10,0])
+                print(u_array2[0][0:10,0])
                 
                 # Calculate Delta MSE
                 delta_mse = mse1 - mse2
