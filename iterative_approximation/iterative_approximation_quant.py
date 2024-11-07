@@ -125,8 +125,20 @@ class WeightArray:
         v = [None] * len(residual_weight_array)  # Initialize v for singular vectors
 
         for idx, (Wi, RWi) in enumerate(zip(residual_weight_array, reconstructed_weight_array)):
-            # Update SVD on the error matrix using PyTorch
-            U_n, S_n, Vt_n = torch.svd(Wi)
+            # Convert to higher precision (float64)
+            Wi_high_precision = Wi.to(torch.float64)
+
+            # # Update SVD on the error matrix using PyTorch
+            # U_n, S_n, Vt_n = torch.svd(Wi)
+
+            # Perform SVD in higher precision
+            U_n, S_n, Vt_n = torch.linalg.svd(Wi_high_precision)
+
+            # Optionally convert results back to float32 if needed
+            U_n = U_n.to(torch.float32)
+            S_n = S_n.to(torch.float32)
+            Vt_n = Vt_n.to(torch.float32)
+
             sigma1_n = S_n[0]
 
             u1_n = U_n[:, 0]
