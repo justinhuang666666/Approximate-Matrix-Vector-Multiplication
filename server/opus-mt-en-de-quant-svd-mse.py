@@ -126,6 +126,8 @@ for rank in rank_samples:
             mse2_list = []
             delta_mse_list = []
 
+            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+
             # Loop over the 6 encoder layers in the model
             for layer_idx in range(6):
                 # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
@@ -171,9 +173,24 @@ for rank in rank_samples:
                 "Word Length": wl,
                 "Fraction Length": frac,
                 "Rank": rank,
-                "MSE (Quant SVD) - All Layers": mse1_list,
-                "MSE (Iterative Quant SVD) - All Layers": mse2_list,
-                "Delta MSE (Quant - Iterative Quant SVD) - All Layers": delta_mse_list,
+                "MSE (Quant SVD) - Layer 1": mse1_list[0],
+                "MSE (Iterative Quant SVD) - Layer 1": mse2_list[0],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 1": delta_mse_list[0],
+                "MSE (Quant SVD) - Layer 2": mse1_list[1],
+                "MSE (Iterative Quant SVD) - Layer 2": mse2_list[1],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 2": delta_mse_list[1],
+                "MSE (Quant SVD) - Layer 3": mse1_list[2],
+                "MSE (Iterative Quant SVD) - Layer 3": mse2_list[2],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 3": delta_mse_list[2],
+                "MSE (Quant SVD) - Layer 4": mse1_list[3],
+                "MSE (Iterative Quant SVD) - Layer 4": mse2_list[3],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 4": delta_mse_list[3],
+                "MSE (Quant SVD) - Layer 5": mse1_list[4],
+                "MSE (Iterative Quant SVD) - Layer 5": mse2_list[4],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 5": delta_mse_list[4],
+                "MSE (Quant SVD) - Layer 6": mse1_list[5],
+                "MSE (Iterative Quant SVD) - Layer 6": mse2_list[5],
+                "Delta MSE (Quant - Iterative Quant SVD) - Layer 6": delta_mse_list[5],
                 "Compression Ratio": compression_ratio
             })
 
