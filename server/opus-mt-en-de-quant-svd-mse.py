@@ -55,9 +55,9 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [6, 8, 16]
-frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [50, 100, 150, 200]
+word_lengths = [8, 16] #[6, 8, 16]
+frac_lengths = [4, 5] #[1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
+rank_samples = [50,100] #[50, 100, 150, 200]
 
 symmetric = True
 round_mode = "nearest"
@@ -198,4 +198,4 @@ for rank in rank_samples:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_mse1.csv', index=False)
+# results_df.to_csv('svd_quantization_results_mse1.csv', index=False)
