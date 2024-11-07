@@ -141,6 +141,8 @@ for rank in rank_samples:
             print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
             print("MSE (Quant SVD)",mse1)
             print("MSE (Iterative Quant SVD)",mse2)
+
+            print("Delta MSE (Iterative Quant SVD)",mse1 - mse2)
             compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
             # Store the results
