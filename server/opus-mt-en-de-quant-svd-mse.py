@@ -55,9 +55,9 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [6, 8, 16]
-frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+word_lengths = [8,16] #[6, 8, 16]
+frac_lengths = [4,5] #[1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
+rank_samples = [200,400] #[100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
 
 symmetric = True
 round_mode = "nearest"
@@ -121,39 +121,60 @@ for rank in rank_samples:
             # Create the quantization scheme using the from_args method
             quant_scheme_int = QuantScheme.from_args(args_int)
 
-            weight_array = [model.model.encoder.layers[0].self_attn.k_proj.weight, model.model.encoder.layers[0].self_attn.q_proj.weight, model.model.encoder.layers[0].self_attn.v_proj.weight]
+            # Initialize lists to store MSE values for each layer
+            mse1_list = []
+            mse2_list = []
+            delta_mse_list = []
 
-            u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
+            # Loop over the 6 encoder layers in the model
+            for layer_idx in range(6):
+                # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
+                weight_array = [
+                    model.model.encoder.layers[layer_idx].self_attn.k_proj.weight,
+                    model.model.encoder.layers[layer_idx].self_attn.q_proj.weight,
+                    model.model.encoder.layers[layer_idx].self_attn.v_proj.weight
+                ]
 
-            W = WeightArray(weight_array,'array',0.001,1,1,512,512,quant_scheme_int)
+                # Compute u, v arrays using the two different methods
+                u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
+                
+                # Initialize WeightArray for iterative quantized SVD calculation
+                W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
+                u_array2, v_array2 = W.compute_uv(rank, 1)
+                
+                # Calculate MSE for the Quant SVD approach
+                approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
+                mse1 = mean_square_error_array1(weight_array, approximated_weight_array1)
+                
+                # Calculate MSE for the Iterative Quant SVD approach
+                approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
+                mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
+                
+                # Calculate Delta MSE
+                delta_mse = mse1 - mse2
+                
+                # Append the MSE values to the lists
+                mse1_list.append(mse1)
+                mse2_list.append(mse2)
+                delta_mse_list.append(delta_mse)
+                
+                # Print MSE values for debugging
+                print(f"Layer {layer_idx + 1} - MSE (Quant SVD): {mse1}")
+                print(f"Layer {layer_idx + 1} - MSE (Iterative Quant SVD): {mse2}")
+                print(f"Layer {layer_idx + 1} - Delta MSE (Quant - Iterative Quant SVD): {delta_mse}")
 
-            u_array2, v_array2 = W.compute_uv(rank, 1)
+            # Calculate compression ratio (keeping it constant here as it depends on wl)
+            compression_ratio = 512 * 512 * 3 * 6 * 32 / (rank * 512 * 2 * 3 * 6 * wl)
 
-            approximated_weight_array1 = [u_array1[i]@v_array1[i] for i in range(len(weight_array))]
-
-            mse1 = mean_square_error_array1(weight_array,approximated_weight_array1) 
-
-            approximated_weight_array2 = [u_array2[i]@v_array2[i] for i in range(len(weight_array))]
-
-            mse2 = mean_square_error_array1(weight_array,approximated_weight_array2) 
-
-            # Print BLEU score
-            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-            print("MSE (Quant SVD)",mse1)
-            print("MSE (Iterative Quant SVD)",mse2)
-
-            print("Delta MSE (Quant - Iterative Quant SVD)",mse1 - mse2)
-            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
-
-            # Store the results
+            # Store a single entry with lists of MSEs for all 6 layers
             results_list.append({
-            "Word Length": wl,
-            "Fraction Length": frac,
-            "Rank":rank,
-            "MSE (Quant SVD)": mse1,
-            "MSE (Iterative Quant SVD)": mse2,
-            "Delta MSE (Quant - Iterative Quant SVD)": mse1 - mse2,
-            "Compression Ratio":compression_ratio
+                "Word Length": wl,
+                "Fraction Length": frac,
+                "Rank": rank,
+                "MSE (Quant SVD) - All Layers": mse1_list,
+                "MSE (Iterative Quant SVD) - All Layers": mse2_list,
+                "Delta MSE (Quant - Iterative Quant SVD) - All Layers": delta_mse_list,
+                "Compression Ratio": compression_ratio
             })
 
 # Convert the list of dictionaries to a DataFrame
