@@ -100,7 +100,7 @@ def compute_u_v_array(weight_array, rank, quant_scheme):
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
 #         for fl in frac_lengths:
-rank = 50
+rank = 1
 wl = 8
 fl = 3
 # Skip invalid combinations where fl is greater than wl
@@ -155,8 +155,8 @@ for layer_idx in range(6):
     approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
     mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
 
-    print(u_array1[0][0:10,20])
-    print(u_array2[0][0:10,20])
+    print(u_array1[0][0:20,0])
+    print(u_array2[0][0:20,0])
     
     # Calculate Delta MSE
     delta_mse = mse1 - mse2
