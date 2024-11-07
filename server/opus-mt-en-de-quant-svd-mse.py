@@ -85,8 +85,8 @@ def compute_u_v_array(weight_array, rank, quant_scheme):
         v_approx = v_reduced.T            # Transpose V for multiplication
         
         # Quantize the matrices based on the quant_scheme if required
-        u_approx = quantisation(u_approx, quant_scheme)
-        v_approx = quantisation(v_approx, quant_scheme)
+        # u_approx = quantisation(u_approx, quant_scheme)
+        # v_approx = quantisation(v_approx, quant_scheme)
         
         # Append the approximations to the arrays
         u_array.append(u_approx)
