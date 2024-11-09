@@ -140,8 +140,8 @@ class WeightArray:
             reconstructed_weight_array_step[idx] = reconstructed
             residual_weight_array_step[idx] = residual
             if self.steps == 0:
-                u[idx] = sigma1_n * u1_n #quantisation(sigma1_n * u1_n,self.quant_scheme)
-                v[idx] = v1_n #quantisation(v1_n,self.quant_scheme)
+                u[idx] = -1*sigma1_n * u1_n #quantisation(sigma1_n * u1_n,self.quant_scheme)
+                v[idx] = -1*v1_n #quantisation(v1_n,self.quant_scheme)
             else:
                 u[idx] = -1*sigma1_n * u1_n #quantisation(sigma1_n * u1_n,self.quant_scheme)
                 v[idx] = -1*v1_n #quantisation(v1_n,self.quant_scheme)
