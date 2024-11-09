@@ -100,7 +100,6 @@ for rank in rank_samples:
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
 #         for fl in frac_lengths:
-    rank = 2
     wl = 8
     fl = 3
     # Skip invalid combinations where fl is greater than wl
@@ -130,7 +129,7 @@ for rank in rank_samples:
     delta_mse_list = []
 
     
-
+    print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
     # Loop over the 6 encoder layers in the model
     for layer_idx in range(6):
         # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
@@ -164,7 +163,7 @@ for rank in rank_samples:
         # delta_mse_list.append(delta_mse)
         
         # Print MSE values for debugging
-        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+        
         print(f"Layer {layer_idx + 1} - MSE U: {mse1}")
         print(f"Layer {layer_idx + 1} - MSE V: {mse2}")
         # print(f"Layer {layer_idx + 1} - Delta MSE (Quant - Iterative Quant SVD): {delta_mse}")
