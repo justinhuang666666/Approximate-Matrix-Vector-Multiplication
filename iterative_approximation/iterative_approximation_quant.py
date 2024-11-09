@@ -133,6 +133,10 @@ class WeightArray:
             u1_n = U_n[:, 0]
             v1_n = Vt_n[:, 0]
 
+
+            ww = torch.ger(sigma1_n * u1_n, v1_n)
+            print(ww.shape)
+
             # Update the weight matrix approximation with all tensors on the same device
             reconstructed = RWi + torch.ger(sigma1_n * u1_n, v1_n) # quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
             residual = Wi - torch.ger(sigma1_n * u1_n, v1_n) # quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)

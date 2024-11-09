@@ -79,10 +79,12 @@ def compute_u_v_array(weight_array, rank, quant_scheme):
         u_reduced = u[:, :rank]
         s_reduced = torch.diag(s[:rank])
         v_reduced = v[:, :rank]
+
+        print(s_reduced)
         
         # Compute the rank-r approximation
-        u_approx = u_reduced @ s_reduced  # U * S
-        v_approx = v_reduced.T            # Transpose V for multiplication
+        u_approx = u_reduced @ s_reduced    # U * S
+        v_approx = v_reduced.T  # Transpose V for multiplication
         
         # Quantize the matrices based on the quant_scheme if required
         # u_approx = quantisation(u_approx, quant_scheme)
@@ -147,11 +149,11 @@ for rank in rank_samples:
         u_array2, v_array2 = W.compute_uv(rank, 1)
         
         # Calculate MSE for the Quant SVD approach
-        approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
+        # approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
         mse1 = mean_square_error_array1(u_array1, u_array2)
         
         # Calculate MSE for the Iterative Quant SVD approach
-        approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
+        # approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
         mse2 = mean_square_error_array1(v_array1, v_array2)
         
         # # Calculate Delta MSE
