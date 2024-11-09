@@ -188,10 +188,10 @@ for rank in rank_samples:
     u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
 
     # Initialize WeightArray for iterative quantized SVD calculation
-    # W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
-    # u_array2, v_array2 = W.compute_uv(rank, 1)
+    W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
+    u_array2, v_array2 = W.compute_uv(rank, 1)
 
-    u_array2, v_array2 = compute_u_v_array_iterative(weight_array, rank, quant_scheme_int)
+    # u_array2, v_array2 = compute_u_v_array_iterative(weight_array, rank, quant_scheme_int)
 
     # Calculate MSE for the Quant SVD approach
     # approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
