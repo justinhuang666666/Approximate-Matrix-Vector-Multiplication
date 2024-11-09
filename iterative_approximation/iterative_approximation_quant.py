@@ -36,31 +36,33 @@ class WeightArray:
         self.Tc = Tc
 
         self.quant_scheme = quant_scheme 
-        self.precision = 32  # Set precision to 64-bit
+        self.precision = 32# Initialize the precision (by default 32 bits per operand) and threshold
         self.threshold = threshold
 
         self.memory_footprint_baseline = 0
+
         self.memory_footprint_compressed = 0   
         self.num_group = []  # Array to store the num_group per approximation step
         self.steps = 0  # Counter of current step
 
         self.method = method
 
-        # Move weights to GPU with float64 precision
-        weight = [torch.tensor(w, dtype=torch.float64, device=self.device) for w in weight]
+        # Move weights to GPU
+        weight = [torch.tensor(w, dtype=torch.float32, device=self.device) for w in weight]
 
         if self.method == 'weight':
             self.original_weight = torch.vstack(weight)
             self.current_residual_weight = torch.vstack(weight)
-            self.current_reconstructed_weight = torch.vstack([torch.zeros_like(W, dtype=torch.float64) for W in weight])
+            self.current_reconstructed_weight = torch.vstack([torch.zeros_like(W) for W in weight])
             self.padding_weight()
             self.cal_memory_footprint_baseline_weight()
             
         else:  # method == 'array'
             self.original_weight_array = weight  # Initialize the weight attribute
             self.current_residual_weight_array = weight
-            self.current_reconstructed_weight_array = [torch.zeros_like(W, dtype=torch.float64) for W in weight]
+            self.current_reconstructed_weight_array = [torch.zeros_like(W) for W in weight]
             self.padding_array()
+
             self.cal_memory_footprint_baseline_array()
 
     def iterative_approximation(self, method, norm='none'):
