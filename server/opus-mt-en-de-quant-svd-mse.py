@@ -94,6 +94,49 @@ def compute_u_v_array(weight_array, rank, quant_scheme):
     
     return u_array, v_array
 
+def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
+    u_array = []
+    v_array = []
+    
+    for i in range(len(weight_array)):
+        # Get the weight matrix
+        weight = weight_array[i]
+        
+        # Initialize an empty list to store intermediate u and v for each rank-1 approximation
+        u_approx_list = []
+        v_approx_list = []
+        
+        # Iteratively decompose the matrix to get rank-1 approximations
+        for _ in range(rank):
+            # Perform SVD on the current weight matrix to get the first singular vector and value
+            u, s, v = torch.svd(weight)
+            
+            # Select the first singular value/vector (rank-1 approximation)
+            sigma = s[0]  # The largest singular value
+            u_1 = u[:, 0].unsqueeze(1)  # Column vector for U
+            v_1 = v[:, 0].unsqueeze(1)  # Column vector for V
+            
+            # Compute the rank-1 matrix and append to approximations
+            u_approx_list.append(u_1 * sigma)
+            v_approx_list.append(v_1.T)
+            
+            # Subtract the rank-1 approximation from the weight to get the residual
+            weight = weight - sigma * (u_1 @ v_1.T)
+        
+        # Stack the rank-1 approximations to form the final reduced U and V
+        u_approx = torch.cat(u_approx_list, dim=1)
+        v_approx = torch.cat(v_approx_list, dim=0)
+        
+        # Optionally, quantize the matrices based on the quant_scheme
+        # u_approx = quantisation(u_approx, quant_scheme)
+        # v_approx = quantisation(v_approx, quant_scheme)
+        
+        # Append the final reduced U and V matrices to the arrays
+        u_array.append(u_approx)
+        v_array.append(v_approx)
+    
+    return u_array, v_array
+
 
 rank_samples = [1,5,10,15,20]
 for rank in rank_samples:
@@ -145,8 +188,10 @@ for rank in rank_samples:
     u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
 
     # Initialize WeightArray for iterative quantized SVD calculation
-    W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
-    u_array2, v_array2 = W.compute_uv(rank, 1)
+    # W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
+    # u_array2, v_array2 = W.compute_uv(rank, 1)
+
+    u_array2, v_array2 = compute_u_v_array_iterative(weight_array, rank, quant_scheme_int)
 
     # Calculate MSE for the Quant SVD approach
     # approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
