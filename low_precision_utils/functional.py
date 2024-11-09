@@ -32,7 +32,6 @@ class quant_linear(Function):
         ctx.save_for_backward(qinput, qweight, bias)
 
         # output = qinput.mm(qweight.t()).to(input_type)
-        print("weight only")
         output = input.mm(qweight.t()).to(input_type)
         if bias is not None:
             output += bias
