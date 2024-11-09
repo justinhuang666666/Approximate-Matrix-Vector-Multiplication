@@ -129,7 +129,7 @@ for rank in rank_samples:
     mse2_list = []
     delta_mse_list = []
 
-    print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+    
 
     # Loop over the 6 encoder layers in the model
     for layer_idx in range(6):
@@ -164,8 +164,9 @@ for rank in rank_samples:
         # delta_mse_list.append(delta_mse)
         
         # Print MSE values for debugging
-        print(f"Layer {layer_idx + 1} - MSE (Quant SVD): {mse1}")
-        print(f"Layer {layer_idx + 1} - MSE (Iterative Quant SVD): {mse2}")
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+        print(f"Layer {layer_idx + 1} - MSE U: {mse1}")
+        print(f"Layer {layer_idx + 1} - MSE V: {mse2}")
         # print(f"Layer {layer_idx + 1} - Delta MSE (Quant - Iterative Quant SVD): {delta_mse}")
 
 # Calculate compression ratio (keeping it constant here as it depends on wl)
