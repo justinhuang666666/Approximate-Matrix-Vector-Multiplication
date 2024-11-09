@@ -15,7 +15,6 @@ from low_precision_utils import quant
 class quant_linear(Function):
     @staticmethod
     def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None):
-        print("forward")
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
         # input = input.view(input_shape[0], -1)
@@ -32,7 +31,8 @@ class quant_linear(Function):
             weight = qweight
         ctx.save_for_backward(qinput, qweight, bias)
 
-        output = qinput.mm(qweight.t()).to(input_type)
+        # output = qinput.mm(qweight.t()).to(input_type)
+        output = input.mm(qweight.t()).to(input_type)
         if bias is not None:
             output += bias
         return output.view(*input_shape[:-1], -1)

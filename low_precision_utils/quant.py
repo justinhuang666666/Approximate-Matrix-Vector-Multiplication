@@ -201,8 +201,6 @@ def replace_with_quantized(network, quant_scheme, filter):
     
     for name, module in network.named_children():
         # Check if the module is the specific self-attention layer of the encoder
-        print(name)
-        print(module)
         if isinstance(module, filter):
             # Access the self-attention layer within the MarianEncoderLayer
             self_attn = module.self_attn
