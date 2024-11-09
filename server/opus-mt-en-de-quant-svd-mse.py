@@ -202,10 +202,10 @@ for rank in rank_samples:
     mse2 = mean_square_error_array1(v_array1, v_array2)
 
     print(u_array1[0][0:20,rank-1])
-    print(-1*u_array2[0][0:20,rank-1])
+    print(u_array2[0][0:20,rank-1])
 
     print(v_array1[0][0:20,rank-1])
-    print(-1*v_array2[0][0:20,rank-1])
+    print(v_array2[0][0:20,rank-1])
 
     # # Calculate Delta MSE
     # delta_mse = mse1 - mse2
