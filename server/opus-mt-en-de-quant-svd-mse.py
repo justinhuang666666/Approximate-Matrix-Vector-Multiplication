@@ -156,11 +156,11 @@ for rank in rank_samples:
     # approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
     mse2 = mean_square_error_array1(v_array1, v_array2)
 
-    print(u_array1[0][0:20,rank])
-    print(u_array2[0][0:20,rank])
+    print(u_array1[0][0:20,rank-1])
+    print(u_array2[0][0:20,rank-1])
 
-    print(v_array1[0][0:20,rank])
-    print(v_array2[0][0:20,rank])
+    print(v_array1[0][0:20,rank-1])
+    print(v_array2[0][0:20,rank-1])
 
     # # Calculate Delta MSE
     # delta_mse = mse1 - mse2
