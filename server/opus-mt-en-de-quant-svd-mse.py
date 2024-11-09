@@ -204,8 +204,8 @@ for rank in rank_samples:
     print(u_array1[0][0:20,rank-1])
     print(u_array2[0][0:20,rank-1])
 
-    print(v_array1[0][0:20,rank-1])
-    print(v_array2[0][0:20,rank-1])
+    print(v_array1[0][rank-1,0:20])
+    print(v_array2[0][rank-1,0:20])
 
     # # Calculate Delta MSE
     # delta_mse = mse1 - mse2
