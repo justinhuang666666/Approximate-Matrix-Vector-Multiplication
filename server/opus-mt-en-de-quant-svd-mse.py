@@ -228,14 +228,10 @@ for rank in rank_samples:
         u_array2.append(u_approx)
         v_array2.append(v_approx)
 
-    # print(u_array1[0].shape)
-    # print(u_array2[0].shape)
-
-    # print(v_array1[0].shape)
-    # print(v_array2[0].shape)
 
     # Calculate MSE for the Iterative Quant SVD approach
     # approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
+    mse1 = mean_square_error_array1(u_array1, u_array2)
     mse2 = mean_square_error_array1(v_array1, v_array2)
     j = 0
     # for j in range(3):
