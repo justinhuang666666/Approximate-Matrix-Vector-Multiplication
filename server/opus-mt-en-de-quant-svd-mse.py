@@ -206,21 +206,22 @@ for rank in rank_samples:
     # Calculate MSE for the Iterative Quant SVD approach
     # approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
     mse2 = mean_square_error_array1(v_array1, v_array2)
-    for j in range(3):
-        for i in range(10):
-            print(f"u1: {u_array1[0][i, rank-1]:.8f}")
-            print(f"u2: {u_array2[0][i, rank-1]:.8f}")
-            print(f"v1: {v_array1[0][rank-1, i]:.8f}")
-            print(f"v2: {v_array2[0][rank-1, i]:.8f}")
+    j = 0
+    # for j in range(3):
+    for i in range(10):
+        print(f"u1: {u_array1[0][i, rank-1]:.8f}")
+        print(f"u2: {u_array2[0][i, rank-1]:.8f}")
+        print(f"v1: {v_array1[0][rank-1, i]:.8f}")
+        print(f"v2: {v_array2[0][rank-1, i]:.8f}")
 
-        # Compute MSE between u_array1 and u_array2
-        mse_check_1 = (u_array1[j] - u_array2[j]).pow(2).mean()
+    # Compute MSE between u_array1 and u_array2
+    mse_check_1 = (u_array1[j] - u_array2[j]).pow(2).mean()
 
-        # Compute MSE between v_array1 and v_array2
-        mse_check_2 = (v_array1[j] - v_array2[j]).pow(2).mean()
+    # Compute MSE between v_array1 and v_array2
+    mse_check_2 = (v_array1[j] - v_array2[j]).pow(2).mean()
 
-        print("MSE Check 1 (U):", mse_check_1)
-        print("MSE Check 2 (V):", mse_check_2)
+    print("MSE Check 1 (U):", mse_check_1)
+    print("MSE Check 2 (V):", mse_check_2)
 
 
     # # Calculate Delta MSE
