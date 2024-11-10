@@ -214,52 +214,25 @@ for rank in rank_samples:
     u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
 
     # Initialize WeightArray for iterative quantized SVD calculation
-    # W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
-    # u_array2, v_array2 = W.compute_uv(rank, 1)
-
-    # Initialize arrays to store U and V for each weight matrix
-    u_array2 = []
-    v_array2 = []
-
-    # Iterate over each weight matrix in weight_array
-    for weight in weight_array:
-        # Calculate U and V for each weight matrix using the iterative SVD function
-        u_approx, v_approx = compute_u_v_iterative(weight, rank, quant_scheme_int)
-        u_array2.append(u_approx)
-        v_array2.append(v_approx)
+    W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
+    u_array2, v_array2 = W.compute_uv(rank, 1)
 
 
     # Calculate MSE for the Iterative Quant SVD approach
-    # approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
+    approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
+    approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
     mse1 = mean_square_error_array1(u_array1, u_array2)
     mse2 = mean_square_error_array1(v_array1, v_array2)
 
     for j in range(3):
         for i in range(10):
-            print(f"u1: {u_array1[j][i, rank-1]:.8f}")
-            print(f"u2: {u_array2[j][i, rank-1]:.8f}")
-            print(f"v1: {v_array1[j][rank-1, i]:.8f}")
-            print(f"v2: {v_array2[j][rank-1, i]:.8f}")
+            print(f"W1: {approximated_weight_array1[j][0:5, 0:5]:.8f}")
+            print(f"W2: {approximated_weight_array2[j][0:5, 0:5]:.8f}")
 
-        # Compute MSE between u_array1 and u_array2
-        mse_check_1 = (u_array1[j] - u_array2[j]).pow(2).mean()
+        # Compute MSE between approximated_weight_array1 and approximated_weight_array2
+        mse_check_1 = (approximated_weight_array1[j] - approximated_weight_array2[j]).pow(2).mean()
 
-        # Compute MSE between v_array1 and v_array2
-        mse_check_2 = (v_array1[j] - v_array2[j]).pow(2).mean()
-
-        print("MSE Check 1 (U):", mse_check_1)
-        print("MSE Check 2 (V):", mse_check_2)
-
-
-    # # Calculate Delta MSE
-    # delta_mse = mse1 - mse2
-
-    # # Append the MSE values to the lists
-    # mse1_list.append(mse1)
-    # mse2_list.append(mse2)
-    # delta_mse_list.append(delta_mse)
-
-    # Print MSE values for debugging
+        print("MSE Check:", mse_check_1)
 
     print(f"Layer {layer_idx + 1} - MSE U: {mse1}")
     print(f"Layer {layer_idx + 1} - MSE V: {mse2}")
