@@ -221,7 +221,8 @@ for rank in rank_samples:
     # Calculate MSE for the Iterative Quant SVD approach
     approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
     approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
-    mse1 = mean_square_error_array1(approximated_weight_array1, approximated_weight_array2)
+    mse1 = mean_square_error_array1(weight_array, approximated_weight_array1)
+    mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
 
     for j in range(3):
         # print(f"W1: {approximated_weight_array1[j][0:5, 0:5].cpu()}")
@@ -232,8 +233,10 @@ for rank in rank_samples:
         mse_check_1 = (approximated_weight_array1[j] - approximated_weight_array2[j]).pow(2).mean()
 
         print("MSE Check:", mse_check_1)
-
-    print(f"Layer {layer_idx + 1} - MSE U: {mse1}")
+    print(f"Layer {layer_idx + 1} - MSE 1: {mse1}")
+    print(f"Layer {layer_idx + 1} - MSE 2: {mse2}")
+    print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2}")
+    
     # print(f"Layer {layer_idx + 1} - Delta MSE (Quant - Iterative Quant SVD): {delta_mse}")`
 
     # Calculate compression ratio (keeping it constant here as it depends on wl)
