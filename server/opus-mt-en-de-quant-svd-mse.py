@@ -164,7 +164,7 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 
     return u_approx, v_approx
 
-rank_samples = [1,2,3]
+rank_samples = [1,5,10,20,40,60]
 for rank in rank_samples:
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
@@ -225,8 +225,8 @@ for rank in rank_samples:
     mse2 = mean_square_error_array1(v_array1, v_array2)
 
     for j in range(3):
-        print(f"W1: {approximated_weight_array1[j][0:5, 0:5].cpu()}")
-        print(f"W2: {approximated_weight_array2[j][0:5, 0:5].cpu()}")
+        # print(f"W1: {approximated_weight_array1[j][0:5, 0:5].cpu()}")
+        # print(f"W2: {approximated_weight_array2[j][0:5, 0:5].cpu()}")
 
 
         # Compute MSE between approximated_weight_array1 and approximated_weight_array2
