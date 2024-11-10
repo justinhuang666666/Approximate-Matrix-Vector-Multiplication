@@ -226,8 +226,8 @@ for rank in rank_samples:
 
     for j in range(3):
         for i in range(10):
-            print(f"W1: {approximated_weight_array1[j][0:5, 0:5]:.8f}")
-            print(f"W2: {approximated_weight_array2[j][0:5, 0:5]:.8f}")
+            print(f"W1: {approximated_weight_array1[j][0:0]:.8f}")
+            print(f"W2: {approximated_weight_array2[j][0:0]:.8f}")
 
         # Compute MSE between approximated_weight_array1 and approximated_weight_array2
         mse_check_1 = (approximated_weight_array1[j] - approximated_weight_array2[j]).pow(2).mean()
