@@ -213,6 +213,15 @@ for rank in rank_samples:
         print(f"v1: {v_array1[0][rank-1, i]:.8f}")
         print(f"v2: {v_array2[0][rank-1, i]:.8f}")
 
+    # Compute MSE between u_array1 and u_array2
+    mse_check_1 = (u_array1[0] - u_array2[0]).pow(2).mean()
+
+    # Compute MSE between v_array1 and v_array2
+    mse_check_2 = (v_array1[0] - v_array2[0]).pow(2).mean()
+
+    print("MSE Check 1 (U):", mse_check_1)
+    print("MSE Check 2 (V):", mse_check_2)
+
 
     # # Calculate Delta MSE
     # delta_mse = mse1 - mse2
