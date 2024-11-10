@@ -138,7 +138,7 @@ def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
     return u_array, v_array
 
 
-rank_samples = [1,2,3,4,5,6,7,8,9,10]
+rank_samples = [2,3,4,5,6,7,8,9,10]
 for rank in rank_samples:
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
