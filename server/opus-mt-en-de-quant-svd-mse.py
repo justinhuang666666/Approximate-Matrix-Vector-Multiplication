@@ -225,14 +225,17 @@ for rank in rank_samples:
     mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
 
     for j in range(3):
-        # print(f"W1: {approximated_weight_array1[j][0:5, 0:5].cpu()}")
-        # print(f"W2: {approximated_weight_array2[j][0:5, 0:5].cpu()}")
+        print(f"W1: {approximated_weight_array1[j][0:5, 0:5].cpu()}")
+        print(f"W2: {approximated_weight_array2[j][0:5, 0:5].cpu()}")
 
 
         # Compute MSE between approximated_weight_array1 and approximated_weight_array2
-        mse_check_1 = (approximated_weight_array1[j] - approximated_weight_array2[j]).pow(2).mean()
+        mse_check_1 = (weight_array[j] - approximated_weight_array1[j]).pow(2).mean()
+        # Compute MSE between approximated_weight_array1 and approximated_weight_array2
+        mse_check_2 = (weight_array[j] - approximated_weight_array2[j]).pow(2).mean()
 
         print("MSE Check:", mse_check_1)
+        print("MSE Check:", mse_check_2)
     print(f"Layer {layer_idx + 1} - MSE 1: {mse1}")
     print(f"Layer {layer_idx + 1} - MSE 2: {mse2}")
     print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2}")
