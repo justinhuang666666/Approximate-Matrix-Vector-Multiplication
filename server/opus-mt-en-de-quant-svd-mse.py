@@ -234,8 +234,8 @@ for rank in rank_samples:
         # Compute MSE between approximated_weight_array1 and approximated_weight_array2
         mse_check_2 = (weight_array[j] - approximated_weight_array2[j]).pow(2).mean()
 
-        print("MSE Check:", mse_check_1)
-        print("MSE Check:", mse_check_2)
+        print(f"MSE Check 1: {mse_check_1:.10f}")
+        print(f"MSE Check 2: {mse_check_2:.10f}")
     print(f"Layer {layer_idx + 1} - MSE 1: {mse1}")
     print(f"Layer {layer_idx + 1} - MSE 2: {mse2}")
     print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2}")
