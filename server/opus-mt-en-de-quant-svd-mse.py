@@ -293,6 +293,7 @@ for rank in rank_samples:
     approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
     mse1 = mean_square_error_array1(weight_array, approximated_weight_array1)
     mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
+    diff = mse1 - mse2
     mse3 = mean_square_error_array1(approximated_weight_array1, approximated_weight_array2)
 
     # mse1_list.append(mse1)
@@ -315,6 +316,7 @@ for rank in rank_samples:
 
     print(f"Layer {layer_idx + 1} - MSE 1: {mse1:.20f}")
     print(f"Layer {layer_idx + 1} - MSE 2: {mse2:.20f}")
+    print(f"Layer {layer_idx + 1} - MSE 1 - MSE 2: {mse1 - mse2:.20f}")
     print(f"Layer {layer_idx + 1} - MSE 3: {mse3:.20f}")
     # print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2:.20f}")
 
