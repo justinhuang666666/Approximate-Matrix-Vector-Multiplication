@@ -94,13 +94,15 @@ results_list = []
     
 #     return u_array, v_array
 
+import numpy as np
+
 def compute_u_v_array(weight_array, rank, quant_scheme=None):
     u_array = []
     v_array = []
     
     for i in range(len(weight_array)):
         # Get the weight matrix and convert to NumPy for SVD
-        weight = weight_array[i].cpu().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
+        weight = weight_array[i].detach().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
         
         # Perform SVD using numpy to get U, S, V matrices
         u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
