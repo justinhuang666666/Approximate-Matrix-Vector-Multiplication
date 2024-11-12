@@ -200,7 +200,8 @@ for rank in rank_samples:
 
     print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
     # Loop over the 6 encoder layers in the model
-    for layer_idx in range(6):
+    layer_idx = 0
+    # for layer_idx in range(6):
 
         # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
         weight_array = [
