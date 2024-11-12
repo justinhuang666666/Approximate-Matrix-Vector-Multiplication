@@ -260,10 +260,6 @@ for rank in rank_samples:
     # Create the quantization scheme using the from_args method
     quant_scheme_int = QuantScheme.from_args(args_int)
 
-    # Initialize lists to store MSE values for each layer
-    mse1_list = []
-    mse2_list = []
-    delta_mse_list = []
 
     print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
     # Loop over the 6 encoder layers in the model
