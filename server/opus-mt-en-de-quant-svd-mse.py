@@ -64,25 +64,59 @@ round_mode = "nearest"
 results_list = []
 
 
-def compute_u_v_array(weight_array, rank, quant_scheme):
+# def compute_u_v_array(weight_array, rank, quant_scheme):
+#     u_array = []
+#     v_array = []
+    
+#     for i in range(len(weight_array)):
+#         # Get the weight matrix
+#         weight = weight_array[i]
+        
+#         # Perform SVD on the weight matrix to get U, S, V matrices
+#         u, s, v = torch.svd(weight)
+        
+#         # Reduce U, S, and V matrices to specified rank
+#         u_reduced = u[:, :rank]
+#         s_reduced = torch.diag(s[:rank])
+#         v_reduced = v[:, :rank]
+        
+#         # Compute the rank-r approximation
+#         u_approx = u_reduced @ s_reduced    # U * S
+#         v_approx = v_reduced.T  # Transpose V for multiplication
+        
+#         # Quantize the matrices based on the quant_scheme if required
+#         # u_approx = quantisation(u_approx, quant_scheme)
+#         # v_approx = quantisation(v_approx, quant_scheme)
+        
+#         # Append the approximations to the arrays
+#         u_array.append(u_approx)
+#         v_array.append(v_approx)
+    
+#     return u_array, v_array
+
+def compute_u_v_array(weight_array, rank, quant_scheme=None):
     u_array = []
     v_array = []
     
     for i in range(len(weight_array)):
-        # Get the weight matrix
-        weight = weight_array[i]
+        # Get the weight matrix and convert to NumPy for SVD
+        weight = weight_array[i].cpu().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
         
-        # Perform SVD on the weight matrix to get U, S, V matrices
-        u, s, v = torch.svd(weight)
+        # Perform SVD using numpy to get U, S, V matrices
+        u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
         
-        # Reduce U, S, and V matrices to specified rank
+        # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank]
-        s_reduced = torch.diag(s[:rank])
-        v_reduced = v[:, :rank]
+        s_reduced = np.diag(s[:rank])
+        v_reduced = v_t[:rank, :]
         
-        # Compute the rank-r approximation
+        # Compute the rank-r approximation in numpy
         u_approx = u_reduced @ s_reduced    # U * S
-        v_approx = v_reduced.T  # Transpose V for multiplication
+        v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
+
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_approx)
+        v_approx = torch.tensor(v_approx)
         
         # Quantize the matrices based on the quant_scheme if required
         # u_approx = quantisation(u_approx, quant_scheme)
