@@ -223,9 +223,24 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         u_1 = u[:, 0].reshape(-1, 1)  # Column vector for U
         v_1 = v_t[0, :].reshape(1, -1)  # Row vector for V (already transposed in np.linalg.svd)
 
+
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_1 * sigma)
+        v_approx = torch.tensor(v_1)
+        
+        # Quantize the matrices based on the quant_scheme if required
+        u_approx_quant = quantisation(u_approx, quant_scheme)
+        v_approx_quant = quantisation(v_approx, quant_scheme)
+        
+        for j in range(rank):
+            print(f"u: {u_approx[0:5].numpy()}")
+            print(f"u quant: {u_approx_quant[0:5].numpy()}")
+            print(f"v: {v_approx[0:5].numpy()}")
+            print(f"v quant: {v_approx_quant[0:5].numpy()}")
+
         # Compute the rank-1 approximation and append to lists
-        u_approx_list.append(u_1 * sigma)
-        v_approx_list.append(v_1)
+        u_approx_list.append(u_approx_quant)
+        v_approx_list.append(v_approx_quant)
 
         # Subtract the rank-1 approximation from weight to get the residual
         weight = weight - sigma * (u_1 @ v_1)
