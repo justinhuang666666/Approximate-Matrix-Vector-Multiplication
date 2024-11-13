@@ -15,10 +15,10 @@ from low_precision_utils import functional
 from low_precision_utils import quant
 
 def quant_svd(u,v,quant_scheme):
-    # qu = quant_scheme.weight.quant(u)
-    # qv = quant_scheme.weight.quant(v)
+    qu = quant_scheme.weight.quant(u)
+    qv = quant_scheme.weight.quant(v)
 
-    reconstructed_matrix = torch.ger(u, v)
+    reconstructed_matrix = torch.ger(qu, qv)
 
     return reconstructed_matrix
 

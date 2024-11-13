@@ -119,11 +119,17 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
         # Convert results back to PyTorch tensors if needed
         u_approx = torch.tensor(u_approx)
         v_approx = torch.tensor(v_approx)
+
+        print(f"u: {u_approx[0:5]:.10f}")
+        print(f"v: {v_approx[0:5]:.10f}")
         
         # Quantize the matrices based on the quant_scheme if required
-        # u_approx = quantisation(u_approx, quant_scheme)
-        # v_approx = quantisation(v_approx, quant_scheme)
+        u_approx = quantisation(u_approx, quant_scheme)
+        v_approx = quantisation(v_approx, quant_scheme)
         
+        print(f"u_approx: {u_approx[0:5]:.10f}")
+        print(f"v_approx: {v_approx[0:5]:.10f}")
+
         # Append the approximations to the arrays
         u_array.append(u_approx)
         v_array.append(v_approx)
@@ -230,14 +236,14 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 
     return u_approx, v_approx
 
-rank_samples = [1,2,50,100,200]
+rank_samples = [1,2,3]
 for rank in rank_samples:
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
 #         for fl in frac_lengths:
 
-    wl = 16
-    fl = 8
+    wl = 8
+    fl = 4
         
     # Skip invalid combinations where fl is greater than wl
     frac = wl - fl
