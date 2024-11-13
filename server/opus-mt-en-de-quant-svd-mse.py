@@ -119,20 +119,20 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
         # Convert results back to PyTorch tensors if needed
         u_approx = torch.tensor(u_approx)
         v_approx = torch.tensor(v_approx)
-
-        print(f"u: {u_approx[0:5].numpy()}")
-        print(f"v: {v_approx[0:5].numpy()}")
         
         # Quantize the matrices based on the quant_scheme if required
-        u_approx = quantisation(u_approx, quant_scheme)
-        v_approx = quantisation(v_approx, quant_scheme)
+        u_approx_quant = quantisation(u_approx, quant_scheme)
+        v_approx_quant = quantisation(v_approx, quant_scheme)
         
-        print(f"u quant: {u_approx[0:5].numpy()}")
-        print(f"v quant: {v_approx[0:5].numpy()}")
+        for j in range(rank):
+            print(f"u: {u_approx[0:5,j].numpy()}")
+            print(f"u quant: {u_approx_quant[0:5,j].numpy()}")
+            print(f"v: {v_approx[j,0:5].numpy()}")
+            print(f"v quant: {v_approx_quant[j,0:5].numpy()}")
 
         # Append the approximations to the arrays
-        u_array.append(u_approx)
-        v_array.append(v_approx)
+        u_array.append(u_approx_quant)
+        v_array.append(v_approx_quant)
     
     return u_array, v_array
 
