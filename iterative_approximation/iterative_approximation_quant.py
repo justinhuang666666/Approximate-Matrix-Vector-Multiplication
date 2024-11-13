@@ -133,15 +133,27 @@ class WeightArray:
             u1_n = U_n[:, 0]
             v1_n = Vt_n[:, 0]
 
+            u = sigma1_n * u1_n
+            v = v1_n
+
+            qu = quantisation(u,self.quant_scheme)
+            qv = quantisation(v,self.quant_scheme)
+
+            print(f"iterative u: {u[0:5].numpy()}")
+            print(f"iterative u quant: {qu[0:5].numpy()}")
+            print(f"iterative v: {v[0:5].numpy()}")
+            print(f"iterative v quant: {qv[0:5].numpy()}")
+
+            reconstructed_matrix = torch.ger(qu, qv)
             # Update the weight matrix approximation with all tensors on the same device
-            reconstructed = RWi + quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
-            residual = Wi - quant_svd(sigma1_n * u1_n, v1_n, self.quant_scheme)
+            reconstructed = RWi + reconstructed_matrix
+            residual = Wi - reconstructed_matrix
 
             reconstructed_weight_array_step[idx] = reconstructed
             residual_weight_array_step[idx] = residual
 
-            u[idx] = quantisation(sigma1_n * u1_n,self.quant_scheme)
-            v[idx] = quantisation(v1_n,self.quant_scheme)
+            u[idx] = qu
+            v[idx] = qv
 
         
         self.current_reconstructed_weight_array = reconstructed_weight_array_step
