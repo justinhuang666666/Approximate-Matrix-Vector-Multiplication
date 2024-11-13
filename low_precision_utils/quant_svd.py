@@ -23,6 +23,7 @@ def quant_svd(u,v,quant_scheme):
 
     print(f"iterative u: {u[0:5].numpy()}")
     print(f"iterative u quant: {qu[0:5].numpy()}")
+    
     print(f"iterative v: {v[0:5].numpy()}")
     print(f"iterative v quant: {qv[0:5].numpy()}")
 
