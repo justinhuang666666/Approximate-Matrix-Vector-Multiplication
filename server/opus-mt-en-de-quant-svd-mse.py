@@ -248,7 +248,6 @@ word_lengths = [32,16,8,6,4]
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
     for wl in word_lengths: 
-        wl = 8
         fl = wl/2
         fl = int(fl)
             
