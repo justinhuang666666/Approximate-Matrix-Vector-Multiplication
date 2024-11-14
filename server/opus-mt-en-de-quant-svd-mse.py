@@ -242,8 +242,8 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 
     return u_approx, v_approx
 
-rank_samples = [1,10] #[1,40,80,120,160]
-word_lengths = [16,4] #[32,16,8,6,4]
+rank_samples = [1,20,40,60,80]
+word_lengths = [32,16,8,6,4]
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
