@@ -204,7 +204,6 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
 #     v_approx = torch.cat(v_approx_list, dim=0)
 
 #     return u_approx, v_approx
-
 def compute_u_v_iterative(weight, rank, quant_scheme=None):
     u_approx_list = []
     v_approx_list = []
@@ -222,7 +221,6 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         u_1 = u[:, 0].reshape(-1, 1)  # Column vector for U
         v_1 = v_t[0, :].reshape(1, -1)  # Row vector for V (already transposed in np.linalg.svd)
 
-
         # Convert results back to PyTorch tensors if needed
         u_approx = torch.tensor(u_1 * sigma)
         v_approx = torch.tensor(v_1)
@@ -230,19 +228,13 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         # Quantize the matrices based on the quant_scheme if required
         u_approx_quant = quantisation(u_approx, quant_scheme)
         v_approx_quant = quantisation(v_approx, quant_scheme)
-        
-
-        # print(f"iterative u: {u_approx[0:5,0].numpy()}")
-        # print(f"iterative u quant: {u_approx_quant[0:5,0].numpy()}")
-        # print(f"iterative v: {v_approx[0,0:5].numpy()}")
-        # print(f"iterative v quant: {v_approx_quant[0,0:5].numpy()}")
 
         # Compute the rank-1 approximation and append to lists
         u_approx_list.append(u_approx_quant)
         v_approx_list.append(v_approx_quant)
 
         # Subtract the rank-1 approximation from weight to get the residual
-        weight = weight - (u_approx @ v_approx)
+        weight = weight - (u_approx @ v_approx).numpy()  # Convert to NumPy for subtraction
 
     # Stack the rank-1 approximations to form the final reduced U and V
     u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
