@@ -242,7 +242,7 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 
     return u_approx, v_approx
 
-rank_samples = [20,40] #[1,40,80,120,160]
+rank_samples = [1,10] #[1,40,80,120,160]
 word_lengths = [16,4] #[32,16,8,6,4]
 
 for rank in rank_samples:
@@ -358,4 +358,4 @@ for rank in rank_samples:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-# results_df.to_csv('svd_quantization_results_mse3.csv', index=False)
+results_df.to_csv('svd_quantization_results_mse4.csv', index=False)
