@@ -254,9 +254,6 @@ for rank in rank_samples:
         # Skip invalid combinations where fl is greater than wl
         frac = wl - fl
 
-        # if frac <= 0:
-        #     continue
-
         # Define the quantization scheme dictionary with IntQuant settings
         args_int.quant_scheme = {
             "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
