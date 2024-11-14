@@ -234,7 +234,7 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         v_approx_list.append(v_approx_quant)
 
         # Subtract the rank-1 approximation from weight to get the residual
-        weight = weight - (u_approx @ v_approx).numpy()  # Convert to NumPy for subtraction
+        weight = weight - (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
 
     # Stack the rank-1 approximations to form the final reduced U and V
     u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
