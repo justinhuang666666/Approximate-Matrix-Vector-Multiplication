@@ -250,6 +250,7 @@ for rank in rank_samples:
     for wl in word_lengths: 
         wl = 8
         fl = wl/2
+        fl = int(fl)
             
         # Skip invalid combinations where fl is greater than wl
         frac = wl - fl
