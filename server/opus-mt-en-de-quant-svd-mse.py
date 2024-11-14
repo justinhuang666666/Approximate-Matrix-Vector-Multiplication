@@ -233,10 +233,10 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         v_approx_quant = quantisation(v_approx, quant_scheme)
         
         for j in range(rank):
-            print(f"iterative u: {u_approx[0:5].numpy()}")
-            print(f"iterative u quant: {u_approx_quant[0:5].numpy()}")
-            # print(f"iterative v: {v_approx[0:5].numpy()}")
-            # print(f"iterative v quant: {v_approx_quant[0:5].numpy()}")
+            print(f"iterative u: {u_approx[0:5,j].numpy()}")
+            print(f"iterative u quant: {u_approx_quant[0:5,j].numpy()}")
+            print(f"iterative v: {v_approx[j,0:5].numpy()}")
+            print(f"iterative v quant: {v_approx_quant[j,0:5].numpy()}")
 
         # Compute the rank-1 approximation and append to lists
         u_approx_list.append(u_approx_quant)
