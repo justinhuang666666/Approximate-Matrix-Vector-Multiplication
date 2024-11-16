@@ -2,6 +2,7 @@ from abc import abstractmethod
 import json
 import torch
 from torch import nn
+import numpy as np
 
 import argparse
 import qtorch
@@ -21,6 +22,9 @@ sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
 from iterative_approximation_quant import *
 sys.path.append(os.path.join(parent_dir, 'server'))
 from utils import *
+sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+from quant_svd import *
+
 
 import torch.autograd
 import torch.nn.grad
@@ -223,6 +227,84 @@ def replace_with_quantized(network, quant_scheme, filter):
     return network
 
 
+def compute_u_v_array(weight_array, rank, quant_scheme=None):
+    u_array = []
+    v_array = []
+    
+    for i in range(len(weight_array)):
+        # Get the weight matrix and convert to NumPy for SVD
+        weight = weight_array[i].cpu().detach().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
+        
+        # Perform SVD using numpy to get U, S, V matrices
+        u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
+        
+        # Reduce U, S, and V matrices to the specified rank
+        u_reduced = u[:, :rank]
+        s_reduced = np.diag(s[:rank])
+        v_reduced = v_t[:rank, :]
+        
+        # Compute the rank-r approximation in numpy
+        u_approx = u_reduced @ s_reduced    # U * S
+        v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
+
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_approx)
+        v_approx = torch.tensor(v_approx)
+        
+        # Quantize the matrices based on the quant_scheme if required
+        u_approx_quant = quantisation(u_approx, quant_scheme)
+        v_approx_quant = quantisation(v_approx, quant_scheme)
+
+        # Append the approximations to the arrays
+        u_array.append(u_approx_quant)
+        v_array.append(v_approx_quant)
+    
+    return u_array, v_array
+
+def compute_u_v_iterative(weight, rank, quant_scheme=None):
+    if isinstance(weight, torch.Tensor):
+        weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
+
+    # Validate rank
+    if rank > min(weight.shape):
+        raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
+
+    u_approx_list = []
+    v_approx_list = []
+
+    residual = weight.copy()  # Create a copy of the weight matrix for residual calculations
+
+    for _ in range(rank):
+        # Perform SVD on the current weight matrix to get the first singular vector and value
+        u, s, v_t = np.linalg.svd(residual, full_matrices=False)
+
+        # Select the first singular value/vector (rank-1 approximation)
+        sigma = s[0]  # The largest singular value
+        u_1 = u[:, 0].reshape(-1, 1)  # Column vector for U
+        v_1 = v_t[0, :].reshape(1, -1)  # Row vector for V (already transposed in np.linalg.svd)
+
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_1 * sigma)
+        v_approx = torch.tensor(v_1)
+        
+        # Quantize the matrices based on the quant_scheme if required
+        u_approx_quant = quantisation(u_approx, quant_scheme)
+        v_approx_quant = quantisation(v_approx, quant_scheme)
+
+        # Compute the rank-1 approximation and append to lists
+        u_approx_list.append(u_approx_quant)
+        v_approx_list.append(v_approx_quant)
+
+        # Subtract the rank-1 approximation from weight to get the residual
+        residual -= (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
+
+    # Stack the rank-1 approximations to form the final reduced U and V
+    u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
+    v_approx = torch.tensor(np.vstack(v_approx_list))  # Convert back to PyTorch tensor
+
+    return u_approx, v_approx
+
+
 def replace_with_quantized_svd(network, rank, quant_scheme, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -232,11 +314,14 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
             self_attn = module.self_attn
+
+            weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
             
+            u_array, v_array = compute_u_v_array(weight_array, rank, quant_scheme)
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
-            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision(self_attn.k_proj, rank, quant_scheme)
-            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision(self_attn.q_proj, rank, quant_scheme)
-            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision(self_attn.v_proj, rank, quant_scheme)
+            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
+            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, quant_scheme)
+            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.v_proj, u_array[2], v_array[2], rank, quant_scheme)
 
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
@@ -252,18 +337,8 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
     return network
 
-def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
-    local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
-    return local_network
 
-def replace_with_quantized_svd_wrapper1(network, rank, quant_scheme, filter):
-    local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_svd1(local_network, rank, quant_scheme, filter)
-    return local_network
-
-
-def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
+def replace_with_quantized_iterative_svd(network, rank, quant_scheme, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -275,9 +350,12 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
 
             weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
 
-            W = WeightArray(weight_array,'array',0.001,1,1,512,512,quant_scheme)
-
-            u_array, v_array = W.compute_uv(rank, 1)
+            u_array = []
+            v_array = []
+            for i in range(len(weight_array)):
+                u, v = compute_u_v_iterative(weight_array[i], rank, quant_scheme)
+                u_array.append(u)
+                v_array.append(v)
             
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
             self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
@@ -289,7 +367,7 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_svd1(module, rank, quant_scheme, filter)
+            replace_with_quantized_iterative_svd(module, rank, quant_scheme, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
@@ -297,6 +375,17 @@ def replace_with_quantized_svd1(network, rank, quant_scheme, filter):
             network, name, new_module)
 
     return network
+
+def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
+    local_network = copy.deepcopy(network)
+    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
+    return local_network
+
+def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, filter):
+    local_network = copy.deepcopy(network)
+    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, filter)
+    return local_network
+
 
 class ModelEma(nn.Module):
     def __init__(self, model, decay=0.9999, device=None):

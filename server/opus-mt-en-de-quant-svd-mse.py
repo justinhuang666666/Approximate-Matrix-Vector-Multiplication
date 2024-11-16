@@ -54,46 +54,6 @@ filter = type(model.model.encoder.layers[0])
 # Create a mock argument namespace to simulate input arguments
 args_int = argparse.Namespace()
 
-# Define possible values for wl, fl, symmetric, and round_mode
-# word_lengths = [4, 6, 8, 16]
-# frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-# rank_samples = [50, 100, 150, 200]
-
-symmetric = True
-round_mode = "nearest"
-results_list = []
-
-
-# def compute_u_v_array(weight_array, rank, quant_scheme):
-#     u_array = []
-#     v_array = []
-    
-#     for i in range(len(weight_array)):
-#         # Get the weight matrix
-#         weight = weight_array[i]
-        
-#         # Perform SVD on the weight matrix to get U, S, V matrices
-#         u, s, v = torch.svd(weight)
-        
-#         # Reduce U, S, and V matrices to specified rank
-#         u_reduced = u[:, :rank]
-#         s_reduced = torch.diag(s[:rank])
-#         v_reduced = v[:, :rank]
-        
-#         # Compute the rank-r approximation
-#         u_approx = u_reduced @ s_reduced    # U * S
-#         v_approx = v_reduced.T  # Transpose V for multiplication
-        
-#         # Quantize the matrices based on the quant_scheme if required
-#         u_approx = quantisation(u_approx, quant_scheme)
-#         v_approx = quantisation(v_approx, quant_scheme)
-        
-#         # Append the approximations to the arrays
-#         u_array.append(u_approx)
-#         v_array.append(v_approx)
-    
-#     return u_array, v_array
-
 import numpy as np
 
 def compute_u_v_array(weight_array, rank, quant_scheme=None):
@@ -129,49 +89,6 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
         v_array.append(v_approx_quant)
     
     return u_array, v_array
-import torch
-
-# def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
-
-#     u_array = []
-#     v_array = []
-    
-#     for weight in weight_array:
-
-#         u_list = []  # Stores rank-1 approximations of U
-#         v_list = []  # Stores rank-1 approximations of V
-        
-#         residual = weight.clone()  # Start with the original weight matrix
-        
-#         for _ in range(rank):
-#             # Perform SVD on the current residual to get the first singular vector and value
-#             u, s, v = torch.svd(residual)
-            
-#             # Select the largest singular value/vector (rank-1 approximation)
-#             sigma = s[0]  # Largest singular value
-#             u_1 = u[:, 0].unsqueeze(1)  # First column of U
-#             v_1 = v[:, 0].unsqueeze(1)  # First column of V
-            
-#             # Quantize the rank-1 components
-#             u_quant = quantisation(u_1 * sigma, quant_scheme)
-#             v_quant = quantisation(v_1.T, quant_scheme)
-
-#             # Append the quantized components to the list
-#             u_list.append(u_quant)
-#             v_list.append(v_quant)
-            
-#             # Update residual by subtracting the rank-1 approximation
-#             residual -= u_quant @ v_quant
-        
-#         # Concatenate rank-1 approximations to form final U and V matrices
-#         u_matrix = torch.cat(u_list, dim=1)
-#         v_matrix = torch.cat(v_list, dim=0)
-        
-#         # Append the reduced U and V matrices to the arrays
-#         u_array.append(u_matrix)
-#         v_array.append(v_matrix)
-    
-#     return u_array, v_array
 
 def compute_u_v_iterative(weight, rank, quant_scheme=None):
     if isinstance(weight, torch.Tensor):
@@ -218,6 +135,10 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 
 rank_samples = [1,20,40,60,80]
 word_lengths = [32,16,8,6,4]
+
+symmetric = True
+round_mode = "nearest"
+results_list = []
 
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode

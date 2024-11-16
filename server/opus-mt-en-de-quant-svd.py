@@ -54,9 +54,9 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-# print("Baseline BLEU Score")
-# print(baseline_bleu) 
+baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+print("Baseline BLEU Score")
+print(baseline_bleu) 
 
 # Quantisation
 filter = type(model.model.encoder.layers[0])
@@ -65,9 +65,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [6, 8, 16]
-frac_lengths = [1, 2, 3, 4, 5, 6]  # reasonable fraction lengths based on wl
-rank_samples = [100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+word_lengths = [4,16] # [4, 6, 8, 16, 32]
+rank_samples = [100,200] # [100, 150, 200, 250, 300, 350, 400]
 
 symmetric = True
 round_mode = "nearest"
@@ -76,56 +75,58 @@ results_list = []
 for rank in rank_samples:
     # Iterate over all combinations of wl, fl, symmetric, and round_mode
     for wl in word_lengths: 
-        for fl in frac_lengths:
-            # Skip invalid combinations where fl is greater than wl
-            frac = wl - fl
+        fl = wl/2
+        fl = int(fl)
+        frac = wl - fl
 
-            if frac <= 0:
-                continue
+        if frac <= 0:
+            continue
 
-            # Define the quantization scheme dictionary with IntQuant settings
-            args_int.quant_scheme = {
-                "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-                "same_input": True,
-                "same_weight": True
-            }
+        # Define the quantization scheme dictionary with IntQuant settings
+        args_int.quant_scheme = {
+            "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "same_input": True,
+            "same_weight": True
+        }
 
-            # Create the quantization scheme using the from_args method
-            quant_scheme_int = QuantScheme.from_args(args_int)
+        # Create the quantization scheme using the from_args method
+        quant_scheme_int = QuantScheme.from_args(args_int)
 
-            quant_svd_model,mse1 = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
+        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
 
-            # Compute BLEU score
-            # bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # Compute BLEU score
+        bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
 
-            quant_svd_model,mse2 = replace_with_quantized_svd_wrapper1(model, rank, quant_scheme_int, filter)
+        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, filter)
 
-            # Compute BLEU score
-            # bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # Compute BLEU score
+        bleu_int2 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
 
-            # Print BLEU score
-            print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-            print("MSE (Quant SVD)",mse1)
-            print("MSE (Iterative Quant SVD)",mse2)
-            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+        # Print BLEU score
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+        print("BLEU (Quant SVD)",bleu_int1)
+        print("BLEU (Iterative Quant SVD)",bleu_int2)
 
-            # Store the results
-            results_list.append({
-            "Word Length": wl,
-            "Fraction Length": frac,
-            "Rank":rank,
-            "BLEU Score (Quant SVD)": bleu_int1,
-            "BLEU Score (Iterative Quant SVD)": bleu_int2,
-            "Compression Ratio":compression_ratio
-            })
+        compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+
+        # Store the results
+        results_list.append({
+        "Word Length": wl,
+        "Fraction Length": frac,
+        "Rank":rank,
+        "BLEU Score (Quant SVD)": bleu_int1,
+        "BLEU Score (Iterative Quant SVD)": bleu_int2,
+        "Delta BLEU Score (Quant - Iterative Quant SVD)": bleu_int1 - bleu_int2,
+        "Compression Ratio":compression_ratio
+        })
 
 # Convert the list of dictionaries to a DataFrame
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results4.csv', index=False)
+results_df.to_csv('svd_quantization_results5.csv', index=False)
