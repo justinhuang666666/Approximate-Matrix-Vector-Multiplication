@@ -60,8 +60,11 @@ class QuantLinearSVD(nn.Linear):
         
         # Quantization
         qinput = self.quant_scheme.act.quant(input)
-        qu = self.quant_scheme.weight.quant(self.U)
-        qv = self.quant_scheme.weight.quant(self.V)
+        # qu = self.quant_scheme.weight.quant(self.U)
+        # qv = self.quant_scheme.weight.quant(self.V)
+        
+        qu = self.U
+        qv = self.V
 
         # Convert bias to a compatible data type
         if self.bias is not None:

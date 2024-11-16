@@ -65,16 +65,19 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [4,16] # [4, 6, 8, 16, 32]
-rank_samples = [100,200] # [100, 150, 200, 250, 300, 350, 400]
+word_lengths = [4, 6, 8, 16]
+rank_samples_array = [[250,300,350,400,450],[170,210,250,290,330],[125,155,185,215,245],[65,80,95,110,125]]
 
 symmetric = True
 round_mode = "nearest"
 results_list = []
 
-for rank in rank_samples:
-    # Iterate over all combinations of wl, fl, symmetric, and round_mode
-    for wl in word_lengths: 
+
+for idx, wl in enumerate(word_lengths): 
+    rank_samples = rank_samples_array[idx]
+    for rank in rank_samples:
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+
         fl = wl/2
         fl = int(fl)
         frac = wl - fl
@@ -101,17 +104,14 @@ for rank in rank_samples:
 
         # Compute BLEU score
         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-
+        print("BLEU (Quant SVD)",bleu_int1)
+        
         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, filter)
 
         # Compute BLEU score
         bleu_int2 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-
-        # Print BLEU score
-        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-        print("BLEU (Quant SVD)",bleu_int1)
         print("BLEU (Iterative Quant SVD)",bleu_int2)
-
+        print("Delta BLEU (Quant - Iterative Quant SVD)",bleu_int1 - bleu_int2)
         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
         # Store the results
@@ -119,9 +119,9 @@ for rank in rank_samples:
         "Word Length": wl,
         "Fraction Length": frac,
         "Rank":rank,
-        "BLEU Score (Quant SVD)": bleu_int1,
-        "BLEU Score (Iterative Quant SVD)": bleu_int2,
-        "Delta BLEU Score (Quant - Iterative Quant SVD)": bleu_int1 - bleu_int2,
+        "BLEU (Quant SVD)": bleu_int1,
+        "BLEU (Iterative Quant SVD)": bleu_int2,
+        "Delta BLEU (Quant - Iterative Quant SVD)": bleu_int1 - bleu_int2,
         "Compression Ratio":compression_ratio
         })
 
