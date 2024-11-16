@@ -131,85 +131,64 @@ import numpy as np
 #     return u_array, v_array
 import torch
 
-def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
+# def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
 
-    u_array = []
-    v_array = []
+#     u_array = []
+#     v_array = []
     
-    for weight in weight_array:
+#     for weight in weight_array:
 
-        u_list = []  # Stores rank-1 approximations of U
-        v_list = []  # Stores rank-1 approximations of V
+#         u_list = []  # Stores rank-1 approximations of U
+#         v_list = []  # Stores rank-1 approximations of V
         
-        residual = weight.clone()  # Start with the original weight matrix
+#         residual = weight.clone()  # Start with the original weight matrix
         
-        for _ in range(rank):
-            # Perform SVD on the current residual to get the first singular vector and value
-            u, s, v = torch.svd(residual)
+#         for _ in range(rank):
+#             # Perform SVD on the current residual to get the first singular vector and value
+#             u, s, v = torch.svd(residual)
             
-            # Select the largest singular value/vector (rank-1 approximation)
-            sigma = s[0]  # Largest singular value
-            u_1 = u[:, 0].unsqueeze(1)  # First column of U
-            v_1 = v[:, 0].unsqueeze(1)  # First column of V
+#             # Select the largest singular value/vector (rank-1 approximation)
+#             sigma = s[0]  # Largest singular value
+#             u_1 = u[:, 0].unsqueeze(1)  # First column of U
+#             v_1 = v[:, 0].unsqueeze(1)  # First column of V
             
-            # Quantize the rank-1 components
-            u_quant = quantisation(u_1 * sigma, quant_scheme)
-            v_quant = quantisation(v_1.T, quant_scheme)
+#             # Quantize the rank-1 components
+#             u_quant = quantisation(u_1 * sigma, quant_scheme)
+#             v_quant = quantisation(v_1.T, quant_scheme)
 
-            # Append the quantized components to the list
-            u_list.append(u_quant)
-            v_list.append(v_quant)
+#             # Append the quantized components to the list
+#             u_list.append(u_quant)
+#             v_list.append(v_quant)
             
-            # Update residual by subtracting the rank-1 approximation
-            residual -= u_quant @ v_quant
+#             # Update residual by subtracting the rank-1 approximation
+#             residual -= u_quant @ v_quant
         
-        # Concatenate rank-1 approximations to form final U and V matrices
-        u_matrix = torch.cat(u_list, dim=1)
-        v_matrix = torch.cat(v_list, dim=0)
+#         # Concatenate rank-1 approximations to form final U and V matrices
+#         u_matrix = torch.cat(u_list, dim=1)
+#         v_matrix = torch.cat(v_list, dim=0)
         
-        # Append the reduced U and V matrices to the arrays
-        u_array.append(u_matrix)
-        v_array.append(v_matrix)
+#         # Append the reduced U and V matrices to the arrays
+#         u_array.append(u_matrix)
+#         v_array.append(v_matrix)
     
-    return u_array, v_array
+#     return u_array, v_array
 
-# def compute_u_v_iterative(weight, rank, quant_scheme=None):
-#     u_approx_list = []
-#     v_approx_list = []
-
-#     # Iteratively decompose the matrix to get rank-1 approximations
-#     for _ in range(rank):
-#         # Perform SVD on the current weight matrix to get the first singular vector and value
-#         u, s, v = torch.svd(weight)
-
-#         # Select the first singular value/vector (rank-1 approximation)
-#         sigma = s[0]  # The largest singular value
-#         u_1 = u[:, 0].unsqueeze(1)  # Column vector for U
-#         v_1 = v[:, 0].unsqueeze(1)  # Column vector for V
-
-#         # Compute the rank-1 matrix and append to approximations
-#         u_approx_list.append(u_1 * sigma)
-#         v_approx_list.append(v_1.T)
-
-#         # Subtract the rank-1 approximation from the weight to get the residual
-#         weight = weight - sigma * (u_1 @ v_1.T)
-
-#     # Stack the rank-1 approximations to form the final reduced U and V
-#     u_approx = torch.cat(u_approx_list, dim=1)
-#     v_approx = torch.cat(v_approx_list, dim=0)
-
-#     return u_approx, v_approx
 def compute_u_v_iterative(weight, rank, quant_scheme=None):
+    if isinstance(weight, torch.Tensor):
+        weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
+
+    # Validate rank
+    if rank > min(weight.shape):
+        raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
+
     u_approx_list = []
     v_approx_list = []
 
-    # Convert weight matrix to a NumPy array if it's a PyTorch tensor
-    weight = weight.cpu().detach().numpy() if isinstance(weight, torch.Tensor) else weight
+    residual = weight.copy()  # Create a copy of the weight matrix for residual calculations
 
-    # Iteratively decompose the matrix to get rank-1 approximations
     for _ in range(rank):
         # Perform SVD on the current weight matrix to get the first singular vector and value
-        u, s, v_t = np.linalg.svd(weight, full_matrices=False)
+        u, s, v_t = np.linalg.svd(residual, full_matrices=False)
 
         # Select the first singular value/vector (rank-1 approximation)
         sigma = s[0]  # The largest singular value
@@ -229,7 +208,7 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         v_approx_list.append(v_approx_quant)
 
         # Subtract the rank-1 approximation from weight to get the residual
-        weight = weight - (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
+        residual -= (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
 
     # Stack the rank-1 approximations to form the final reduced U and V
     u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
