@@ -64,119 +64,114 @@ round_mode = "nearest"
 results_list = []
 
 
-# def compute_u_v_array(weight_array, rank, quant_scheme):
-#     u_array = []
-#     v_array = []
-    
-#     for i in range(len(weight_array)):
-#         # Get the weight matrix
-#         weight = weight_array[i]
-        
-#         # Perform SVD on the weight matrix to get U, S, V matrices
-#         u, s, v = torch.svd(weight)
-        
-#         # Reduce U, S, and V matrices to specified rank
-#         u_reduced = u[:, :rank]
-#         s_reduced = torch.diag(s[:rank])
-#         v_reduced = v[:, :rank]
-        
-#         # Compute the rank-r approximation
-#         u_approx = u_reduced @ s_reduced    # U * S
-#         v_approx = v_reduced.T  # Transpose V for multiplication
-        
-#         # Quantize the matrices based on the quant_scheme if required
-#         # u_approx = quantisation(u_approx, quant_scheme)
-#         # v_approx = quantisation(v_approx, quant_scheme)
-        
-#         # Append the approximations to the arrays
-#         u_array.append(u_approx)
-#         v_array.append(v_approx)
-    
-#     return u_array, v_array
-
-import numpy as np
-
-def compute_u_v_array(weight_array, rank, quant_scheme=None):
+def compute_u_v_array(weight_array, rank, quant_scheme):
     u_array = []
     v_array = []
     
     for i in range(len(weight_array)):
-        # Get the weight matrix and convert to NumPy for SVD
-        weight = weight_array[i].cpu().detach().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
+        # Get the weight matrix
+        weight = weight_array[i]
         
-        # Perform SVD using numpy to get U, S, V matrices
-        u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
+        # Perform SVD on the weight matrix to get U, S, V matrices
+        u, s, v = torch.svd(weight)
         
-        # Reduce U, S, and V matrices to the specified rank
+        # Reduce U, S, and V matrices to specified rank
         u_reduced = u[:, :rank]
-        s_reduced = np.diag(s[:rank])
-        v_reduced = v_t[:rank, :]
+        s_reduced = torch.diag(s[:rank])
+        v_reduced = v[:, :rank]
         
-        # Compute the rank-r approximation in numpy
+        # Compute the rank-r approximation
         u_approx = u_reduced @ s_reduced    # U * S
-        v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
-
-        # Convert results back to PyTorch tensors if needed
-        u_approx = torch.tensor(u_approx)
-        v_approx = torch.tensor(v_approx)
+        v_approx = v_reduced.T  # Transpose V for multiplication
         
         # Quantize the matrices based on the quant_scheme if required
-        u_approx_quant = quantisation(u_approx, quant_scheme)
-        v_approx_quant = quantisation(v_approx, quant_scheme)
+        u_approx = quantisation(u_approx, quant_scheme)
+        v_approx = quantisation(v_approx, quant_scheme)
         
-        # print(f"u: {u_approx[0:5,rank-1].numpy()}")
-        # print(f"u quant: {u_approx_quant[0:5,rank-1].numpy()}")
-        # print(f"v: {v_approx[rank-1,0:5].numpy()}")
-        # print(f"v quant: {v_approx_quant[rank-1,0:5].numpy()}")
-
         # Append the approximations to the arrays
-        u_array.append(u_approx_quant)
-        v_array.append(v_approx_quant)
+        u_array.append(u_approx)
+        v_array.append(v_approx)
     
     return u_array, v_array
 
-# def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
+import numpy as np
+
+# def compute_u_v_array(weight_array, rank, quant_scheme=None):
 #     u_array = []
 #     v_array = []
     
 #     for i in range(len(weight_array)):
-#         # Get the weight matrix
-#         weight = weight_array[i]
+#         # Get the weight matrix and convert to NumPy for SVD
+#         weight = weight_array[i].cpu().detach().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
         
-#         # Initialize an empty list to store intermediate u and v for each rank-1 approximation
-#         u_approx_list = []
-#         v_approx_list = []
+#         # Perform SVD using numpy to get U, S, V matrices
+#         u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
         
-#         # Iteratively decompose the matrix to get rank-1 approximations
-#         for _ in range(rank):
-#             # Perform SVD on the current weight matrix to get the first singular vector and value
-#             u, s, v = torch.svd(weight)
-            
-#             # Select the first singular value/vector (rank-1 approximation)
-#             sigma = s[0]  # The largest singular value
-#             u_1 = u[:, 0].unsqueeze(1)  # Column vector for U
-#             v_1 = v[:, 0].unsqueeze(1)  # Column vector for V
-            
-#             # Compute the rank-1 matrix and append to approximations
-#             u_approx_list.append(u_1 * sigma)
-#             v_approx_list.append(v_1.T)
-            
-#             # Subtract the rank-1 approximation from the weight to get the residual
-#             weight = weight - sigma * (u_1 @ v_1.T)
+#         # Reduce U, S, and V matrices to the specified rank
+#         u_reduced = u[:, :rank]
+#         s_reduced = np.diag(s[:rank])
+#         v_reduced = v_t[:rank, :]
         
-#         # Stack the rank-1 approximations to form the final reduced U and V
-#         u_approx = torch.cat(u_approx_list, dim=1)
-#         v_approx = torch.cat(v_approx_list, dim=0)
+#         # Compute the rank-r approximation in numpy
+#         u_approx = u_reduced @ s_reduced    # U * S
+#         v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
+
+#         # Convert results back to PyTorch tensors if needed
+#         u_approx = torch.tensor(u_approx)
+#         v_approx = torch.tensor(v_approx)
         
-#         # Optionally, quantize the matrices based on the quant_scheme
-#         # u_approx = quantisation(u_approx, quant_scheme)
-#         # v_approx = quantisation(v_approx, quant_scheme)
-        
-#         # Append the final reduced U and V matrices to the arrays
-#         u_array.append(u_approx)
-#         v_array.append(v_approx)
+#         # Quantize the matrices based on the quant_scheme if required
+#         u_approx_quant = quantisation(u_approx, quant_scheme)
+#         v_approx_quant = quantisation(v_approx, quant_scheme)
+
+#         # Append the approximations to the arrays
+#         u_array.append(u_approx_quant)
+#         v_array.append(v_approx_quant)
     
 #     return u_array, v_array
+import torch
+
+def compute_u_v_array_iterative(weight_array, rank, quant_scheme):
+
+    u_array = []
+    v_array = []
+    
+    for weight in weight_array:
+
+        u_list = []  # Stores rank-1 approximations of U
+        v_list = []  # Stores rank-1 approximations of V
+        
+        residual = weight.clone()  # Start with the original weight matrix
+        
+        for _ in range(rank):
+            # Perform SVD on the current residual to get the first singular vector and value
+            u, s, v = torch.svd(residual)
+            
+            # Select the largest singular value/vector (rank-1 approximation)
+            sigma = s[0]  # Largest singular value
+            u_1 = u[:, 0].unsqueeze(1)  # First column of U
+            v_1 = v[:, 0].unsqueeze(1)  # First column of V
+            
+            # Quantize the rank-1 components
+            u_quant = quantisation(u_1 * sigma, quant_scheme)
+            v_quant = quantisation(v_1.T, quant_scheme)
+
+            # Append the quantized components to the list
+            u_list.append(u_quant)
+            v_list.append(v_quant)
+            
+            # Update residual by subtracting the rank-1 approximation
+            residual -= u_quant @ v_quant
+        
+        # Concatenate rank-1 approximations to form final U and V matrices
+        u_matrix = torch.cat(u_list, dim=1)
+        v_matrix = torch.cat(v_list, dim=0)
+        
+        # Append the reduced U and V matrices to the arrays
+        u_array.append(u_matrix)
+        v_array.append(v_matrix)
+    
+    return u_array, v_array
 
 # def compute_u_v_iterative(weight, rank, quant_scheme=None):
 #     u_approx_list = []
@@ -358,4 +353,4 @@ for rank in rank_samples:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_mse4.csv', index=False)
+# results_df.to_csv('svd_quantization_results_mse4.csv', index=False)
