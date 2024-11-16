@@ -76,14 +76,11 @@ results_list = []
 for idx, wl in enumerate(word_lengths): 
     rank_samples = rank_samples_array[idx]
     for rank in rank_samples:
-        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-
         fl = wl/2
         fl = int(fl)
         frac = wl - fl
 
-        if frac <= 0:
-            continue
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
 
         # Define the quantization scheme dictionary with IntQuant settings
         args_int.quant_scheme = {
