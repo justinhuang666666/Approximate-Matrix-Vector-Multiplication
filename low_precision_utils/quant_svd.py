@@ -34,21 +34,67 @@ def quantisation(input,quant_scheme):
 
     return quant_input
 
+# Range-Based Scaling
+def quantisation_range_based_scaling(tensor, num_bits):
+    # Determine the quantization range for signed integers
+    quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
 
-def asymmetric_quantization(tensor, q_min=0, q_max=255):
-    """
-    Perform asymmetric quantization on a tensor.
+    # Find the maximum absolute value of the tensor
+    max_val = tensor.abs().max()
 
-    Args:
-        tensor (torch.Tensor): Input tensor to quantize.
-        q_min (int): Minimum quantized value (e.g., 0 for unsigned 8-bit).
-        q_max (int): Maximum quantized value (e.g., 255 for unsigned 8-bit).
+    # Avoid division by zero
+    scale = quantization_range / max_val if max_val != 0 else 1.0
 
-    Returns:
-        quantized (torch.Tensor): Quantized tensor.
-        scale (float): Scale factor used in quantization.
-        zero_point (int): Zero-point used in quantization.
-    """
+    # Quantize the tensor
+    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+
+    # Dequantize the tensor (optional, for comparison or further processing)
+    dequantized = quantized / scale
+
+    return quantized, dequantized, scale
+
+def quantisation_mean_based_scaling(tensor, num_bits):
+    # Determine the quantization range for signed integers
+    quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
+
+    # Compute the mean absolute value of the tensor
+    mean_val = tensor.abs().mean()
+
+    # Avoid division by zero
+    scale = quantization_range / mean_val if mean_val != 0 else 1.0
+
+    # Quantize the tensor
+    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+
+    # Dequantize the tensor (optional, for comparison or further processing)
+    dequantized = quantized / scale
+
+    return quantized, dequantized, scale
+
+
+def quantisation_log2_based_scaling(tensor, num_bits):
+    # Determine the quantization range for signed integers
+    quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
+
+    # Find the maximum absolute value of the tensor
+    max_val = tensor.abs().max()
+    
+    raw_scale = quantization_range / max_val if max_val != 0 else 1.0
+    scale = 2 ** round(torch.log2(torch.tensor(raw_scale)).item())
+
+    # Quantize the tensor using log2-based scaling
+    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+
+    # Dequantize the tensor (optional, for comparison or further processing)
+    dequantized = quantized / scale
+
+    return quantized, dequantized, scale
+
+
+def asymmetric_quantization_range_based_scaling(tensor, num_bits):
+    q_min = 0
+    q_max = 2 ** (num_bits) - 1
+
     # Compute the scale factor and zero-point
     x_min, x_max = tensor.min(), tensor.max()
     scale = (x_max - x_min) / (q_max - q_min)
@@ -62,14 +108,42 @@ def asymmetric_quantization(tensor, q_min=0, q_max=255):
 
     return quantized, dequantized, scale, zero_point
 
+def asymmetric_quantization_mean_based_scaling(tensor, num_bits):
+    q_min = 0
+    q_max = 2 ** (num_bits) - 1
+
+    # Compute the mean and standard deviation of the tensor
+    mean = tensor.mean()
+    std_dev = tensor.std()
+
+    # Define the scaling range based on mean and a factor of standard deviation
+    x_min = mean - std_dev
+    x_max = mean + std_dev
+
+    # Compute scale and zero-point
+    scale = (x_max - x_min) / (q_max - q_min)
+    zero_point = q_min - x_min / scale
+
+    # Quantize the tensor
+    quantized = torch.round(tensor / scale + zero_point).clamp(q_min, q_max).to(torch.int)
+
+    # Dequantize the tensor
+    dequantized = scale * (quantized - zero_point)
+
+    return quantized, dequantized, scale, zero_point
+
+
 # Example usage
-tensor = torch.tensor([0.0, 1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
+tensor = torch.tensor([1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
+print("Original Tensor:", tensor)
 
 # Perform asymmetric quantization
-quantized, dequantized, scale, zero_point = asymmetric_quantization(tensor, q_min=0, q_max=255)
+quantized1, dequantized1, scale1 = quantisation_range_based_scaling(tensor, 8)
+quantized2, dequantized2, scale2 = quantisation_mean_based_scaling(tensor, 8)
+quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
 
-print("Original Tensor:", tensor)
-print("Quantized Tensor:", quantized)
-print("Dequantized Tensor:", dequantized)
-print("Scale Factor:", scale)
-print("Zero Point:", zero_point)
+print("Dequantized Tensor (Range Based):", dequantized1)
+
+print("Dequantized Tensor (Mean Based):", dequantized1)
+
+print("Dequantized Tensor (Log2 Based):", dequantized1)
