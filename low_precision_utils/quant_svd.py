@@ -185,4 +185,4 @@ print("Dequantized Tensor (Mean Based):", dequantized2)
 
 print("Dequantized Tensor (Log2 Based):", dequantized3)
 
-print("Dequantized Tensor (Loss Aware):", dequantized3)
+print("Dequantized Tensor (Loss Aware):", dequantized4)
