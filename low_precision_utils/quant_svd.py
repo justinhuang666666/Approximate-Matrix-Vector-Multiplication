@@ -118,7 +118,7 @@ def quantisation_loss_aware_scaling(tensor, num_bits):
         optimizer.step(closure)
 
     # Final quantization with optimized scale
-    quantized = torch.round((tensor / scale)).clamp(-quantization_range, quantization_range)
+    quantized = torch.round((tensor / scale.item())).clamp(-quantization_range, quantization_range)
     dequantized = quantized * scale
 
     return quantized, dequantized, scale.item()
@@ -177,9 +177,13 @@ quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
 quantized4, dequantized4, scale4 = quantisation_loss_aware_scaling(tensor, 8)
 
 print("Dequantized Tensor (Range Based):", dequantized1)
+print("Scaling (Range Based):", scale1)
 
 print("Dequantized Tensor (Mean Based):", dequantized2)
+print("Scaling (Mean Based):", scale2)
 
 print("Dequantized Tensor (Log2 Based):", dequantized3)
+print("Scaling (Log2 Based):", scale3)
 
 print("Dequantized Tensor (Loss Aware):", dequantized4)
+print("Scaling (Loss Aware):", scale4)
