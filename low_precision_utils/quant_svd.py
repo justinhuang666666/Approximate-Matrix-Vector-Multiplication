@@ -79,10 +79,15 @@ def quantisation_log2_based_scaling(tensor, num_bits):
 
     # Find the maximum absolute value of the tensor
     max_val = tensor.abs().max()
-    
-    raw_scale = quantization_range / max_val if max_val != 0 else 1.0
-    scale = 2 ** round(torch.log2(torch.tensor(raw_scale)).item())
 
+    # Avoid division by zero
+    if max_val == 0:
+        scale = 1.0  # Default scale for zero tensor
+    else:
+        # Log2-based scaling: Find the nearest power of 2 greater than or equal to max_val
+        log2_scale = torch.ceil(torch.log2(max_val / quantization_range))
+        scale = 2 ** log2_scale  # Scale factor is a power of 2
+        
     # Quantize the tensor using log2-based scaling
     quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
 
