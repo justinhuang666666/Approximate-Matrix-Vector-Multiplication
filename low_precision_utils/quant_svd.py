@@ -87,11 +87,12 @@ def quantisation_log2_based_scaling(tensor, num_bits):
         # Log2-based scaling: Find the nearest power of 2 greater than or equal to max_val
         log2_scale = torch.ceil(torch.log2(max_val / quantization_range))
         scale = 2 ** log2_scale  # Scale factor is a power of 2
+        scale = 1/scale
 
-    quantized = torch.round(tensor / scale).clamp(-quantization_range, quantization_range)
+    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
 
     # Dequantize the tensor (optional, for comparison or further processing)
-    dequantized = quantized * scale
+    dequantized = quantized/scale
 
     return quantized, dequantized, scale
 
