@@ -90,41 +90,32 @@ def quantisation_log2_based_scaling(tensor, num_bits):
 
     return quantized, dequantized, scale
 
-def quantisation_loss_aware_scaling(tensor, num_bits, initial_scale=1.0, lr=0.01, epochs=100):
+def quantisation_loss_aware_scaling(tensor, num_bits, iterations=40):
     # Determine the quantization range for signed integers
     quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
 
-    # Initialize the scale as a trainable parameter
-    scale = torch.tensor(initial_scale, requires_grad=True)
+    # Initialize scale based on the maximum absolute value
+    max_val = tensor.abs().max()
+    scale = quantization_range / max_val if max_val != 0 else 1.0
 
-    # Optimizer to adjust the scale
-    optimizer = torch.optim.Adam([scale], lr=lr)
+    # Optimize the scale to minimize reconstruction loss
+    for _ in range(iterations):
+        # Quantize and dequantize
+        quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+        dequantized = quantized / scale
 
-    # Optimize scale to minimize quantization error
-    for epoch in range(epochs):
-        optimizer.zero_grad()
-        
-        # Scale the tensor
-        scaled_tensor = tensor * scale
-        
-        # Quantize and clamp the tensor
-        quantized_tensor = torch.clamp(scaled_tensor.round(), -quantization_range, quantization_range)
-        
-        # Compute the loss (mean squared quantization error)
-        loss = torch.mean((scaled_tensor - quantized_tensor) ** 2)
-        
-        # Backpropagation and scale adjustment
-        loss.backward()
-        optimizer.step()
+        # Adjust the scale based on the gradient of the loss
+        grad = -2 * torch.sum((tensor - dequantized) * (quantized / scale**2)) / tensor.numel()
+        scale -= 0.01 * grad  # Update scale with a small learning rate
 
-    # Final scale after optimization
-    optimized_scale = scale.detach().item()
+        # Ensure scale remains positive
+        scale = max(scale, 1e-6)
 
-    # Final quantized and dequantized tensors
-    quantized_tensor = torch.clamp((tensor * optimized_scale).round(), -quantization_range, quantization_range)
-    dequantized_tensor = quantized_tensor / optimized_scale
+    # Final quantization and dequantization
+    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+    dequantized = quantized / scale
 
-    return quantized_tensor, dequantized_tensor, optimized_scale
+    return quantized, dequantized, scale
 
 
 def asymmetric_quantization_range_based_scaling(tensor, num_bits):
