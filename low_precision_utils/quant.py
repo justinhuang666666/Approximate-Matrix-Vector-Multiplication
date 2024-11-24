@@ -338,7 +338,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
     return network
 
 
-def replace_with_quantized_iterative_svd(network, rank, quant_scheme, filter):
+def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl,filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -354,7 +354,7 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, filter):
             v_array = []
             
             for i in range(len(weight_array)):
-                u, v = compute_u_v_iterative(weight_array[i], rank, int(quant_scheme["weight"]["wl"]))
+                u, v = compute_u_v_iterative(weight_array[i], rank, wl)
                 u_array.append(u)
                 v_array.append(v)
             
@@ -368,7 +368,7 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, filter):
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_iterative_svd(module, rank, quant_scheme, filter)
+            replace_with_quantized_iterative_svd(module, rank, quant_scheme, wl, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
@@ -382,9 +382,9 @@ def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
     local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
     return local_network
 
-def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, filter):
+def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, wl, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, filter)
+    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, wl, filter)
     return local_network
 
 
