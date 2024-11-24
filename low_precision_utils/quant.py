@@ -288,8 +288,8 @@ def compute_u_v_iterative(weight, rank, word_length):
         v_approx = torch.tensor(v_1)
         
         # Quantize the matrices based on the quant_scheme if required
-        u_approx_quant = quantisation_wrapper(u_approx, word_length)
-        v_approx_quant = quantisation_wrapper(v_approx, word_length)
+        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length)
+        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length)
 
         # Compute the rank-1 approximation and append to lists
         u_approx_list.append(u_approx_quant)
