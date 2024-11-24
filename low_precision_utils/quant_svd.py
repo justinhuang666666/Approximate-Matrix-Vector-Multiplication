@@ -144,6 +144,6 @@ quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
 
 print("Dequantized Tensor (Range Based):", dequantized1)
 
-print("Dequantized Tensor (Mean Based):", dequantized1)
+print("Dequantized Tensor (Mean Based):", dequantized2)
 
-print("Dequantized Tensor (Log2 Based):", dequantized1)
+print("Dequantized Tensor (Log2 Based):", dequantized3)
