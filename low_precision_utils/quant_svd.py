@@ -73,6 +73,7 @@ def quantisation_mean_based_scaling(tensor, num_bits):
     return quantized, dequantized, scale
 
 
+
 def quantisation_log2_based_scaling(tensor, num_bits):
     # Determine the quantization range for signed integers
     quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
@@ -84,14 +85,15 @@ def quantisation_log2_based_scaling(tensor, num_bits):
     if max_val == 0:
         scale = 1.0  # Default scale for zero tensor
     else:
-        # Log2-based scaling: Find the nearest power of 2 greater than or equal to max_val
-        log2_scale = torch.ceil(torch.log2(quantization_range/max_val))
+        # Log2-based scaling: Find the nearest power of 2 that aligns the scale
+        log2_scale = torch.ceil(torch.log2(max_val / quantization_range))
         scale = 2 ** log2_scale  # Scale factor is a power of 2
 
-    quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)
+    # Quantize the tensor
+    quantized = torch.round(tensor / scale * quantization_range).clamp(-quantization_range, quantization_range)
 
     # Dequantize the tensor (optional, for comparison or further processing)
-    dequantized = quantized/scale
+    dequantized = quantized / quantization_range * scale
 
     return quantized, dequantized, scale
 
