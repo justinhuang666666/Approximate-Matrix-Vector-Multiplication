@@ -170,7 +170,7 @@ def asymmetric_quantization_mean_based_scaling(tensor, num_bits):
 
 
 # Example usage
-tensor = torch.rand(10, dtype=torch.float32) 
+tensor = torch.tensor([1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
 print("Original Tensor:", tensor)
 
 # Perform asymmetric quantization
