@@ -97,10 +97,10 @@ for idx, wl in enumerate(word_lengths):
         # Create the quantization scheme using the from_args method
         quant_scheme_int = QuantScheme.from_args(args_int)
 
-        # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
+        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, filter)
 
         # Compute BLEU score
-        bleu_int1 = 0 #compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Quant SVD)",bleu_int1)
         
         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, filter)
@@ -126,4 +126,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_asym.csv', index=False)
+results_df.to_csv('svd_quantization_results_scaling1.csv', index=False)
