@@ -52,7 +52,7 @@ def asymmetric_quantization(tensor, q_min=0, q_max=255):
     # Compute the scale factor and zero-point
     x_min, x_max = tensor.min(), tensor.max()
     scale = (x_max - x_min) / (q_max - q_min)
-    zero_point = round(q_min - x_min / scale)
+    zero_point = x_min / scale
 
     # Quantize the tensor
     quantized = torch.round(tensor / scale + zero_point).clamp(q_min, q_max).to(torch.int)
