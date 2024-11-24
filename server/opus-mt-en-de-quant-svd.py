@@ -68,7 +68,7 @@ args_int = argparse.Namespace()
 word_lengths = [4, 6, 8, 16]
 rank_samples_array = [[250,300,350,400,450],[170,210,250,290,330],[125,155,185,215,245],[65,80,95,110,125]]
 
-symmetric = True
+symmetric = False
 round_mode = "nearest"
 results_list = []
 
@@ -126,4 +126,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results5.csv', index=False)
+results_df.to_csv('svd_quantization_results_asym.csv', index=False)

@@ -136,7 +136,7 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
 rank_samples = [1,20,40,60,80]
 word_lengths = [32,16,8,6,4]
 
-symmetric = True
+symmetric = False
 round_mode = "nearest"
 results_list = []
 
