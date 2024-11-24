@@ -95,7 +95,7 @@ def quantisation_log2_based_scaling(tensor, num_bits):
     # Dequantize the tensor (optional, for comparison or further processing)
     dequantized = quantized * scale
 
-    return quantized, dequantized, scale
+    return quantized, dequantized, 1/scale
 
 def quantisation_loss_aware_scaling(tensor, num_bits):
 
