@@ -127,7 +127,33 @@ def quantisation_loss_aware_scaling(tensor, num_bits):
     quantized = torch.round((tensor / scale.item())).clamp(-quantization_range, quantization_range)
     dequantized = quantized * scale
 
-    return quantized, dequantized, scale.item()*quantization_range
+    return quantized.detach(), dequantized.detach(), scale.item()*quantization_range
+
+
+def quantisation_wrapper(tensor, num_bits, method="range_based"):
+    """
+    Wrapper function for different quantization methods.
+    Args:
+        tensor (torch.Tensor): Input tensor to be quantized.
+        num_bits (int): Number of bits for quantization.
+        method (str): Quantization method to use.
+            Options: "range_based", "mean_based", "log2_based", "loss_aware"
+    Returns:
+        torch.Tensor: Quantized tensor.
+        torch.Tensor: Dequantized tensor.
+        float: Scaling factor.
+    """
+    if method == "range_based":
+        return quantisation_range_based_scaling(tensor, num_bits)
+    elif method == "mean_based":
+        return quantisation_mean_based_scaling(tensor, num_bits)
+    elif method == "log2_based":
+        return quantisation_log2_based_scaling(tensor, num_bits)
+    elif method == "loss_aware":
+        return quantisation_loss_aware_scaling(tensor, num_bits)
+    else:
+        raise ValueError(f"Unsupported quantization method: {method}")
+
 
 
 def asymmetric_quantization_range_based_scaling(tensor, num_bits):
@@ -172,24 +198,22 @@ def asymmetric_quantization_mean_based_scaling(tensor, num_bits):
     return quantized, dequantized, scale, zero_point
 
 
-# Example usage
-tensor = torch.tensor([1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
-print("Original Tensor:", tensor)
+# tensor = torch.tensor([1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
+# print("Original Tensor:", tensor)
 
-# Perform asymmetric quantization
-quantized1, dequantized1, scale1 = quantisation_range_based_scaling(tensor, 8)
-quantized2, dequantized2, scale2 = quantisation_mean_based_scaling(tensor, 8)
-quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
-quantized4, dequantized4, scale4 = quantisation_loss_aware_scaling(tensor, 8)
+# quantized1, dequantized1, scale1 = quantisation_range_based_scaling(tensor, 8)
+# quantized2, dequantized2, scale2 = quantisation_mean_based_scaling(tensor, 8)
+# quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
+# quantized4, dequantized4, scale4 = quantisation_loss_aware_scaling(tensor, 8)
 
-print("Dequantized Tensor (Range Based):", dequantized1)
-print("Scaling (Range Based):", scale1)
+# print("Dequantized Tensor (Range Based):", dequantized1)
+# print("Scaling (Range Based):", scale1)
 
-print("Dequantized Tensor (Mean Based):", dequantized2)
-print("Scaling (Mean Based):", scale2)
+# print("Dequantized Tensor (Mean Based):", dequantized2)
+# print("Scaling (Mean Based):", scale2)
 
-print("Dequantized Tensor (Log2 Based):", dequantized3)
-print("Scaling (Log2 Based):", scale3)
+# print("Dequantized Tensor (Log2 Based):", dequantized3)
+# print("Scaling (Log2 Based):", scale3)
 
-print("Dequantized Tensor (Loss Aware):", dequantized4)
-print("Scaling (Loss Aware):", scale4)
+# print("Dequantized Tensor (Loss Aware):", dequantized4)
+# print("Scaling (Loss Aware):", scale4)

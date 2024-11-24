@@ -261,7 +261,7 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
     
     return u_array, v_array
 
-def compute_u_v_iterative(weight, rank, quant_scheme=None):
+def compute_u_v_iterative(weight, rank, word_length):
     if isinstance(weight, torch.Tensor):
         weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
 
@@ -288,8 +288,8 @@ def compute_u_v_iterative(weight, rank, quant_scheme=None):
         v_approx = torch.tensor(v_1)
         
         # Quantize the matrices based on the quant_scheme if required
-        u_approx_quant = quantisation(u_approx, quant_scheme)
-        v_approx_quant = quantisation(v_approx, quant_scheme)
+        u_approx_quant = quantisation_wrapper(u_approx, word_length)
+        v_approx_quant = quantisation_wrapper(v_approx, word_length)
 
         # Compute the rank-1 approximation and append to lists
         u_approx_list.append(u_approx_quant)
@@ -352,8 +352,9 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, filter):
 
             u_array = []
             v_array = []
+            
             for i in range(len(weight_array)):
-                u, v = compute_u_v_iterative(weight_array[i], rank, quant_scheme)
+                u, v = compute_u_v_iterative(weight_array[i], rank, int(quant_scheme["weight"]["wl"]))
                 u_array.append(u)
                 v_array.append(v)
             
