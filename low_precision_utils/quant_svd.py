@@ -121,7 +121,7 @@ def quantisation_loss_aware_scaling(tensor, num_bits):
     quantized = torch.round((tensor / scale.item())).clamp(-quantization_range, quantization_range)
     dequantized = quantized * scale
 
-    return quantized, dequantized, scale.item()
+    return quantized, dequantized, scale.item()*quantization_range
 
 
 def asymmetric_quantization_range_based_scaling(tensor, num_bits):
