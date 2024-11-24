@@ -90,6 +90,42 @@ def quantisation_log2_based_scaling(tensor, num_bits):
 
     return quantized, dequantized, scale
 
+def quantisation_loss_aware_scaling(tensor, num_bits, initial_scale=1.0, lr=0.01, epochs=100):
+    # Determine the quantization range for signed integers
+    quantization_range = 2 ** (num_bits - 1) - 1  # For signed quantization
+
+    # Initialize the scale as a trainable parameter
+    scale = torch.tensor(initial_scale, requires_grad=True)
+
+    # Optimizer to adjust the scale
+    optimizer = torch.optim.Adam([scale], lr=lr)
+
+    # Optimize scale to minimize quantization error
+    for epoch in range(epochs):
+        optimizer.zero_grad()
+        
+        # Scale the tensor
+        scaled_tensor = tensor * scale
+        
+        # Quantize and clamp the tensor
+        quantized_tensor = torch.clamp(scaled_tensor.round(), -quantization_range, quantization_range)
+        
+        # Compute the loss (mean squared quantization error)
+        loss = torch.mean((scaled_tensor - quantized_tensor) ** 2)
+        
+        # Backpropagation and scale adjustment
+        loss.backward()
+        optimizer.step()
+
+    # Final scale after optimization
+    optimized_scale = scale.detach().item()
+
+    # Final quantized and dequantized tensors
+    quantized_tensor = torch.clamp((tensor * optimized_scale).round(), -quantization_range, quantization_range)
+    dequantized_tensor = quantized_tensor / optimized_scale
+
+    return quantized_tensor, dequantized_tensor, optimized_scale
+
 
 def asymmetric_quantization_range_based_scaling(tensor, num_bits):
     q_min = 0
@@ -134,16 +170,19 @@ def asymmetric_quantization_mean_based_scaling(tensor, num_bits):
 
 
 # Example usage
-tensor = torch.tensor([1.5, 3.2, 5.6, 10.0], dtype=torch.float32)
+tensor = torch.rand(10, dtype=torch.float32) 
 print("Original Tensor:", tensor)
 
 # Perform asymmetric quantization
 quantized1, dequantized1, scale1 = quantisation_range_based_scaling(tensor, 8)
 quantized2, dequantized2, scale2 = quantisation_mean_based_scaling(tensor, 8)
 quantized3, dequantized3, scale3 = quantisation_log2_based_scaling(tensor, 8)
+quantized4, dequantized4, scale4 = quantisation_loss_aware_scaling(tensor, 8)
 
 print("Dequantized Tensor (Range Based):", dequantized1)
 
 print("Dequantized Tensor (Mean Based):", dequantized2)
 
 print("Dequantized Tensor (Log2 Based):", dequantized3)
+
+print("Dequantized Tensor (Loss Aware):", dequantized3)
