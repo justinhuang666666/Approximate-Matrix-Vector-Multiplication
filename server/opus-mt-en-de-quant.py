@@ -100,25 +100,25 @@ for wl in word_lengths:
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "range_based", filter)
 
         # Compute BLEU score
-        bleu_int1 = 0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int1 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "mean_based", filter)
 
         # Compute BLEU score
-        bleu_int2 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int2 =  compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
-        bleu_int3 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int3 =  compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
-        bleu_int4 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int4 =  compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Print BLEU score
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
