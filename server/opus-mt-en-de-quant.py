@@ -97,7 +97,7 @@ for wl in word_lengths:
         quant_scheme_int = QuantScheme.from_args(args_int)
 
         # Replace with quantized model
-        int_model = replace_with_quantized(model, quant_scheme_int, wl, "range-based" filter)
+        int_model = replace_with_quantized(model, quant_scheme_int, wl, "range-based",  filter)
 
         # Compute BLEU score
         bleu_int1 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
