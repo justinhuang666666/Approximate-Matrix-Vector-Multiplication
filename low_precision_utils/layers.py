@@ -18,7 +18,7 @@ from low_precision_utils import quant
 from low_precision_utils import quant_svd
 
 class QuantLinear(nn.Linear):
-    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, wl = 8, method="range-based"):
+    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, wl = 8, method="range_based"):
         super(QuantLinear, self).__init__(in_features, out_features, bias, device, dtype)
         self.quant_scheme = quant_scheme
         self.wl = wl

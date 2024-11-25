@@ -97,37 +97,37 @@ for idx, wl in enumerate(word_lengths):
         # Create the quantization scheme using the from_args method
         quant_scheme_int = QuantScheme.from_args(args_int)
 
-        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "range-based", filter)
+        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
 
         # Compute BLEU score
         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Range-Based Quant SVD)",bleu_int1)
 
-        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2-based", filter)
+        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
         bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Log2-Based Quant SVD)",bleu_int2)
 
-        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss-aware", filter)
+        quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
         bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Loss-Aware Quant SVD)",bleu_int3)
         
-        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range-based", filter)
+        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
 
         # Compute BLEU score
         bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Range-Based Iterative Quant SVD)",bleu_int4)
 
-        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2-based", filter)
+        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
         bleu_int5 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
         print("BLEU (Log2-Based Iterative Quant SVD)",bleu_int5)
 
-        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss-aware", filter)
+        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
         bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
