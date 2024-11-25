@@ -61,7 +61,7 @@ print(baseline_bleu)
 
 weight = model.model.encoder.layers[0].self_attn.k_proj.weight
 print("Original Weight Matrix: ",weight[0:5,0:5])
-quant,dequant,scale = quantisation_wrapper(weight,4)
+quant,dequant,scale = quantisation_wrapper(weight,8)
 
 print("Quant Weight Matrix: ",quant[0:5,0:5])
 print("Dequant Weight Matrix: ",dequant[0:5,0:5])
