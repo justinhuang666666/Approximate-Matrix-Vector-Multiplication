@@ -80,7 +80,7 @@ for idx, wl in enumerate(word_lengths):
         fl = int(fl)
         frac = wl - fl
 
-        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
 
         # Define the quantization scheme dictionary with IntQuant settings
         args_int.quant_scheme = {
