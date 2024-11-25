@@ -11,17 +11,18 @@ parent_dir = os.path.dirname(current_dir)
 # Add utility directories dynamically
 sys.path.append(parent_dir)
 from low_precision_utils import quant
+from low_precision_utils import quant_svd
 
 class quant_linear(Function):
     @staticmethod
-    def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None):
+    def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None, wl=8):
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
         # input = input.view(input_shape[0], -1)
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         qinput = quant_scheme.act.quant(input)
-        qweight = quant_scheme.weight.quant(weight)
+        qweight = quantisation_wrapper(weight, wl)
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 

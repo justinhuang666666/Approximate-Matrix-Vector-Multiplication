@@ -199,7 +199,7 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
 
 #     return network
 
-def replace_with_quantized(network, quant_scheme, filter):
+def replace_with_quantized(network, quant_scheme, wl, filter):
     # List to keep track of layers to be replaced
     to_replace = []
     
@@ -210,15 +210,15 @@ def replace_with_quantized(network, quant_scheme, filter):
             self_attn = module.self_attn
             
             # Replace k_proj, q_proj, v_proj with quantized versions, but keep out_proj unchanged
-            self_attn.k_proj = layers.QuantLinear.from_full_precision(self_attn.k_proj, quant_scheme)
-            self_attn.q_proj = layers.QuantLinear.from_full_precision(self_attn.q_proj, quant_scheme)
-            self_attn.v_proj = layers.QuantLinear.from_full_precision(self_attn.v_proj, quant_scheme)
+            self_attn.k_proj = layers.QuantLinear.from_full_precision(self_attn.k_proj, quant_scheme, wl)
+            self_attn.q_proj = layers.QuantLinear.from_full_precision(self_attn.q_proj, quant_scheme, wl)
+            self_attn.v_proj = layers.QuantLinear.from_full_precision(self_attn.v_proj, quant_scheme, wl)
             
             # Add the modified self-attention back to the encoder layer
             module.self_attn = self_attn
         else:
             # Recursively search within child modules
-            replace_with_quantized(module, quant_scheme, filter)
+            replace_with_quantized(module, quant_scheme, wl, filter)
     
     # Replace identified layers
     for name, new_module in to_replace:
