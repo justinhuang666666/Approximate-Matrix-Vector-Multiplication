@@ -26,11 +26,11 @@ class quant_linear(Function):
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 
-        if quant_scheme.same_input:
-            input = qinput
-        if quant_scheme.same_weight:
-            weight = qweight
-        ctx.save_for_backward(qinput, qweight, bias)
+        # if quant_scheme.same_input:
+        #     input = qinput
+        # if quant_scheme.same_weight:
+        #     weight = qweight
+        # ctx.save_for_backward(qinput, qweight, bias)
 
         # output = qinput.mm(qweight.t()).to(input_type)
         output = input.mm(qweight.t()).to(input_type)
