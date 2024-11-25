@@ -101,37 +101,37 @@ for idx, wl in enumerate(word_lengths):
 
         # Compute BLEU score
         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Range-Based Quant SVD)",bleu_int1)
+        print("Quant SVD BLEU (Range-Based)",bleu_int1)
 
         quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
         bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Log2-Based Quant SVD)",bleu_int2)
+        print("Quant SVD BLEU (Log2-Based)",bleu_int2)
 
         quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
         bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Loss-Aware Quant SVD)",bleu_int3)
+        print("Quant SVD BLEU (Loss-Aware)",bleu_int3)
         
         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
 
         # Compute BLEU score
         bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Range-Based Iterative Quant SVD)",bleu_int4)
+        print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
 
         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
         bleu_int5 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Log2-Based Iterative Quant SVD)",bleu_int5)
+        print("Iterative Quant SVD BLEU (Log2-Based)",bleu_int5)
 
         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
         bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-        print("BLEU (Loss-Aware Iterative Quant SVD)",bleu_int6)
+        print("Iterative Quant SVD BLEU (Loss-Aware)",bleu_int6)
 
         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
@@ -139,12 +139,12 @@ for idx, wl in enumerate(word_lengths):
         results_list.append({
         "Word Length": wl,
         "Rank":rank,
-        "BLEU (Range-Based Quant SVD)": bleu_int1,
-        "BLEU (Log2-Based Quant SVD)": bleu_int2,
-        "BLEU (Loss-Aware Quant SVD)": bleu_int3,
-        "BLEU (Range-Based Iterative Quant SVD)": bleu_int4,
-        "BLEU (Log2-Based Iterative Quant SVD)": bleu_int5,
-        "BLEU (Loss-Aware Iterative Quant SVD)": bleu_int6,
+        "Quant SVD BLEU (Range-Based)": bleu_int1,
+        "Quant SVD BLEU (Log2-Based)": bleu_int2,
+        "Quant SVD BLEU (Loss-Aware)": bleu_int3,
+        "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
+        "Iterative Quant SVD BLEU (Log2-Based)": bleu_int5,
+        "Iterative Quant SVD BLEU (Loss-Aware)": bleu_int6,
         "Compression Ratio":compression_ratio
         })
 
