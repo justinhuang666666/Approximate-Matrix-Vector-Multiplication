@@ -128,19 +128,19 @@ for wl in word_lengths:
         print("Loss-aware: ", bleu_int4)
 
         # Store the results
-        results_list.append({
-        "Word Length": wl,
-        "Fraction Length": frac,
-        "Symmetric": symmetric,
-        "Round Mode": round_mode,
-        "BLEU Score": bleu_int
-        })
+        # results_list.append({
+        # "Word Length": wl,
+        # "Fraction Length": frac,
+        # "Symmetric": symmetric,
+        # "Round Mode": round_mode,
+        # "BLEU Score": bleu_int
+        # })
 
 # Convert the list of dictionaries to a DataFrame
-results_df = pd.DataFrame(results_list)
+# results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_weight_only_scaling.csv', index=False)
+# results_df.to_csv('quantization_weight_only_scaling.csv', index=False)
 
 
 
