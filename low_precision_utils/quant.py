@@ -227,7 +227,7 @@ def replace_with_quantized(network, quant_scheme, wl, method, filter):
     return network
 
 
-def compute_u_v_array(weight_array, rank, quant_scheme=None):
+def compute_u_v_array(weight_array, rank, word_length, method):
     u_array = []
     v_array = []
     
@@ -251,9 +251,8 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
         u_approx = torch.tensor(u_approx)
         v_approx = torch.tensor(v_approx)
         
-        # Quantize the matrices based on the quant_scheme if required
-        u_approx_quant = quantisation(u_approx, quant_scheme)
-        v_approx_quant = quantisation(v_approx, quant_scheme)
+        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
+        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
 
         # Append the approximations to the arrays
         u_array.append(u_approx_quant)
@@ -261,7 +260,7 @@ def compute_u_v_array(weight_array, rank, quant_scheme=None):
     
     return u_array, v_array
 
-def compute_u_v_iterative(weight, rank, word_length):
+def compute_u_v_iterative(weight, rank, word_length, method):
     if isinstance(weight, torch.Tensor):
         weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
 
@@ -288,8 +287,8 @@ def compute_u_v_iterative(weight, rank, word_length):
         v_approx = torch.tensor(v_1)
         
         # Quantize the matrices based on the quant_scheme if required
-        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length)
-        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length)
+        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
+        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
 
         # Compute the rank-1 approximation and append to lists
         u_approx_list.append(u_approx_quant)
@@ -305,7 +304,7 @@ def compute_u_v_iterative(weight, rank, word_length):
     return u_approx, v_approx
 
 
-def replace_with_quantized_svd(network, rank, quant_scheme, filter):
+def replace_with_quantized_svd(network, rank, quant_scheme, wl, method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -317,7 +316,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
             weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
             
-            u_array, v_array = compute_u_v_array(weight_array, rank, quant_scheme)
+            u_array, v_array = compute_u_v_array(weight_array, rank, wl, method)
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
             self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
             self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, quant_scheme)
@@ -328,7 +327,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_svd(module, rank, quant_scheme, filter)
+            replace_with_quantized_svd(module, rank, quant_scheme, wl, method, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
@@ -338,7 +337,7 @@ def replace_with_quantized_svd(network, rank, quant_scheme, filter):
     return network
 
 
-def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl,filter):
+def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl, method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -354,7 +353,7 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl,filter)
             v_array = []
             
             for i in range(len(weight_array)):
-                u, v = compute_u_v_iterative(weight_array[i], rank, wl)
+                u, v = compute_u_v_iterative(weight_array[i], rank, wl, method)
                 u_array.append(u)
                 v_array.append(v)
             
@@ -377,14 +376,14 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl,filter)
 
     return network
 
-def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, filter):
+def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, wl, method, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, filter)
+    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, wl, method, filter)
     return local_network
 
-def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, wl, filter):
+def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, wl, method, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, wl, filter)
+    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, wl, method, filter)
     return local_network
 
 

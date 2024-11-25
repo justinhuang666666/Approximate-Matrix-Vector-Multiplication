@@ -51,7 +51,6 @@ class QuantLinearSVD(nn.Linear):
         self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
         # Initialize weights and quantization scheme
         self.quant_scheme = quant_scheme
-
         self.rank = rank
 
     def forward(self, input):
