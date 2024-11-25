@@ -100,25 +100,25 @@ for wl in word_lengths:
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "range_based", filter)
 
         # Compute BLEU score
-        bleu_int1 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int1 = 0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "mean_based", filter)
 
         # Compute BLEU score
-        bleu_int2 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int2 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
-        bleu_int3 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int3 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Replace with quantized model
         int_model = replace_with_quantized(model, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
-        bleu_int4 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+        bleu_int4 =  0 #compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Print BLEU score
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
@@ -128,19 +128,20 @@ for wl in word_lengths:
         print("Loss-aware: ", bleu_int4)
 
         # Store the results
-        # results_list.append({
-        # "Word Length": wl,
-        # "Fraction Length": frac,
-        # "Symmetric": symmetric,
-        # "Round Mode": round_mode,
-        # "BLEU Score": bleu_int
-        # })
+        results_list.append({
+        "Word Length": wl,
+        "BLEU Score (Range-Based)": bleu_int1,
+        "BLEU Score (Mean-Based)": bleu_int2,
+        "BLEU Score (Log2-Based)": bleu_int3,
+        "BLEU Score (Loss-Aware)": bleu_int4,
+        "Compression Ratio": 32/wl
+        })
 
 # Convert the list of dictionaries to a DataFrame
-# results_df = pd.DataFrame(results_list)
+results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-# results_df.to_csv('quantization_weight_only_scaling.csv', index=False)
+results_df.to_csv('quantization_weight_only_scaling.csv', index=False)
 
 
 
