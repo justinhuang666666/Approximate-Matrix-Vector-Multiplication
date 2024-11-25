@@ -22,7 +22,7 @@ class quant_linear(Function):
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         qinput = quant_scheme.act.quant(input)
-        qweight = quantisation_wrapper(weight, wl)
+        _, qweight, _ = quantisation_wrapper(weight, wl)
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 
