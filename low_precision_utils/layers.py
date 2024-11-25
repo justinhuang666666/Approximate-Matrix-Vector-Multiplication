@@ -27,8 +27,8 @@ class QuantLinear(nn.Linear):
         return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme, self.wl, self.method)
 
     @classmethod
-    def from_full_precision(self, module, quant_scheme, wl):
-        l = QuantLinear(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme, wl)
+    def from_full_precision(self, module, quant_scheme, wl, method):
+        l = QuantLinear(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme, wl, method)
         l.weight.data.copy_(module.weight.data)
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
