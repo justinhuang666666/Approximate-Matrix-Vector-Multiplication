@@ -15,14 +15,14 @@ from quant_svd import *
 
 class quant_linear(Function):
     @staticmethod
-    def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None, wl=8):
+    def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None, wl=8, method="range-based"):
         ctx.quant_scheme = quant_scheme
         input_shape = input.shape
         # input = input.view(input_shape[0], -1)
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         # qinput = quant_scheme.act.quant(input)
-        _, qweight, _ = quantisation_wrapper(weight, wl)
+        _, qweight, _ = quantisation_wrapper(weight, wl, method)
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 
