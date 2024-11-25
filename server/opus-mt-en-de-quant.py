@@ -65,7 +65,7 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [2, 4, 6, 8, 16, 32]
+word_lengths = [2, 3, 4, 5, 6, 7, 8, 16]
 
 results_list = []
 
@@ -75,9 +75,6 @@ round_mode = "nearest"
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for wl in word_lengths: 
-        # for symmetric in symmetric_options:
-        #     for round_mode in round_modes:
-                # Skip invalid combinations where fl is greater than wl
         fl = wl/2
         frac = wl - fl
 
@@ -106,7 +103,7 @@ for wl in word_lengths:
         bleu_int = compute_bleu_score(device, quant_scheme_int, tokenizer, source_texts, target_texts)
 
         # Print BLEU score
-        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, symmetric={symmetric}, round_mode={round_mode}")
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
         print(bleu_int)
 
         # Store the results
