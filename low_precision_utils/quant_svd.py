@@ -60,9 +60,10 @@ def quantisation_mean_based_scaling(tensor, num_bits):
 
     # Compute the mean absolute value of the tensor
     mean_val = tensor.abs().mean()
+    std_val = tensor.abs().std()
 
     # Avoid division by zero
-    scale = quantization_range / mean_val if mean_val != 0 else 1.0
+    scale = quantization_range / (mean_val+std_val) if mean_val != 0 else 1.0
 
     # Quantize the tensor
     quantized = torch.round(tensor * scale).clamp(-quantization_range, quantization_range)

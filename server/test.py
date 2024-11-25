@@ -59,7 +59,7 @@ baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, targe
 print("Baseline BLEU Score")
 print(baseline_bleu) 
 
-weight = model.model.encoder.layers[0].self_attn.k_proj.weight
+weight = model.model.encoder.layers[1].self_attn.k_proj.weight
 print("Original Weight Matrix: ",weight[0:5,0:5])
 quant,dequant,scale = quantisation_wrapper(weight,8)
 
