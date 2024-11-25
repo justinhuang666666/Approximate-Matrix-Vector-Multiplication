@@ -11,7 +11,7 @@ parent_dir = os.path.dirname(current_dir)
 # Add utility directories dynamically
 sys.path.append(parent_dir)
 from low_precision_utils import quant
-from low_precision_utils import quant_svd
+from quant_svd import *
 
 class quant_linear(Function):
     @staticmethod
