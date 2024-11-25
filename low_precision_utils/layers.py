@@ -15,14 +15,16 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 from low_precision_utils import functional
 from low_precision_utils import quant
+from low_precision_utils import quant_svd
 
 class QuantLinear(nn.Linear):
-    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, wl = 8):
+    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, wl = 8, method="range-based"):
         super(QuantLinear, self).__init__(in_features, out_features, bias, device, dtype)
         self.quant_scheme = quant_scheme
         self.wl = wl
+        self.method = method
     def forward(self, input):
-        return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme, self.wl)
+        return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme, self.wl, self.method)
 
     @classmethod
     def from_full_precision(self, module, quant_scheme, wl):

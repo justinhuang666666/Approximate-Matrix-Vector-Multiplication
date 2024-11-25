@@ -97,14 +97,35 @@ for wl in word_lengths:
         quant_scheme_int = QuantScheme.from_args(args_int)
 
         # Replace with quantized model
-        quant_scheme_int = replace_with_quantized(model, quant_scheme_int, wl, filter)
+        int_model = replace_with_quantized(model, quant_scheme_int, wl, "range-based" filter)
 
         # Compute BLEU score
-        bleu_int = compute_bleu_score(device, quant_scheme_int, tokenizer, source_texts, target_texts)
+        bleu_int1 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+
+        # Replace with quantized model
+        int_model = replace_with_quantized(model, quant_scheme_int, wl, "mean_based", filter)
+
+        # Compute BLEU score
+        bleu_int2 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+
+        # Replace with quantized model
+        int_model = replace_with_quantized(model, quant_scheme_int, wl, "log2_based", filter)
+
+        # Compute BLEU score
+        bleu_int3 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
+
+        # Replace with quantized model
+        int_model = replace_with_quantized(model, quant_scheme_int, wl, "loss_aware", filter)
+
+        # Compute BLEU score
+        bleu_int4 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
 
         # Print BLEU score
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
-        print(bleu_int)
+        print("Range-based: ", bleu_int1)
+        print("Mean-based: ", bleu_int2)
+        print("Log2-based: ", bleu_int3)
+        print("Loss-aware: ", bleu_int4)
 
         # Store the results
         results_list.append({
