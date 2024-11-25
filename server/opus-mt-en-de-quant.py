@@ -124,7 +124,7 @@ for wl in word_lengths:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_weight_only.csv', index=False)
+results_df.to_csv('quantization_weight_only_scaling.csv', index=False)
 
 
 
