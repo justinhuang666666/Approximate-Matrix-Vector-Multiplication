@@ -122,10 +122,10 @@ for wl in word_lengths:
 
         # Print BLEU score
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}")
-        print("Range-based: ", bleu_int1)
-        print("Mean-based: ", bleu_int2)
-        print("Log2-based: ", bleu_int3)
-        print("Loss-aware: ", bleu_int4)
+        print("Range-Based: ", bleu_int1)
+        print("Mean-Based: ", bleu_int2)
+        print("Log2-Based: ", bleu_int3)
+        print("Loss-Aware: ", bleu_int4)
 
         # Store the results
         results_list.append({
