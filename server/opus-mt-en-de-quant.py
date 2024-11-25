@@ -65,7 +65,7 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [4, 6, 8, 16, 32]
+word_lengths = [2, 4, 6, 8, 16, 32]
 
 results_list = []
 
