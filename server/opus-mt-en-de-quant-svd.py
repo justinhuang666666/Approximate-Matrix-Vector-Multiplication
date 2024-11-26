@@ -65,8 +65,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [4,16] #[2, 4, 6, 8, 16]
-rank_samples_array = [[2,4],[2,4]] #[[256,320,384,448,512],[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128],[32,40,48,56,64]]
+word_lengths = [2, 4, 6, 8, 16]
+rank_samples_array = [[256,320,384,448,512],[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128],[32,40,48,56,64]]
 
 symmetric = True
 round_mode = "nearest"
