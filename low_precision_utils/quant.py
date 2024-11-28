@@ -250,9 +250,30 @@ def compute_u_v_array(weight_array, rank, word_length, method):
         # Convert results back to PyTorch tensors if needed
         u_approx = torch.tensor(u_approx)
         v_approx = torch.tensor(v_approx)
-        
-        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
-        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
+
+        # Initialize an empty list to store quantized columns for u_approx
+        quantized_columns = []
+
+        # Quantize each column of u_approx
+        for i in range(u_approx.size(1)):  # Assuming u_approx is 2D (rows, columns)
+            column = u_approx[:, i]  # Extract the i-th column
+            _, quantized_column, _ = quantisation_wrapper(column, word_length, method)  # Apply quantization
+            quantized_columns.append(quantized_column)  # Collect the quantized column
+
+        # Merge the quantized columns back into a tensor
+        u_approx_quant = torch.stack(quantized_columns, dim=1)
+
+        # Initialize an empty list to store quantized rows for v_approx
+        quantized_rows = []
+
+        # Quantize each row of v_approx
+        for i in range(v_approx.size(0)):  # Assuming v_approx is 2D (rows, columns)
+            row = v_approx[i, :]  # Extract the i-th row
+            _, quantized_row, _ = quantisation_wrapper(row, word_length, method)  # Apply quantization
+            quantized_rows.append(quantized_row)  # Collect the quantized row
+
+        # Merge the quantized rows back into a tensor
+        v_approx_quant = torch.stack(quantized_rows, dim=0)
 
         # Append the approximations to the arrays
         u_array.append(u_approx_quant)
