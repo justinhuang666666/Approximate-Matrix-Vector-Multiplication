@@ -206,16 +206,16 @@ weight_array = [
 ]
 
 # Compute u, v arrays using the two different methods
-u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int)
+u_array1, v_array1 = compute_u_v_array(weight_array, rank, quant_scheme_int, wl, "range-based")
 
 # Initialize WeightArray for iterative quantized SVD calculation
 # W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
-# u_array2, v_array2 = W.compute_uv(rank, 1)
+# u_array2, v_array2 = W.compute_uv(rank, 1),
 
 u_array2 = []
 v_array2 = []
 for i in range(len(weight_array)):
-    u, v = compute_u_v_iterative(weight_array[i], rank, quant_scheme_int)
+    u, v = compute_u_v_iterative(weight_array[i], rank, quant_scheme_int, wl, "range-based")
     u_array2.append(u)
     v_array2.append(v)
 
