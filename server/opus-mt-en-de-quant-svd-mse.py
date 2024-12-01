@@ -65,8 +65,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [4,8] #[2, 4, 6, 8, 16]
-rank_samples_array = [[50,100],[100,200]] #[[256,320,384,448,512],[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128],[32,40,48,56,64]]
+word_lengths = [2, 4, 6, 8, 16]
+rank_samples_array = [[256,320,384,448,512],[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128],[32,40,48,56,64]]
 
 symmetric = True
 round_mode = "nearest"
@@ -102,7 +102,6 @@ for idx, wl in enumerate(word_lengths):
         mse3_list = []
         
         for layer_idx in range(6):
-            print(layer_idx)
 
             # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
             weight_array = [
@@ -177,4 +176,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_scaling2.csv', index=False)
+results_df.to_csv('svd_quantization_scaling_mse.csv', index=False)
