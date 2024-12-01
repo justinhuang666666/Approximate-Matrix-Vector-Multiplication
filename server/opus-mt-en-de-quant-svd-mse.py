@@ -153,90 +153,90 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
     return u_approx, v_approx
 
-# rank_samples = [1,20,40,60,80]
+rank_samples = [1,20,40,60,80]
 # word_lengths = [32,16,8,6,4]
 
 symmetric = False
 round_mode = "nearest"
 results_list = []
 
-# for rank in rank_samples:
+for rank in rank_samples:
 #     # Iterate over all combinations of wl, fl, symmetric, and round_mode
 #     for wl in word_lengths: 
-rank=10
-wl = 8
-fl = wl/2
-fl = int(fl)
-    
-# Skip invalid combinations where fl is greater than wl
-frac = wl - fl
 
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "same_input": True,
-    "same_weight": True
-}
+    wl = 8
+    fl = wl/2
+    fl = int(fl)
+        
+    # Skip invalid combinations where fl is greater than wl
+    frac = wl - fl
 
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
+    # Define the quantization scheme dictionary with IntQuant settings
+    args_int.quant_scheme = {
+        "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "same_input": True,
+        "same_weight": True
+    }
 
-print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
-# Loop over the 6 encoder layers in the model
+    # Create the quantization scheme using the from_args method
+    quant_scheme_int = QuantScheme.from_args(args_int)
 
-# mse1_list = []
-# mse2_list = []
-# mse3_list = []
-# delta_mse_list = []
+    print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, fl={frac}, rank={rank}")
+    # Loop over the 6 encoder layers in the model
 
-# for layer_idx in range(6):
+    # mse1_list = []
+    # mse2_list = []
+    # mse3_list = []
+    # delta_mse_list = []
 
-layer_idx = 0
+    # for layer_idx in range(6):
 
-# Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
-weight_array = [
-    model.model.encoder.layers[layer_idx].self_attn.k_proj.weight,
-    model.model.encoder.layers[layer_idx].self_attn.q_proj.weight,
-    model.model.encoder.layers[layer_idx].self_attn.v_proj.weight
-]
+    layer_idx = 0
 
-# Compute u, v arrays using the two different methods
-u_array1, v_array1 = compute_u_v_array(weight_array, rank, wl, "range_based")
+    # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
+    weight_array = [
+        model.model.encoder.layers[layer_idx].self_attn.k_proj.weight,
+        model.model.encoder.layers[layer_idx].self_attn.q_proj.weight,
+        model.model.encoder.layers[layer_idx].self_attn.v_proj.weight
+    ]
 
-# Initialize WeightArray for iterative quantized SVD calculation
-# W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
-# u_array2, v_array2 = W.compute_uv(rank, 1),
+    # Compute u, v arrays using the two different methods
+    u_array1, v_array1 = compute_u_v_array(weight_array, rank, wl, "range_based")
 
-u_array2 = []
-v_array2 = []
-for i in range(len(weight_array)):
-    u, v = compute_u_v_iterative(weight_array[i], rank, wl, "range_based")
-    u_array2.append(u)
-    v_array2.append(v)
+    # Initialize WeightArray for iterative quantized SVD calculation
+    # W = WeightArray(weight_array, 'array', 0.001, 1, 1, 512, 512, quant_scheme_int)
+    # u_array2, v_array2 = W.compute_uv(rank, 1),
+
+    u_array2 = []
+    v_array2 = []
+    for i in range(len(weight_array)):
+        u, v = compute_u_v_iterative(weight_array[i], rank, wl, "range_based")
+        u_array2.append(u)
+        v_array2.append(v)
 
 
-# Calculate MSE for the Iterative Quant SVD approach
-approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
-approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
-mse1 = mean_square_error_array1(weight_array, approximated_weight_array1)
-mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
-mse3 = mean_square_error_array1(approximated_weight_array1, approximated_weight_array2)
+    # Calculate MSE for the Iterative Quant SVD approach
+    approximated_weight_array1 = [u_array1[i] @ v_array1[i] for i in range(len(weight_array))]
+    approximated_weight_array2 = [u_array2[i] @ v_array2[i] for i in range(len(weight_array))]
+    mse1 = mean_square_error_array1(weight_array, approximated_weight_array1)
+    mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
+    mse3 = mean_square_error_array1(approximated_weight_array1, approximated_weight_array2)
 
-# mse1_list.append(mse1)
-# mse2_list.append(mse2)
-# mse3_list.append(mse3)
-# delta_mse_list.append(mse1-mse2)
+    # mse1_list.append(mse1)
+    # mse2_list.append(mse2)
+    # mse3_list.append(mse3)
+    # delta_mse_list.append(mse1-mse2)
 
-print(f"Layer {layer_idx + 1} - MSE 1: {mse1:.20f}")
-print(f"Layer {layer_idx + 1} - MSE 2: {mse2:.20f}")
-print(f"Layer {layer_idx + 1} - MSE 1 - MSE 2: {mse1 - mse2:.20f}")
-print(f"Layer {layer_idx + 1} - MSE 3: {mse3:.20f}")
-# print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2:.20f}")
+    print(f"Layer {layer_idx + 1} - MSE 1: {mse1:.20f}")
+    print(f"Layer {layer_idx + 1} - MSE 2: {mse2:.20f}")
+    print(f"Layer {layer_idx + 1} - MSE 1 - MSE 2: {mse1 - mse2:.20f}")
+    print(f"Layer {layer_idx + 1} - MSE 3: {mse3:.20f}")
+    # print(f"Layer {layer_idx + 1} - Diff MSE: {mse1-mse2:.20f}")
 
 # Calculate compression ratio (keeping it constant here as it depends on wl)
 compression_ratio = 512 * 512 * 3 * 6 * 32 / (rank * 512 * 2 * 3 * 6 * wl)
