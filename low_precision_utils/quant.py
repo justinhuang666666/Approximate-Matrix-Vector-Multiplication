@@ -392,11 +392,14 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
 
         # Append the rank-1 approximations to lists
-        u_approx_list.append(u_approx_quant)
-        v_approx_list.append(v_approx_quant)
+        # u_approx_list.append(u_approx_quant)
+        # v_approx_list.append(v_approx_quant)
+        u_approx_list.append(u_approx)
+        v_approx_list.append(v_approx)
 
         # Subtract the rank-1 approximation from residual
-        residual -= u_approx_quant @ v_approx_quant
+        # residual -= u_approx_quant @ v_approx_quant
+        residual -= u_approx @ v_approx
 
     # Stack the rank-1 approximations to form the final reduced U and V
     u_approx = torch.cat(u_approx_list, dim=1)
