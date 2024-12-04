@@ -335,7 +335,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
             raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
 
         # Perform SVD using PyTorch
-        u, s, v_t = torch.svd(weight)
+        u, s, v_t = torch.linalg.svd(weight)
         
         # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank]
@@ -376,7 +376,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
     for _ in range(rank):
         # Perform SVD on the current residual matrix
-        u, s, v_t = torch.svd(residual)
+        u, s, v_t = torch.linalg.svd(residual)
 
         # Select the first singular value/vector (rank-1 approximation)
         sigma = s[0]
@@ -392,14 +392,11 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
 
         # Append the rank-1 approximations to lists
-        # u_approx_list.append(u_approx_quant)
-        # v_approx_list.append(v_approx_quant)
-        u_approx_list.append(u_approx)
-        v_approx_list.append(v_approx)
+        u_approx_list.append(u_approx_quant)
+        v_approx_list.append(v_approx_quant)
 
         # Subtract the rank-1 approximation from residual
-        # residual -= u_approx_quant @ v_approx_quant
-        residual -= u_approx @ v_approx
+        residual -= u_approx_quant @ v_approx_quant
 
     # Stack the rank-1 approximations to form the final reduced U and V
     u_approx = torch.cat(u_approx_list, dim=1)
