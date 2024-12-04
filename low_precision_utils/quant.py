@@ -381,7 +381,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         # Select the first singular value/vector (rank-1 approximation)
         sigma = s[0]
         u_1 = u[:, 0]
-        v_1 = v_t[:, 0]
+        v_1 = v_t[0, :]
 
         # Compute the rank-1 approximation
         u_approx = u_1 * sigma
