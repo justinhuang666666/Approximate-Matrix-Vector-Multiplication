@@ -233,10 +233,10 @@ def compute_u_v_array(weight_array, rank, word_length, method):
     
     for i in range(len(weight_array)):
         # Get the weight matrix and convert to NumPy for SVD
-        weight = weight_array[i].cpu().detach().numpy() if isinstance(weight_array[i], torch.Tensor) else weight_array[i]
+        weight = weight_array[i].gpu().detach().numpy()
         
         # Perform SVD using numpy to get U, S, V matrices
-        u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
+        u, s, v_t = torch.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
         
         # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank]
@@ -296,7 +296,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
     for _ in range(rank):
         # Perform SVD on the current weight matrix to get the first singular vector and value
-        u, s, v_t = np.linalg.svd(residual, full_matrices=False)
+        u, s, v_t = torch.svd(residual, full_matrices=False)
 
         # Select the first singular value/vector (rank-1 approximation)
         sigma = s[0]  # The largest singular value
