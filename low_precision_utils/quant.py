@@ -227,186 +227,104 @@ def replace_with_quantized(network, quant_scheme, wl, method, filter):
     return network
 
 
-# def compute_u_v_array(weight_array, rank, word_length, method):
-#     u_array = []
-#     v_array = []
-    
-#     for i in range(len(weight_array)):
-#         # Get the weight matrix and convert to NumPy for SVD
-#         weight = weight_array[i]
-        
-#         # Perform SVD using numpy to get U, S, V matrices
-#         u, s, v_t = torch.svd(weight)  # v_t is already transposed in numpy
-        
-#         # Reduce U, S, and V matrices to the specified rank
-#         u_reduced = u[:, :rank]
-#         s_reduced = np.diag(s[:rank])
-#         v_reduced = v_t[:rank, :]
-        
-#         # Compute the rank-r approximation in numpy
-#         u_approx = u_reduced @ s_reduced    # U * S
-#         v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
-
-#         # Convert results back to PyTorch tensors if needed
-#         u_approx = torch.tensor(u_approx)
-#         v_approx = torch.tensor(v_approx)
-
-#         # Initialize an empty list to store quantized columns for u_approx
-#         quantized_columns = []
-
-#         # Quantize each column of u_approx
-#         for i in range(u_approx.size(1)):  # Assuming u_approx is 2D (rows, columns)
-#             column = u_approx[:, i]  # Extract the i-th column
-#             _, quantized_column, _ = quantisation_wrapper(column, word_length, method)  # Apply quantization
-#             quantized_columns.append(quantized_column)  # Collect the quantized column
-
-#         # Merge the quantized columns back into a tensor
-#         u_approx_quant = torch.stack(quantized_columns, dim=1)
-
-#         # Initialize an empty list to store quantized rows for v_approx
-#         quantized_rows = []
-
-#         # Quantize each row of v_approx
-#         for i in range(v_approx.size(0)):  # Assuming v_approx is 2D (rows, columns)
-#             row = v_approx[i, :]  # Extract the i-th row
-#             _, quantized_row, _ = quantisation_wrapper(row, word_length, method)  # Apply quantization
-#             quantized_rows.append(quantized_row)  # Collect the quantized row
-
-#         # Merge the quantized rows back into a tensor
-#         v_approx_quant = torch.stack(quantized_rows, dim=0)
-
-#         # Append the approximations to the arrays
-#         u_array.append(u_approx_quant)
-#         v_array.append(v_approx_quant)
-    
-#     return u_array, v_array
-
-# def compute_u_v_iterative(weight, rank, word_length, method):
-#     if isinstance(weight, torch.Tensor):
-#         weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
-
-#     # Validate rank
-#     if rank > min(weight.shape):
-#         raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
-
-#     u_approx_list = []
-#     v_approx_list = []
-
-#     residual = weight.copy()  # Create a copy of the weight matrix for residual calculations
-
-#     for _ in range(rank):
-#         # Perform SVD on the current weight matrix to get the first singular vector and value
-#         u, s, v_t = torch.svd(residual)
-
-#         # Select the first singular value/vector (rank-1 approximation)
-#         sigma = s[0]  # The largest singular value
-#         u_1 = u[:, 0].reshape(-1, 1)  # Column vector for U
-#         v_1 = v_t[0, :].reshape(1, -1)  # Row vector for V (already transposed in np.linalg.svd)
-
-#         # Convert results back to PyTorch tensors if needed
-#         u_approx = torch.tensor(u_1 * sigma)
-#         v_approx = torch.tensor(v_1)
-        
-#         # Quantize the matrices based on the quant_scheme if required
-#         _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
-#         _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
-
-#         # Compute the rank-1 approximation and append to lists
-#         u_approx_list.append(u_approx_quant)
-#         v_approx_list.append(v_approx_quant)
-
-#         # Subtract the rank-1 approximation from weight to get the residual
-#         residual -= (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
-
-#     # Stack the rank-1 approximations to form the final reduced U and V
-#     u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
-#     v_approx = torch.tensor(np.vstack(v_approx_list))  # Convert back to PyTorch tensor
-
-#     return u_approx, v_approx
-
-
 def compute_u_v_array(weight_array, rank, word_length, method):
     u_array = []
     v_array = []
     
-    for weight in weight_array:
-        # Validate rank
-        if rank > min(weight.shape):
-            raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
-
-        # Perform SVD using PyTorch
-        u, s, v_t = torch.linalg.svd(weight)
+    for i in range(len(weight_array)):
+        # Get the weight matrix and convert to NumPy for SVD
+        weight = weight_array[i]
+        
+        # Perform SVD using numpy to get U, S, V matrices
+        u, s, v_t = torch.svd(weight)  # v_t is already transposed in numpy
         
         # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank]
-        s_reduced = torch.diag(s[:rank])
+        s_reduced = np.diag(s[:rank])
         v_reduced = v_t[:rank, :]
+        
+        # Compute the rank-r approximation in numpy
+        u_approx = u_reduced @ s_reduced    # U * S
+        v_approx = v_reduced  # V^T is already transposed from np.linalg.svd
 
-        # Compute the rank-r approximation
-        u_approx = u_reduced @ s_reduced  # U * S
-        v_approx = v_reduced  # V^T
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_approx)
+        v_approx = torch.tensor(v_approx)
+
+        # Initialize an empty list to store quantized columns for u_approx
+        quantized_columns = []
 
         # Quantize each column of u_approx
-        quantized_columns = []
-        for i in range(u_approx.size(1)):  # Loop through columns
-            column = u_approx[:, i]
-            _, quantized_column, _ = quantisation_wrapper(column, word_length, method)
-            quantized_columns.append(quantized_column)
+        for i in range(u_approx.size(1)):  # Assuming u_approx is 2D (rows, columns)
+            column = u_approx[:, i]  # Extract the i-th column
+            _, quantized_column, _ = quantisation_wrapper(column, word_length, method)  # Apply quantization
+            quantized_columns.append(quantized_column)  # Collect the quantized column
+
+        # Merge the quantized columns back into a tensor
         u_approx_quant = torch.stack(quantized_columns, dim=1)
 
-        # Quantize each row of v_approx
+        # Initialize an empty list to store quantized rows for v_approx
         quantized_rows = []
-        for i in range(v_approx.size(0)):  # Loop through rows
-            row = v_approx[i, :]
-            _, quantized_row, _ = quantisation_wrapper(row, word_length, method)
-            quantized_rows.append(quantized_row)
+
+        # Quantize each row of v_approx
+        for i in range(v_approx.size(0)):  # Assuming v_approx is 2D (rows, columns)
+            row = v_approx[i, :]  # Extract the i-th row
+            _, quantized_row, _ = quantisation_wrapper(row, word_length, method)  # Apply quantization
+            quantized_rows.append(quantized_row)  # Collect the quantized row
+
+        # Merge the quantized rows back into a tensor
         v_approx_quant = torch.stack(quantized_rows, dim=0)
 
-        # Append the quantized approximations to the arrays
+        # Append the approximations to the arrays
         u_array.append(u_approx_quant)
         v_array.append(v_approx_quant)
     
     return u_array, v_array
-from scipy.linalg import svd as scipy_svd
 
 def compute_u_v_iterative(weight, rank, word_length, method):
+    if isinstance(weight, torch.Tensor):
+        weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
+
+    # Validate rank
+    if rank > min(weight.shape):
+        raise ValueError(f"Rank ({rank}) cannot exceed the minimum dimension of the weight matrix {weight.shape}.")
+
     u_approx_list = []
     v_approx_list = []
-    residual = weight.clone().cpu().numpy()  # Convert to NumPy for scipy SVD
+
+    residual = weight.copy()  # Create a copy of the weight matrix for residual calculations
 
     for _ in range(rank):
-        try:
-            # Perform SVD using scipy
-            u, s, v_t = scipy_svd(residual, full_matrices=False)
+        # Perform SVD on the current weight matrix to get the first singular vector and value
+        u, s, v_t = torch.svd(residual)
 
-            # Select the first singular value/vector (rank-1 approximation)
-            sigma = s[0]
-            u_1 = torch.tensor(u[:, 0], device=weight.device)  # Convert back to PyTorch
-            v_1 = torch.tensor(v_t[0, :], device=weight.device)
+        # Select the first singular value/vector (rank-1 approximation)
+        sigma = s[0]  # The largest singular value
+        u_1 = u[:, 0].reshape(-1, 1)  # Column vector for U
+        v_1 = v_t[0, :].reshape(1, -1)  # Row vector for V (already transposed in np.linalg.svd)
 
-            # Compute the rank-1 approximation
-            u_approx = u_1 * sigma
-            v_approx = v_1
+        # Convert results back to PyTorch tensors if needed
+        u_approx = torch.tensor(u_1 * sigma)
+        v_approx = torch.tensor(v_1)
+        
+        # Quantize the matrices based on the quant_scheme if required
+        _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
+        _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
 
-            # Quantize the matrices
-            _, u_approx_quant, _ = quantisation_wrapper(u_approx, word_length, method)
-            _, v_approx_quant, _ = quantisation_wrapper(v_approx, word_length, method)
+        # Compute the rank-1 approximation and append to lists
+        u_approx_list.append(u_approx_quant)
+        v_approx_list.append(v_approx_quant)
 
-            # Append the rank-1 approximations to lists
-            u_approx_list.append(u_approx_quant.unsqueeze(1))  # Keep as column vector
-            v_approx_list.append(v_approx_quant.unsqueeze(0))  # Keep as row vector
-
-            # Subtract the rank-1 approximation from residual
-            residual -= torch.outer(u_approx_quant, v_approx_quant).cpu().numpy()  # Convert to NumPy for subtraction
-
-        except Exception as e:
-            raise ValueError(f"SVD failed: {e}")
+        # Subtract the rank-1 approximation from weight to get the residual
+        residual -= (u_approx_quant @ v_approx_quant).numpy()  # Convert to NumPy for subtraction
 
     # Stack the rank-1 approximations to form the final reduced U and V
-    u_approx = torch.cat(u_approx_list, dim=1)
-    v_approx = torch.cat(v_approx_list, dim=0)
+    u_approx = torch.tensor(np.hstack(u_approx_list))  # Convert back to PyTorch tensor
+    v_approx = torch.tensor(np.vstack(v_approx_list))  # Convert back to PyTorch tensor
 
     return u_approx, v_approx
+
+
 
 def replace_with_quantized_svd(network, rank, quant_scheme, wl, method, filter):
     # List to keep track of layers to be replaced
