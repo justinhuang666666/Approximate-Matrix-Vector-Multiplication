@@ -233,7 +233,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
     
     for i in range(len(weight_array)):
         # Get the weight matrix and convert to NumPy for SVD
-        weight = weight_array[i].gpu().detach().numpy()
+        weight = weight_array[i]
         
         # Perform SVD using numpy to get U, S, V matrices
         u, s, v_t = torch.svd(weight, full_matrices=False)  # v_t is already transposed in numpy

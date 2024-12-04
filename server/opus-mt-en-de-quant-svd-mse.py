@@ -176,4 +176,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_scaling_mse.csv', index=False)
+results_df.to_csv('svd_quantization_scaling_mse1.csv', index=False)
