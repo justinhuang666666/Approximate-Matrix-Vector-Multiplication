@@ -280,8 +280,6 @@ def replace_with_quantized(network, quant_scheme, wl, method, filter):
     
 #     return u_array, v_array
 
-from scipy.linalg import svd
-
 def compute_u_v_array(weight_array, rank, word_length, method):
     u_array = []
     v_array = []
@@ -291,7 +289,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
         weight = weight_array[i].cpu().detach().numpy().astype(np.float64)
         
         # Perform SVD using numpy to get U, S, V matrices
-        u, s, v_t = svd(weight, full_matrices=False)  # v_t is already transposed in numpy
+        u, s, v_t = np.linalg.svd(weight, full_matrices=False)  # v_t is already transposed in numpy
         
         # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank].astype(np.float64)
