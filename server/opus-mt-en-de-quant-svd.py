@@ -54,9 +54,9 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 # Quantisation
 filter = type(model.model.encoder.layers[0])
@@ -152,4 +152,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_scaling3.csv', index=False)
+results_df.to_csv('svd_quantization_results_scaling4.csv', index=False)
