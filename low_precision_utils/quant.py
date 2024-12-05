@@ -294,7 +294,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
     residual = weight.clone()
 
-    for _ in range(1):
+    for _ in range(2):
         # Perform SVD on the current weight matrix to get the first singular vector and value
         u, s, v_t = torch.linalg.svd(residual)
 
