@@ -292,7 +292,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
     u_approx_list = []
     v_approx_list = []
 
-    residual = weight
+    residual = weight.clone()
 
     for _ in range(rank):
         # Perform SVD on the current weight matrix to get the first singular vector and value
