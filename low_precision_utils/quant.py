@@ -293,7 +293,8 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
     residual = weight.copy()  # Create a copy of the weight matrix for residual calculations
 
-    for _ in range(rank):
+    for i in range(rank):
+        print(i)
         # Perform SVD on the current weight matrix to get the first singular vector and value
         u, s, v_t = np.linalg.svd(residual)
 
