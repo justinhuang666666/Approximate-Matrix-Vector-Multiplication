@@ -232,7 +232,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
     
     for i in range(len(weight_array)):
         # Get the weight matrix and convert to NumPy for SVD
-        weight = weight_array[i]
+        weight = weight_array[i].cpu()
         
         # Perform SVD using numpy to get U, S, V matrices
         u, s, v_t = np.linalg.svd(weight)  # v_t is already transposed in numpy
