@@ -282,8 +282,8 @@ def compute_u_v_array(weight_array, rank, word_length, method):
     return u_array, v_array
 
 def compute_u_v_iterative(weight, rank, word_length, method):
-    if isinstance(weight, torch.Tensor):
-        weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
+    # if isinstance(weight, torch.Tensor):
+    #     weight = weight.cpu().detach().numpy()  # Convert to NumPy if PyTorch tensor
 
     # Validate rank
     if rank > min(weight.shape):
