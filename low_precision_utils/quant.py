@@ -303,6 +303,10 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         u_1 = u[:, 0]
         v_1 = v_t[0, :]
 
+        print(sigma)
+        print(u_1)
+        print(v_1)
+        
         # Convert results back to PyTorch tensors if needed
         u_approx = torch.tensor(u_1 * sigma)
         v_approx = torch.tensor(v_1)
