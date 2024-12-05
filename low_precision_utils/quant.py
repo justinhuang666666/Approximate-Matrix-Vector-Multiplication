@@ -314,7 +314,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
             quantized_columns.append(quantized_column)  # Collect the quantized column
 
         # Merge the quantized columns back into a tensor
-        u_approx_quant = torch.stack(quantized_columns, dim=1)
+        u_approx_quant = torch.stack(quantized_columns, dim=1).to(dtype=torch.float32)
 
         # Initialize an empty list to store quantized rows for v_approx
         quantized_rows = []
@@ -326,7 +326,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
             quantized_rows.append(quantized_row)  # Collect the quantized row
 
         # Merge the quantized rows back into a tensor
-        v_approx_quant = torch.stack(quantized_rows, dim=0)
+        v_approx_quant = torch.stack(quantized_rows, dim=0).to(dtype=torch.float32)
 
         # Append the approximations to the arrays
         u_array.append(u_approx_quant)
@@ -416,8 +416,8 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         residual -= (u_approx_quant.numpy() @ v_approx_quant.numpy()).astype(np.float64)
 
     # Stack the rank-1 approximations to form the final reduced U and V
-    u_approx = torch.tensor(np.hstack(u_approx_list), dtype=torch.float64)  # Convert back to PyTorch tensor
-    v_approx = torch.tensor(np.vstack(v_approx_list), dtype=torch.float64)  # Convert back to PyTorch tensor
+    u_approx = torch.tensor(np.hstack(u_approx_list), dtype=torch.float32)  # Convert back to PyTorch tensor
+    v_approx = torch.tensor(np.vstack(v_approx_list), dtype=torch.float32)  # Convert back to PyTorch tensor
 
     return u_approx, v_approx
 
