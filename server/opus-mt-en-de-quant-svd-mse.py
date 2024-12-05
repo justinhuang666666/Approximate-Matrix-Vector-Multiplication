@@ -101,7 +101,8 @@ for idx, wl in enumerate(word_lengths):
         mse2_list = []
         mse3_list = []
         
-        for layer_idx in range(6):
+        for layer_idx in range(2):
+            print("Layer: ",layer_idx)
 
             # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
             weight_array = [
@@ -128,52 +129,55 @@ for idx, wl in enumerate(word_lengths):
             mse2 = mean_square_error_array1(weight_array, approximated_weight_array2)
             mse3 = mse1 - mse2
 
-            mse1_list.append(mse1)
-            mse2_list.append(mse2)
-            mse3_list.append(mse3)
+            print("mse1",mse1)
+            print("mse2",mse2)          
 
-        compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+#             mse1_list.append(mse1)
+#             mse2_list.append(mse2)
+#             mse3_list.append(mse3)
 
-        # Store the results
-        results_list.append({
-        "Word Length": wl,
-        "Rank":rank,
-        "MSE Layer 1":mse1_list[0],
-        "Iterative MSE Layer 1":mse2_list[0],
-        "Delta MSE Layer 1":mse3_list[0],
-        "MSE Layer 2":mse1_list[1],
-        "Iterative MSE Layer 2":mse2_list[1],
-        "Delta MSE Layer 2":mse3_list[1],
-        "MSE Layer 3":mse1_list[2],
-        "Iterative MSE Layer 3":mse2_list[2],
-        "Delta MSE Layer 3":mse3_list[2],
-        "MSE Layer 4":mse1_list[3],
-        "Iterative MSE Layer 4":mse2_list[3],
-        "Delta MSE Layer 4":mse3_list[3],
-        "MSE Layer 5":mse1_list[4],
-        "Iterative MSE Layer 5":mse2_list[4],
-        "Delta MSE Layer 5":mse3_list[4],
-        "MSE Layer 6":mse1_list[5],
-        "Iterative MSE Layer 6":mse2_list[5],
-        "Delta MSE Layer 6":mse3_list[5],
-        "Compression Ratio":compression_ratio
-        })
+#         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
-        result = results_list[-1]
-        print(f"  Word Length: {result['Word Length']}")
-        print(f"  Rank: {result['Rank']}")
-        print(f"  Compression Ratio: {result['Compression Ratio']}")
+#         # Store the results
+#         results_list.append({
+#         "Word Length": wl,
+#         "Rank":rank,
+#         "MSE Layer 1":mse1_list[0],
+#         "Iterative MSE Layer 1":mse2_list[0],
+#         "Delta MSE Layer 1":mse3_list[0],
+#         "MSE Layer 2":mse1_list[1],
+#         "Iterative MSE Layer 2":mse2_list[1],
+#         "Delta MSE Layer 2":mse3_list[1],
+#         "MSE Layer 3":mse1_list[2],
+#         "Iterative MSE Layer 3":mse2_list[2],
+#         "Delta MSE Layer 3":mse3_list[2],
+#         "MSE Layer 4":mse1_list[3],
+#         "Iterative MSE Layer 4":mse2_list[3],
+#         "Delta MSE Layer 4":mse3_list[3],
+#         "MSE Layer 5":mse1_list[4],
+#         "Iterative MSE Layer 5":mse2_list[4],
+#         "Delta MSE Layer 5":mse3_list[4],
+#         "MSE Layer 6":mse1_list[5],
+#         "Iterative MSE Layer 6":mse2_list[5],
+#         "Delta MSE Layer 6":mse3_list[5],
+#         "Compression Ratio":compression_ratio
+#         })
+
+#         result = results_list[-1]
+#         print(f"  Word Length: {result['Word Length']}")
+#         print(f"  Rank: {result['Rank']}")
+#         print(f"  Compression Ratio: {result['Compression Ratio']}")
     
-        for layer in range(1, 7):  # Assuming 6 layers
-            print(f"  Layer {layer}:")
-            print(f"    MSE: {result[f'MSE Layer {layer}']}")
-            print(f"    Iterative MSE: {result[f'Iterative MSE Layer {layer}']}")
-            print(f"    Delta MSE: {result[f'Delta MSE Layer {layer}']}")
-        print("-" * 50)
+#         for layer in range(1, 7):  # Assuming 6 layers
+#             print(f"  Layer {layer}:")
+#             print(f"    MSE: {result[f'MSE Layer {layer}']}")
+#             print(f"    Iterative MSE: {result[f'Iterative MSE Layer {layer}']}")
+#             print(f"    Delta MSE: {result[f'Delta MSE Layer {layer}']}")
+#         print("-" * 50)
 
 
-# Convert the list of dictionaries to a DataFrame
-results_df = pd.DataFrame(results_list)
+# # Convert the list of dictionaries to a DataFrame
+# results_df = pd.DataFrame(results_list)
 
-# Save results to a CSV file
-results_df.to_csv('svd_quantization_scaling_mse1.csv', index=False)
+# # Save results to a CSV file
+# results_df.to_csv('svd_quantization_scaling_mse1.csv', index=False)
