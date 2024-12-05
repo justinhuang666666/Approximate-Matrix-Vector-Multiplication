@@ -240,7 +240,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
         
         # Reduce U, S, and V matrices to the specified rank
         u_reduced = u[:, :rank]
-        s_reduced = np.diag(s[:rank])
+        s_reduced = torch.diag(s[:rank])
         v_reduced = v_t[:rank, :]
         
         # Compute the rank-r approximation in numpy
