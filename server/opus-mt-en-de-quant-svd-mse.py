@@ -102,7 +102,6 @@ for idx, wl in enumerate(word_lengths):
         mse3_list = []
         
         for layer_idx in range(6):
-            print("Layer: ",layer_idx)
 
             # Access the weights for k_proj, q_proj, and v_proj in the self-attention of each layer
             weight_array = [
