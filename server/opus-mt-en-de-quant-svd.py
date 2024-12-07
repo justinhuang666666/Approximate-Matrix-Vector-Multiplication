@@ -36,8 +36,27 @@ from iterative_approximation_gpu import *
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
-tokenizer = MarianTokenizer.from_pretrained(model_name)
-model = MarianMTModel.from_pretrained(model_name)
+# tokenizer = MarianTokenizer.from_pretrained(model_name)
+# model = MarianMTModel.from_pretrained(model_name)
+
+class MarianMTModelWithRank(MarianMTModel):
+    def __init__(self, config):
+        super().__init__(config)
+
+    def forward(self, *args, rank=None, **kwargs):
+        # Handle the rank argument as needed
+        if rank is not None:
+            # Logic to adjust weights or behavior based on rank
+            for module in self.modules():
+                if hasattr(module, "rank"):
+                    module.rank = rank  # Update the rank for quantized layers
+        
+        # Call the original forward method
+        return super().forward(*args, **kwargs)
+    
+# Example: Load MarianMTModel and wrap it
+tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-de")
+model = MarianMTModelWithRank.from_pretrained("Helsinki-NLP/opus-mt-en-de")
 model.eval()
 
 # Check if GPU is available and move model to GPU if possible
