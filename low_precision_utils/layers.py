@@ -102,8 +102,8 @@ class QuantLinearSVD(nn.Linear):
     def from_full_precision1(self, module, U, V, rank, quant_scheme):
         l = QuantLinearSVD(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme,rank)
         l.weight = module.weight
-        l.U = nn.Parameter(U.to(module.weight.device))  # Wrap U as a torch.nn.Parameter
-        l.V = nn.Parameter(V.to(module.weight.device))  # Wrap V as a torch.nn.Parameter
+        l.U_full = nn.Parameter(U.to(module.weight.device))  # Wrap U as a torch.nn.Parameter
+        l.V_full = nn.Parameter(V.to(module.weight.device))  # Wrap V as a torch.nn.Parameter
 
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
