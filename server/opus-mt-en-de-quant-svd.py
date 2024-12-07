@@ -34,6 +34,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
 from iterative_approximation_gpu import *
 
+
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-en-de"
 tokenizer = MarianTokenizer.from_pretrained(model_name)

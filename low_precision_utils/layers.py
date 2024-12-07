@@ -47,6 +47,8 @@ class QuantLinearSVD(nn.Linear):
         super(QuantLinearSVD, self).__init__(in_features, out_features, bias, device, dtype)
 
         # Initialize parameters for U and V matrices
+        self.U_full = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
+        self.V_full = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
         self.U = nn.Parameter(torch.empty(out_features, rank, device=device, dtype=dtype))
         self.V = nn.Parameter(torch.empty(rank, in_features, device=device, dtype=dtype))
         # Initialize weights and quantization scheme
@@ -54,6 +56,9 @@ class QuantLinearSVD(nn.Linear):
         self.rank = rank
 
     def forward(self, input):
+        qu = self.U
+        qv = self.V
+
         input_shape = input.shape
 
         input = input.view(-1, input_shape[-1])
@@ -64,9 +69,6 @@ class QuantLinearSVD(nn.Linear):
         # qu = self.quant_scheme.weight.quant(self.U)
         # qv = self.quant_scheme.weight.quant(self.V)
 
-        qu = self.U
-        qv = self.V
-
         # Convert bias to a compatible data type
         if self.bias is not None:
             bias = self.bias.to(torch.bfloat16)
@@ -74,7 +76,6 @@ class QuantLinearSVD(nn.Linear):
         temp_output = input @ qv.T  # This will be of shape [15, 200]
 
         output = temp_output @ qu.T  # This will be of shape [15, 512]
-
 
         # Add bias if provided
         if self.bias is not None:
@@ -107,6 +108,10 @@ class QuantLinearSVD(nn.Linear):
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
         return l
+    
+    def change_rank(self, rank):
+        self.U = nn.Parameter(self.U_full[:, :rank])  # Wrap U as a torch.nn.Parameter
+        self.V = nn.Parameter(self.V_full[:rank, :])  # Wrap V as a torch.nn.Parameter
 
 class QuantConv1d(nn.Conv1d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, 
