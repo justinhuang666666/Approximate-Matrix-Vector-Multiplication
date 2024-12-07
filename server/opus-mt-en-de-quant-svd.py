@@ -81,8 +81,6 @@ for idx, wl in enumerate(word_lengths):
     fl = int(fl)
     frac = wl - fl
 
-    
-
     # Define the quantization scheme dictionary with IntQuant settings
     args_int.quant_scheme = {
         "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
@@ -103,7 +101,7 @@ for idx, wl in enumerate(word_lengths):
     for rank in rank_samples:
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
         # Compute BLEU score
-        quant_svd_model = change_rank(rank)
+        quant_svd_model = change_rank(quant_svd_model, rank, filter)
         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         print("Quant SVD BLEU (Range-Based)",bleu_int1)
 
