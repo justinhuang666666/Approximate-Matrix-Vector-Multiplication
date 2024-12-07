@@ -235,9 +235,12 @@ def compute_bleu_score_rank(device, model, rank, tokenizer, source_texts, target
     for text in source_texts:
         # Tokenize and encode, and move to device
         inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
-        # Generate translation
+        input_ids = inputs['input_ids']
+        attention_mask = inputs['attention_mask']
+
+        # Generate translation using forward with rank
         with torch.no_grad():
-            outputs = model.generate(**inputs, rank=rank)
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, rank=rank)
         # Decode generated ids to text
         translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
         translations.append(translation)
