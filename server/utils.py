@@ -212,7 +212,25 @@ def create_mask_vector(v1, NZ, Tc):
 
 
 # Compute BLEU score
-def compute_bleu_score(device, model, rank, tokenizer, source_texts, target_texts):
+def compute_bleu_score(device, model, tokenizer, source_texts, target_texts):
+    translations = []
+    for text in source_texts:
+        # Tokenize and encode, and move to device
+        inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
+        # Generate translation
+        with torch.no_grad():
+            outputs = model.generate(**inputs)
+        # Decode generated ids to text
+        translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        translations.append(translation)
+    
+    # Compute BLEU score
+    bleu_score = nltk.translate.bleu_score.corpus_bleu(
+        [[t.split()] for t in target_texts], [t.split() for t in translations]
+    )
+    return bleu_score*100
+
+def compute_bleu_score_rank(device, model, rank, tokenizer, source_texts, target_texts):
     translations = []
     for text in source_texts:
         # Tokenize and encode, and move to device
