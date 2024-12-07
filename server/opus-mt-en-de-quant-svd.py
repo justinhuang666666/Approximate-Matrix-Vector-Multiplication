@@ -47,7 +47,7 @@ print(device)
 model.to(device)
 
 # Load the JSON file
-with open('translations1.json', 'r', encoding='utf-8') as f:
+with open('translations.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
@@ -67,7 +67,7 @@ args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [4,8] #[4, 6, 8]
-rank_samples_array = [[20,40,60,80,100],[10,20,30,40,50]] #[[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
+rank_samples_array = [[100,200],[50,100]] #[[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
 
 symmetric = True
 round_mode = "nearest"
@@ -96,7 +96,7 @@ for idx, wl in enumerate(word_lengths):
     # Create the quantization scheme using the from_args method
     quant_scheme_int = QuantScheme.from_args(args_int)
 
-    quant_svd_model = replace_with_quantized_svd_wrapper(model, 100, quant_scheme_int, wl, "range_based", filter)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 200, quant_scheme_int, wl, "range_based", filter)
 
     for rank in rank_samples:
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
