@@ -47,7 +47,7 @@ print(device)
 model.to(device)
 
 # Load the JSON file
-with open('translations.json', 'r', encoding='utf-8') as f:
+with open('translations1.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
@@ -67,7 +67,7 @@ args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
 word_lengths = [4,8] #[4, 6, 8]
-rank_samples_array = [[100,200],[50,100]] #[[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
+rank_samples_array = [[50,100],[25,50]] #[[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
 
 symmetric = True
 round_mode = "nearest"
@@ -96,7 +96,8 @@ for idx, wl in enumerate(word_lengths):
     # Create the quantization scheme using the from_args method
     quant_scheme_int = QuantScheme.from_args(args_int)
 
-    quant_svd_model = replace_with_quantized_svd_wrapper(model, 200, quant_scheme_int, wl, "range_based", filter)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 100, quant_scheme_int, wl, "range_based", filter)
+    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 100, quant_scheme_int, wl, "range_based", filter)
 
     for rank in rank_samples:
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
@@ -108,31 +109,30 @@ for idx, wl in enumerate(word_lengths):
         # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
-        # bleu_int2 = compute_bleu_score_rank(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         # print("Quant SVD BLEU (Log2-Based)",bleu_int2)
 
         # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
-        # bleu_int3 = compute_bleu_score_rank(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
         # print("Quant SVD BLEU (Loss-Aware)",bleu_int3)
         
-        # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
-
+        quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, filter)
         # Compute BLEU score
-        # bleu_int4 = compute_bleu_score_rank(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-        # print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
+        bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
 
         # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
         # Compute BLEU score
-        # bleu_int5 = compute_bleu_score_rank(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        # bleu_int5 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
         # print("Iterative Quant SVD BLEU (Log2-Based)",bleu_int5)
 
         # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
         # Compute BLEU score
-        # bleu_int6 = compute_bleu_score_rank(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        # bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
         # print("Iterative Quant SVD BLEU (Loss-Aware)",bleu_int6)
 
         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
@@ -144,7 +144,7 @@ for idx, wl in enumerate(word_lengths):
         "Quant SVD BLEU (Range-Based)": bleu_int1,
         # "Quant SVD BLEU (Log2-Based)": bleu_int2,
         # "Quant SVD BLEU (Loss-Aware)": bleu_int3,
-        # "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
+        "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
         # "Iterative Quant SVD BLEU (Log2-Based)": bleu_int5,
         # "Iterative Quant SVD BLEU (Loss-Aware)": bleu_int6,
         "Compression Ratio":compression_ratio
