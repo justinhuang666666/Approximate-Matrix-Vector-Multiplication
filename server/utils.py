@@ -212,14 +212,14 @@ def create_mask_vector(v1, NZ, Tc):
 
 
 # Compute BLEU score
-def compute_bleu_score(device, model, tokenizer, source_texts, target_texts):
+def compute_bleu_score(device, model, rank, tokenizer, source_texts, target_texts):
     translations = []
     for text in source_texts:
         # Tokenize and encode, and move to device
         inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
         # Generate translation
         with torch.no_grad():
-            outputs = model.generate(**inputs)
+            outputs = model.generate(**inputs,rank)
         # Decode generated ids to text
         translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
         translations.append(translation)

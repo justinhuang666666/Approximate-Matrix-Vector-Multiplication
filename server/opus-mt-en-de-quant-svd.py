@@ -58,98 +58,100 @@ baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, targe
 print("Baseline BLEU Score")
 print(baseline_bleu) 
 
-# # Quantisation
-# filter = type(model.model.encoder.layers[0])
+# Quantisation
+filter = type(model.model.encoder.layers[0])
 
-# # Create a mock argument namespace to simulate input arguments
-# args_int = argparse.Namespace()
+# Create a mock argument namespace to simulate input arguments
+args_int = argparse.Namespace()
 
-# # Define possible values for wl, fl, symmetric, and round_mode
-# word_lengths = [4, 6, 8]
-# rank_samples_array = [[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
+# Define possible values for wl, fl, symmetric, and round_mode
+word_lengths = [4,8] #[4, 6, 8]
+rank_samples_array = [[20,40,60,80,100],[10,20,30,40,50]] #[[128,160,192,224,256],[85,105,125,145,165],[64,80,96,112,128]]
 
-# symmetric = True
-# round_mode = "nearest"
-# results_list = []
+symmetric = True
+round_mode = "nearest"
+results_list = []
 
 
-# for idx, wl in enumerate(word_lengths): 
-#     rank_samples = rank_samples_array[idx]
-#     for rank in rank_samples:
-#         fl = wl/2
-#         fl = int(fl)
-#         frac = wl - fl
+for idx, wl in enumerate(word_lengths): 
+    rank_samples = rank_samples_array[idx]
 
-#         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
+    fl = wl/2
+    fl = int(fl)
+    frac = wl - fl
 
-#         # Define the quantization scheme dictionary with IntQuant settings
-#         args_int.quant_scheme = {
-#             "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-#             "same_input": True,
-#             "same_weight": True
-#         }
+    
 
-#         # Create the quantization scheme using the from_args method
-#         quant_scheme_int = QuantScheme.from_args(args_int)
+    # Define the quantization scheme dictionary with IntQuant settings
+    args_int.quant_scheme = {
+        "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "same_input": True,
+        "same_weight": True
+    }
 
-#         quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
+    # Create the quantization scheme using the from_args method
+    quant_scheme_int = QuantScheme.from_args(args_int)
 
-#         # Compute BLEU score
-#         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-#         print("Quant SVD BLEU (Range-Based)",bleu_int1)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 100, quant_scheme_int, wl, "range_based", filter)
 
-#         # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
+    for rank in rank_samples:
+        print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
+        # Compute BLEU score
+        bleu_int1 = compute_bleu_score(device, quant_svd_model, rank, tokenizer, source_texts, target_texts)
+        print("Quant SVD BLEU (Range-Based)",bleu_int1)
 
-#         # Compute BLEU score
-#         # bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-#         # print("Quant SVD BLEU (Log2-Based)",bleu_int2)
+        # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
-#         # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
+        # Compute BLEU score
+        # bleu_int2 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # print("Quant SVD BLEU (Log2-Based)",bleu_int2)
 
-#         # Compute BLEU score
-#         # bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-#         # print("Quant SVD BLEU (Loss-Aware)",bleu_int3)
+        # quant_svd_model = replace_with_quantized_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
+
+        # Compute BLEU score
+        # bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
+        # print("Quant SVD BLEU (Loss-Aware)",bleu_int3)
         
-#         quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
+        # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "range_based", filter)
 
-#         # Compute BLEU score
-#         bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-#         print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
+        # Compute BLEU score
+        # bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        # print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
 
-#         # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
+        # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "log2_based", filter)
 
-#         # Compute BLEU score
-#         # bleu_int5 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-#         # print("Iterative Quant SVD BLEU (Log2-Based)",bleu_int5)
+        # Compute BLEU score
+        # bleu_int5 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        # print("Iterative Quant SVD BLEU (Log2-Based)",bleu_int5)
 
-#         # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
+        # quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, rank, quant_scheme_int, wl, "loss_aware", filter)
 
-#         # Compute BLEU score
-#         # bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-#         # print("Iterative Quant SVD BLEU (Loss-Aware)",bleu_int6)
+        # Compute BLEU score
+        # bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
+        # print("Iterative Quant SVD BLEU (Loss-Aware)",bleu_int6)
 
-#         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+        compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
 
-#         # Store the results
-#         results_list.append({
-#         "Word Length": wl,
-#         "Rank":rank,
-#         "Quant SVD BLEU (Range-Based)": bleu_int1,
-#         # "Quant SVD BLEU (Log2-Based)": bleu_int2,
-#         # "Quant SVD BLEU (Loss-Aware)": bleu_int3,
-#         "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
-#         # "Iterative Quant SVD BLEU (Log2-Based)": bleu_int5,
-#         # "Iterative Quant SVD BLEU (Loss-Aware)": bleu_int6,
-#         "Compression Ratio":compression_ratio
-#         })
+        # Store the results
+        results_list.append({
+        "Word Length": wl,
+        "Rank":rank,
+        "Quant SVD BLEU (Range-Based)": bleu_int1,
+        # "Quant SVD BLEU (Log2-Based)": bleu_int2,
+        # "Quant SVD BLEU (Loss-Aware)": bleu_int3,
+        # "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
+        # "Iterative Quant SVD BLEU (Log2-Based)": bleu_int5,
+        # "Iterative Quant SVD BLEU (Loss-Aware)": bleu_int6,
+        "Compression Ratio":compression_ratio
+        })
 
-# # Convert the list of dictionaries to a DataFrame
-# results_df = pd.DataFrame(results_list)
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
 
-# # Save results to a CSV file
-# results_df.to_csv('svd_quantization_results_scaling4.csv', index=False)
+# Save results to a CSV file
+results_df.to_csv('svd_quantization_results_scaling4.csv', index=False)
