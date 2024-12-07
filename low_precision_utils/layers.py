@@ -91,8 +91,8 @@ class QuantLinearSVD(nn.Linear):
         
         # Compute U, V and deep copy their values without nn.Parameter
         U, V = compute_uv(module.weight, rank)
-        l.U = nn.Parameter(U)  # Wrap U as a torch.nn.Parameter
-        l.V = nn.Parameter(V)
+        l.U_full = nn.Parameter(U)  # Wrap U as a torch.nn.Parameter
+        l.V_full = nn.Parameter(V)
 
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)
@@ -110,8 +110,8 @@ class QuantLinearSVD(nn.Linear):
         return l
     
     def change_rank(self, rank):
-        self.U = nn.Parameter(self.U_full[:, :rank])  # Wrap U as a torch.nn.Parameter
-        self.V = nn.Parameter(self.V_full[:rank, :])  # Wrap V as a torch.nn.Parameter
+        self.U = nn.Parameter(self.U_full[:, 0:rank])  # Wrap U as a torch.nn.Parameter
+        self.V = nn.Parameter(self.V_full[0:rank, :])  # Wrap V as a torch.nn.Parameter
 
 class QuantConv1d(nn.Conv1d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, 
