@@ -219,7 +219,7 @@ def compute_bleu_score(device, model, rank, tokenizer, source_texts, target_text
         inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
         # Generate translation
         with torch.no_grad():
-            outputs = model.generate(**inputs,rank)
+            outputs = model.generate(**inputs, rank=rank)
         # Decode generated ids to text
         translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
         translations.append(translation)
