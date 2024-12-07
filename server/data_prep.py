@@ -1,19 +1,20 @@
+import random
 from datasets import load_dataset
 import json
 
-# Load the WMT14 English-German dataset
+# Load the WMT19 English-German dataset
 dataset = load_dataset('wmt19', 'de-en', split='validation')
 
-import random
+# Define the sample size
+sample_size = 100  # Adjust as needed
 
-# Sample a subset of the dataset for quicker evaluation
-sample_size = 500  # Adjust as needed
-sampled_dataset = dataset.shuffle(seed=42).select(range(sample_size))
+# Use a dynamic random seed
+dynamic_seed = random.randint(0, 10000)
+sampled_dataset = dataset.shuffle(seed=dynamic_seed).select(range(sample_size))
 
-# Prepare the references and generate translations
-references = sampled_dataset['translation']
-source_texts = [item['en'] for item in references]
-target_texts = [item['de'] for item in references]
+# Prepare the references and translations
+source_texts = [item['en'] for item in sampled_dataset['translation']]
+target_texts = [item['de'] for item in sampled_dataset['translation']]
 
 # Create a dictionary to store the texts
 data = {
@@ -21,6 +22,9 @@ data = {
     'target_texts': target_texts
 }
 
-# Save the dictionary to a JSON file
-with open('translations1.json', 'w', encoding='utf-8') as f:
+# Save the sampled data to a JSON file
+output_file = 'translations1.json'
+with open(output_file, 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
+
+print(f"Sampled dataset saved to {output_file} with seed {dynamic_seed}")
