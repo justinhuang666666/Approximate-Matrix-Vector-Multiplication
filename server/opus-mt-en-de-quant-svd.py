@@ -22,6 +22,7 @@ parent_dir = os.path.dirname(current_dir)
 
 # Add utility directories dynamically
 sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+
 from quant import *
 
 # Suppress all warnings
@@ -36,7 +37,7 @@ from iterative_approximation_gpu import *
 
 
 # Load the tokenizer and model
-model_name = "Helsinki-NLP/opus-mt-en-de"
+model_name = "Helsinki-NLP/opus-mt-fr-en"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
@@ -47,7 +48,7 @@ print(device)
 model.to(device)
 
 # Load the JSON file
-with open('translations1.json', 'r', encoding='utf-8') as f:
+with open('translations_fr_en.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
@@ -152,4 +153,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_scaling4.csv', index=False)
+results_df.to_csv('svd_quantization_results_scaling_fr_en.csv', index=False)
