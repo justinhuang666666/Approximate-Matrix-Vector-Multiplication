@@ -24,6 +24,14 @@ tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
 
+# Print the model structure
+print("Model Structure:")
+print(model)
+
+# Print the model configuration
+print("\nModel Configuration:")
+print(model.config)
+
 # Check if GPU is available and move model to GPU if possible
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -38,9 +46,9 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 
 
