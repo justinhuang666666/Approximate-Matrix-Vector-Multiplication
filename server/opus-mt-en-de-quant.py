@@ -46,7 +46,7 @@ print(device)
 model.to(device)
 
 # Load the JSON file
-with open('translations_fr_en.json', 'r', encoding='utf-8') as f:
+with open('translations_fr_en1.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts

@@ -23,7 +23,7 @@ data = {
 }
 
 # Save the sampled data to a JSON file
-output_file = 'translations_fr_en.json'
+output_file = 'translations_fr_en1.json'
 with open(output_file, 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
