@@ -144,5 +144,6 @@ results_df = pd.DataFrame(results_list)
 # Save results to a CSV file
 results_df.to_csv('quantization_weight_only_scaling_fr_en1.csv', index=False)
 
-
+print("Baseline BLEU Score")
+print(baseline_bleu) 
 
