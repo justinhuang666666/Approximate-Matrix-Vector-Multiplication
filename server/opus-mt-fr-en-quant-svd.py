@@ -154,7 +154,7 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_scaling_en_de.csv', index=False)
+results_df.to_csv('svd_quantization_results_scaling_fr_en.csv', index=False)
 
 # Load the JSON file
 with open('translations1.json', 'r', encoding='utf-8') as f:
@@ -262,4 +262,4 @@ for idx, wl in enumerate(word_lengths):
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('svd_quantization_results_scaling_en_de1.csv', index=False)
+results_df.to_csv('svd_quantization_results_scaling_fr_en1.csv', index=False)
