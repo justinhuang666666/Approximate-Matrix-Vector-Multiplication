@@ -37,7 +37,7 @@ from iterative_approximation_gpu import *
 
 
 # Load the tokenizer and model
-model_name = "Helsinki-NLP/opus-mt-en-de"
+model_name = "Helsinki-NLP/opus-mt-fr-en"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
