@@ -157,7 +157,7 @@ results_df = pd.DataFrame(results_list)
 results_df.to_csv('svd_quantization_results_scaling_fr_en.csv', index=False)
 
 # Load the JSON file
-with open('translations1.json', 'r', encoding='utf-8') as f:
+with open('translations_fr_en1.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
