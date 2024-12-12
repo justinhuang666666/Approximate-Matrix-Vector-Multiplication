@@ -35,7 +35,7 @@ sys.path.append(os.path.join(parent_dir, 'iterative_approximation'))
 from iterative_approximation_gpu import *
 
 # Load the tokenizer and model
-model_name = "Helsinki-NLP/opus-mt-fr-en"
+model_name = "Helsinki-NLP/opus-mt-en-de"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
@@ -46,7 +46,7 @@ print(device)
 model.to(device)
 
 # Load the JSON file
-with open('translations_fr_en1.json', 'r', encoding='utf-8') as f:
+with open('translations1.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 # Extract the source and target texts
@@ -142,7 +142,7 @@ for wl in word_lengths:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_weight_only_scaling_fr_en1.csv', index=False)
+results_df.to_csv('quantization_weight_only_scaling1.csv', index=False)
 
 print("Baseline BLEU Score")
 print(baseline_bleu) 
