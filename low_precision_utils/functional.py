@@ -36,6 +36,8 @@ class quant_linear(Function):
         # output = input.mm(qweight.t()).to(input_type)
         if bias is not None:
             output += bias
+
+        output = quant_scheme.act.quant(output)
         return output.view(*input_shape[:-1], -1)
 
     @staticmethod
@@ -72,8 +74,8 @@ class quant_linear_svd(Function):
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
         
-        # # Quantization
-        # qinput = quant_scheme.act.quant(input)
+        # Quantization
+        qinput = quant_scheme.act.quant(input)
         # qu = quant_scheme.weight.quant(U)
         # # print(U[0:9,0])
         # # print(qu[0:9,0])
@@ -90,10 +92,12 @@ class quant_linear_svd(Function):
         # qvx = quant_scheme.weight.quant(vx)
         # output = torch.matmul(qvx, qu.T).to(input_type)  # Multiplying by qu
 
-        output = U * V * input
+        output = U * V * qinput
         # Add bias if provided
         if bias is not None:
             output += bias
+        
+        output = quant_scheme.act.quant(output)
 
         return output.view(*input_shape[:-1], -1)
     

@@ -83,7 +83,7 @@ for idx, wl in enumerate(word_lengths):
 
     # Define the quantization scheme dictionary with IntQuant settings
     args_int.quant_scheme = {
-        "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "act": {"number_type": "int", "wl": 8, "fl": 6, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
@@ -191,7 +191,7 @@ for idx, wl in enumerate(word_lengths):
 
     # Define the quantization scheme dictionary with IntQuant settings
     args_int.quant_scheme = {
-        "act": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+        "act": {"number_type": "int", "wl": 8, "fl": 6, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
         "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},

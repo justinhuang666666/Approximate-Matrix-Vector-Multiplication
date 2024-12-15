@@ -73,13 +73,15 @@ class QuantLinearSVD(nn.Linear):
         if self.bias is not None:
             bias = self.bias.to(torch.bfloat16)
 
-        temp_output = input @ qv.T  # This will be of shape [15, 200]
+        temp_output = qinput @ qv.T  # This will be of shape [15, 200]
 
         output = temp_output @ qu.T  # This will be of shape [15, 512]
 
         # Add bias if provided
         if self.bias is not None:
             output += self.bias
+
+        output = self.quant_scheme.act.quant(output)
 
         return output.view(*input_shape[:-1], -1)
 
