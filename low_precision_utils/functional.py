@@ -21,7 +21,7 @@ class quant_linear(Function):
         # input = input.view(input_shape[0], -1)
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
-        # qinput = quant_scheme.act.quant(input)
+        qinput = quant_scheme.act.quant(input)
         _, qweight, _ = quantisation_wrapper(weight, wl, method)
         if bias is not None:
             bias = bias.to(torch.bfloat16)
@@ -32,8 +32,8 @@ class quant_linear(Function):
         #     weight = qweight
         # ctx.save_for_backward(qinput, qweight, bias)
 
-        # output = qinput.mm(qweight.t()).to(input_type)
-        output = input.mm(qweight.t()).to(input_type)
+        output = qinput.mm(qweight.t()).to(input_type)
+        # output = input.mm(qweight.t()).to(input_type)
         if bias is not None:
             output += bias
         return output.view(*input_shape[:-1], -1)
