@@ -84,7 +84,7 @@ for wl in word_lengths:
 
         # Define the quantization scheme dictionary with IntQuant settings
         args_int.quant_scheme = {
-            "act": {"number_type": "int", "wl": 8, "fl": 6, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "act": {"number_type": "int", "wl": 8, "fl": 5, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
@@ -142,7 +142,7 @@ for wl in word_lengths:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_inout_en_de1.csv', index=False)
+results_df.to_csv('quantization_inout_en_de2.csv', index=False)
 
 # Load the tokenizer and model
 model_name = "Helsinki-NLP/opus-mt-fr-en"
@@ -194,7 +194,7 @@ for wl in word_lengths:
 
         # Define the quantization scheme dictionary with IntQuant settings
         args_int.quant_scheme = {
-            "act": {"number_type": "int", "wl": 8, "fl": 7, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
+            "act": {"number_type": "int", "wl": 8, "fl": 5, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
             "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
@@ -252,6 +252,6 @@ for wl in word_lengths:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv('quantization_inout_fr_en1.csv', index=False)
+results_df.to_csv('quantization_inout_fr_en2.csv', index=False)
 
 

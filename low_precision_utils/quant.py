@@ -457,10 +457,10 @@ def change_rank(network, rank, filter):
     # Iterate through the modules in the network
     for name, module in network.named_children():
         # Check if the module matches the specified filter type
-        print(name)
-        print(module)
         if isinstance(module, filter):
             self_attn = module.self_attn
+            print(name)
+            print(module)
 
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
             self_attn.k_proj.change_rank(rank)
