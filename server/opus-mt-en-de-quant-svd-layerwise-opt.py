@@ -102,9 +102,9 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         if current_best_rank_array is not None:
             rank_array = current_best_rank_array
 
-        print(f"Current best BLEU score: {best_bleu_score} with rank array {best_rank_array}")
+        print(f"Current best BLEU score: {current_best_bleu} with rank array {current_best_rank_array}")
 
-    return best_rank_array, best_bleu_score
+    return current_best_rank_array, current_best_bleu
 
 
 word_lengths = [4, 8]
