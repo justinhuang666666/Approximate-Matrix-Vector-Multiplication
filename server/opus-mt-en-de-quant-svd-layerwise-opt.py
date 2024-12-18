@@ -160,7 +160,7 @@ quant_scheme_int = QuantScheme.from_args(args_int)
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, wl, "range_based", filter)
 quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 330, quant_scheme_int, wl, "range_based", filter)
 
-initial_rank_array = [304,304,304,304,304,304]
+initial_rank_array = [288,288,288,288,288,288]
 target_sum = 256*6
 
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
