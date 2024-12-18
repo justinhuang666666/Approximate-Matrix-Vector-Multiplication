@@ -76,6 +76,14 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
     best_rank_array = copy.deepcopy(rank_array)
     best_bleu_score = -1
 
+    # Create a DataFrame to store results
+    results_df = pd.DataFrame(columns=["Iteration", "Rank Array", "BLEU Score"])
+
+    output_csv = 'best_rank_arrays.csv'
+
+    # Loop until the total rank sum equals the target_sum
+    iteration = 0
+
     # Loop until the total rank sum equals the target_sum
     while sum(rank_array) > target_sum:
         current_best_bleu = -1
@@ -102,7 +110,22 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         if current_best_rank_array is not None:
             rank_array = current_best_rank_array
 
-        print(f"Current best BLEU score: {current_best_bleu} with rank array {current_best_rank_array}")
+        # Log the current best result into the DataFrame
+        results_df = pd.concat([
+            results_df,
+            pd.DataFrame({
+                "Iteration": [iteration],
+                "Rank Array": [current_best_rank_array],
+                "BLEU Score": [current_best_bleu]
+            })
+        ], ignore_index=True)
+
+        print(f"Iteration {iteration}: Best BLEU score: {current_best_bleu} with rank array {current_best_rank_array}")
+        iteration += 1
+
+        # Save the DataFrame to a CSV file
+        results_df.to_csv(output_csv, index=False)
+        print(f"Results saved to {output_csv}")
 
     return current_best_rank_array, current_best_bleu
 
