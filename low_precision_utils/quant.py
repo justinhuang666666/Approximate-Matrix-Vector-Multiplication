@@ -462,9 +462,9 @@ def change_rank(network, rank_array, filter):
             print(name)
 
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
-            self_attn.k_proj.change_rank(rank_array[name])
-            self_attn.q_proj.change_rank(rank_array[name])
-            self_attn.v_proj.change_rank(rank_array[name])
+            self_attn.k_proj.change_rank(rank_array[int(name)])
+            self_attn.q_proj.change_rank(rank_array[int(name)])
+            self_attn.v_proj.change_rank(rank_array[int(name)])
 
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
