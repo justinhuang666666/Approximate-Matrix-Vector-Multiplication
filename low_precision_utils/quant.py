@@ -518,14 +518,14 @@ def replace_with_quantized_iterative_svd(network, rank, weight_wl, weight_quant_
 
     return network
 
-def replace_with_quantized_svd_wrapper(network, rank, quant_scheme, wl, method, filter):
+def replace_with_quantized_svd_wrapper(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_svd(local_network, rank, quant_scheme, wl, method, filter)
+    local_network = replace_with_quantized_svd(local_network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
     return local_network
 
-def replace_with_quantized_iterative_svd_wrapper(network, rank, quant_scheme, wl, method, filter):
+def replace_with_quantized_iterative_svd_wrapper(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     local_network = copy.deepcopy(network)
-    local_network = replace_with_quantized_iterative_svd(local_network, rank, quant_scheme, wl, method, filter)
+    local_network = replace_with_quantized_iterative_svd(local_network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
     return local_network
 
 
