@@ -16,6 +16,7 @@ sys.path.append(parent_dir)
 from low_precision_utils import functional
 from low_precision_utils import quant
 from low_precision_utils import quant_svd
+from quant_svd import *
 
 class QuantLinear(nn.Linear):
     def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, weight_wl = 8, weight_quant_method="range_based", act_wl = 8, act_quant_method="range_based"):
