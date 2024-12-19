@@ -417,7 +417,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
 #     return u_approx, v_approx
 
-def replace_with_quantized_svd(network, rank, quant_scheme, wl, method, filter):
+def replace_with_quantized_svd(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -429,18 +429,18 @@ def replace_with_quantized_svd(network, rank, quant_scheme, wl, method, filter):
 
             weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
             
-            u_array, v_array = compute_u_v_array(weight_array, rank, wl, method)
+            u_array, v_array = compute_u_v_array(weight_array, rank, weight_wl, weight_quant_method)
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
-            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
-            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, quant_scheme)
-            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.v_proj, u_array[2], v_array[2], rank, quant_scheme)
+            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
+            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
+            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.v_proj, u_array[2], v_array[2], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
 
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_svd(module, rank, quant_scheme, wl, method, filter)
+            replace_with_quantized_svd(module, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
@@ -480,7 +480,7 @@ def change_rank(network, rank_array, filter):
     return network
 
 
-def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl, method, filter):
+def replace_with_quantized_iterative_svd(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
@@ -496,26 +496,25 @@ def replace_with_quantized_iterative_svd(network, rank, quant_scheme, wl, method
             v_array = []
             
             for i in range(len(weight_array)):
-                u, v = compute_u_v_iterative(weight_array[i], rank, wl, method)
+                u, v = compute_u_v_iterative(weight_array[i], rank, weight_wl, weight_quant_method)
                 u_array.append(u)
                 v_array.append(v)
             
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
-            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, quant_scheme)
-            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, quant_scheme)
-            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.v_proj, u_array[2], v_array[2], rank, quant_scheme)
+            self_attn.k_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.k_proj, u_array[0], v_array[0], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
+            self_attn.q_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.q_proj, u_array[1], v_array[1], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
+            self_attn.v_proj = layers.QuantLinearSVD.from_full_precision1(self_attn.v_proj, u_array[2], v_array[2], rank, weight_wl, weight_quant_method, act_wl, act_quant_method)
 
             # Assign the modified self-attention back to the module
             module.self_attn = self_attn
 
         # Recursively apply replacements to submodules
         else:
-            replace_with_quantized_iterative_svd(module, rank, quant_scheme, wl, method, filter)
+            replace_with_quantized_iterative_svd(module, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
-        setattr(
-            network, name, new_module)
+        setattr(network, name, new_module)
 
     return network
 
