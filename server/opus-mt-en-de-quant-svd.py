@@ -78,8 +78,8 @@ round_mode = "nearest"
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for weight_wl in weight_word_lengths: 
-    quant_svd_model = replace_with_quantized_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
-    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 8, weight_wl, "range_based", 16, "range_based", filter)
+    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 8, weight_wl, "range_based", 16, "range_based", filter)
 
     for act_wl in act_word_lengths:
         for rank in rank_samples:
