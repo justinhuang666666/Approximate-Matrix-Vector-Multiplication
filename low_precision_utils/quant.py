@@ -218,7 +218,7 @@ def replace_with_quantized(network, weight_wl, weight_quant_method, act_wl, act_
             module.self_attn = self_attn
         else:
             # Recursively search within child modules
-            replace_with_quantized(network, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
+            replace_with_quantized(module, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
     
     # Replace identified layers
     for name, new_module in to_replace:
