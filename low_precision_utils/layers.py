@@ -113,8 +113,7 @@ class QuantLinearSVD(nn.Linear):
         self.V = nn.Parameter(self.V_full[0:rank, :])  # Wrap V as a torch.nn.Parameter
 
     def change_act(self, act_wl):
-        self.U = nn.Parameter(self.U_full[:, 0:rank])  # Wrap U as a torch.nn.Parameter
-        self.V = nn.Parameter(self.V_full[0:rank, :])  # Wrap V as a torch.nn.Parameter
+        self.act_wl = act_wl
 
 class QuantConv1d(nn.Conv1d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, 
