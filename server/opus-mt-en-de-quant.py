@@ -79,7 +79,7 @@ for act_wl in act_word_lengths:
     for weight_wl in weight_word_lengths: 
 
             # Replace with quantized model
-            int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "log2_based", filter)
+            int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
             # Compute BLEU score
             bleu_int1 = compute_bleu_score(device, int_model, tokenizer, source_texts, target_texts)
