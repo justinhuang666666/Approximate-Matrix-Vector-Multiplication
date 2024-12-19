@@ -18,17 +18,19 @@ from low_precision_utils import quant
 from low_precision_utils import quant_svd
 
 class QuantLinear(nn.Linear):
-    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, quant_scheme:"quant.QuantScheme" = None, wl = 8, method="range_based"):
+    def __init__(self, in_features, out_features, bias=True, device=None, dtype=None, weight_wl = 8, weight_quant_method="range_based", act_wl = 8, act_quant_method="range_based"):
         super(QuantLinear, self).__init__(in_features, out_features, bias, device, dtype)
-        self.quant_scheme = quant_scheme
-        self.wl = wl
-        self.method = method
+        self.weight_wl = weight_wl
+        self.weight_quant_method = weight_quant_method
+        self.act_wl = act_wl
+        self.act_quant_method = act_quant_method
+
     def forward(self, input):
-        return functional.quant_linear.apply(input, self.weight, self.bias, self.quant_scheme, self.wl, self.method)
+        return functional.quant_linear.apply(input, self.weight, self.bias, self.weight_wl, self.weight_quant_method, self.act_wl, self.act_quant_method)
 
     @classmethod
-    def from_full_precision(self, module, quant_scheme, wl, method):
-        l = QuantLinear(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, quant_scheme, wl, method)
+    def from_full_precision(self, module, weight_wl, weight_quant_method, act_wl, act_quant_method):
+        l = QuantLinear(module.in_features, module.out_features, module.bias is not None, module.weight.device, module.weight.dtype, weight_wl, weight_quant_method, act_wl, act_quant_method)
         l.weight.data.copy_(module.weight.data)
         if module.bias is not None:
             l.bias.data.copy_(module.bias.data)

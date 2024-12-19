@@ -15,29 +15,22 @@ from quant_svd import *
 
 class quant_linear(Function):
     @staticmethod
-    def forward(ctx, input, weight, bias=None, quant_scheme:"quant.QuantScheme" = None, wl=8, method="range-based"):
-        ctx.quant_scheme = quant_scheme
+    def forward(ctx, input, weight, bias=None, weight_wl=8, weight_quant_method="range-based", act_wl=8, act_quant_method="range-based"):
         input_shape = input.shape
         # input = input.view(input_shape[0], -1)
         input = input.view(-1, input_shape[-1])
         input_type = input.dtype
-        qinput = quant_scheme.act.quant(input)
-        _, qweight, _ = quantisation_wrapper(weight, wl, method)
+        _, qinput, _ = quantisation_wrapper(input, act_wl, act_quant_method)
+        _, qweight, _ = quantisation_wrapper(weight, weight_wl, weight_quant_method)
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 
-        # if quant_scheme.same_input:
-        #     input = qinput
-        # if quant_scheme.same_weight:
-        #     weight = qweight
-        # ctx.save_for_backward(qinput, qweight, bias)
-
-        output = qinput.mm(qweight.t()).to(input_type)
+        output = qinput @ qweight
         # output = input.mm(qweight.t()).to(input_type)
         if bias is not None:
             output += bias
 
-        output = quant_scheme.act.quant(output)
+        _, output, _ = quantisation_wrapper(output, act_wl, act_quant_method)
         return output.view(*input_shape[:-1], -1)
 
     @staticmethod
