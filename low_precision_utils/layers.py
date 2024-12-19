@@ -93,7 +93,7 @@ class QuantLinearSVD(nn.Linear):
         if self.bias is not None:
             output += self.bias
 
-        _, outupt, _ = quantisation_wrapper(outupt, self.act_wl, self.act_quant_method)
+        _, output, _ = quantisation_wrapper(output, self.act_wl, self.act_quant_method)
 
         return output.view(*input_shape[:-1], -1)
     
