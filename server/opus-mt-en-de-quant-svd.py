@@ -70,7 +70,7 @@ act_word_lengths = [6, 8, 16]
 
 rank_samples = [64,96,128,160,192,224,256,288,320,352,384,416,448,480,512]
 
-results_list = []
+
 
 symmetric= True
 round_mode = "nearest"
@@ -78,6 +78,7 @@ round_mode = "nearest"
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for weight_wl in weight_word_lengths: 
+    results_list = []
     quant_svd_model = replace_with_quantized_svd_wrapper(model, 512, weight_wl, "range_based", 16, "range_based", filter)
     quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", 16, "range_based", filter)
 
@@ -134,9 +135,9 @@ for weight_wl in weight_word_lengths:
             "Compression Ratio":compression_ratio
             })
 
-# Convert the list of dictionaries to a DataFrame
-results_df = pd.DataFrame(results_list)
+    # Convert the list of dictionaries to a DataFrame
+    results_df = pd.DataFrame(results_list)
 
-# Save results to a CSV file
-results_df.to_csv('svd_quant_inout_en_de1.csv', index=False)
+    # Save results to a CSV file
+    results_df.to_csv(f'svd_quant_inout_en_de_{weight_wl}.csv', index=False)
 
