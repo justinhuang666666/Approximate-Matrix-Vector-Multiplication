@@ -75,16 +75,17 @@ results_list = []
 symmetric= True
 round_mode = "nearest"
 
-for act_wl in act_word_lengths:
-    # Iterate over all combinations of wl, fl, symmetric, and round_mode
-    for weight_wl in weight_word_lengths: 
-        quant_svd_model = replace_with_quantized_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
-        quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
 
+# Iterate over all combinations of wl, fl, symmetric, and round_mode
+for weight_wl in weight_word_lengths: 
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
+    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 8, weight_wl, "range_based", act_wl, "range_based", filter)
+
+    for act_wl in act_word_lengths:
         for rank in rank_samples:
             print(f"Opus-mt-en-de INT BLEU Score for weight_wl={weight_wl}, act_wl={act_wl}, rank={rank}")
             # Compute BLEU score
-            quant_svd_model = change_rank(quant_svd_model, rank, filter)
+            quant_svd_model = change_rank(quant_svd_model, rank, act_wl, filter)
             bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
             print("Quant SVD BLEU (Range-Based)",bleu_int1)
 
@@ -100,7 +101,7 @@ for act_wl in act_word_lengths:
             # bleu_int3 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
             # print("Quant SVD BLEU (Loss-Aware)",bleu_int3)
             
-            quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, filter)
+            quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, act_wl, filter)
             # Compute BLEU score
             bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
             print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
