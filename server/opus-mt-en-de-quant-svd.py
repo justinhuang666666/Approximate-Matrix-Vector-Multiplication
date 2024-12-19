@@ -117,11 +117,12 @@ for act_wl in act_word_lengths:
             # bleu_int6 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
             # print("Iterative Quant SVD BLEU (Loss-Aware)",bleu_int6)
 
-            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+            compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*weight_wl)
 
             # Store the results
             results_list.append({
-            "Word Length": wl,
+            "Weight Word Length": weight_wl,
+            "Activation Word Length": act_wl,
             "Rank":rank,
             "Quant SVD BLEU (Range-Based)": bleu_int1,
             # "Quant SVD BLEU (Log2-Based)": bleu_int2,
