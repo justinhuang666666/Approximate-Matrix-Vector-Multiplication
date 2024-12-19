@@ -449,8 +449,37 @@ def replace_with_quantized_svd(network, rank, weight_wl, weight_quant_method, ac
 
     return network
 
+def change_rank(network, rank, filter):
+    # List to keep track of layers to be replaced
+    to_replace = []
 
-def change_rank(network, rank_array, filter):
+    # Iterate through the modules in the network
+    for name, module in network.named_children():
+        # Check if the module matches the specified filter type
+        if isinstance(module, filter):
+            self_attn = module.self_attn
+
+            # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
+            self_attn.k_proj.change_rank(rank)
+            self_attn.q_proj.change_rank(rank)
+            self_attn.v_proj.change_rank(rank)
+
+            # Assign the modified self-attention back to the module
+            module.self_attn = self_attn
+
+        # Recursively apply replacements to submodules
+        else:
+            change_rank(module, rank_array, filter)
+
+    # Replace identified layers with their quantized versions
+    for name, new_module in to_replace:
+        setattr(
+            network, name, new_module)
+
+    return network
+
+
+def change_rank_array(network, rank_array, filter):
     # List to keep track of layers to be replaced
     to_replace = []
 
