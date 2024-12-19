@@ -68,7 +68,7 @@ filter = type(model.model.encoder.layers[0])
 weight_word_lengths = [3, 4, 5, 6, 7, 8, 16]
 act_word_lengths = [4, 6, 8, 16]
 
-rank_samples = [4,8]
+rank_samples = [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 
 results_list = []
 
@@ -78,8 +78,8 @@ round_mode = "nearest"
 
 # Iterate over all combinations of wl, fl, symmetric, and round_mode
 for weight_wl in weight_word_lengths: 
-    quant_svd_model = replace_with_quantized_svd_wrapper(model, 8, weight_wl, "range_based", 16, "range_based", filter)
-    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 8, weight_wl, "range_based", 16, "range_based", filter)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 512, weight_wl, "range_based", 16, "range_based", filter)
+    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", 16, "range_based", filter)
 
     for act_wl in act_word_lengths:
         for rank in rank_samples:
