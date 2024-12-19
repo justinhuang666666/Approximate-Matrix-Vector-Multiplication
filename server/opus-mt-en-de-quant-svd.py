@@ -65,7 +65,7 @@ print(baseline_bleu)
 filter = type(model.model.encoder.layers[0])
 
 # Define possible values for wl, fl, symmetric, and round_mode
-weight_word_lengths = [3, 4, 5, 6, 7, 8, 16]
+weight_word_lengths = [4, 5, 6, 7, 8, 16]
 act_word_lengths = [6, 8, 16]
 
 rank_samples = [64,96,128,160,192,224,256,288,320,352,384,416,448,480,512]
