@@ -472,7 +472,7 @@ def change_rank(network, rank, act_wl, filter):
 
         # Recursively apply replacements to submodules
         else:
-            change_rank(module, rank, filter)
+            change_rank(module, rank, act_wl, filter)
 
     # Replace identified layers with their quantized versions
     for name, new_module in to_replace:
