@@ -25,8 +25,7 @@ class quant_linear(Function):
         if bias is not None:
             bias = bias.to(torch.bfloat16)
 
-        output = qinput @ qweight
-        # output = input.mm(qweight.t()).to(input_type)
+        output = qinput @ qweight.T
         if bias is not None:
             output += bias
 
