@@ -96,7 +96,7 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
                 candidate_rank_array[i] -= 6
 
                 # Compute BLEU score for the modified rank array
-                modified_model = change_rank(copy.deepcopy(model), candidate_rank_array, filter)
+                modified_model = change_rank_array(copy.deepcopy(model), candidate_rank_array, filter)
                 bleu_score = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
 
                 print(f"Testing rank array {candidate_rank_array} -> BLEU score: {bleu_score}")
