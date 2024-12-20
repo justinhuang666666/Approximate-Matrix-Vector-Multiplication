@@ -93,10 +93,10 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         for i in range(len(rank_array)):
             if rank_array[i] > 1:  # Ensure rank remains positive
                 candidate_rank_array = copy.deepcopy(rank_array)
-                candidate_rank_array[i] -= 6
+                candidate_rank_array[i] -= 12
 
                 # Compute BLEU score for the modified rank array
-                modified_model = change_rank_array(copy.deepcopy(model), candidate_rank_array, filter)
+                modified_model = change_rank_array(model, candidate_rank_array, filter)
                 bleu_score = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
 
                 print(f"Testing rank array {candidate_rank_array} -> BLEU score: {bleu_score}")
@@ -130,37 +130,18 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
     return current_best_rank_array, current_best_bleu
 
 
-wl = 4
+weight_wl = 4
+act_wl = 8
 
 symmetric = True
 round_mode = "nearest"
 results_list = []
 
 
-# for idx, wl in enumerate(word_lengths): 
-fl = wl/2
-fl = int(fl)
-frac = wl - fl
+# quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 330, weight_wl, "range_based", act_wl, "range_based",filter)
 
-# Define the quantization scheme dictionary with IntQuant settings
-args_int.quant_scheme = {
-    "act": {"number_type": "int", "wl": 8, "fl": 6, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "weight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "bweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goact": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "goweight": {"number_type": "int", "wl": wl, "fl": frac, "clamp": True, "symmetric": symmetric, "round_mode": round_mode},
-    "same_input": True,
-    "same_weight": True
-}
-
-# Create the quantization scheme using the from_args method
-quant_scheme_int = QuantScheme.from_args(args_int)
-
-# quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, wl, "range_based", filter)
-quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 330, quant_scheme_int, wl, "range_based", filter)
-
-initial_rank_array = [288,288,288,288,288,288]
+initial_rank_array = [304,304,304,304,304,304]
 target_sum = 256*6
 
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
@@ -169,7 +150,7 @@ print("opt rank array:", best_rank_array)
 print("opt bleu:", best_rank_array)
 
 #     for rank in rank_samples:
-#         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
+#         print(f"Opus-mt-en-de INT BLEU Score for weight_wl={weight_wl}, rank={rank}")
 #         # Compute BLEU score
 #         quant_svd_model = change_rank(quant_svd_model, rank, filter)
 #         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
@@ -180,11 +161,11 @@ print("opt bleu:", best_rank_array)
 #         bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
 #         print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
 
-#         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*wl)
+#         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*weight_wl)
 
 #         # Store the results
 #         results_list.append({
-#         "Word Length": wl,
+#         "Word Length": weight_wl,
 #         "Rank":rank,
 #         "Quant SVD BLEU (Range-Based)": bleu_int1,
 #         # "Quant SVD BLEU (Log2-Based)": bleu_int2,
