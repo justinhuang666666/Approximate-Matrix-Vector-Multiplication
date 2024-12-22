@@ -62,11 +62,8 @@ print(baseline_bleu)
 # Quantisation
 filter = type(model.model.encoder.layers[0])
 
-# Create a mock argument namespace to simulate input arguments
-args_int = argparse.Namespace()
-
 # Define possible values for wl, fl, symmetric, and round_mode
-weight_word_lengths = [2, 3, 4, 5, 6, 7, 8, 16]
+weight_word_lengths = [2, 4, 6, 8, 10, 12, 14, 16]
 act_word_lengths = [4, 6, 8, 16]
 
 results_list = []
@@ -157,7 +154,7 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-weight_word_lengths = [2, 3, 4, 5, 6, 7, 8, 16]
+weight_word_lengths = [2, 4, 6, 8, 10, 12, 14, 16]
 act_word_lengths = [4, 6, 8, 16]
 
 results_list = []
