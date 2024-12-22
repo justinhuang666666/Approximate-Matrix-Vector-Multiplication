@@ -68,7 +68,7 @@ filter = type(model.model.encoder.layers[0])
 weight_word_lengths = [4, 5, 6, 7, 8, 16]
 act_word_lengths = [6, 8, 16]
 
-rank_samples = [64,96,128,160,192,224,256,288,320,352,384,416,448,480,512]
+rank_samples = [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 
 symmetric= True
 round_mode = "nearest"
