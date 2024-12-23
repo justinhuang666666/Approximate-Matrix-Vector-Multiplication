@@ -1,7 +1,7 @@
 import subprocess
 
 # List of weight word lengths to test
-weight_word_lengths = [4, 6, 8, 16]
+weight_word_lengths = [3, 4, 6, 8, 16]
 
 # Python script to run
 script_name = "opus-mt-en-de-quant-svd.py"
