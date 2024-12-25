@@ -68,8 +68,8 @@ filter = type(model.model.encoder.layers[0])
 args_int = argparse.Namespace()
 
 # Define possible values for wl, fl, symmetric, and round_mode
-word_lengths = [3, 4, 6, 8]
-rank_samples = [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
+word_lengths = [4,8] # [3, 4, 6, 8]
+rank_samples = [5,10] # [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 
 symmetric = True
 round_mode = "nearest"
@@ -96,8 +96,8 @@ for idx, wl in enumerate(word_lengths):
     # Create the quantization scheme using the from_args method
     quant_scheme_int = QuantScheme.from_args(args_int)
 
-    quant_svd_model = replace_with_quantized_svd_wrapper(model, 512, quant_scheme_int, wl, "range_based", filter)
-    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, quant_scheme_int, wl, "range_based", filter)
+    quant_svd_model = replace_with_quantized_svd_wrapper(model, 10, quant_scheme_int, wl, "range_based", filter)
+    quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 10, quant_scheme_int, wl, "range_based", filter)
 
     for rank in rank_samples:
         print(f"Opus-mt-en-de INT BLEU Score for wl={wl}, rank={rank}")
