@@ -57,18 +57,16 @@ source_texts = data['source_texts']
 target_texts = data['target_texts']
 
 # Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
 
 # Quantisation
 filter = type(model.model.encoder.layers[0])
 
-# Define possible values for wl, fl, symmetric, and round_mode
-weight_word_lengths = [3, 4, 5, 6, 7, 8, 16]
-act_word_lengths = [6, 8, 16]
+act_word_lengths = [8,16] #[6, 8, 16]
 
-rank_samples = [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
+rank_samples = [5,10] #[64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 
 symmetric= True
 round_mode = "nearest"
@@ -82,8 +80,8 @@ args = parser.parse_args()
 weight_wl = args.weight_wl
 
 results_list = []
-quant_svd_model = replace_with_quantized_svd(model, 512, weight_wl, "range_based", 16, "range_based", filter)
-quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 512, weight_wl, "range_based", 16, "range_based", filter)
+quant_svd_model = replace_with_quantized_svd(model, 10, weight_wl, "range_based", 16, "range_based", filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 10, weight_wl, "range_based", 16, "range_based", filter)
 
 for act_wl in act_word_lengths:
     for rank in rank_samples:
