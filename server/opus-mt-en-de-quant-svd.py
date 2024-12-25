@@ -80,8 +80,8 @@ args = parser.parse_args()
 weight_wl = args.weight_wl
 
 results_list = []
-quant_svd_model = replace_with_quantized_svd(model, 10, weight_wl, "range_based", 16, "range_based", filter)
-quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 10, weight_wl, "range_based", 16, "range_based", filter)
+quant_svd_model = replace_with_quantized_svd_wrapper(model, 10, weight_wl, "range_based", 16, "range_based", filter)
+quant_iterative_svd_model = replace_with_quantized_svd_wrapper(model, 10, weight_wl, "range_based", 16, "range_based", filter)
 
 for act_wl in act_word_lengths:
     for rank in rank_samples:
