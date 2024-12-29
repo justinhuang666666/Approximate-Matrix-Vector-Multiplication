@@ -221,7 +221,7 @@ results_list = []
 quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 100, weight_wl, "range_based", act_wl, "range_based",filter)
 
 initial_rank_array = [100,100,100,100,100,100]
-target_sum = 256*6
+target_sum = 60*6
 
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
 
