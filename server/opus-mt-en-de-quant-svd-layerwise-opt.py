@@ -149,6 +149,7 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         current_best_rank_array = None
 
         # Calculate gradients using finite difference method for each layer
+        gradients = []
         for i in range(len(rank_array)):
             # Store original rank to compute perturbations
             original_rank = rank_array[i]
@@ -168,11 +169,28 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
 
             # Approximate the gradient using finite difference
             gradient = (bleu_plus - bleu_minus) / (2 * epsilon)
+            gradients.append((gradient, i))  # Store the gradient and the corresponding index
 
-            # Update the rank based on the computed gradient (ensure the rank is an integer)
-            rank_array[i] = round(rank_array[i] + gradient)
+            print(f"Iteration {iteration}, Layer {i}: Gradient = {gradient}")
 
-            print(f"Iteration {iteration}, Layer {i}: Rank adjusted to {rank_array[i]} with gradient {gradient}")
+        # Sort gradients to identify the largest and smallest gradients
+        gradients.sort()  # Sorting gradients from smallest to largest
+        
+        # Identify the layer with the smallest and largest gradients
+        min_gradient_layer = gradients[0][1]  # Layer with smallest (most negative) gradient
+        max_gradient_layer = gradients[-1][1]  # Layer with largest gradient
+        
+        # Adjust the ranks for the layers with the largest and smallest gradients
+        epsilon = round(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
+        rank_array[max_gradient_layer] += epsilon
+        rank_array[min_gradient_layer] -= epsilon
+
+        # Ensure the ranks remain integer values
+        rank_array[max_gradient_layer] = round(rank_array[max_gradient_layer])
+        rank_array[min_gradient_layer] = round(rank_array[min_gradient_layer])
+
+        print(f"Iteration {iteration}: Layer {max_gradient_layer} rank adjusted to {rank_array[max_gradient_layer]}")
+        print(f"Iteration {iteration}: Layer {min_gradient_layer} rank adjusted to {rank_array[min_gradient_layer]}")
 
         # After adjustment, ensure that the total rank sum equals the target_sum
         total_rank = sum(rank_array)
@@ -220,8 +238,8 @@ results_list = []
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
 quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 100, weight_wl, "range_based", act_wl, "range_based",filter)
 
-initial_rank_array = [100,100,100,100,100,100]
-target_sum = 60*6
+initial_rank_array = [304,304,304,304,304,304]
+target_sum = 256*6
 
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
 
