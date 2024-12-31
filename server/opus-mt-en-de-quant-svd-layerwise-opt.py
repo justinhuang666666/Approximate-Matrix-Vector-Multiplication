@@ -7,6 +7,7 @@ import sys
 import pandas as pd
 
 from torch import nn
+import math
 
 import warnings
 
@@ -155,7 +156,7 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
             original_rank = rank_array[i]
             
             # Apply small perturbations to compute the finite difference gradient
-            epsilon = round(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
+            epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
 
             # Perturb the rank in both directions to compute the gradient
             candidate_rank_array_plus = copy.deepcopy(rank_array)
@@ -236,7 +237,7 @@ results_list = []
 
 
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
-quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 100, weight_wl, "range_based", act_wl, "range_based",filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
 
 initial_rank_array = [304,304,304,304,304,304]
 target_sum = 256*6
