@@ -151,12 +151,14 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
 
         # Calculate gradients using finite difference method for each layer
         gradients = []
+
+        # Apply small perturbations to compute the finite difference gradient
+        epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
+        print(f"Iteration {iteration}, Epsilon = {epsilon}")
+        
         for i in range(len(rank_array)):
             # Store original rank to compute perturbations
             original_rank = rank_array[i]
-            
-            # Apply small perturbations to compute the finite difference gradient
-            epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
 
             # Perturb the rank in both directions to compute the gradient
             candidate_rank_array_plus = copy.deepcopy(rank_array)
@@ -186,19 +188,9 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         rank_array[max_gradient_layer] += epsilon
         rank_array[min_gradient_layer] -= epsilon
 
-        # Ensure the ranks remain integer values
-        rank_array[max_gradient_layer] = round(rank_array[max_gradient_layer])
-        rank_array[min_gradient_layer] = round(rank_array[min_gradient_layer])
-
         print(f"Iteration {iteration}: Layer {max_gradient_layer} rank adjusted to {rank_array[max_gradient_layer]}")
         print(f"Iteration {iteration}: Layer {min_gradient_layer} rank adjusted to {rank_array[min_gradient_layer]}")
 
-        # After adjustment, ensure that the total rank sum equals the target_sum
-        total_rank = sum(rank_array)
-        if total_rank > target_sum:
-            scaling_factor = target_sum / total_rank
-            rank_array = [round(r * scaling_factor) for r in rank_array]
-        
         # Compute the BLEU score for the updated rank array
         modified_model = change_rank_array(model, rank_array, filter)
         current_best_bleu = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
@@ -214,11 +206,6 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         ], ignore_index=True)
 
         print(f"Iteration {iteration}: Best BLEU score: {current_best_bleu} with rank array {rank_array}")
-        
-        # Update best results if needed
-        if current_best_bleu > best_bleu_score:
-            best_bleu_score = current_best_bleu
-            best_rank_array = copy.deepcopy(rank_array)
 
         iteration += 1
 
