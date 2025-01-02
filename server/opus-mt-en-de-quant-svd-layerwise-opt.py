@@ -250,6 +250,7 @@ for initial_rank_array in initial_rank_arrays:
     results_list.append({
     "Weight Word Length": weight_wl,
     "Activation Word Length": act_wl,
+    "Rank":initial_rank_array[0],
     "Optimal BLEU Score": best_bleu_score,
     "Optimal Rank Array": [best_rank_array],
     "Compression Ratio":compression_ratio
