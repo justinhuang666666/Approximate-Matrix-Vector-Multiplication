@@ -229,16 +229,15 @@ results_list = []
 
 
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
-# quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
 
 initial_rank_array = [256,256,256,256,256,256]
-target_sum = 256*6
 baseline_bleu = 41.337328250540224
 
-initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112],[64,64,64,64,64,64]]
+initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112]]
 
 for initial_rank_array in initial_rank_arrays:
-    # best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
+    best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
     best_rank_array = [1,1,1,1,1,1]
     best_bleu_score = 30
     print("opt rank array:", best_rank_array)
