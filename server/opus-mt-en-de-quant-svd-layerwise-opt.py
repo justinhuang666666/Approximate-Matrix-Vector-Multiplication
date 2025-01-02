@@ -198,25 +198,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
             best_bleu_score = current_best_bleu
             best_rank_array = rank_array
 
-        
-        # Log the current best result into the DataFrame
-        # results_df = pd.concat([
-        #     results_df,
-        #     pd.DataFrame({
-        #         "Iteration": [iteration],
-        #         "Epsilon": [epsilon],
-        #         "Rank Array": [rank_array],
-        #         "BLEU Score": [current_best_bleu]
-        #     })
-        # ], ignore_index=True)
-
-        # print(f"Iteration {iteration}: Epsilon: {epsilon}, BLEU score: {current_best_bleu} with rank array {rank_array}")
-
         iteration += 1
-
-    # Save the DataFrame to a CSV file
-    results_df.to_csv(output_csv, index=False)
-    print(f"Results saved to {output_csv}")
 
     return best_rank_array, best_bleu_score
 
