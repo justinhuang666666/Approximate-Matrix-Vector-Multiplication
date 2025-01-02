@@ -1,0 +1,366 @@
+[nltk_data] Downloading package punkt_tab to /home/jh4420/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+cuda
+Iteration 0, Epsilon = 48
+Iteration 0, Layer 0: Gradient = -0.004197617157154054
+Iteration 0, Layer 1: Gradient = 0.007524546066154898
+Iteration 0, Layer 2: Gradient = 0.009137744319023625
+Iteration 0, Layer 3: Gradient = -0.00462790692909983
+Iteration 0, Layer 4: Gradient = -0.00037864606632605674
+Iteration 0, Layer 5: Gradient = 4.8607550061123085e-05
+Iteration 0: Layer 2 rank adjusted to 304
+Iteration 0: Layer 3 rank adjusted to 208
+Iteration 0: Epsilon: 48, BLEU score: 40.53825734724701 with rank array [256, 256, 304, 208, 256, 256]
+Iteration 1, Epsilon = 40
+Iteration 1, Layer 0: Gradient = 0.008937344539707048
+Iteration 1, Layer 1: Gradient = 0.016139032675292774
+Iteration 1, Layer 2: Gradient = 0.004753184460393101
+Iteration 1, Layer 3: Gradient = -0.002621561085135582
+Iteration 1, Layer 4: Gradient = 0.0029987777071633914
+Iteration 1, Layer 5: Gradient = 0.018466294395295523
+Iteration 1: Layer 5 rank adjusted to 296
+Iteration 1: Layer 3 rank adjusted to 168
+Iteration 1: Epsilon: 40, BLEU score: 40.71182970619673 with rank array [256, 256, 304, 168, 256, 296]
+Iteration 2, Epsilon = 35
+Iteration 2, Layer 0: Gradient = 0.011830709178315451
+Iteration 2, Layer 1: Gradient = -0.0002001779620553431
+Iteration 2, Layer 2: Gradient = 0.012041385239982714
+Iteration 2, Layer 3: Gradient = -0.008119901205906542
+Iteration 2, Layer 4: Gradient = 0.00425393669438634
+Iteration 2, Layer 5: Gradient = -0.007099817699410035
+Iteration 2: Layer 2 rank adjusted to 339
+Iteration 2: Layer 3 rank adjusted to 133
+Iteration 2: Epsilon: 35, BLEU score: 39.2339712546466 with rank array [256, 256, 339, 133, 256, 296]
+Iteration 3, Epsilon = 30
+Iteration 3, Layer 0: Gradient = 0.015140220972516024
+Iteration 3, Layer 1: Gradient = 0.02195863923471061
+Iteration 3, Layer 2: Gradient = 0.01758764280970967
+Iteration 3, Layer 3: Gradient = 0.039007295472102875
+Iteration 3, Layer 4: Gradient = -0.009665755221266063
+Iteration 3, Layer 5: Gradient = 0.013458354580742812
+Iteration 3: Layer 3 rank adjusted to 163
+Iteration 3: Layer 4 rank adjusted to 226
+Iteration 3: Epsilon: 30, BLEU score: 39.25159601426302 with rank array [256, 256, 339, 163, 226, 296]
+Iteration 4, Epsilon = 27
+Iteration 4, Layer 0: Gradient = -0.0024591383062322336
+Iteration 4, Layer 1: Gradient = 0.0084375696648784
+Iteration 4, Layer 2: Gradient = 0.021452347861113504
+Iteration 4, Layer 3: Gradient = 0.041449766050142105
+Iteration 4, Layer 4: Gradient = 0.009669884871663285
+Iteration 4, Layer 5: Gradient = -0.015362034414482965
+Iteration 4: Layer 3 rank adjusted to 190
+Iteration 4: Layer 5 rank adjusted to 269
+Iteration 4: Epsilon: 27, BLEU score: 40.17993404235177 with rank array [256, 256, 339, 190, 226, 269]
+Iteration 5, Epsilon = 24
+Iteration 5, Layer 0: Gradient = 0.0119298786908509
+Iteration 5, Layer 1: Gradient = 0.0014153983980299916
+Iteration 5, Layer 2: Gradient = 0.021101947391785874
+Iteration 5, Layer 3: Gradient = -0.017866831179275493
+Iteration 5, Layer 4: Gradient = -0.005143298715116096
+Iteration 5, Layer 5: Gradient = 0.003069994526651391
+Iteration 5: Layer 2 rank adjusted to 363
+Iteration 5: Layer 3 rank adjusted to 166
+Iteration 5: Epsilon: 24, BLEU score: 40.978059803257096 with rank array [256, 256, 363, 166, 226, 269]
+Iteration 6, Epsilon = 22
+Iteration 6, Layer 0: Gradient = -0.01843862129361249
+Iteration 6, Layer 1: Gradient = -0.0018883145689753437
+Iteration 6, Layer 2: Gradient = -0.019982222951633846
+Iteration 6, Layer 3: Gradient = 0.03100816075313727
+Iteration 6, Layer 4: Gradient = 0.04339474702910919
+Iteration 6, Layer 5: Gradient = 0.027350134835409146
+Iteration 6: Layer 4 rank adjusted to 248
+Iteration 6: Layer 2 rank adjusted to 341
+Iteration 6: Epsilon: 22, BLEU score: 40.36720170847853 with rank array [256, 256, 341, 166, 248, 269]
+Iteration 7, Epsilon = 20
+Iteration 7, Layer 0: Gradient = -0.015535174908289661
+Iteration 7, Layer 1: Gradient = 0.015020287552075828
+Iteration 7, Layer 2: Gradient = 0.03385681965354905
+Iteration 7, Layer 3: Gradient = 0.00043200996205392526
+Iteration 7, Layer 4: Gradient = 0.005240964833345707
+Iteration 7, Layer 5: Gradient = -0.010107744872043689
+Iteration 7: Layer 2 rank adjusted to 361
+Iteration 7: Layer 0 rank adjusted to 236
+Iteration 7: Epsilon: 20, BLEU score: 41.3287520983315 with rank array [236, 256, 361, 166, 248, 269]
+Iteration 8, Epsilon = 19
+Iteration 8, Layer 0: Gradient = -0.023853673770965894
+Iteration 8, Layer 1: Gradient = 0.041530217959401296
+Iteration 8, Layer 2: Gradient = -0.00023648041616091949
+Iteration 8, Layer 3: Gradient = 0.016768875517726656
+Iteration 8, Layer 4: Gradient = 0.012518738253902296
+Iteration 8, Layer 5: Gradient = 0.005532557204235195
+Iteration 8: Layer 1 rank adjusted to 275
+Iteration 8: Layer 0 rank adjusted to 217
+Iteration 8: Epsilon: 19, BLEU score: 42.26700175329969 with rank array [217, 275, 361, 166, 248, 269]
+Iteration 9, Epsilon = 18
+Iteration 9, Layer 0: Gradient = 0.0196662543033946
+Iteration 9, Layer 1: Gradient = 0.014402575373915106
+Iteration 9, Layer 2: Gradient = -0.004925901228372393
+Iteration 9, Layer 3: Gradient = 0.04992860201745586
+Iteration 9, Layer 4: Gradient = 0.02998039408849588
+Iteration 9, Layer 5: Gradient = 0.06112840285797125
+Iteration 9: Layer 5 rank adjusted to 287
+Iteration 9: Layer 2 rank adjusted to 343
+Iteration 9: Epsilon: 18, BLEU score: 41.06986813023633 with rank array [217, 275, 343, 166, 248, 287]
+Iteration 10, Epsilon = 16
+Iteration 10, Layer 0: Gradient = -0.02573769090601319
+Iteration 10, Layer 1: Gradient = 0.01166562090992973
+Iteration 10, Layer 2: Gradient = 0.028931675979933402
+Iteration 10, Layer 3: Gradient = 0.04090736213806645
+Iteration 10, Layer 4: Gradient = 0.023603466558981934
+Iteration 10, Layer 5: Gradient = 0.003943763909932674
+Iteration 10: Layer 3 rank adjusted to 182
+Iteration 10: Layer 0 rank adjusted to 201
+Iteration 10: Epsilon: 16, BLEU score: 40.82765829705393 with rank array [201, 275, 343, 182, 248, 287]
+Iteration 11, Epsilon = 15
+Iteration 11, Layer 0: Gradient = 0.028036564429453393
+Iteration 11, Layer 1: Gradient = 0.003998395151068242
+Iteration 11, Layer 2: Gradient = -0.009263585289362435
+Iteration 11, Layer 3: Gradient = 0.0028531486997655027
+Iteration 11, Layer 4: Gradient = -0.015435647264213514
+Iteration 11, Layer 5: Gradient = -0.01722092453408024
+Iteration 11: Layer 0 rank adjusted to 216
+Iteration 11: Layer 5 rank adjusted to 272
+Iteration 11: Epsilon: 15, BLEU score: 41.18839545697276 with rank array [216, 275, 343, 182, 248, 272]
+Iteration 12, Epsilon = 15
+Iteration 12, Layer 0: Gradient = -0.02771387959059742
+Iteration 12, Layer 1: Gradient = 0.007837795715059551
+Iteration 12, Layer 2: Gradient = 0.034785220359815364
+Iteration 12, Layer 3: Gradient = 0.016310863347034636
+Iteration 12, Layer 4: Gradient = 0.0154211950032258
+Iteration 12, Layer 5: Gradient = 0.015761677416562255
+Iteration 12: Layer 2 rank adjusted to 358
+Iteration 12: Layer 0 rank adjusted to 201
+Iteration 12: Epsilon: 15, BLEU score: 41.47444233935915 with rank array [201, 275, 358, 182, 248, 272]
+Iteration 13, Epsilon = 14
+Iteration 13, Layer 0: Gradient = 0.00013541799731266378
+Iteration 13, Layer 1: Gradient = -0.03418970347268946
+Iteration 13, Layer 2: Gradient = 0.012768712256634071
+Iteration 13, Layer 3: Gradient = -0.054929594986028514
+Iteration 13, Layer 4: Gradient = 0.00683233817307841
+Iteration 13, Layer 5: Gradient = 0.04630385611699823
+Iteration 13: Layer 5 rank adjusted to 286
+Iteration 13: Layer 3 rank adjusted to 168
+Iteration 13: Epsilon: 14, BLEU score: 41.31656627474673 with rank array [201, 275, 358, 168, 248, 286]
+Iteration 14, Epsilon = 13
+Iteration 14, Layer 0: Gradient = -0.019135902906696492
+Iteration 14, Layer 1: Gradient = -0.041140917551037805
+Iteration 14, Layer 2: Gradient = -0.02897502017600518
+Iteration 14, Layer 3: Gradient = 0.037569385207401766
+Iteration 14, Layer 4: Gradient = -0.007134637626328719
+Iteration 14, Layer 5: Gradient = -0.010504526295185347
+Iteration 14: Layer 3 rank adjusted to 181
+Iteration 14: Layer 1 rank adjusted to 262
+Iteration 14: Epsilon: 13, BLEU score: 40.82336726487517 with rank array [201, 262, 358, 181, 248, 286]
+Iteration 15, Epsilon = 12
+Iteration 15, Layer 0: Gradient = -0.01945827617515287
+Iteration 15, Layer 1: Gradient = 0.019867751407920114
+Iteration 15, Layer 2: Gradient = 0.008316974913512057
+Iteration 15, Layer 3: Gradient = -0.019922866998866102
+Iteration 15, Layer 4: Gradient = -0.015371051554406101
+Iteration 15, Layer 5: Gradient = 0.00017924679370266242
+Iteration 15: Layer 1 rank adjusted to 274
+Iteration 15: Layer 3 rank adjusted to 169
+Iteration 15: Epsilon: 12, BLEU score: 41.90117239270523 with rank array [201, 274, 358, 169, 248, 286]
+Iteration 16, Epsilon = 12
+Iteration 16, Layer 0: Gradient = 0.03187730197520041
+Iteration 16, Layer 1: Gradient = -0.028281917004515062
+Iteration 16, Layer 2: Gradient = 0.010530801445124046
+Iteration 16, Layer 3: Gradient = 0.04169107263809716
+Iteration 16, Layer 4: Gradient = 0.014005142387148636
+Iteration 16, Layer 5: Gradient = -0.06201985862309171
+Iteration 16: Layer 3 rank adjusted to 181
+Iteration 16: Layer 5 rank adjusted to 274
+Iteration 16: Epsilon: 12, BLEU score: 41.48775934479209 with rank array [201, 274, 358, 181, 248, 274]
+Iteration 17, Epsilon = 11
+Iteration 17, Layer 0: Gradient = 0.015070135335867459
+Iteration 17, Layer 1: Gradient = -0.013792093498837104
+Iteration 17, Layer 2: Gradient = 0.0007238256739522084
+Iteration 17, Layer 3: Gradient = -0.02440434068672688
+Iteration 17, Layer 4: Gradient = 0.017982191449505403
+Iteration 17, Layer 5: Gradient = 0.00129424905779597
+Iteration 17: Layer 4 rank adjusted to 259
+Iteration 17: Layer 3 rank adjusted to 170
+Iteration 17: Epsilon: 11, BLEU score: 41.65411982936196 with rank array [201, 274, 358, 170, 259, 274]
+Iteration 18, Epsilon = 11
+Iteration 18, Layer 0: Gradient = -0.009934513950245038
+Iteration 18, Layer 1: Gradient = 0.017809247593463858
+Iteration 18, Layer 2: Gradient = 0.009785665842469175
+Iteration 18, Layer 3: Gradient = 0.03113085917918277
+Iteration 18, Layer 4: Gradient = -0.01937625890485509
+Iteration 18, Layer 5: Gradient = 0.05594225012620187
+Iteration 18: Layer 5 rank adjusted to 285
+Iteration 18: Layer 4 rank adjusted to 248
+Iteration 18: Epsilon: 11, BLEU score: 41.3809924838125 with rank array [201, 274, 358, 170, 248, 285]
+Iteration 19, Epsilon = 10
+Iteration 19, Layer 0: Gradient = 0.0032724416074231045
+Iteration 19, Layer 1: Gradient = 0.011780475155426729
+Iteration 19, Layer 2: Gradient = -0.025941904723735476
+Iteration 19, Layer 3: Gradient = 0.016643480181746283
+Iteration 19, Layer 4: Gradient = 0.034056426468425015
+Iteration 19, Layer 5: Gradient = -0.055201469164638084
+Iteration 19: Layer 4 rank adjusted to 258
+Iteration 19: Layer 5 rank adjusted to 275
+Iteration 19: Epsilon: 10, BLEU score: 41.5201552766728 with rank array [201, 274, 358, 170, 258, 275]
+Iteration 20, Epsilon = 10
+Iteration 20, Layer 0: Gradient = 0.07275453904030371
+Iteration 20, Layer 1: Gradient = 0.05680317888047668
+Iteration 20, Layer 2: Gradient = 0.04108174686815893
+Iteration 20, Layer 3: Gradient = -0.043542535442751176
+Iteration 20, Layer 4: Gradient = -0.05839086895305599
+Iteration 20, Layer 5: Gradient = 0.025100211019648454
+Iteration 20: Layer 0 rank adjusted to 211
+Iteration 20: Layer 4 rank adjusted to 248
+Iteration 20: Epsilon: 10, BLEU score: 41.574691403813205 with rank array [211, 274, 358, 170, 248, 275]
+Iteration 21, Epsilon = 10
+Iteration 21, Layer 0: Gradient = -0.018542367902160704
+Iteration 21, Layer 1: Gradient = -0.003241280352230547
+Iteration 21, Layer 2: Gradient = -0.014581723729372342
+Iteration 21, Layer 3: Gradient = -0.008256188572778812
+Iteration 21, Layer 4: Gradient = 0.057189055829946156
+Iteration 21, Layer 5: Gradient = -0.049079548264338156
+Iteration 21: Layer 4 rank adjusted to 258
+Iteration 21: Layer 5 rank adjusted to 265
+Iteration 21: Epsilon: 10, BLEU score: 41.666028288318344 with rank array [211, 274, 358, 170, 258, 265]
+Iteration 22, Epsilon = 9
+Iteration 22, Layer 0: Gradient = 0.01206079527073061
+Iteration 22, Layer 1: Gradient = 0.03887514798256891
+Iteration 22, Layer 2: Gradient = -0.02229101588258094
+Iteration 22, Layer 3: Gradient = -0.08169366316856103
+Iteration 22, Layer 4: Gradient = -0.07991858155896184
+Iteration 22, Layer 5: Gradient = 0.06016673989131031
+Iteration 22: Layer 5 rank adjusted to 274
+Iteration 22: Layer 3 rank adjusted to 161
+Iteration 22: Epsilon: 9, BLEU score: 40.3496937536481 with rank array [211, 274, 358, 161, 258, 274]
+Iteration 23, Epsilon = 9
+Iteration 23, Layer 0: Gradient = -0.021505660531598636
+Iteration 23, Layer 1: Gradient = 0.04183584882803418
+Iteration 23, Layer 2: Gradient = 0.027252518043412347
+Iteration 23, Layer 3: Gradient = 0.12891490842601014
+Iteration 23, Layer 4: Gradient = -0.021398894833744464
+Iteration 23, Layer 5: Gradient = -0.06758184531941719
+Iteration 23: Layer 3 rank adjusted to 170
+Iteration 23: Layer 5 rank adjusted to 265
+Iteration 23: Epsilon: 9, BLEU score: 41.666028288318344 with rank array [211, 274, 358, 170, 258, 265]
+Iteration 24, Epsilon = 9
+Iteration 24, Layer 0: Gradient = 0.01206079527073061
+Iteration 24, Layer 1: Gradient = 0.03887514798256891
+Iteration 24, Layer 2: Gradient = -0.02229101588258094
+Iteration 24, Layer 3: Gradient = -0.08169366316856103
+Iteration 24, Layer 4: Gradient = -0.07991858155896184
+Iteration 24, Layer 5: Gradient = 0.06016673989131031
+Iteration 24: Layer 5 rank adjusted to 274
+Iteration 24: Layer 3 rank adjusted to 161
+Iteration 24: Epsilon: 9, BLEU score: 40.3496937536481 with rank array [211, 274, 358, 161, 258, 274]
+Iteration 25, Epsilon = 8
+Iteration 25, Layer 0: Gradient = -0.010856554185602718
+Iteration 25, Layer 1: Gradient = 0.09041283270450995
+Iteration 25, Layer 2: Gradient = -0.033426974568994794
+Iteration 25, Layer 3: Gradient = 0.11434548795464305
+Iteration 25, Layer 4: Gradient = 0.028239721612992152
+Iteration 25, Layer 5: Gradient = -0.04234595442196909
+Iteration 25: Layer 3 rank adjusted to 169
+Iteration 25: Layer 5 rank adjusted to 266
+Iteration 25: Epsilon: 8, BLEU score: 41.381129563924226 with rank array [211, 274, 358, 169, 258, 266]
+Iteration 26, Epsilon = 8
+Iteration 26, Layer 0: Gradient = -0.012928685377971316
+Iteration 26, Layer 1: Gradient = 0.07602448901085701
+Iteration 26, Layer 2: Gradient = 0.015556061017379719
+Iteration 26, Layer 3: Gradient = 0.010296677832973167
+Iteration 26, Layer 4: Gradient = -0.08414806229303107
+Iteration 26, Layer 5: Gradient = 0.048710659315362115
+Iteration 26: Layer 1 rank adjusted to 282
+Iteration 26: Layer 4 rank adjusted to 250
+Iteration 26: Epsilon: 8, BLEU score: 41.962837799070286 with rank array [211, 282, 358, 169, 250, 266]
+Iteration 27, Epsilon = 8
+Iteration 27, Layer 0: Gradient = -0.023283633683010674
+Iteration 27, Layer 1: Gradient = -0.032699639325058705
+Iteration 27, Layer 2: Gradient = 0.014776139653657427
+Iteration 27, Layer 3: Gradient = -0.03987031701684174
+Iteration 27, Layer 4: Gradient = 0.03054832985497491
+Iteration 27, Layer 5: Gradient = -0.014787019057163953
+Iteration 27: Layer 4 rank adjusted to 258
+Iteration 27: Layer 3 rank adjusted to 161
+Iteration 27: Epsilon: 8, BLEU score: 40.279583438787654 with rank array [211, 282, 358, 161, 258, 266]
+Iteration 28, Epsilon = 8
+Iteration 28, Layer 0: Gradient = 0.0540600783097438
+Iteration 28, Layer 1: Gradient = 0.007516088480847394
+Iteration 28, Layer 2: Gradient = 0.03433256978760202
+Iteration 28, Layer 3: Gradient = 0.10509811413109471
+Iteration 28, Layer 4: Gradient = -0.1074605755380218
+Iteration 28, Layer 5: Gradient = 0.07212007055918246
+Iteration 28: Layer 3 rank adjusted to 169
+Iteration 28: Layer 4 rank adjusted to 250
+Iteration 28: Epsilon: 8, BLEU score: 41.962837799070286 with rank array [211, 282, 358, 169, 250, 266]
+Iteration 29, Epsilon = 8
+Iteration 29, Layer 0: Gradient = -0.023283633683010674
+Iteration 29, Layer 1: Gradient = -0.032699639325058705
+Iteration 29, Layer 2: Gradient = 0.014776139653657427
+Iteration 29, Layer 3: Gradient = -0.03987031701684174
+Iteration 29, Layer 4: Gradient = 0.03054832985497491
+Iteration 29, Layer 5: Gradient = -0.014787019057163953
+Iteration 29: Layer 4 rank adjusted to 258
+Iteration 29: Layer 3 rank adjusted to 161
+Iteration 29: Epsilon: 8, BLEU score: 40.279583438787654 with rank array [211, 282, 358, 161, 258, 266]
+Iteration 30, Epsilon = 7
+Iteration 30, Layer 0: Gradient = 0.06952529533679501
+Iteration 30, Layer 1: Gradient = -0.11317633182125217
+Iteration 30, Layer 2: Gradient = -0.001360044214532
+Iteration 30, Layer 3: Gradient = 0.12148957712507576
+Iteration 30, Layer 4: Gradient = -0.022694442329028317
+Iteration 30, Layer 5: Gradient = 0.022374913597693485
+Iteration 30: Layer 3 rank adjusted to 168
+Iteration 30: Layer 1 rank adjusted to 275
+Iteration 30: Epsilon: 7, BLEU score: 41.12461869132328 with rank array [211, 275, 358, 168, 258, 266]
+Iteration 31, Epsilon = 7
+Iteration 31, Layer 0: Gradient = 0.007480265752596337
+Iteration 31, Layer 1: Gradient = 0.08691939326669333
+Iteration 31, Layer 2: Gradient = 0.030167623153043825
+Iteration 31, Layer 3: Gradient = -0.017135429352341042
+Iteration 31, Layer 4: Gradient = -0.056254654435883414
+Iteration 31, Layer 5: Gradient = 0.011650034996714607
+Iteration 31: Layer 1 rank adjusted to 282
+Iteration 31: Layer 4 rank adjusted to 251
+Iteration 31: Epsilon: 7, BLEU score: 40.49809685141079 with rank array [211, 282, 358, 168, 251, 266]
+Iteration 32, Epsilon = 7
+Iteration 32, Layer 0: Gradient = -0.04385668067496188
+Iteration 32, Layer 1: Gradient = -0.1019394933335366
+Iteration 32, Layer 2: Gradient = 0.01625848945459499
+Iteration 32, Layer 3: Gradient = -0.017985255659796553
+Iteration 32, Layer 4: Gradient = 0.1013774865484446
+Iteration 32, Layer 5: Gradient = 0.01580848019909555
+Iteration 32: Layer 4 rank adjusted to 258
+Iteration 32: Layer 1 rank adjusted to 275
+Iteration 32: Epsilon: 7, BLEU score: 41.12461869132328 with rank array [211, 275, 358, 168, 258, 266]
+Iteration 33, Epsilon = 7
+Iteration 33, Layer 0: Gradient = 0.007480265752596337
+Iteration 33, Layer 1: Gradient = 0.08691939326669333
+Iteration 33, Layer 2: Gradient = 0.030167623153043825
+Iteration 33, Layer 3: Gradient = -0.017135429352341042
+Iteration 33, Layer 4: Gradient = -0.056254654435883414
+Iteration 33, Layer 5: Gradient = 0.011650034996714607
+Iteration 33: Layer 1 rank adjusted to 282
+Iteration 33: Layer 4 rank adjusted to 251
+Iteration 33: Epsilon: 7, BLEU score: 40.49809685141079 with rank array [211, 282, 358, 168, 251, 266]
+Iteration 34, Epsilon = 7
+Iteration 34, Layer 0: Gradient = -0.04385668067496188
+Iteration 34, Layer 1: Gradient = -0.1019394933335366
+Iteration 34, Layer 2: Gradient = 0.01625848945459499
+Iteration 34, Layer 3: Gradient = -0.017985255659796553
+Iteration 34, Layer 4: Gradient = 0.1013774865484446
+Iteration 34, Layer 5: Gradient = 0.01580848019909555
+Iteration 34: Layer 4 rank adjusted to 258
+Iteration 34: Layer 1 rank adjusted to 275
+Iteration 34: Epsilon: 7, BLEU score: 41.12461869132328 with rank array [211, 275, 358, 168, 258, 266]
+Iteration 35, Epsilon = 6
+Iteration 35, Layer 0: Gradient = -0.06429238764901217
+Iteration 35, Layer 1: Gradient = -0.036900863918063465
+Iteration 35, Layer 2: Gradient = 0.03049514586206925
+Iteration 35, Layer 3: Gradient = 0.10377835159764419
+Iteration 35, Layer 4: Gradient = -0.035354246524992305
+Iteration 35, Layer 5: Gradient = -0.03735394048468225
+Iteration 35: Layer 3 rank adjusted to 174
+Iteration 35: Layer 0 rank adjusted to 205
+Iteration 35: Epsilon: 6, BLEU score: 40.89107584115572 with rank array [205, 275, 358, 174, 258, 266]
+Results saved to best_rank_arrays.csv
+opt rank array: [205, 275, 358, 174, 258, 266]
+opt bleu: 41.3287520983315
