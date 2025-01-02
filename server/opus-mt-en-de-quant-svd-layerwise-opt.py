@@ -182,8 +182,6 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         min_gradient_layer = gradients[0][1]  # Layer with smallest (most negative) gradient
         max_gradient_layer = gradients[-1][1]  # Layer with largest gradient
         
-        # Adjust the ranks for the layers with the largest and smallest gradients
-        epsilon = round(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
         rank_array[max_gradient_layer] += epsilon
         rank_array[min_gradient_layer] -= epsilon
 
