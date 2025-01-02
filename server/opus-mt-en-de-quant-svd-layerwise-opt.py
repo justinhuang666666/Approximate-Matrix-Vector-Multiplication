@@ -214,9 +214,9 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
 
         iteration += 1
 
-        # Save the DataFrame to a CSV file
-        results_df.to_csv(output_csv, index=False)
-        print(f"Results saved to {output_csv}")
+    # Save the DataFrame to a CSV file
+    results_df.to_csv(output_csv, index=False)
+    print(f"Results saved to {output_csv}")
 
     return best_rank_array, best_bleu_score
 
@@ -237,7 +237,7 @@ target_sum = 256*6
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
 
 print("opt rank array:", best_rank_array)
-print("opt bleu:", best_rank_array)
+print("opt bleu:", best_bleu_score)
 
 #     for rank in rank_samples:
 #         print(f"Opus-mt-en-de INT BLEU Score for weight_wl={weight_wl}, rank={rank}")
