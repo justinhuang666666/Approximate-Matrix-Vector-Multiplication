@@ -145,6 +145,8 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
     # Loop until the total rank sum equals the target_sum
     iteration = 0
 
+    epsilon = epsilon_0
+
     while (epsilon > 6) and (iteration < 200):
         current_best_bleu = -1
 
