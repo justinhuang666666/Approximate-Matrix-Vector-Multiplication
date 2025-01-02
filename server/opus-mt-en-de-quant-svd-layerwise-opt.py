@@ -130,7 +130,7 @@ import copy
 
 #     return current_best_rank_array, current_best_bleu
 
-def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum, epsilon_0=48, decay_alpha=0.5):
+def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum, epsilon_0=48, decay_alpha=0.2):
 
     # Initialize the rank array and BLEU score
     rank_array = initial_rank_array
