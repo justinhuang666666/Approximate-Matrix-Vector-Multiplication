@@ -130,7 +130,7 @@ import copy
 
 #     return current_best_rank_array, current_best_bleu
 
-def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum, epsilon_0=48, decay_alpha=0.2):
+def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum, epsilon_0=48, decay_alpha=0.2):
 
     # Initialize the rank array and BLEU score
     rank_array = initial_rank_array
@@ -194,7 +194,7 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         modified_model = change_rank_array(model, rank_array, filter)
         current_best_bleu = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
 
-        if(current_best_bleu > best_bleu_score):
+        if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
             best_bleu_score = current_best_bleu
             best_rank_array = rank_array
 
@@ -233,8 +233,8 @@ quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 
 
 initial_rank_array = [256,256,256,256,256,256]
 target_sum = 256*6
-
-best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
+baseline_bleu = 41.337328250540224
+best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
 
 print("opt rank array:", best_rank_array)
 print("opt bleu:", best_bleu_score)
