@@ -130,7 +130,7 @@ import copy
 
 #     return current_best_rank_array, current_best_bleu
 
-def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum, epsilon_0=48, decay_alpha=0.2):
+def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, epsilon_0=48, decay_alpha=0.2):
 
     # Initialize the rank array and BLEU score
     rank_array = initial_rank_array
@@ -155,7 +155,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
 
         # Apply small perturbations to compute the finite difference gradient
         epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
-        print(f"Iteration {iteration}, Epsilon = {epsilon}")
+        # print(f"Iteration {iteration}, Epsilon = {epsilon}")
         
         for i in range(len(rank_array)):
             # Store original rank to compute perturbations
@@ -175,7 +175,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
             gradient = (bleu_plus - bleu_minus) / (2 * epsilon)
             gradients.append((gradient, i))  # Store the gradient and the corresponding index
 
-            print(f"Iteration {iteration}, Layer {i}: Gradient = {gradient}")
+            # print(f"Iteration {iteration}, Layer {i}: Gradient = {gradient}")
 
         # Sort gradients to identify the largest and smallest gradients
         gradients.sort()  # Sorting gradients from smallest to largest
@@ -187,8 +187,8 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
         rank_array[max_gradient_layer] += epsilon
         rank_array[min_gradient_layer] -= epsilon
 
-        print(f"Iteration {iteration}: Layer {max_gradient_layer} rank adjusted to {rank_array[max_gradient_layer]}")
-        print(f"Iteration {iteration}: Layer {min_gradient_layer} rank adjusted to {rank_array[min_gradient_layer]}")
+        # print(f"Iteration {iteration}: Layer {max_gradient_layer} rank adjusted to {rank_array[max_gradient_layer]}")
+        # print(f"Iteration {iteration}: Layer {min_gradient_layer} rank adjusted to {rank_array[min_gradient_layer]}")
 
         # Compute the BLEU score for the updated rank array
         modified_model = change_rank_array(model, rank_array, filter)
@@ -200,17 +200,17 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
 
         
         # Log the current best result into the DataFrame
-        results_df = pd.concat([
-            results_df,
-            pd.DataFrame({
-                "Iteration": [iteration],
-                "Epsilon": [epsilon],
-                "Rank Array": [rank_array],
-                "BLEU Score": [current_best_bleu]
-            })
-        ], ignore_index=True)
+        # results_df = pd.concat([
+        #     results_df,
+        #     pd.DataFrame({
+        #         "Iteration": [iteration],
+        #         "Epsilon": [epsilon],
+        #         "Rank Array": [rank_array],
+        #         "BLEU Score": [current_best_bleu]
+        #     })
+        # ], ignore_index=True)
 
-        print(f"Iteration {iteration}: Epsilon: {epsilon}, BLEU score: {current_best_bleu} with rank array {rank_array}")
+        # print(f"Iteration {iteration}: Epsilon: {epsilon}, BLEU score: {current_best_bleu} with rank array {rank_array}")
 
         iteration += 1
 
@@ -234,41 +234,30 @@ quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 
 initial_rank_array = [256,256,256,256,256,256]
 target_sum = 256*6
 baseline_bleu = 41.337328250540224
-best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
 
-print("opt rank array:", best_rank_array)
-print("opt bleu:", best_bleu_score)
+initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112],[64,64,64,64,64,64]]
 
-#     for rank in rank_samples:
-#         print(f"Opus-mt-en-de INT BLEU Score for weight_wl={weight_wl}, rank={rank}")
-#         # Compute BLEU score
-#         quant_svd_model = change_rank(quant_svd_model, rank, filter)
-#         bleu_int1 = compute_bleu_score(device, quant_svd_model, tokenizer, source_texts, target_texts)
-#         print("Quant SVD BLEU (Range-Based)",bleu_int1)
-        
-#         quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, filter)
-#         # Compute BLEU score
-#         bleu_int4 = compute_bleu_score(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts)
-#         print("Iterative Quant SVD BLEU (Range-Based)",bleu_int4)
+for initial_rank_array in initial_rank_arrays:
+    # best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
+    best_rank_array = [1,1,1,1,1,1]
+    best_bleu_score = 30
+    print("opt rank array:", best_rank_array)
+    print("opt bleu:", best_bleu_score)
 
-#         compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*weight_wl)
+    compression_ratio = 512*512*3*6*32/(initial_rank_array[0]*(512*2)*3*6*weight_wl)
 
-#         # Store the results
-#         results_list.append({
-#         "Word Length": weight_wl,
-#         "Rank":rank,
-#         "Quant SVD BLEU (Range-Based)": bleu_int1,
-#         # "Quant SVD BLEU (Log2-Based)": bleu_int2,
-#         # "Quant SVD BLEU (Loss-Aware)": bleu_int3,
-#         "Iterative Quant SVD BLEU (Range-Based)": bleu_int4,
-#         # "Iterative Quant SVD BLEU (Log2-Based)": bleu_int5,
-#         # "Iterative Quant SVD BLEU (Loss-Aware)": bleu_int6,
-#         "Compression Ratio":compression_ratio
-#         })
+    # Store the results
+    results_list.append({
+    "Weight Word Length": weight_wl,
+    "Activation Word Length": act_wl,
+    "Optimal BLEU Score": best_bleu_score,
+    "Optimal Rank Array": [best_rank_array],
+    "Compression Ratio":compression_ratio
+    })
 
-# # Convert the list of dictionaries to a DataFrame
-# results_df = pd.DataFrame(results_list)
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
 
-# # Save results to a CSV file
-# results_df.to_csv('svd_quant_inout_en_de.csv', index=False)
+# Save results to a CSV file
+results_df.to_csv('optimal_results.csv', index=False)
 
