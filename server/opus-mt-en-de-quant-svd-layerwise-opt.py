@@ -145,9 +145,8 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
     # Loop until the total rank sum equals the target_sum
     iteration = 0
 
-    while (sum(rank_array) > target_sum) and (iteration < 200):
+    while (epsilon > 1) and (iteration < 200):
         current_best_bleu = -1
-        current_best_rank_array = None
 
         # Calculate gradients using finite difference method for each layer
         gradients = []
@@ -194,18 +193,24 @@ def find_optimal_rank_array(device, model, tokenizer, source_texts, target_texts
         # Compute the BLEU score for the updated rank array
         modified_model = change_rank_array(model, rank_array, filter)
         current_best_bleu = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
+
+        if(current_best_bleu > best_bleu_score):
+            best_bleu_score = current_best_bleu
+            best_rank_array = rank_array
+
         
         # Log the current best result into the DataFrame
         results_df = pd.concat([
             results_df,
             pd.DataFrame({
                 "Iteration": [iteration],
+                "Epsilon": [epsilon],
                 "Rank Array": [rank_array],
                 "BLEU Score": [current_best_bleu]
             })
         ], ignore_index=True)
 
-        print(f"Iteration {iteration}: Best BLEU score: {current_best_bleu} with rank array {rank_array}")
+        print(f"Iteration {iteration}: Epsilon: {epsilon}, BLEU score: {current_best_bleu} with rank array {rank_array}")
 
         iteration += 1
 
@@ -226,7 +231,7 @@ results_list = []
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
 quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
 
-initial_rank_array = [304,304,304,304,304,304]
+initial_rank_array = [256,256,256,256,256,256]
 target_sum = 256*6
 
 best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, tokenizer, source_texts, target_texts, initial_rank_array, filter, target_sum)
