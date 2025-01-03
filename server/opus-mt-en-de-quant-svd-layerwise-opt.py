@@ -220,8 +220,6 @@ initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,
 
 for initial_rank_array in initial_rank_arrays:
     best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
-    best_rank_array = [1,1,1,1,1,1]
-    best_bleu_score = 30
     print("opt rank array:", best_rank_array)
     print("opt bleu:", best_bleu_score)
 
