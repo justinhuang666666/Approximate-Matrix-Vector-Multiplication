@@ -156,11 +156,13 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
         # Apply small perturbations to compute the finite difference gradient
         epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
         print(f"Iteration {iteration}, Epsilon = {epsilon}")
+
+        # Break condition based on the rank array having any element less than epsilon
+        if any(x < epsilon for x in rank_array):
+            print("Breaking due to rank array element less than epsilon.")
+            break
         
         for i in range(len(rank_array)):
-            # Store original rank to compute perturbations
-            original_rank = rank_array[i]
-
             # Perturb the rank in both directions to compute the gradient
             candidate_rank_array_plus = copy.deepcopy(rank_array)
             candidate_rank_array_plus[i] += epsilon
@@ -196,7 +198,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
 
         print(f"Rank array: {rank_array}")
         print(f"BLEI Score: {current_best_bleu}")
-        
+
         if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
             best_bleu_score = current_best_bleu
             best_rank_array = rank_array
