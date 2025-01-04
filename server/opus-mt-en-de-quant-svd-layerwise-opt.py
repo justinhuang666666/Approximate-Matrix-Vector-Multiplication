@@ -147,7 +147,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
 
     epsilon = epsilon_0
     
-    while (epsilon > 6) and (iteration < 200):
+    while (epsilon > 12) and (iteration < 100):
         current_best_bleu = -1
 
         # Calculate gradients using finite difference method for each layer
@@ -199,13 +199,13 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
         print(f"Rank array: {rank_array}")
         print(f"BLEI Score: {current_best_bleu}")
 
-        if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
-            best_bleu_score = current_best_bleu
-            best_rank_array = rank_array
+        # if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
+        #     best_bleu_score = current_best_bleu
+        #     best_rank_array = rank_array
 
         iteration += 1
 
-    return best_rank_array, best_bleu_score
+    return rank_array, current_best_bleu
 
 weight_wl = 3
 act_wl = 8
@@ -218,19 +218,17 @@ results_list = []
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
 quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
 
-initial_rank_array = [256,256,256,256,256,256]
 baseline_bleu = 41.337328250540224
 
-# initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112]]
-
-initial_rank_arrays = [[256,256,256,256,256,256]]
+initial_rank_arrays = [[304,304,304,304,304,304],[280,280,280,280,280,280],[256,256,256,256,256,256],[232,232,232,232,232,232],[208,208,208,208,208,208],[184,184,184,184,184,184],[160,160,160,160,160,160]]
 
 for initial_rank_array in initial_rank_arrays:
     rank = initial_rank_array[0]
+    print("Target rank:",rank)
 
     best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
-    print("opt rank array:", best_rank_array)
-    print("opt bleu:", best_bleu_score)
+    print("Opt rank array:", best_rank_array)
+    print("Opt BLEU:", best_bleu_score)
 
     compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*weight_wl)
 
