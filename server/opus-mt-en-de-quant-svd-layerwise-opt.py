@@ -146,7 +146,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
     iteration = 0
 
     epsilon = epsilon_0
-
+    
     while (epsilon > 6) and (iteration < 200):
         current_best_bleu = -1
 
@@ -155,7 +155,7 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
 
         # Apply small perturbations to compute the finite difference gradient
         epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
-        # print(f"Iteration {iteration}, Epsilon = {epsilon}")
+        print(f"Iteration {iteration}, Epsilon = {epsilon}")
         
         for i in range(len(rank_array)):
             # Store original rank to compute perturbations
@@ -194,6 +194,9 @@ def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_text
         modified_model = change_rank_array(model, rank_array, filter)
         current_best_bleu = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
 
+        print(f"Rank array: {rank_array}")
+        print(f"BLEI Score: {current_best_bleu}")
+        
         if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
             best_bleu_score = current_best_bleu
             best_rank_array = rank_array
@@ -216,20 +219,24 @@ quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 
 initial_rank_array = [256,256,256,256,256,256]
 baseline_bleu = 41.337328250540224
 
-initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112]]
+# initial_rank_arrays = [[256,256,256,256,256,256],[208,208,208,208,208,208],[160,160,160,160,160,160],[112,112,112,112,112,112]]
+
+initial_rank_arrays = [[256,256,256,256,256,256]]
 
 for initial_rank_array in initial_rank_arrays:
+    rank = initial_rank_array[0]
+
     best_rank_array, best_bleu_score = find_optimal_rank_array(device, quant_iterative_svd_model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter)
     print("opt rank array:", best_rank_array)
     print("opt bleu:", best_bleu_score)
 
-    compression_ratio = 512*512*3*6*32/(initial_rank_array[0]*(512*2)*3*6*weight_wl)
+    compression_ratio = 512*512*3*6*32/(rank*(512*2)*3*6*weight_wl)
 
     # Store the results
     results_list.append({
     "Weight Word Length": weight_wl,
     "Activation Word Length": act_wl,
-    "Rank":initial_rank_array[0],
+    "Rank":rank,
     "Optimal Rank Array": [best_rank_array],
     "Optimal BLEU Score": best_bleu_score,
     "Compression Ratio":compression_ratio
