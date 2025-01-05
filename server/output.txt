@@ -1,0 +1,307 @@
+cuda
+Target rank: 368
+Iteration 0, Epsilon = 48
+Rank array: [368, 416, 368, 368, 320, 368]
+BLEI Score: 41.315789981156584
+Iteration 1, Epsilon = 40
+Rank array: [408, 416, 368, 368, 320, 328]
+BLEI Score: 40.882174142586074
+Iteration 2, Epsilon = 35
+Rank array: [408, 416, 403, 368, 285, 328]
+BLEI Score: 39.681752512398525
+Iteration 3, Epsilon = 30
+Rank array: [408, 386, 403, 368, 315, 328]
+BLEI Score: 39.8662816166277
+Iteration 4, Epsilon = 27
+Rank array: [408, 386, 376, 368, 315, 355]
+BLEI Score: 40.08844634025522
+Iteration 5, Epsilon = 24
+Rank array: [384, 386, 376, 368, 339, 355]
+BLEI Score: 41.82745908991336
+Iteration 6, Epsilon = 22
+Rank array: [384, 386, 376, 368, 317, 377]
+BLEI Score: 42.01185587678881
+Iteration 7, Epsilon = 20
+Rank array: [384, 386, 376, 348, 337, 377]
+BLEI Score: 41.53012303365383
+Iteration 8, Epsilon = 19
+Rank array: [384, 386, 376, 367, 318, 377]
+BLEI Score: 41.646684583146595
+Iteration 9, Epsilon = 18
+Rank array: [402, 368, 376, 367, 318, 377]
+BLEI Score: 41.54162564842213
+Iteration 10, Epsilon = 16
+Rank array: [402, 368, 376, 351, 334, 377]
+BLEI Score: 40.864710846420344
+Iteration 11, Epsilon = 15
+Rank array: [387, 383, 376, 351, 334, 377]
+BLEI Score: 41.3954140699162
+Iteration 12, Epsilon = 15
+Rank array: [387, 383, 376, 366, 334, 362]
+BLEI Score: 41.132783917193436
+Iteration 13, Epsilon = 14
+Rank array: [387, 369, 376, 366, 334, 376]
+BLEI Score: 41.18344578351091
+Iteration 14, Epsilon = 13
+Rank array: [387, 382, 376, 353, 334, 376]
+BLEI Score: 41.46949740137252
+Iteration 15, Epsilon = 12
+Rank array: [387, 382, 364, 365, 334, 376]
+BLEI Score: 41.99829424193481
+Opt rank array: [387, 382, 364, 365, 334, 376]
+Opt BLEU: 41.99829424193481
+Target rank: 336
+Iteration 0, Epsilon = 48
+Rank array: [336, 336, 288, 336, 336, 384]
+BLEI Score: 39.41453763171723
+Iteration 1, Epsilon = 40
+Rank array: [336, 336, 288, 376, 296, 384]
+BLEI Score: 40.55335545166904
+Iteration 2, Epsilon = 35
+Rank array: [336, 336, 288, 341, 331, 384]
+BLEI Score: 40.114009185813096
+Iteration 3, Epsilon = 30
+Rank array: [336, 336, 288, 371, 301, 384]
+BLEI Score: 39.74318737317327
+Iteration 4, Epsilon = 27
+Rank array: [336, 363, 288, 344, 301, 384]
+BLEI Score: 39.65848288268386
+Iteration 5, Epsilon = 24
+Rank array: [336, 363, 264, 344, 301, 408]
+BLEI Score: 40.05664681854908
+Iteration 6, Epsilon = 22
+Rank array: [336, 385, 264, 344, 301, 386]
+BLEI Score: 39.93409445348962
+Iteration 7, Epsilon = 20
+Rank array: [336, 385, 244, 344, 321, 386]
+BLEI Score: 40.02342343929705
+Iteration 8, Epsilon = 19
+Rank array: [336, 385, 263, 344, 302, 386]
+BLEI Score: 40.73993427427252
+Iteration 9, Epsilon = 18
+Rank array: [336, 403, 263, 326, 302, 386]
+BLEI Score: 40.73748807378571
+Iteration 10, Epsilon = 16
+Rank array: [336, 403, 279, 326, 302, 370]
+BLEI Score: 40.762392711349825
+Iteration 11, Epsilon = 15
+Rank array: [336, 403, 264, 341, 302, 370]
+BLEI Score: 40.771972420497924
+Iteration 12, Epsilon = 15
+Rank array: [321, 403, 264, 341, 317, 370]
+BLEI Score: 39.82437872207551
+Iteration 13, Epsilon = 14
+Rank array: [321, 403, 250, 355, 317, 370]
+BLEI Score: 40.932063423885644
+Iteration 14, Epsilon = 13
+Rank array: [321, 403, 237, 368, 317, 370]
+BLEI Score: 40.77369535967291
+Iteration 15, Epsilon = 12
+Rank array: [309, 403, 249, 368, 317, 370]
+BLEI Score: 41.33404453845843
+Opt rank array: [309, 403, 249, 368, 317, 370]
+Opt BLEU: 41.33404453845843
+Target rank: 304
+Iteration 0, Epsilon = 48
+Rank array: [304, 256, 304, 304, 304, 352]
+BLEI Score: 39.34235425282022
+Iteration 1, Epsilon = 40
+Rank array: [264, 256, 304, 304, 344, 352]
+BLEI Score: 40.339878619975984
+Iteration 2, Epsilon = 35
+Rank array: [229, 291, 304, 304, 344, 352]
+BLEI Score: 40.94886747053206
+Iteration 3, Epsilon = 30
+Rank array: [229, 291, 334, 274, 344, 352]
+BLEI Score: 41.19481709971716
+Iteration 4, Epsilon = 27
+Rank array: [229, 264, 334, 274, 344, 379]
+BLEI Score: 40.523888120134956
+Iteration 5, Epsilon = 24
+Rank array: [229, 264, 358, 274, 344, 355]
+BLEI Score: 41.51634410556428
+Iteration 6, Epsilon = 22
+Rank array: [229, 264, 358, 274, 322, 377]
+BLEI Score: 41.90995836188001
+Iteration 7, Epsilon = 20
+Rank array: [249, 264, 358, 254, 322, 377]
+BLEI Score: 42.64431061029807
+Iteration 8, Epsilon = 19
+Rank array: [249, 264, 358, 254, 303, 396]
+BLEI Score: 41.40301925405222
+Iteration 9, Epsilon = 18
+Rank array: [249, 264, 358, 254, 321, 378]
+BLEI Score: 42.53196728952554
+Iteration 10, Epsilon = 16
+Rank array: [249, 280, 342, 254, 321, 378]
+BLEI Score: 41.516727188631464
+Iteration 11, Epsilon = 15
+Rank array: [249, 280, 342, 239, 321, 393]
+BLEI Score: 41.32022830130477
+Iteration 12, Epsilon = 15
+Rank array: [249, 265, 357, 239, 321, 393]
+BLEI Score: 42.52204211248129
+Iteration 13, Epsilon = 14
+Rank array: [235, 265, 357, 239, 335, 393]
+BLEI Score: 41.77740956997616
+Iteration 14, Epsilon = 13
+Rank array: [248, 265, 357, 226, 335, 393]
+BLEI Score: 40.60841000637126
+Iteration 15, Epsilon = 12
+Rank array: [248, 265, 369, 226, 323, 393]
+BLEI Score: 41.39258644883959
+Opt rank array: [248, 265, 369, 226, 323, 393]
+Opt BLEU: 41.39258644883959
+Target rank: 272
+Iteration 0, Epsilon = 48
+Rank array: [272, 224, 272, 272, 320, 272]
+BLEI Score: 39.800235748994666
+Iteration 1, Epsilon = 40
+Rank array: [272, 224, 272, 232, 360, 272]
+BLEI Score: 39.83765244127628
+Iteration 2, Epsilon = 35
+Rank array: [307, 224, 272, 232, 360, 237]
+BLEI Score: 40.533437302892395
+Iteration 3, Epsilon = 30
+Rank array: [307, 254, 272, 232, 330, 237]
+BLEI Score: 40.923509439385704
+Iteration 4, Epsilon = 27
+Rank array: [280, 254, 272, 232, 330, 264]
+BLEI Score: 40.828694701307136
+Iteration 5, Epsilon = 24
+Rank array: [280, 278, 272, 232, 330, 240]
+BLEI Score: 40.04815873439447
+Iteration 6, Epsilon = 22
+Rank array: [280, 256, 272, 232, 330, 262]
+BLEI Score: 41.614908239012685
+Iteration 7, Epsilon = 20
+Rank array: [280, 256, 272, 232, 350, 242]
+BLEI Score: 40.79815003783249
+Iteration 8, Epsilon = 19
+Rank array: [280, 256, 272, 213, 369, 242]
+BLEI Score: 39.991864452952946
+Iteration 9, Epsilon = 18
+Rank array: [280, 256, 272, 195, 369, 260]
+BLEI Score: 40.39927894304167
+Iteration 10, Epsilon = 16
+Rank array: [280, 256, 256, 195, 385, 260]
+BLEI Score: 40.21381691602418
+Iteration 11, Epsilon = 15
+Rank array: [280, 241, 256, 195, 385, 275]
+BLEI Score: 40.17371973139302
+Iteration 12, Epsilon = 15
+Rank array: [280, 241, 241, 195, 400, 275]
+BLEI Score: 40.74769655238822
+Iteration 13, Epsilon = 14
+Rank array: [280, 255, 241, 195, 386, 275]
+BLEI Score: 39.97926210792254
+Iteration 14, Epsilon = 13
+Rank array: [280, 268, 241, 195, 386, 262]
+BLEI Score: 40.95647511444458
+Iteration 15, Epsilon = 12
+Rank array: [280, 268, 241, 207, 374, 262]
+BLEI Score: 41.24379463795396
+Opt rank array: [280, 268, 241, 207, 374, 262]
+Opt BLEU: 41.24379463795396
+Target rank: 240
+Iteration 0, Epsilon = 48
+Rank array: [192, 240, 288, 240, 240, 240]
+BLEI Score: 39.038986286767376
+Iteration 1, Epsilon = 40
+Rank array: [192, 240, 248, 240, 240, 280]
+BLEI Score: 38.91846044631701
+Iteration 2, Epsilon = 35
+Rank array: [192, 240, 248, 205, 240, 315]
+BLEI Score: 39.89518228088498
+Iteration 3, Epsilon = 30
+Rank array: [222, 240, 248, 205, 210, 315]
+BLEI Score: 38.853954836617724
+Iteration 4, Epsilon = 27
+Rank array: [222, 240, 221, 232, 210, 315]
+BLEI Score: 38.77413009772682
+Iteration 5, Epsilon = 24
+Rank array: [222, 240, 221, 232, 234, 291]
+BLEI Score: 39.334976686674786
+Iteration 6, Epsilon = 22
+Rank array: [222, 262, 199, 232, 234, 291]
+BLEI Score: 39.772276632865555
+Iteration 7, Epsilon = 20
+Rank array: [222, 282, 199, 232, 214, 291]
+BLEI Score: 39.29379979989791
+Iteration 8, Epsilon = 19
+Rank array: [203, 282, 218, 232, 214, 291]
+BLEI Score: 39.233449684871516
+Iteration 9, Epsilon = 18
+Rank array: [203, 264, 218, 232, 214, 309]
+BLEI Score: 39.76472341215273
+Iteration 10, Epsilon = 16
+Rank array: [187, 264, 234, 232, 214, 309]
+BLEI Score: 39.67328425683789
+Iteration 11, Epsilon = 15
+Rank array: [187, 264, 234, 217, 229, 309]
+BLEI Score: 40.735853158151095
+Iteration 12, Epsilon = 15
+Rank array: [187, 279, 234, 217, 214, 309]
+BLEI Score: 39.909754912496474
+Iteration 13, Epsilon = 14
+Rank array: [187, 265, 234, 217, 228, 309]
+BLEI Score: 39.65847697768331
+Iteration 14, Epsilon = 13
+Rank array: [187, 278, 234, 204, 228, 309]
+BLEI Score: 40.09211856981485
+Iteration 15, Epsilon = 12
+Rank array: [175, 278, 246, 204, 228, 309]
+BLEI Score: 39.43411286576914
+Opt rank array: [175, 278, 246, 204, 228, 309]
+Opt BLEU: 39.43411286576914
+Target rank: 208
+Iteration 0, Epsilon = 48
+Rank array: [160, 208, 208, 208, 208, 256]
+BLEI Score: 39.752207310334484
+Iteration 1, Epsilon = 40
+Rank array: [160, 208, 208, 208, 248, 216]
+BLEI Score: 38.35391340963857
+Iteration 2, Epsilon = 35
+Rank array: [160, 243, 173, 208, 248, 216]
+BLEI Score: 37.7528950570912
+Iteration 3, Epsilon = 30
+Rank array: [160, 243, 203, 208, 218, 216]
+BLEI Score: 37.85419872356428
+Iteration 4, Epsilon = 27
+Rank array: [160, 243, 203, 208, 191, 243]
+BLEI Score: 38.0685760187357
+Iteration 5, Epsilon = 24
+Rank array: [136, 243, 203, 208, 191, 267]
+BLEI Score: 38.81294624605883
+Iteration 6, Epsilon = 22
+Rank array: [136, 221, 225, 208, 191, 267]
+BLEI Score: 39.38232706113192
+Iteration 7, Epsilon = 20
+Rank array: [136, 221, 205, 208, 191, 287]
+BLEI Score: 39.566142780856126
+Iteration 8, Epsilon = 19
+Rank array: [136, 221, 224, 189, 191, 287]
+BLEI Score: 39.73215596071305
+Iteration 9, Epsilon = 18
+Rank array: [136, 221, 224, 189, 209, 269]
+BLEI Score: 39.6980174874268
+Iteration 10, Epsilon = 16
+Rank array: [120, 221, 224, 189, 209, 285]
+BLEI Score: 38.429023453969016
+Iteration 11, Epsilon = 15
+Rank array: [120, 221, 224, 204, 194, 285]
+BLEI Score: 39.2029078361722
+Iteration 12, Epsilon = 15
+Rank array: [120, 206, 224, 204, 194, 300]
+BLEI Score: 38.80386349828404
+Iteration 13, Epsilon = 14
+Rank array: [120, 206, 210, 204, 208, 300]
+BLEI Score: 39.07180163567619
+Iteration 14, Epsilon = 13
+Rank array: [120, 206, 223, 204, 208, 287]
+BLEI Score: 38.255436213205996
+Iteration 15, Epsilon = 12
+Rank array: [120, 206, 223, 204, 196, 299]
+BLEI Score: 38.764275983761905
+Opt rank array: [120, 206, 223, 204, 196, 299]
+Opt BLEU: 38.764275983761905
