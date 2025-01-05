@@ -81,7 +81,7 @@ full_rank=[512,512,512,512,512,512]
 rank_arrays = [32,64,96,128,160,192,224,256,288,320,352,384,416,448,480]
 # [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 for i in range(6):
-    rank_array = full_rank
+    rank_array = copy.deepcopy(full_rank)
     for rank in rank_arrays:
         print("Layer: ",i+1)
         rank_array[i] = rank
