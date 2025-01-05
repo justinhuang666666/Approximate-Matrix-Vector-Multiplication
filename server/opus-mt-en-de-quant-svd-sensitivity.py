@@ -74,7 +74,7 @@ results_list = []
 
 
 # quant_svd_model = replace_with_quantized_svd_wrapper(model, 20, quant_scheme_int, weight_wl, "range_based", filter)
-# quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd_wrapper(model, 512, weight_wl, "range_based", act_wl, "range_based",filter)
 
 baseline_bleu = 41.337328250540224
 full_rank=[512,512,512,512,512,512]
