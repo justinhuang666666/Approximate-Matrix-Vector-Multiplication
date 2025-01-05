@@ -65,84 +65,6 @@ args_int = argparse.Namespace()
 
 import copy
 
-
-def find_optimal_rank_array(device, model, baseline_bleu, tokenizer, source_texts, target_texts, initial_rank_array, filter, epsilon_0=48, decay_alpha=0.2):
-
-    # Initialize the rank array and BLEU score
-    rank_array = initial_rank_array
-    best_rank_array = copy.deepcopy(rank_array)
-    best_bleu_score = -1
-
-    # Create a DataFrame to store results
-    results_df = pd.DataFrame(columns=["Iteration", "Rank Array", "BLEU Score"])
-
-    output_csv = 'best_rank_arrays.csv'
-
-    # Loop until the total rank sum equals the target_sum
-    iteration = 0
-
-    epsilon = epsilon_0
-    
-    while (epsilon > 12) and (iteration < 100):
-        current_best_bleu = -1
-
-        # Calculate gradients using finite difference method for each layer
-        gradients = []
-
-        # Apply small perturbations to compute the finite difference gradient
-        epsilon = math.ceil(epsilon_0 / (1 + decay_alpha * iteration))  # Decaying epsilon
-        print(f"Iteration {iteration}, Epsilon = {epsilon}")
-
-        # Break condition based on the rank array having any element less than epsilon
-        if any(x < epsilon for x in rank_array):
-            print("Breaking due to rank array element less than epsilon.")
-            break
-        
-        for i in range(len(rank_array)):
-            # Perturb the rank in both directions to compute the gradient
-            candidate_rank_array_plus = copy.deepcopy(rank_array)
-            candidate_rank_array_plus[i] += epsilon
-            candidate_rank_array_minus = copy.deepcopy(rank_array)
-            candidate_rank_array_minus[i] -= epsilon
-
-            # Compute BLEU scores for perturbed rank arrays
-            bleu_plus = compute_bleu_score(device, change_rank_array(model, candidate_rank_array_plus, filter), tokenizer, source_texts, target_texts)
-            bleu_minus = compute_bleu_score(device, change_rank_array(model, candidate_rank_array_minus, filter), tokenizer, source_texts, target_texts)
-
-            # Approximate the gradient using finite difference
-            gradient = (bleu_plus - bleu_minus) / (2 * epsilon)
-            gradients.append((gradient, i))  # Store the gradient and the corresponding index
-
-            # print(f"Iteration {iteration}, Layer {i}: Gradient = {gradient}")
-
-        # Sort gradients to identify the largest and smallest gradients
-        gradients.sort()  # Sorting gradients from smallest to largest
-        
-        # Identify the layer with the smallest and largest gradients
-        min_gradient_layer = gradients[0][1]  # Layer with smallest (most negative) gradient
-        max_gradient_layer = gradients[-1][1]  # Layer with largest gradient
-        
-        rank_array[max_gradient_layer] += epsilon
-        rank_array[min_gradient_layer] -= epsilon
-
-        # print(f"Iteration {iteration}: Layer {max_gradient_layer} rank adjusted to {rank_array[max_gradient_layer]}")
-        # print(f"Iteration {iteration}: Layer {min_gradient_layer} rank adjusted to {rank_array[min_gradient_layer]}")
-
-        # Compute the BLEU score for the updated rank array
-        modified_model = change_rank_array(model, rank_array, filter)
-        current_best_bleu = compute_bleu_score(device, modified_model, tokenizer, source_texts, target_texts)
-
-        print(f"Rank array: {rank_array}")
-        print(f"BLEI Score: {current_best_bleu}")
-
-        # if(current_best_bleu > best_bleu_score) and (current_best_bleu<baseline_bleu):
-        #     best_bleu_score = current_best_bleu
-        #     best_rank_array = rank_array
-
-        iteration += 1
-
-    return rank_array, current_best_bleu
-
 weight_wl = 3
 act_wl = 16
 
@@ -156,7 +78,7 @@ results_list = []
 
 baseline_bleu = 41.337328250540224
 full_rank=[512,512,512,512,512,512]
-rank_arrays = [32,64,96,128,160,192,224,256,288,320,352,384,416,448,480,512]
+rank_arrays = [32,64,96,128,160,192,224,256,288,320,352,384,416,448,480]
 # [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
 for i in range(6):
     rank_array = full_rank
