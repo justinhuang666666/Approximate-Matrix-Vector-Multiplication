@@ -78,8 +78,8 @@ results_list = []
 
 baseline_bleu = 41.337328250540224
 full_rank=[512,512,512,512,512,512]
-rank_arrays = [32,64,96,128,160,192,224,256,288,320,352,384,416,448,480]
-# [64,80,96,112,128,144,160,176,192,208,224,240,256,272,288,304,320,336,352,368,384,400,416,432,448,464,480,496,512]
+rank_arrays = [32,64,96,128,160,192,224,256,288,320,352,384,416,448]
+
 for i in range(6):
     rank_array = copy.deepcopy(full_rank)
     for rank in rank_arrays:
@@ -87,10 +87,8 @@ for i in range(6):
         rank_array[i] = rank
         print("Rank Array: ",rank_array)
 
-        bleu = 0
-
-        # bleu = compute_bleu_score(device, change_rank_array(quant_iterative_svd_model, rank_array, filter), tokenizer, source_texts, target_texts)
-        # print("BLEU:", bleu)
+        bleu = compute_bleu_score(device, change_rank_array(quant_iterative_svd_model, rank_array, filter), tokenizer, source_texts, target_texts)
+        print("BLEU:", bleu)
 
         # Store the results
         results_list.append({
