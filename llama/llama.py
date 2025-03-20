@@ -4,7 +4,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 from tqdm import tqdm
 
-MODEL_PATH = "/path/to/your/Llama3.2-1B"
+MODEL_PATH = "/home/jh4420/.llama/checkpoints/Llama3.2-1B"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
