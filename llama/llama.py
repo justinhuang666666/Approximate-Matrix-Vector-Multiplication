@@ -5,7 +5,7 @@ from datasets import load_dataset
 from tqdm import tqdm
 
 # Load Llama 3.2 Model and Tokenizer
-MODEL_NAME = "meta-llama/Llama3.2-1B"  # Adjust if needed
+MODEL_NAME = "meta-llama/Llama-3.2-1B"  # Adjust if needed
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 print(f"Loading model: {MODEL_NAME} on {device}...")
