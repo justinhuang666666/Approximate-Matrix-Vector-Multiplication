@@ -1,6 +1,6 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import eval_utils
+import llama.evalutils as evalutils
 
 # Load Llama 3.2 Model and Tokenizer
 MODEL_NAME = "meta-llama/Llama-3.2-1B"  # Adjust if needed
@@ -14,18 +14,16 @@ model = AutoModelForCausalLM.from_pretrained(
 model.to(device)
 model.eval()
 
-# Evaluate on Wikitext2
-results = evaluate_model(
+# Run Perplexity Evaluation on Wikitext2
+ppl_results = ppl_eval(
     model=model,
     tokenizer=tokenizer,
-    model_name=MODEL_NAME,
-    tasks="",  # No classification tasks, only perplexity
-    eval_ppl="wikitext2",
-    num_fewshot=0,
-    limit=-1,  # Use full dataset
-    batch_size=1,  # Adjust batch size as needed
-    use_bos=False,
+    datasets=['wikitext2'],
+    model_seq_len=2048,
+    batch_size=32,  # Adjust based on GPU memory
+    device=device
 )
 
-print("\n===== Evaluation Results =====")
-print(results)
+print("\n===== Final Perplexity Results =====")
+print(ppl_results)
+
