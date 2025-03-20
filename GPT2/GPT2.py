@@ -18,41 +18,14 @@ model_name = "gpt2-xl"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+model.eval()
+
+# Print model structure
+print(model)
+
 # Set padding token
 tokenizer.pad_token = tokenizer.eos_token
 model.config.pad_token_id = model.config.eos_token_id
-
-# def generate_text(model, tokenizer, prompt, max_length=100):
-#     """
-#     Generate text using GPT-2.
-#     :param model: Pretrained GPT-2 model
-#     :param tokenizer: GPT-2 tokenizer
-#     :param prompt: Input text prompt
-#     :param max_length: Maximum length of generated text
-#     """
-
-#     # Tokenize the input prompt
-#     inputs = tokenizer(prompt, return_tensors="pt").to(device)
-#     input_ids = inputs.input_ids
-#     attention_mask = inputs.attention_mask
-
-#     # Generate text tokens
-#     gen_tokens = model.generate(
-#         input_ids=input_ids,
-#         attention_mask=attention_mask,
-#         max_length=max_length,
-#         num_return_sequences=1,  # Generate one sequence
-#         temperature=0.7,  # Adjust for more randomness
-#         top_k=50,  # Use top-k sampling
-#         top_p=0.9,  # Use nucleus sampling
-#         do_sample=True  # Enable sampling
-#     )
-
-#     # Decode generated tokens to text
-#     gen_text = tokenizer.decode(gen_tokens[0], skip_special_tokens=True)
-#     print("Generated Text:\n", gen_text)
-
-# generate_text(model, tokenizer, "GPT-2 is a language model based on transformers developed by OpenAI.", max_length=100)
 
 # Load tokenizer
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
@@ -89,15 +62,6 @@ data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False) 
 train_dataloader = DataLoader(tokenized_datasets_train, shuffle=True, batch_size=4, collate_fn=data_collator)
 valid_dataloader = DataLoader(tokenized_datasets_valid, batch_size=4, collate_fn=data_collator)
 test_dataloader = DataLoader(tokenized_datasets_test, batch_size=4, collate_fn=data_collator)
-
-# Test DataLoader
-for batch in train_dataloader:
-    print("Input IDs Shape:", batch['input_ids'].shape)
-    print("Attention Mask Shape:", batch['attention_mask'].shape)
-    print("Labels Shape:", batch['labels'].shape)
-    break
-
-print("DataLoader is working correctly!")
 
 def evaluate_perplexity(model, dataloader):
     model.eval()
