@@ -4,13 +4,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 from tqdm import tqdm
 
-# Load Llama 3.2 Model and Tokenizer
-MODEL_NAME = "meta-llama/Llama3.2-1B"  # Adjust if needed
+MODEL_PATH = "/path/to/your/Llama3.2-1B"
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-print(f"Loading model: {MODEL_NAME} on {device}...")
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16 if device == "cuda" else torch.float32)
+print(f"Loading Llama 3.2 1B model from {MODEL_PATH} on {device}...")
+tokenizer = LlamaTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
+model = LlamaForCausalLM.from_pretrained(MODEL_PATH, local_files_only=True, torch_dtype=torch.float16 if device == "cuda" else torch.float32)
 model.to(device)
 model.eval()
 
