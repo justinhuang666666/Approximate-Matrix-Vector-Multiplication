@@ -1,6 +1,6 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import evalutils
+from evalutils import *
 
 # Load Llama 3.2 Model and Tokenizer
 MODEL_NAME = "meta-llama/Llama-3.2-1B"  # Adjust if needed
