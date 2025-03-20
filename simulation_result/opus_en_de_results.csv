@@ -1,0 +1,12 @@
+Weight Word Length,Activation Word Length,Method,BLEU Score,Compression Ratio
+4,8,'Quant Baseline',39.120477167601695,8
+4,8,'SVD Iterative',39.73817277287314,8
+4,8,'SVD Iterative (SRA)',40.55335545166904,8
+6,8,'Quant Baseline',40.63307675818746,5.33
+6,8,'SVD Iterative',41.28410068583028,5.33
+6,8,'SVD Iterative (SRA)',41.33,5.33
+
+
+
+
+

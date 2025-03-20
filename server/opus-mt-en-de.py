@@ -24,41 +24,56 @@ tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
 model.eval()
 
-# Check if GPU is available and move model to GPU if possible
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
-model.to(device)
 
-# Load the JSON file
-with open('translations.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
+# Get the model's state dictionary
+state_dict = model.state_dict()
 
-# Extract the source and target texts
-source_texts = data['source_texts']
-target_texts = data['target_texts']
+# Sum the total number of parameters in the model
+num_params = sum(p.numel() for p in state_dict.values())
 
-# Compute BLEU score
-baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
-print("Baseline BLEU Score")
-print(baseline_bleu) 
+# Convert the number of parameters to bytes (each parameter is 4 bytes)
+model_size_bytes = num_params * 4
 
-baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
-print("Baseline Character Fscore")
-print(baseline_fscore) 
+# Convert bytes to megabytes (1 MB = 1024 * 1024 bytes)
+model_size_mb = model_size_bytes / (1024 * 1024)
 
-# Create a DataFrame to store the results in a reformatted style
-results = {
-    'Model': ['opus-mt-en-de'],
-    'BLEU Score': [baseline_bleu],
-    'Character Fscore': [baseline_fscore]
-}
+print(f"Model size: {model_size_mb:.2f} MB")
 
-df = pd.DataFrame(results)
+# # Check if GPU is available and move model to GPU if possible
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# print(device)
+# model.to(device)
 
-# Save the results to a CSV file named 'baseline.csv'
-df.to_csv('baseline.csv', index=False)
+# # Load the JSON file
+# with open('translations.json', 'r', encoding='utf-8') as f:
+#     data = json.load(f)
 
-print("Results saved to 'baseline.csv'")
+# # Extract the source and target texts
+# source_texts = data['source_texts']
+# target_texts = data['target_texts']
+
+# # Compute BLEU score
+# baseline_bleu = compute_bleu_score(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline BLEU Score")
+# print(baseline_bleu) 
+
+# baseline_fscore = compute_character_fscore(device, model, tokenizer, source_texts, target_texts)
+# print("Baseline Character Fscore")
+# print(baseline_fscore) 
+
+# # Create a DataFrame to store the results in a reformatted style
+# results = {
+#     'Model': ['opus-mt-en-de'],
+#     'BLEU Score': [baseline_bleu],
+#     'Character Fscore': [baseline_fscore]
+# }
+
+# df = pd.DataFrame(results)
+
+# # Save the results to a CSV file named 'baseline.csv'
+# df.to_csv('baseline.csv', index=False)
+
+# print("Results saved to 'baseline.csv'")
 
 
 
