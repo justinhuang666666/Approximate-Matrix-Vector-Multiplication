@@ -4,7 +4,7 @@ from tqdm import tqdm
 import os
 
 from datautils import get_eval_loaders
-from lm_eval.base import BaseLM
+from lm_eval import BaseLM
 from lm_eval import evaluator
 from datasets import load_dataset
 import time
