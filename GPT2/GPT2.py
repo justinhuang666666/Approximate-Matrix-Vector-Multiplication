@@ -14,7 +14,7 @@ import torch.nn as nn
 
 
 # Load the pre-trained GPT-2 model and tokenizer
-model_name = "gpt2"
+model_name = "gpt2-xl"
 model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
