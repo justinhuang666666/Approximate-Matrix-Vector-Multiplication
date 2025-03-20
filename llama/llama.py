@@ -19,9 +19,23 @@ print("Loading WikiText-2 dataset...")
 dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
 text_data = dataset["text"]  # List of text strings
 
+
+# Ensure the tokenizer has a pad token
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token  # Use EOS token as PAD token
+
+# Tokenize with padding
+tokenized_inputs = tokenizer(
+    text_data,
+    return_tensors="pt",
+    truncation=True,
+    padding=True,  # Will now use the pad_token set above
+    max_length=2048
+)
+
 # Tokenize dataset
 print("Tokenizing dataset...")
-tokenized_inputs = tokenizer(text_data, return_tensors="pt", truncation=True, padding=True, max_length=2048)
+# tokenized_inputs = tokenizer(text_data, return_tensors="pt", truncation=True, padding=True, max_length=2048)
 input_ids = tokenized_inputs["input_ids"].to(device)
 
 # Compute Perplexity
