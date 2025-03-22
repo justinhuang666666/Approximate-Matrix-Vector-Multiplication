@@ -22,8 +22,8 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
 
-ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
-print('baseline perplexity:', ppl)
+# ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+# print('baseline perplexity:', ppl)
 
 # Quantisation
 filter = type(model.transformer.h[0].attn)
@@ -42,13 +42,13 @@ for act_wl in act_word_lengths:
             int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
             # Compute BLEU score
-            wiki_perplexity = compute_ppl(int_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+            # wiki_perplexity = compute_ppl(int_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
             ptb_perplexity = compute_ppl(int_model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
             # c4_perplexity = compute_ppl(int_model, tokenizer, 'c4', model_seq_len=2048, batch_size=4, device="cuda")
 
             # Print BLEU score
             print(f"GPT-NEO-1.3B INT Wikitext2 Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
-            print("Wikitext2 Perplexity: ", wiki_perplexity)
+            # print("Wikitext2 Perplexity: ", wiki_perplexity)
             print("PTB Perplexity: ", ptb_perplexity)
             # print("C4 Perplexity: ", c4_perplexity)
 
@@ -56,7 +56,7 @@ for act_wl in act_word_lengths:
             results_list.append({
             "Weight Word Length": weight_wl,
             "Activation Word Length": act_wl,
-            "Wiki Perplexity": wiki_perplexity,
+            # "Wiki Perplexity": wiki_perplexity,
             "PTB Perplexity": ptb_perplexity,
             # "C4 Perplexity": c4_perplexity,
             "Compression Ratio": 32/weight_wl
