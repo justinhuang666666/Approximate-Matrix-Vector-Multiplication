@@ -12,11 +12,9 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float
 
 # Move model to CUDA if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
-device = torch.device("cuda:3")
 model = model.to(device)
 
 # Print model architecture
 print(model)
 
-ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=1, device="cuda")
-print('baseline perplexity: ',ppl)
+ppl_eval(model, tokenizer, datasets=['wikitext2'], model_seq_len=2048, batch_size=4, device="cuda")
