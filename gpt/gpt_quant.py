@@ -120,32 +120,37 @@ act_word_lengths = [4, 6, 8, 16]
 
 results_list = []
 
-for act_wl in act_word_lengths:
-    for weight_wl in weight_word_lengths: 
+print(model)
+filter = type(model.model.encoder.layers[0])
 
-            # Replace with quantized model
-            int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
-            # Compute BLEU score
-            perplexity = evaluate_perplexity(int_model, test_dataloader)
 
-            # Print BLEU score
-            print(f"GPT2-XL INT Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
-            print("Range-Based: ", perplexity)
+# for act_wl in act_word_lengths:
+#     for weight_wl in weight_word_lengths: 
 
-            # Store the results
-            results_list.append({
-            "Weight Word Length": weight_wl,
-            "Activation Word Length": act_wl,
-            "Perplexity": perplexity,
-            "Compression Ratio": 32/weight_wl
-            })
+#             # Replace with quantized model
+#             int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
-# Convert the list of dictionaries to a DataFrame
-results_df = pd.DataFrame(results_list)
+#             # Compute BLEU score
+#             perplexity = evaluate_perplexity(int_model, test_dataloader)
 
-# Save results to a CSV file
-results_df.to_csv('quantization_inout_en_de3.csv', index=False)
+#             # Print BLEU score
+#             print(f"GPT2-XL INT Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
+#             print("Range-Based: ", perplexity)
+
+#             # Store the results
+#             results_list.append({
+#             "Weight Word Length": weight_wl,
+#             "Activation Word Length": act_wl,
+#             "Perplexity": perplexity,
+#             "Compression Ratio": 32/weight_wl
+#             })
+
+# # Convert the list of dictionaries to a DataFrame
+# results_df = pd.DataFrame(results_list)
+
+# # Save results to a CSV file
+# results_df.to_csv('quantization_inout_en_de3.csv', index=False)
 
 
 
