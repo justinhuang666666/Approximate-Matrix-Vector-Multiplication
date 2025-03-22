@@ -12,6 +12,9 @@ from transformers import DataCollatorForLanguageModeling
 from torch.utils.data import DataLoader
 import torch.nn as nn
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+
 
 # Load the pre-trained GPT-2 model and tokenizer
 model_name = "gpt2-xl"
