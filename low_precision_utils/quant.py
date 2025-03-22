@@ -207,7 +207,7 @@ def replace_with_quantized(network, weight_wl, weight_quant_method, act_wl, act_
         # Check if the module is the specific self-attention layer of the encoder
         if isinstance(module, filter):
             # Access the self-attention layer within the MarianEncoderLayer
-            self_attn = module.self_attn
+            self_attn = module.attention
             
             # Replace k_proj, q_proj, v_proj with quantized versions, but keep out_proj unchanged
             self_attn.k_proj = layers.QuantLinear.from_full_precision(self_attn.k_proj, weight_wl, weight_quant_method, act_wl, act_quant_method)
