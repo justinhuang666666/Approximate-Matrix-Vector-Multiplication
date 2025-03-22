@@ -95,15 +95,6 @@ train_dataloader = DataLoader(tokenized_datasets_train, shuffle=True, batch_size
 valid_dataloader = DataLoader(tokenized_datasets_valid, batch_size=4, collate_fn=data_collator)
 test_dataloader = DataLoader(tokenized_datasets_test, batch_size=4, collate_fn=data_collator)
 
-# Test DataLoader
-# for batch in train_dataloader:
-#     print("Input IDs Shape:", batch['input_ids'].shape)
-#     print("Attention Mask Shape:", batch['attention_mask'].shape)
-#     print("Labels Shape:", batch['labels'].shape)
-#     break
-
-# print("DataLoader is working correctly!")
-
 def evaluate_perplexity(model, dataloader):
     model.eval()
     total_loss = 0
@@ -136,47 +127,15 @@ def evaluate_perplexity(model, dataloader):
 
     return perplexity.item()
 
-perplexity = evaluate_perplexity(model, test_dataloader)
-print(f"Initial perplexity: {perplexity}")
+valid_perplexity = evaluate_perplexity(model, test_dataloader)
+print(f"text data perplexity: {valid_perplexity}")
 
-import os
-os.environ["WANDB_DISABLED"] = "true"  # Disable W&B logging
+test_perplexity = evaluate_perplexity(model, test_dataloader)
+print(f"text data perplexity: {test_perplexity}")
 
-# Set up training arguments
-training_args = TrainingArguments(
-    output_dir="/home/jh4420/model/gpt2-xl-wikitext-2",
-    overwrite_output_dir=True,
-    num_train_epochs=3,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    eval_steps=400,
-    save_steps=800,
-    warmup_steps=500,
-    prediction_loss_only=True,
-    evaluation_strategy="epoch",  # Report validation and training loss every epoch
-    logging_dir="./logs",  # Directory for logging
-    logging_strategy="epoch",  # Log training/validation loss at the end of each epoch
-)
+train_perplexity = evaluate_perplexity(model, test_dataloader)
+print(f"text data perplexity: {train_perplexity}")
 
-# Create a Trainer object
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=tokenized_datasets_train,
-    eval_dataset=tokenized_datasets_valid,
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-)
 
-# Train the model
-trainer.train()
 
-# Save the fine-tuned model
-trainer.save_model()
 
-# Load the fine-tuned model
-model_finetuned = AutoModelForCausalLM.from_pretrained("/home/jh4420/model/gpt2-xl-wikitext-2").to(device)
-
-# Evaluate perplexity on the validation dataset
-perplexity = evaluate_perplexity(model_finetuned, test_dataloader)
-print(f"Fine-tuned perplexity: {perplexity}")
