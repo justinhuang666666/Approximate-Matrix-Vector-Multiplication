@@ -5,8 +5,6 @@ from evaluater import *
 import warnings
 warnings.filterwarnings("ignore")
 
-torch.cuda.empty_cache()
-
 # Load tokenizer and model
 model_name = "EleutherAI/gpt-neo-1.3B"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -14,6 +12,7 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float
 
 # Move model to CUDA if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
+device = torch.device("cuda:3")
 model = model.to(device)
 
 # Print model architecture
