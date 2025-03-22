@@ -425,7 +425,7 @@ def replace_with_quantized_svd(network, rank, weight_wl, weight_quant_method, ac
     for name, module in network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
-            self_attn = module.self_attn
+            self_attn = module.attention
 
             weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
             
@@ -457,7 +457,7 @@ def change_rank(network, rank, act_wl, filter):
     for name, module in network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
-            self_attn = module.self_attn
+            self_attn = module.attention
 
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
             self_attn.k_proj.change_rank(rank)
@@ -490,7 +490,7 @@ def change_rank_array(network, rank_array, filter):
     for name, module in network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
-            self_attn = module.self_attn
+            self_attn = module.attention
 
             # Replace k_proj, q_proj, v_proj with QuantLinearSVD versions, but keep out_proj unchanged
             self_attn.k_proj.change_rank(rank_array[int(name)])
@@ -520,7 +520,7 @@ def replace_with_quantized_iterative_svd(network, rank, weight_wl, weight_quant_
     for name, module in network.named_children():
         # Check if the module matches the specified filter type
         if isinstance(module, filter):
-            self_attn = module.self_attn
+            self_attn = module.attention
 
             weight_array = [self_attn.k_proj.weight, self_attn.q_proj.weight, self_attn.v_proj.weight]
 
