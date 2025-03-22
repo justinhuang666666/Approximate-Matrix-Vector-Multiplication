@@ -1,5 +1,6 @@
 import os
 import torch
+import sys
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -14,6 +15,15 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 
 import os
+
+import pandas as pd
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add utility directories dynamically
+sys.path.append(os.path.join(parent_dir, 'low_precision_utils'))
+from quant import *
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
@@ -95,14 +105,52 @@ def evaluate_perplexity(model, dataloader):
 
     return perplexity.item()
 
-train_perplexity = evaluate_perplexity(model, train_dataloader)
-print(f"train data perplexity: {train_perplexity}")
+# train_perplexity = evaluate_perplexity(model, train_dataloader)
+# print(f"train data perplexity: {train_perplexity}")
 
-valid_perplexity = evaluate_perplexity(model, valid_dataloader)
-print(f"valid data perplexity: {valid_perplexity}")
+# valid_perplexity = evaluate_perplexity(model, valid_dataloader)
+# print(f"valid data perplexity: {valid_perplexity}")
 
 test_perplexity = evaluate_perplexity(model, test_dataloader)
-print(f"test data perplexity: {test_perplexity}")
+print(f"baseline perplexity: {test_perplexity}")
+
+
+# Define possible values for wl, fl, symmetric, and round_mode
+weight_word_lengths = [2, 4, 6, 8, 10, 12, 14, 16]
+act_word_lengths = [4, 6, 8, 16]
+
+results_list = []
+
+symmetric= True
+round_mode = "nearest"
+
+for act_wl in act_word_lengths:
+    # Iterate over all combinations of wl, fl, symmetric, and round_mode
+    for weight_wl in weight_word_lengths: 
+
+            # Replace with quantized model
+            int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
+
+            # Compute BLEU score
+            perplexity = evaluate_perplexity(model, test_dataloader)
+
+            # Print BLEU score
+            print(f"GPT2-XL INT Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
+            print("Range-Based: ", perplexity)
+
+            # Store the results
+            results_list.append({
+            "Weight Word Length": weight_wl,
+            "Activation Word Length": act_wl,
+            "Perplexity": perplexity,
+            "Compression Ratio": 32/weight_wl
+            })
+
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
+
+# Save results to a CSV file
+results_df.to_csv('quantization_inout_en_de3.csv', index=False)
 
 
 
