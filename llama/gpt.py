@@ -18,3 +18,5 @@ model = model.to(device)
 print(model)
 
 ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+
+print('baseline perplexity:', ppl)
