@@ -44,13 +44,13 @@ for act_wl in act_word_lengths:
             # Compute BLEU score
             wiki_perplexity = compute_ppl(int_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
             ptb_perplexity = compute_ppl(int_model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
-            c4_perplexity = compute_ppl(int_model, tokenizer, 'c4', model_seq_len=2048, batch_size=4, device="cuda")
+            # c4_perplexity = compute_ppl(int_model, tokenizer, 'c4', model_seq_len=2048, batch_size=4, device="cuda")
 
             # Print BLEU score
             print(f"GPT-NEO-1.3B INT Wikitext2 Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
             print("Wikitext2 Perplexity: ", wiki_perplexity)
             print("PTB Perplexity: ", ptb_perplexity)
-            print("C4 Perplexity: ", c4_perplexity)
+            # print("C4 Perplexity: ", c4_perplexity)
 
             # Store the results
             results_list.append({
@@ -58,7 +58,7 @@ for act_wl in act_word_lengths:
             "Activation Word Length": act_wl,
             "Wiki Perplexity": wiki_perplexity,
             "PTB Perplexity": ptb_perplexity,
-            "C4 Perplexity": c4_perplexity,
+            # "C4 Perplexity": c4_perplexity,
             "Compression Ratio": 32/weight_wl
             })
 
