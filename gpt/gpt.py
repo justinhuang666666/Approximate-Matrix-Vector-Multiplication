@@ -136,37 +136,37 @@ def evaluate_perplexity(model, dataloader):
 perplexity = evaluate_perplexity(model, test_dataloader)
 print(f"Initial perplexity: {perplexity}")
 
-# import os
-# os.environ["WANDB_DISABLED"] = "true"  # Disable W&B logging
+import os
+os.environ["WANDB_DISABLED"] = "true"  # Disable W&B logging
 
-# # Set up training arguments
-# training_args = TrainingArguments(
-#     output_dir="./gpt2-wikitext-2",
-#     overwrite_output_dir=True,
-#     num_train_epochs=3,
-#     per_device_train_batch_size=8,
-#     per_device_eval_batch_size=8,
-#     eval_steps=400,
-#     save_steps=800,
-#     warmup_steps=500,
-#     prediction_loss_only=True,
-#     evaluation_strategy="epoch",  # Report validation and training loss every epoch
-#     logging_dir="./logs",  # Directory for logging
-#     logging_strategy="epoch",  # Log training/validation loss at the end of each epoch
-# )
+# Set up training arguments
+training_args = TrainingArguments(
+    output_dir="./gpt2-wikitext-2",
+    overwrite_output_dir=True,
+    num_train_epochs=3,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    eval_steps=400,
+    save_steps=800,
+    warmup_steps=500,
+    prediction_loss_only=True,
+    evaluation_strategy="epoch",  # Report validation and training loss every epoch
+    logging_dir="./logs",  # Directory for logging
+    logging_strategy="epoch",  # Log training/validation loss at the end of each epoch
+)
 
-# # Create a Trainer object
-# trainer = Trainer(
-#     model=model,
-#     args=training_args,
-#     train_dataset=tokenized_datasets_train,
-#     eval_dataset=tokenized_datasets_valid,
-#     tokenizer=tokenizer,
-#     data_collator=data_collator,
-# )
+# Create a Trainer object
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_datasets_train,
+    eval_dataset=tokenized_datasets_valid,
+    tokenizer=tokenizer,
+    data_collator=data_collator,
+)
 
-# # Train the model
-# trainer.train()
+# Train the model
+trainer.train()
 
-# # Save the fine-tuned model
-# trainer.save_model()
+# Save the fine-tuned model
+trainer.save_model()
