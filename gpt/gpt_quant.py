@@ -24,7 +24,7 @@ ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=
 print('baseline perplexity:', ppl)
 
 # Quantisation
-filter = type(model.transformer.h[0])
+filter = type(model.transformer.h[0].attn.attention)
 
 # Define possible values for wl, fl, symmetric, and round_mode
 weight_word_lengths = [2,8] #[2, 4, 6, 8, 10, 12, 14, 16]
