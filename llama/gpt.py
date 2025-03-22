@@ -1,5 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from evaluater import *
 
 # Load tokenizer and model
 model_name = "EleutherAI/gpt-neo-1.3B"
@@ -12,3 +13,5 @@ model = model.to(device)
 
 # Print model architecture
 print(model)
+
+ppl_eval(model, tokenizer, datasets=['wikitext2'], model_seq_len=2048, batch_size=4, device="cuda")
