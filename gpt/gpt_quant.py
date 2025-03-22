@@ -22,15 +22,17 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
 
-# ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
-# print('baseline perplexity:', ppl)
+baseline_wiki_perplexity = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+baseline_ptb_perplexity = compute_ppl(model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
+print('Baseline Wikitext2 Perplexity:', baseline_wiki_perplexity)
+print('Baseline Wikitext2 Perplexity:', baseline_ptb_perplexity)
 
 # Quantisation
 filter = type(model.transformer.h[0].attn)
 
 # Define possible values for wl, fl, symmetric, and round_mode
-weight_word_lengths = [2, 4, 6, 8, 10, 12, 14, 16]
-act_word_lengths = [4, 6, 8, 16]
+weight_word_lengths = [4, 6, 8, 10, 12, 14, 16]
+act_word_lengths = [6, 8, 16]
 
 results_list = []
 
@@ -42,7 +44,7 @@ for act_wl in act_word_lengths:
             int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
             # Compute BLEU score
-            # wiki_perplexity = compute_ppl(int_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+            wiki_perplexity = compute_ppl(int_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
             ptb_perplexity = compute_ppl(int_model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
             # c4_perplexity = compute_ppl(int_model, tokenizer, 'c4', model_seq_len=2048, batch_size=4, device="cuda")
 
@@ -56,7 +58,7 @@ for act_wl in act_word_lengths:
             results_list.append({
             "Weight Word Length": weight_wl,
             "Activation Word Length": act_wl,
-            # "Wiki Perplexity": wiki_perplexity,
+            "Wiki Perplexity": wiki_perplexity,
             "PTB Perplexity": ptb_perplexity,
             # "C4 Perplexity": c4_perplexity,
             "Compression Ratio": 32/weight_wl
