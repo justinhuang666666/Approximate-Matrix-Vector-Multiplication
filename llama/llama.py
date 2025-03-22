@@ -13,17 +13,17 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 model.to(device)
 model.eval()
-
+print(model)
 # Run Perplexity Evaluation on Wikitext2
-ppl_results = ppl_eval(
-    model=model,
-    tokenizer=tokenizer,
-    datasets=['wikitext2'],
-    model_seq_len=2048,
-    batch_size=32,  # Adjust based on GPU memory
-    device=device
-)
+# ppl_results = ppl_eval(
+#     model=model,
+#     tokenizer=tokenizer,
+#     datasets=['wikitext2'],
+#     model_seq_len=2048,
+#     batch_size=32,  # Adjust based on GPU memory
+#     device=device
+# )
 
-print("\n===== Final Perplexity Results =====")
-print(ppl_results)
+# print("\n===== Final Perplexity Results =====")
+# print(ppl_results)
 
