@@ -17,6 +17,4 @@ model = model.to(device)
 # Print model architecture
 print(model)
 
-ppls = ppl_eval(model, tokenizer, datasets=['wikitext2'], model_seq_len=2048, batch_size=4, device="cuda")
-
-print('baseline perplexity',ppls)
+ppls = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
