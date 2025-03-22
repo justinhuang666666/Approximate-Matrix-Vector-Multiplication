@@ -141,7 +141,7 @@ os.environ["WANDB_DISABLED"] = "true"  # Disable W&B logging
 
 # Set up training arguments
 training_args = TrainingArguments(
-    output_dir="./gpt2-wikitext-2",
+    output_dir="/home/jh4420/model/gpt2-wikitext-2",
     overwrite_output_dir=True,
     num_train_epochs=3,
     per_device_train_batch_size=8,
