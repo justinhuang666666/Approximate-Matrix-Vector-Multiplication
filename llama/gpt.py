@@ -18,5 +18,5 @@ model = model.to(device)
 # Print model architecture
 print(model)
 
-ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+ppl = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=1, device="cuda")
 print('baseline perplexity: ',ppl)
