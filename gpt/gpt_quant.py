@@ -25,7 +25,7 @@ model = model.to(device)
 baseline_wiki_perplexity = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
 baseline_ptb_perplexity = compute_ppl(model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
 print('Baseline Wikitext2 Perplexity:', baseline_wiki_perplexity)
-print('Baseline Wikitext2 Perplexity:', baseline_ptb_perplexity)
+print('Baseline PTB Perplexity:', baseline_ptb_perplexity)
 
 # Quantisation
 filter = type(model.transformer.h[0].attn)
@@ -50,7 +50,7 @@ for act_wl in act_word_lengths:
 
             # Print BLEU score
             print(f"GPT-NEO-1.3B INT Wikitext2 Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
-            # print("Wikitext2 Perplexity: ", wiki_perplexity)
+            print("Wikitext2 Perplexity: ", wiki_perplexity)
             print("PTB Perplexity: ", ptb_perplexity)
             # print("C4 Perplexity: ", c4_perplexity)
 
