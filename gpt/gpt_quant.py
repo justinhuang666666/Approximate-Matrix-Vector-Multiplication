@@ -114,25 +114,20 @@ def evaluate_perplexity(model, dataloader):
 test_perplexity = evaluate_perplexity(model, test_dataloader)
 print(f"baseline perplexity: {test_perplexity}")
 
-
 # Define possible values for wl, fl, symmetric, and round_mode
 weight_word_lengths = [2, 4, 6, 8, 10, 12, 14, 16]
 act_word_lengths = [4, 6, 8, 16]
 
 results_list = []
 
-symmetric= True
-round_mode = "nearest"
-
 for act_wl in act_word_lengths:
-    # Iterate over all combinations of wl, fl, symmetric, and round_mode
     for weight_wl in weight_word_lengths: 
 
             # Replace with quantized model
             int_model = replace_with_quantized(model, weight_wl, "range_based", act_wl, "range_based", filter)
 
             # Compute BLEU score
-            perplexity = evaluate_perplexity(model, test_dataloader)
+            perplexity = evaluate_perplexity(int_model, test_dataloader)
 
             # Print BLEU score
             print(f"GPT2-XL INT Perplexity for weight_wl={weight_wl} act_wl={act_wl}")
