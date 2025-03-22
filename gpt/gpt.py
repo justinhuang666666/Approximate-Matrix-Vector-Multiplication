@@ -1,7 +1,8 @@
 import os
 import torch
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(device)
+
+import warnings
+warnings.filterwarnings("ignore")
 
 from datasets import load_dataset
 
@@ -13,8 +14,9 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
 # Load the pre-trained GPT-2 model and tokenizer
 model_name = "gpt2-xl"
@@ -127,14 +129,16 @@ def evaluate_perplexity(model, dataloader):
 
     return perplexity.item()
 
-valid_perplexity = evaluate_perplexity(model, test_dataloader)
+train_perplexity = evaluate_perplexity(model, train_dataloader)
+print(f"text data perplexity: {train_perplexity}")
+
+valid_perplexity = evaluate_perplexity(model, valid_dataloader)
 print(f"text data perplexity: {valid_perplexity}")
 
 test_perplexity = evaluate_perplexity(model, test_dataloader)
 print(f"text data perplexity: {test_perplexity}")
 
-train_perplexity = evaluate_perplexity(model, test_dataloader)
-print(f"text data perplexity: {train_perplexity}")
+
 
 
 
