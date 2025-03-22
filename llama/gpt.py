@@ -5,6 +5,8 @@ from evaluater import *
 import warnings
 warnings.filterwarnings("ignore")
 
+torch.cuda.empty_cache()
+
 # Load tokenizer and model
 model_name = "EleutherAI/gpt-neo-1.3B"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
