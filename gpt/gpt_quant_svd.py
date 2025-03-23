@@ -43,42 +43,42 @@ print(rank_samples)
 
 # weight_wl = args.weight_wl
 
-# weight_wl = 8
-# act_wl = 8
+weight_wl = 8
+act_wl = 8
 
-# results_list = []
-# quant_svd_model = replace_with_quantized_svd_wrapper(model, 128, weight_wl, "range_based", 16, "range_based", filter)
-# quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 128, weight_wl, "range_based", 16, "range_based", filter)
+results_list = []
+quant_svd_model = replace_with_quantized_svd_wrapper(model, 128, weight_wl, "range_based", 16, "range_based", filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 128, weight_wl, "range_based", 16, "range_based", filter)
 
-# # for act_wl in act_word_lengths:
+# for act_wl in act_word_lengths:
 
-# for rank in rank_samples:
-#     print(f"GPT-NEO-1B INT Model for weight_wl={weight_wl}, act_wl={act_wl}, rank={rank}")
-#     # Compute BLEU score
-#     quant_svd_model = change_rank(quant_svd_model, rank, act_wl, filter)
-#     wiki_perplexity1 = compute_ppl(quant_svd_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
-#     print("Quant SVD Perplexity: ", wiki_perplexity1)
+for rank in rank_samples:
+    print(f"GPT-NEO-1B INT Model for weight_wl={weight_wl}, act_wl={act_wl}, rank={rank}")
+    # Compute BLEU score
+    quant_svd_model = change_rank(quant_svd_model, rank, act_wl, filter)
+    wiki_perplexity1 = compute_ppl(quant_svd_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+    print("Quant SVD Perplexity: ", wiki_perplexity1)
     
-#     quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, act_wl, filter)
-#     # Compute BLEU score
-#     wiki_perplexity2 = compute_ppl(quant_iterative_svd_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
-#     print("Iterative Quant SVD Perplexity",wiki_perplexity2)
+    quant_iterative_svd_model = change_rank(quant_iterative_svd_model, rank, act_wl, filter)
+    # Compute BLEU score
+    wiki_perplexity2 = compute_ppl(quant_iterative_svd_model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+    print("Iterative Quant SVD Perplexity",wiki_perplexity2)
 
-#     compression_ratio = 2048*2048*3*24*32/(rank*(2048*2)*3*24*weight_wl)
+    compression_ratio = 2048*2048*3*24*32/(rank*(2048*2)*3*24*weight_wl)
 
-#     # Store the results
-#     results_list.append({
-#     "Weight Word Length": weight_wl,
-#     "Activation Word Length": act_wl,
-#     "Rank":rank,
-#     "Quant SVD Perplexity": wiki_perplexity1,
-#     "Iterative Quant SVD Perplexity": wiki_perplexity2,
-#     "Compression Ratio":compression_ratio
-#     })
+    # Store the results
+    results_list.append({
+    "Weight Word Length": weight_wl,
+    "Activation Word Length": act_wl,
+    "Rank":rank,
+    "Quant SVD Perplexity": wiki_perplexity1,
+    "Iterative Quant SVD Perplexity": wiki_perplexity2,
+    "Compression Ratio":compression_ratio
+    })
 
-# # Convert the list of dictionaries to a DataFrame
-# results_df = pd.DataFrame(results_list)
+# Convert the list of dictionaries to a DataFrame
+results_df = pd.DataFrame(results_list)
 
-# # Save results to a CSV file
-# results_df.to_csv(f'gpt_quant_svd_{weight_wl}.csv', index=False)
+# Save results to a CSV file
+results_df.to_csv(f'gpt_quant_svd_{weight_wl}.csv', index=False)
 
