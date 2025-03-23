@@ -199,6 +199,7 @@ def apply_quant_scheme(network, quant_scheme, filter=None):
 
 #     return network
 
+@torch.no_grad()
 def replace_with_quantized(network, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -226,6 +227,7 @@ def replace_with_quantized(network, weight_wl, weight_quant_method, act_wl, act_
     
     return network
 
+@torch.no_grad()
 def compute_u_v_array(weight_array, rank, word_length, method):
     u_array = []
     v_array = []
@@ -330,6 +332,7 @@ def compute_u_v_array(weight_array, rank, word_length, method):
     
 #     return u_array, v_array
 
+@torch.no_grad()
 def compute_u_v_iterative(weight, rank, word_length, method):
     # Convert weight to float64 if it's a PyTorch tensor
     if isinstance(weight, torch.Tensor):
@@ -417,6 +420,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
 
 #     return u_approx, v_approx
 
+@torch.no_grad()
 def replace_with_quantized_svd(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -449,6 +453,7 @@ def replace_with_quantized_svd(network, rank, weight_wl, weight_quant_method, ac
 
     return network
 
+@torch.no_grad()
 def change_rank(network, rank, act_wl, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -481,7 +486,7 @@ def change_rank(network, rank, act_wl, filter):
 
     return network
 
-
+@torch.no_grad()
 def change_rank_array(network, rank_array, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -511,7 +516,7 @@ def change_rank_array(network, rank_array, filter):
 
     return network
 
-
+@torch.no_grad()
 def replace_with_quantized_iterative_svd(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     # List to keep track of layers to be replaced
     to_replace = []
@@ -550,11 +555,13 @@ def replace_with_quantized_iterative_svd(network, rank, weight_wl, weight_quant_
 
     return network
 
+@torch.no_grad()
 def replace_with_quantized_svd_wrapper(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     local_network = copy.deepcopy(network)
     local_network = replace_with_quantized_svd(local_network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
     return local_network
 
+@torch.no_grad()
 def replace_with_quantized_iterative_svd_wrapper(network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter):
     local_network = copy.deepcopy(network)
     local_network = replace_with_quantized_iterative_svd(local_network, rank, weight_wl, weight_quant_method, act_wl, act_quant_method, filter)
