@@ -24,9 +24,9 @@ model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = model.to(device)
 
-baseline_wiki_perplexity = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
+# baseline_wiki_perplexity = compute_ppl(model, tokenizer, 'wikitext2', model_seq_len=2048, batch_size=4, device="cuda")
 # baseline_ptb_perplexity = compute_ppl(model, tokenizer, 'ptb', model_seq_len=2048, batch_size=4, device="cuda")
-print('Baseline Wikitext2 Perplexity:', baseline_wiki_perplexity)
+# print('Baseline Wikitext2 Perplexity:', baseline_wiki_perplexity)
 # print('Baseline PTB Perplexity:', baseline_ptb_perplexity)
 
 # Quantisation
