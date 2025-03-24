@@ -34,7 +34,7 @@ filter = type(model.transformer.h[0].attn)
 
 # rank_samples = list(range(256, 2048 + 1, 256))
 
-rank_samples = list(range(128, 1152 + 1, 128))
+rank_samples = list(range(256, 1152 + 1, 64))
 
 print(rank_samples)
 
@@ -46,7 +46,7 @@ print(rank_samples)
 # weight_wl = args.weight_wl
 
 weight_wl = 8
-act_word_lengths = [8, 16]
+act_word_lengths = 8
 
 results_list = []
 print("Start decomposing SVD model...")
