@@ -34,7 +34,7 @@ filter = type(model.transformer.h[0].attn)
 
 # rank_samples = list(range(256, 2048 + 1, 256))
 
-rank_samples = list(range(256, 1152 + 1, 64))
+rank_samples = list(range(32, 128 + 1, 16))
 
 print(rank_samples)
 
@@ -51,18 +51,21 @@ act_word_lengths = 8
 results_list = []
 print("Start decomposing SVD model...")
 start_time = time.time()
-quant_svd_model = replace_with_quantized_svd_wrapper(model, 1160, weight_wl, "range_based", 16, "range_based", filter)
+quant_svd_model = replace_with_quantized_svd_wrapper(model, 128, weight_wl, "range_based", 16, "range_based", filter)
 end_time = time.time()
 elapsed_time = end_time - start_time
 print(f"SVD decomposition time: {elapsed_time:.4f} seconds")
 
+torch.save(quant_svd_model, f"quant_svd_model_{weight_wl}.pth")
 
 print("Start decomposing iterative SVD model...")
 start_time = time.time()
-quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 1160, weight_wl, "range_based", 16, "range_based", filter)
+quant_iterative_svd_model = replace_with_quantized_iterative_svd(model, 128, weight_wl, "range_based", 16, "range_based", filter)
 end_time = time.time()
 elapsed_time = end_time - start_time
 print(f"Iterative SVD decomposition time: {elapsed_time:.4f} seconds")
+
+torch.save(quant_iterative_svd_model, f"quant_iterative_svd_model_{weight_wl}.pth")
 
 for act_wl in act_word_lengths:
 
