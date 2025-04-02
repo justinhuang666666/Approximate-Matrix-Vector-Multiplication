@@ -351,21 +351,13 @@ def compute_u_v_iterative(weight, rank, word_length, method):
     residual = weight.clone()  # Clone the weight tensor for residual calculations
 
     for i in range(rank):
-        # # Perform SVD on the current residual matrix
-        # u, s, v_t = torch.linalg.svd(residual, full_matrices=False)
+        # Perform SVD on the current residual matrix
+        u, s, v_t = torch.linalg.svd(residual, full_matrices=False)
 
-        # # Select the first singular value/vector (rank-1 approximation)
-        # sqrt_sigma = torch.sqrt(s[0])
-        # u_1 = u[:, 0].reshape(-1, 1) * sqrt_sigma  # Column vector for U scaled by sigma
-        # v_1 = v_t[0, :].reshape(1, -1) * sqrt_sigma # Row vector for V
-
-        # Use low-rank SVD with rank=1
-        U, S, V = torch.svd_lowrank(residual, q=1, niter=2)
-
-        # sqrt of singular value
-        sqrt_sigma = torch.sqrt(S[0])
-        u_1 = U[:, 0].reshape(-1, 1) * sqrt_sigma
-        v_1 = V[0, :].reshape(1, -1) * sqrt_sigma
+        # Select the first singular value/vector (rank-1 approximation)
+        sqrt_sigma = torch.sqrt(s[0])
+        u_1 = u[:, 0].reshape(-1, 1) * sqrt_sigma  # Column vector for U scaled by sigma
+        v_1 = v_t[0, :].reshape(1, -1) * sqrt_sigma # Row vector for V
 
         # Quantize the matrices based on the quant_scheme if required
         _, u_approx_quant, _ = quantisation_wrapper(u_1, word_length, method)
