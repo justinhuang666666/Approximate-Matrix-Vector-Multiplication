@@ -360,7 +360,7 @@ def compute_u_v_iterative(weight, rank, word_length, method):
         # v_1 = v_t[0, :].reshape(1, -1) * sqrt_sigma # Row vector for V
 
         # Use low-rank SVD with rank=1
-        U, S, V = torch.linalg.svd_lowrank(residual, q=1, niter=2)
+        U, S, V = torch.svd_lowrank(residual, q=1, niter=2)
 
         # sqrt of singular value
         sqrt_sigma = torch.sqrt(S[0])
