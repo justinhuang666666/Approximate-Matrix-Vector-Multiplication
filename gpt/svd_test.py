@@ -28,5 +28,8 @@ A1, u1, v1, sigma1 = rank1_full_svd(A)
 # Method 2: Low-rank SVD
 A2, u2, v2, sigma2 = rank1_lowrank_svd(A)
 
+print("u1",u1[0:10,0])
+print("u2",u2[0:10,0])
+
 # Print Frobenius norm difference between methods
 print("Frobenius norm ||A1 - A2||:", torch.norm(A1 - A2).item())
