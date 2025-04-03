@@ -11,7 +11,7 @@ def rank1_full_svd(A):
 
 def rank1_lowrank_svd(A):
     # Approximate rank-1 SVD
-    U, S, V = torch.linalg.svd_lowrank(A, q=1, niter=2)
+    U, S, V = torch.svd_lowrank(A, q=1, niter=2)
     sigma = S[0]
     u1 = U[:, 0].reshape(-1, 1) * torch.sqrt(sigma)
     v1 = V[0, :].reshape(1, -1) * torch.sqrt(sigma)
@@ -20,7 +20,7 @@ def rank1_lowrank_svd(A):
 
 # Generate a random 2048 x 2048 matrix
 torch.manual_seed(0)
-A = torch.randn(2048, 2048, dtype=torch.float64)
+A = torch.randn(512, 512, dtype=torch.float64)
 
 # Method 1: Full SVD
 A1, u1, v1, sigma1 = rank1_full_svd(A)
