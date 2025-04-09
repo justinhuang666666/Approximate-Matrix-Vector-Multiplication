@@ -34,7 +34,7 @@ filter = type(model.transformer.h[0].attn)
 
 # rank_samples = list(range(256, 2048 + 1, 256))
 
-rank_samples = list(range(256, 1024 + 1, 64))
+rank_samples = list(range(256, 1280 + 1, 32))
 
 print(rank_samples)
 
@@ -45,7 +45,7 @@ print(rank_samples)
 
 # weight_wl = args.weight_wl
 
-weight_wl = 8
+weight_wl = 6
 act_wl = 8
 
 results_list = []
@@ -95,5 +95,5 @@ for rank in rank_samples:
 results_df = pd.DataFrame(results_list)
 
 # Save results to a CSV file
-results_df.to_csv(f'gpt_quant_svd_{weight_wl}_1.csv', index=False)
+results_df.to_csv(f'gpt_quant_svd_{weight_wl}.csv', index=False)
 
